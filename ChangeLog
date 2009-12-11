@@ -50,6 +50,7 @@
     * Update config.guess to current GNU version including support for AIX6
     * Create SVN repository at sourceforge
     * Add cast to fix problem in SQLSetConnectOption
+    * Test
 
 
 19th-Nov-2008
