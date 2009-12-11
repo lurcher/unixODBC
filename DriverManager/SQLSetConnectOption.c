@@ -287,7 +287,7 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                 {
                     free( log_info.log_file_name );
                 }
-                log_info.log_file_name = strdup( value );
+                log_info.log_file_name = strdup((char*) value );
             }
         }
         else 

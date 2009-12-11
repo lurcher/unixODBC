@@ -99,10 +99,10 @@ extern "C" {                         /* Assume C declarations for C++ */
 #endif  /* ODBCVER >= 0x0300 */
 
 #if (ODBCVER >= 0x0380)
-/* new values for SQL_ATTR_ODBC_VERSION *
+/* new values for SQL_ATTR_ODBC_VERSION */
 /* From ODBC 3.8 onwards, we should use <major version> * 100 + <minor version> */
 #define SQL_OV_ODBC3_80                     380UL
-#endif  /* ODBCVER >= 0x0380
+#endif  /* ODBCVER >= 0x0380 */
 
 /* connection attributes */
 #define SQL_ACCESS_MODE                 101
@@ -575,7 +575,7 @@ extern "C" {                         /* Assume C declarations for C++ */
 /* base value of driver-specific fields/attributes (max are 0x7fff [16-bit] or 0x00007fff [32-bit]) */
 /* define driver-specific SQL-Type, named as SQL_DRIVER_SQL_TYPE_BASE, */
 /* SQL_DRIVER_SQL_TYPE_BASE+1, SQL_DRIVER_SQL_TYPE_BASE+2, etc. */
-/*
+/* */
 /* Please note that there is no runtime change in this version of DM. */
 /* However, we suggest that driver manufacturers adhere to this range */
 /* as future versions of the DM may enforce these constraints */
