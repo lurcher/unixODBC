@@ -246,7 +246,7 @@ int main( int argc, char *argv[] )
 
             add_history(line);
 #else
-            puts( prompt );
+            fputs( prompt, stdout );
 
             line = fgets( line_buffer, line_buffer_size, stdin );
             if ( !line )        /* EOF - ctrl D */
@@ -1405,9 +1405,9 @@ static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR *szSepLine )
     strcat((char*) szSepLine, "+\n" );
     strcat((char*) szHdrLine, "|\n" );
 
-    puts((char*) szSepLine );
-    puts((char*) szHdrLine );
-    puts((char*) szSepLine );
+    fputs((char*) szSepLine, stdout );
+    fputs((char*) szHdrLine, stdout );
+    fputs((char*) szSepLine, stdout );
     free(szHdrLine);
 }
 
@@ -1479,7 +1479,7 @@ WriteFooterNormal( SQLHSTMT hStmt, SQLCHAR  *szSepLine, SQLLEN nRows )
 {
     SQLLEN  nRowsAffected   = -1;
 
-    puts( (char*)szSepLine );
+    fputs( (char*)szSepLine, stdout );
 
     SQLRowCount( hStmt, &nRowsAffected );
     printf( "SQLRowCount returns %ld\n", nRowsAffected );

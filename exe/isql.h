@@ -40,6 +40,7 @@ char *szSyntax =
 "* -q         wrap char fields in dquotes     *\n" \
 "* -3         Use ODBC 3 calls                *\n" \
 "* -n         Use new line processing         *\n" \
+"* -e         Use SQLExecDirect not Prepare   *\n" \
 "* --version  version                         *\n" \
 "*                                            *\n" \
 "* Commands                                   *\n" \
