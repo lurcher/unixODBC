@@ -669,6 +669,8 @@ char * __data_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLLEN *ptr, SQLPOINTER buf );
 char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type, 
         SQLSMALLINT *ptr, SQLPOINTER buf );
+char * __idata_as_string( SQLCHAR *s, SQLINTEGER type, 
+        SQLINTEGER *ptr, SQLPOINTER buf );
 char * __col_attr_as_string( SQLCHAR *s, SQLINTEGER type );
 char * __fid_as_string( SQLCHAR *s, SQLINTEGER fid );
 char * __con_attr_as_string( SQLCHAR *s, SQLINTEGER type );

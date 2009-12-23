@@ -969,6 +969,24 @@ char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type,
     return (char*) s;
 }
 
+char * __idata_as_string( SQLCHAR *s, SQLINTEGER type, 
+        SQLINTEGER *ptr, SQLPOINTER buf )
+{
+    SQLLEN iptr;
+
+    if ( ptr )
+    {
+        iptr = *ptr;
+        return __data_as_string( s, type, &iptr, buf );
+    }
+    else
+    {
+        return __data_as_string( s, type, NULL, buf );
+    }
+
+    return (char*) s;
+}
+
 char * __data_as_string( SQLCHAR *s, SQLINTEGER type, 
         SQLLEN *ptr, SQLPOINTER buf )
 {

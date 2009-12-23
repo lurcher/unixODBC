@@ -1,4 +1,4 @@
-cvs:
+svn:
 	@echo "*** Retrieving configure tests needed by configure.in"
 	@libtoolize --copy --ltdl
 	@aclocal
