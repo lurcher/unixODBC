@@ -347,8 +347,8 @@ SQLRETURN SQLNativeSqlW(
                 "\n\t\tExit:[%s]\
                 \n\t\t\tSQL Out = %s",
                     __get_return_status( ret, s2 ),
-                    __data_as_string( s1, SQL_CHAR, 
-                        (SQLLEN*)pcb_sql_str, sz_sql_str ));
+                    __idata_as_string( s1, SQL_CHAR, 
+                        pcb_sql_str, sz_sql_str ));
 
         free( s1 );
 
