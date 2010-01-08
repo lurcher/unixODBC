@@ -4,18 +4,10 @@ Prerequisits
 Before trying to compile unixODBC make sure you have installed the
 following software packages:
 
-    o gnu make version 3.7 or newer (required)
-    o C++ compiler and library (required):
-        - egcs 1.x, or
-    - g++ 2.8.x and libg++ 2.8.x (where x > 0), or
-    - g++ 2.7.2.x and libg++ 2.7.2
+    o gnu make version 3.7 or newer or a native C compiler
 
 The code will build with native unix compilers on platforms such as HPUX
-AIX and Solaris, but it may require extra tweaks to get working.
-
-If you want to install any of the GUI components, you must have also
-installed the Qt libraries from http://www.troll.no Version 3 or above
-is now required.
+AIX and Solaris.
 
 Basic Installation
 ==================
