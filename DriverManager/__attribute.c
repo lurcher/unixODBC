@@ -1416,7 +1416,7 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
 
         case SQL_ATTR_CONCURRENCY:
             if ( ival != SQL_CONCUR_READ_ONLY && ival != SQL_CONCUR_LOCK &&
-                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_READ_ONLY ) 
+                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES ) 
             {
                 return SQL_ERROR;
             }
@@ -1506,7 +1506,7 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
 
         case SQL_ATTR_CONCURRENCY:
             if ( ival != SQL_CONCUR_READ_ONLY && ival != SQL_CONCUR_LOCK &&
-                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_READ_ONLY ) 
+                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES ) 
             {
                 return SQL_ERROR;
             }

@@ -51,6 +51,7 @@
     * Create SVN repository at sourceforge
     * Add cast to fix problem in SQLSetConnectOption
     * Fix SQLINTEGER<->SQLLEN conversion broblem in SQLNativeSQL
+    * Fix bug that stopped setting SQL_ATTR_CONCURRENCY to SQL_CONCUR_VALUES
 
 
 19th-Nov-2008
