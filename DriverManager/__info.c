@@ -668,7 +668,7 @@ char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection )
         len = wide_strlen( str ) + 1;
     }
 
-    aptr = malloc( len );
+    aptr = malloc( len + 1 );
     if ( !aptr )
     {
         return NULL;
