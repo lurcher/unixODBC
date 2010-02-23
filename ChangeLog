@@ -1,4 +1,4 @@
-2.2.15
+2.3.0
 
 	* Try and rationalise the way the connection process find the driver
 	  version and supported functions
@@ -52,6 +52,7 @@
     * Add cast to fix problem in SQLSetConnectOption
     * Fix SQLINTEGER<->SQLLEN conversion broblem in SQLNativeSQL
     * Fix bug that stopped setting SQL_ATTR_CONCURRENCY to SQL_CONCUR_VALUES
+    * Change minor version number because of the SQLLEN change
 
 
 19th-Nov-2008
