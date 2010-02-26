@@ -19,7 +19,7 @@ A complicating factor for unixODBC is that the GUI may not be
 present - or if it is - it may be any number of types (X, KDE, 
 GNOME etc). So the GUI bits of odbcinst must be plugable. This 
 library handles this. See SQLManageDataSources() and the 
-odbcinstQ library.
+unixODBC-GUI-Qt project.
 
 This lib also has a command line tool called odbcinst.
 
