@@ -22,5 +22,6 @@ include_HEADERS = \
 	sqlext.h \
 	sqltypes.h \
 	sqlucode.h \
+	autotest.h \
 	uodbc_stats.h \
 	uodbc_extras.h 
