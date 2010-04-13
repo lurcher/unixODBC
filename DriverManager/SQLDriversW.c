@@ -143,8 +143,8 @@ SQLRETURN SQLDriversW(
     if ( log_info.log_flag )
     {
         sprintf( environment -> msg, "\n\t\tEntry:\
-            \n\t\t\tEnvironment = %p\
-            \n\t\t\tDirection = %d",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tDirection = %d",
                 environment,
                 (int)fdirection );
 

@@ -160,12 +160,12 @@ SQLRETURN SQLGetDescFieldW( SQLHDESC descriptor_handle,
     if ( log_info.log_flag )
     {
         sprintf( descriptor -> msg, "\n\t\tEntry:\
-            \n\t\t\tDescriptor = %p\
-            \n\t\t\tRec Number = %d\
-            \n\t\t\tField Attr = %s\
-            \n\t\t\tValue = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tStrLen = %p",
+\n\t\t\tDescriptor = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tField Attr = %s\
+\n\t\t\tValue = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tStrLen = %p",
                 descriptor,
                 rec_number,
                 __desc_attr_as_string( s1, field_identifier ),

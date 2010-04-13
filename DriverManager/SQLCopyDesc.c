@@ -194,8 +194,8 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
     if ( log_info.log_flag )
     {
         sprintf( src_descriptor -> msg, "\n\t\tEntry:\
-            \n\t\t\tSource Descriptor = %p\
-            \n\t\t\tTarget Descriptor = %p", 
+\n\t\t\tSource Descriptor = %p\
+\n\t\t\tTarget Descriptor = %p", 
                 src_descriptor,
                 target_descriptor );
 

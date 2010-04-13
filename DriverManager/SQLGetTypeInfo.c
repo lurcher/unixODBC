@@ -159,8 +159,8 @@ SQLRETURN SQLGetTypeInfo( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tData Type = %s",
+\n\t\t\tStatement = %p\
+\n\t\t\tData Type = %s",
                 statement,
                 __type_as_string( s1, data_type ));
 

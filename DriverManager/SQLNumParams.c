@@ -135,8 +135,8 @@ SQLRETURN SQLNumParams(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tParam Count = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tParam Count = %p",
                 statement,
                 pcpar );
 
@@ -220,7 +220,7 @@ SQLRETURN SQLNumParams(
     {
         sprintf( statement -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tCount = %s",
+\n\t\t\tCount = %s",
                     __get_return_status( ret, s2 ),
                     __sptr_as_string( s1, pcpar ));
 

@@ -142,11 +142,11 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
     if ( log_info.log_flag )
     {
         sprintf( environment -> msg, "\n\t\tEntry:\
-            \n\t\t\tEnvironment = %p\
-            \n\t\t\tAttribute = %s\
-            \n\t\t\tValue = %p\
-            \n\t\t\tBuffer Len = %d\
-            \n\t\t\tStrLen = %p",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tAttribute = %s\
+\n\t\t\tValue = %p\
+\n\t\t\tBuffer Len = %d\
+\n\t\t\tStrLen = %p",
                 environment,
                 __env_attr_as_string( s1, attribute ),
                 value, 

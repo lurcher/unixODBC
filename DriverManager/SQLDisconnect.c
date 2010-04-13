@@ -201,7 +201,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p",
+\n\t\t\tConnection = %p",
                 connection );
 
         dm_log_write( __FILE__, 

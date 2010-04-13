@@ -681,13 +681,13 @@ SQLRETURN SQLDriverConnect(
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tWindow Hdl = %p\
-            \n\t\t\tStr In = %s\
-            \n\t\t\tStr Out = %p\
-            \n\t\t\tStr Out Max = %d\
-            \n\t\t\tStr Out Ptr = %p\
-            \n\t\t\tCompletion = %d",
+\n\t\t\tConnection = %p\
+\n\t\t\tWindow Hdl = %p\
+\n\t\t\tStr In = %s\
+\n\t\t\tStr Out = %p\
+\n\t\t\tStr Out Max = %d\
+\n\t\t\tStr Out Ptr = %p\
+\n\t\t\tCompletion = %d",
                 connection,
                 hwnd,
                 __string_with_length_hide_pwd( s1, conn_str_in, 
@@ -1542,7 +1542,7 @@ SQLRETURN SQLDriverConnect(
         {
             sprintf( connection -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tConnection Out [%.64s...]",
+\n\t\t\tConnection Out [%.64s...]",
                         __get_return_status( ret_from_connect, s1 ),
                         conn_str_out );
         }
@@ -1550,7 +1550,7 @@ SQLRETURN SQLDriverConnect(
         {
             sprintf( connection -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tConnection Out [%s]",
+\n\t\t\tConnection Out [%s]",
                         __get_return_status( ret_from_connect, s1 ),
                         __string_with_length_hide_pwd( s1, 
                             conn_str_out ? conn_str_out : (SQLCHAR*)"NULL", SQL_NTS ));

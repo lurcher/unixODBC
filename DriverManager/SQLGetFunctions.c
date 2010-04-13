@@ -140,9 +140,9 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tId = %s\
-            \n\t\t\tSupported = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tId = %s\
+\n\t\t\tSupported = %p",
                 connection,
                 __fid_as_string( s1, function_id ),
                 supported );
@@ -178,7 +178,7 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
     {
         sprintf( connection -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tSupported = %s",
+\n\t\t\tSupported = %s",
                     __get_return_status( SQL_SUCCESS, s1 ),
                     __sptr_as_string( s1, (short*)supported ));
 

@@ -224,15 +224,15 @@ SQLRETURN SQLDescribeCol( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tColumn Number = %d\
-            \n\t\t\tColumn Name = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tName Length = %p\
-            \n\t\t\tData Type = %p\
-            \n\t\t\tColumn Size = %p\
-            \n\t\t\tDecimal Digits = %p\
-            \n\t\t\tNullable = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tColumn Number = %d\
+\n\t\t\tColumn Name = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tName Length = %p\
+\n\t\t\tData Type = %p\
+\n\t\t\tColumn Size = %p\
+\n\t\t\tDecimal Digits = %p\
+\n\t\t\tNullable = %p",
                 statement,
                 column_number,
                 column_name,

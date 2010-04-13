@@ -190,16 +190,16 @@ SQLRETURN SQLBindParameter(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tParam Number = %d\
-            \n\t\t\tParam Type = %d\
-            \n\t\t\tC Type = %d %s\
-            \n\t\t\tSQL Type = %d %s\
-            \n\t\t\tCol Def = %d\
-            \n\t\t\tScale = %d\
-            \n\t\t\tRgb Value = %p\
-            \n\t\t\tValue Max = %d\
-            \n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStatement = %p\
+\n\t\t\tParam Number = %d\
+\n\t\t\tParam Type = %d\
+\n\t\t\tC Type = %d %s\
+\n\t\t\tSQL Type = %d %s\
+\n\t\t\tCol Def = %d\
+\n\t\t\tScale = %d\
+\n\t\t\tRgb Value = %p\
+\n\t\t\tValue Max = %d\
+\n\t\t\tStrLen Or Ind = %p", 
                 statement,
                 ipar,
                 f_param_type,

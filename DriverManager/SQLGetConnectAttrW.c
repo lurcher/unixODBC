@@ -221,11 +221,11 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tAttribute = %s\
-            \n\t\t\tValue = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tStrLen = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tAttribute = %s\
+\n\t\t\tValue = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tStrLen = %p",
                 connection,
                 __con_attr_as_string( s1, attribute ),
                 value, 

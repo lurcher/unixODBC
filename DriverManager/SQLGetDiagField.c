@@ -819,12 +819,12 @@ SQLRETURN SQLGetDiagField( SQLSMALLINT handle_type,
         {
             sprintf( environment -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tEnvironment = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tDiag Ident = %d\
-                \n\t\t\tDiag Info Ptr = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tString Len Ptr = %p",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tDiag Ident = %d\
+\n\t\t\tDiag Info Ptr = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tString Len Ptr = %p",
                     environment,
                     rec_number,
                     diag_identifier,
@@ -878,12 +878,12 @@ SQLRETURN SQLGetDiagField( SQLSMALLINT handle_type,
         {
             sprintf( connection -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tConnection = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tDiag Ident = %d\
-                \n\t\t\tDiag Info Ptr = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tString Len Ptr = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tDiag Ident = %d\
+\n\t\t\tDiag Info Ptr = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tString Len Ptr = %p",
                     connection,
                     rec_number,
                     diag_identifier,
@@ -937,12 +937,12 @@ SQLRETURN SQLGetDiagField( SQLSMALLINT handle_type,
         {
             sprintf( statement -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tStatement = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tDiag Ident = %d\
-                \n\t\t\tDiag Info Ptr = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tString Len Ptr = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tDiag Ident = %d\
+\n\t\t\tDiag Info Ptr = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tString Len Ptr = %p",
                     statement,
                     rec_number,
                     diag_identifier,
@@ -996,12 +996,12 @@ SQLRETURN SQLGetDiagField( SQLSMALLINT handle_type,
         {
             sprintf( descriptor -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tDescriptor = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tDiag Ident = %d\
-                \n\t\t\tDiag Info Ptr = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tString Len Ptr = %p",
+\n\t\t\tDescriptor = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tDiag Ident = %d\
+\n\t\t\tDiag Info Ptr = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tString Len Ptr = %p",
                     descriptor,
                     rec_number,
                     diag_identifier,

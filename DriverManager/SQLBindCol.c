@@ -218,12 +218,12 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tColumn Number = %d\
-            \n\t\t\tTarget Type = %d %s\
-            \n\t\t\tTarget Value = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStatement = %p\
+\n\t\t\tColumn Number = %d\
+\n\t\t\tTarget Type = %d %s\
+\n\t\t\tTarget Value = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tStrLen Or Ind = %p", 
                 statement,
                 column_number,
                 target_type,

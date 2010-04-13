@@ -170,14 +170,14 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tParam Number = %d\
-            \n\t\t\tValue Type = %d %s\
-            \n\t\t\tParameter Type = %d %s\
-            \n\t\t\tLength Precision = %d\
-            \n\t\t\tParameter Scale = %d\
-            \n\t\t\tParameter Value = %p\
-            \n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStatement = %p\
+\n\t\t\tParam Number = %d\
+\n\t\t\tValue Type = %d %s\
+\n\t\t\tParameter Type = %d %s\
+\n\t\t\tLength Precision = %d\
+\n\t\t\tParameter Scale = %d\
+\n\t\t\tParameter Value = %p\
+\n\t\t\tStrLen Or Ind = %p", 
                 statement,
                 parameter_number,
                 value_type,

@@ -142,7 +142,6 @@ int uo_fprintf( FILE *stream, const char *fmt, ...)
     int r;
     va_list ap;
 
-
     va_start(ap, fmt);
 
     r = uo_vfprintf(stream,fmt,ap);

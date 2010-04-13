@@ -157,9 +157,9 @@ SQLRETURN SQLParamOptions(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tCrow = %d\
-            \n\t\t\tPirow = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tCrow = %d\
+\n\t\t\tPirow = %p",
                 statement,
                 (int)crow,
                 (void*)pirow );

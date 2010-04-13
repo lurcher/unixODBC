@@ -186,12 +186,12 @@ SQLRETURN SQLStatistics( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tCatalog Name = %s\
-            \n\t\t\tSchema Name = %s\
-            \n\t\t\tTable Name = %s\
-            \n\t\t\tUnique = %d\
-            \n\t\t\tReserved = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tCatalog Name = %s\
+\n\t\t\tSchema Name = %s\
+\n\t\t\tTable Name = %s\
+\n\t\t\tUnique = %d\
+\n\t\t\tReserved = %d",
                 statement,
                 __string_with_length( s1, catalog_name, name_length1 ), 
                 __string_with_length( s2, schema_name, name_length2 ), 

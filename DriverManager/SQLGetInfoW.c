@@ -176,11 +176,11 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tInfo Type = %s\
-            \n\t\t\tInfo Value = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tStrLen = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tInfo Type = %s\
+\n\t\t\tInfo Value = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tStrLen = %p",
                 connection,
                 __info_as_string( s1, info_type ),
                 info_value, 

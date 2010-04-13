@@ -148,9 +148,9 @@ SQLRETURN SQLFetchScroll( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tFetch Orentation = %d\
-            \n\t\t\tFetch Offset = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tFetch Orentation = %d\
+\n\t\t\tFetch Offset = %d",
                 statement,
                 fetch_orientation,
                 (int)fetch_offset );

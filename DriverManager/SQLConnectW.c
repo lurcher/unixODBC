@@ -190,10 +190,10 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tServer Name = %s\
-            \n\t\t\tUser Name = %s\
-            \n\t\t\tAuthentication = %s",
+\n\t\t\tConnection = %p\
+\n\t\t\tServer Name = %s\
+\n\t\t\tUser Name = %s\
+\n\t\t\tAuthentication = %s",
                 connection,
                 __wstring_with_length( s1, server_name, name_length1 ),
                 __wstring_with_length( s2, user_name, name_length2 ),

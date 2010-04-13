@@ -108,8 +108,8 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tCursor name = %s",
+\n\t\t\tStatement = %p\
+\n\t\t\tCursor name = %s",
                 statement,
                 __wstring_with_length( s1, cursor_name, name_length ));
 

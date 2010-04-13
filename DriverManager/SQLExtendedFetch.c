@@ -151,11 +151,11 @@ SQLRETURN SQLExtendedFetch(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tFetch Type = %d\
-            \n\t\t\tRow = %d\
-            \n\t\t\tPcRow = %p\
-            \n\t\t\tRow Status = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tFetch Type = %d\
+\n\t\t\tRow = %d\
+\n\t\t\tPcRow = %p\
+\n\t\t\tRow Status = %p",
                 statement,
                 f_fetch_type,
                 (int)irow,

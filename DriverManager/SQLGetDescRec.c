@@ -226,17 +226,17 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
     if ( log_info.log_flag )
     {
         sprintf( descriptor -> msg, "\n\t\tEntry:\
-            \n\t\t\tDescriptor = %p\
-            \n\t\t\tRec Number = %d\
-            \n\t\t\tName = %p\
-            \n\t\t\tBuffer length = %d\
-            \n\t\t\tString Length = %p\
-            \n\t\t\tType = %p\
-            \n\t\t\tSub Type = %p\
-            \n\t\t\tLength = %p\
-            \n\t\t\tPrecision = %p\
-            \n\t\t\tScale = %p\
-            \n\t\t\tNullable = %p",
+\n\t\t\tDescriptor = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tName = %p\
+\n\t\t\tBuffer length = %d\
+\n\t\t\tString Length = %p\
+\n\t\t\tType = %p\
+\n\t\t\tSub Type = %p\
+\n\t\t\tLength = %p\
+\n\t\t\tPrecision = %p\
+\n\t\t\tScale = %p\
+\n\t\t\tNullable = %p",
                 descriptor,
                 rec_number,
                 name,
@@ -396,13 +396,13 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
     {
         sprintf( descriptor -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tName = %s\
-                \n\t\t\tType = %s\
-                \n\t\t\tSub Type = %s\
-                \n\t\t\tLength = %s\
-                \n\t\t\tPrecision = %s\
-                \n\t\t\tScale = %s\
-                \n\t\t\tNullable = %s",
+\n\t\t\tName = %s\
+\n\t\t\tType = %s\
+\n\t\t\tSub Type = %s\
+\n\t\t\tLength = %s\
+\n\t\t\tPrecision = %s\
+\n\t\t\tScale = %s\
+\n\t\t\tNullable = %s",
                     __get_return_status( ret, s8 ),
                     __sdata_as_string( s1, SQL_CHAR, 
                         string_length, name ),

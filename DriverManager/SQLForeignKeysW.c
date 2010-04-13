@@ -166,13 +166,13 @@ SQLRETURN SQLForeignKeysW(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tPK Catalog Name = %s\
-            \n\t\t\tPK Schema Name = %s\
-            \n\t\t\tPK Table Name = %s\
-            \n\t\t\tFK Catalog Name = %s\
-            \n\t\t\tFK Schema Name = %s\
-            \n\t\t\tFK Table Name = %s",
+\n\t\t\tStatement = %p\
+\n\t\t\tPK Catalog Name = %s\
+\n\t\t\tPK Schema Name = %s\
+\n\t\t\tPK Table Name = %s\
+\n\t\t\tFK Catalog Name = %s\
+\n\t\t\tFK Schema Name = %s\
+\n\t\t\tFK Table Name = %s",
                 statement,
                 __wstring_with_length( s1, szpk_catalog_name, cbpk_catalog_name ), 
                 __wstring_with_length( s2, szpk_schema_name, cbpk_schema_name ), 

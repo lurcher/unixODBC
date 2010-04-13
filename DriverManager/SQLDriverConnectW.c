@@ -270,13 +270,13 @@ SQLRETURN SQLDriverConnectW(
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tWindow Hdl = %p\
-            \n\t\t\tStr In = %s\
-            \n\t\t\tStr Out = %p\
-            \n\t\t\tStr Out Max = %d\
-            \n\t\t\tStr Out Ptr = %p\
-            \n\t\t\tCompletion = %d",
+\n\t\t\tConnection = %p\
+\n\t\t\tWindow Hdl = %p\
+\n\t\t\tStr In = %s\
+\n\t\t\tStr Out = %p\
+\n\t\t\tStr Out Max = %d\
+\n\t\t\tStr Out Ptr = %p\
+\n\t\t\tCompletion = %d",
                 connection,
                 hwnd,
                 __wstring_with_length_hide_pwd( s1, conn_str_in, 

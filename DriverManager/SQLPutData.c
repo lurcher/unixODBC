@@ -137,9 +137,9 @@ SQLRETURN SQLPutData( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tData = %p\
-            \n\t\t\tStrLen = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tData = %p\
+\n\t\t\tStrLen = %d",
                 statement,
                 data,
                 (int)strlen_or_ind );

@@ -199,9 +199,9 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
         if ( log_info.log_flag )
         {
             sprintf( connection -> msg, "\n\t\tEntry:\
-                \n\t\t\tEnvironment = %p\
-                \n\t\t\tConnection = %p\
-                \n\t\t\tCompletion Type = %d",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tConnection = %p\
+\n\t\t\tCompletion Type = %d",
                     (void*)environment_handle,
                     (void*)connection_handle,
                     (int)completion_type );
@@ -434,9 +434,9 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
         if ( log_info.log_flag )
         {
             sprintf( environment -> msg, "\n\t\tEntry:\
-                \n\t\t\tEnvironment = %p\
-                \n\t\t\tConnection = %p\
-                \n\t\t\tCompletion Type = %d",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tConnection = %p\
+\n\t\t\tCompletion Type = %d",
                     (void*)environment_handle,
                     (void*)connection_handle,
                     (int)completion_type );

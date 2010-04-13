@@ -122,7 +122,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
     if ( log_info.log_flag )
     {
         sprintf( environment -> msg, "\n\t\tEntry:\
-            \n\t\t\tEnvironment = %p",
+\n\t\t\tEnvironment = %p",
                 environment );
 
         dm_log_write( __FILE__, 

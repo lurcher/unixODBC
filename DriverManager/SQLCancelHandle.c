@@ -53,7 +53,7 @@ SQLRETURN SQLCancelHandle( SQLSMALLINT handle_type, SQLHANDLE handle )
         {
             sprintf( connection -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tConnection = %p",
+\n\t\t\tConnection = %p",
                     connection );
 
             dm_log_write( __FILE__, 

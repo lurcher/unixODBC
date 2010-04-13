@@ -171,10 +171,10 @@ SQLRETURN SQLSetScrollOptions(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tConcurrency = %d\
-            \n\t\t\tKeyset = %d\
-            \n\t\t\tRowset = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tConcurrency = %d\
+\n\t\t\tKeyset = %d\
+\n\t\t\tRowset = %d",
                 statement,
                 f_concurrency,
                 (int)crow_keyset,

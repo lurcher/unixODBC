@@ -319,10 +319,10 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tAttribute = %s\
-            \n\t\t\tValue = %p\
-            \n\t\t\tStrLen = %d",
+\n\t\t\tConnection = %p\
+\n\t\t\tAttribute = %s\
+\n\t\t\tValue = %p\
+\n\t\t\tStrLen = %d",
                 connection,
                 __con_attr_as_string( s1, attribute ),
                 value, 

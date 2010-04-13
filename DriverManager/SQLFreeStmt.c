@@ -135,8 +135,8 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tOption = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tOption = %d",
                 statement,
                 option );
 

@@ -158,13 +158,13 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tIdentifier Type = %d\
-            \n\t\t\tCatalog Name = %s\
-            \n\t\t\tSchema Name = %s\
-            \n\t\t\tTable Name = %s\
-            \n\t\t\tScope = %d\
-            \n\t\t\tNullable = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tIdentifier Type = %d\
+\n\t\t\tCatalog Name = %s\
+\n\t\t\tSchema Name = %s\
+\n\t\t\tTable Name = %s\
+\n\t\t\tScope = %d\
+\n\t\t\tNullable = %d",
                 statement,
                 identifier_type,
                 __wstring_with_length( s1, catalog_name, name_length1 ), 

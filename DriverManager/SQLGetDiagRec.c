@@ -583,13 +583,13 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
         {
             sprintf( environment -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tEnvironment = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tSQLState = %p\
-                \n\t\t\tNative = %p\
-                \n\t\t\tMessage Text = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tText Len Ptr = %p",
+\n\t\t\tEnvironment = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tSQLState = %p\
+\n\t\t\tNative = %p\
+\n\t\t\tMessage Text = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tText Len Ptr = %p",
                     environment,
                     rec_number,
                     sqlstate,
@@ -619,9 +619,9 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
             {
                 sprintf( environment -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tSQLState = %s\
-                    \n\t\t\tNative = %s\
-                    \n\t\t\tMessage Text = %s",
+\n\t\t\tSQLState = %s\
+\n\t\t\tNative = %s\
+\n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         sqlstate,
                         __iptr_as_string( s0, native ),
@@ -661,13 +661,13 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
         {
             sprintf( connection -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tConnection = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tSQLState = %p\
-                \n\t\t\tNative = %p\
-                \n\t\t\tMessage Text = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tText Len Ptr = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tSQLState = %p\
+\n\t\t\tNative = %p\
+\n\t\t\tMessage Text = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tText Len Ptr = %p",
                     connection,
                     rec_number,
                     sqlstate,
@@ -697,9 +697,9 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
             {
                 sprintf( connection -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tSQLState = %s\
-                    \n\t\t\tNative = %s\
-                    \n\t\t\tMessage Text = %s",
+\n\t\t\tSQLState = %s\
+\n\t\t\tNative = %s\
+\n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         sqlstate,
                         __iptr_as_string( s0, native ),
@@ -739,13 +739,13 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
         {
             sprintf( statement -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tStatement = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tSQLState = %p\
-                \n\t\t\tNative = %p\
-                \n\t\t\tMessage Text = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tText Len Ptr = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tSQLState = %p\
+\n\t\t\tNative = %p\
+\n\t\t\tMessage Text = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tText Len Ptr = %p",
                     statement,
                     rec_number,
                     sqlstate,
@@ -775,9 +775,9 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
             {
                 sprintf( statement -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tSQLState = %s\
-                    \n\t\t\tNative = %s\
-                    \n\t\t\tMessage Text = %s",
+\n\t\t\tSQLState = %s\
+\n\t\t\tNative = %s\
+\n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         sqlstate,
                         __iptr_as_string( s0, native ),
@@ -817,13 +817,13 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
         {
             sprintf( descriptor -> msg, 
                 "\n\t\tEntry:\
-                \n\t\t\tDescriptor = %p\
-                \n\t\t\tRec Number = %d\
-                \n\t\t\tSQLState = %p\
-                \n\t\t\tNative = %p\
-                \n\t\t\tMessage Text = %p\
-                \n\t\t\tBuffer Length = %d\
-                \n\t\t\tText Len Ptr = %p",
+\n\t\t\tDescriptor = %p\
+\n\t\t\tRec Number = %d\
+\n\t\t\tSQLState = %p\
+\n\t\t\tNative = %p\
+\n\t\t\tMessage Text = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tText Len Ptr = %p",
                     descriptor,
                     rec_number,
                     sqlstate,
@@ -853,9 +853,9 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
             {
                 sprintf( descriptor -> msg, 
                     "\n\t\tExit:[%s]\
-                    \n\t\t\tSQLState = %s\
-                    \n\t\t\tNative = %s\
-                    \n\t\t\tMessage Text = %s",
+\n\t\t\tSQLState = %s\
+\n\t\t\tNative = %s\
+\n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         sqlstate,
                         __iptr_as_string( s0, native ),

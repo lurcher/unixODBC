@@ -168,12 +168,12 @@ SQLRETURN SQLDescribeParam(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tParameter Number = %d\
-            \n\t\t\tSQL Type = %p\
-            \n\t\t\tParam Def = %p\
-            \n\t\t\tScale = %p\
-            \n\t\t\tNullable = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tParameter Number = %d\
+\n\t\t\tSQL Type = %p\
+\n\t\t\tParam Def = %p\
+\n\t\t\tScale = %p\
+\n\t\t\tNullable = %p",
                 statement,
                 ipar,
                 pf_sql_type,

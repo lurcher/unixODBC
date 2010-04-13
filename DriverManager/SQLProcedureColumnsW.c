@@ -157,11 +157,11 @@ SQLRETURN SQLProcedureColumnsW(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tCatalog Name = %s\
-            \n\t\t\tSchema Name = %s\
-            \n\t\t\tProc Name = %s\
-            \n\t\t\tColumn Type = %s", 
+\n\t\t\tStatement = %p\
+\n\t\t\tCatalog Name = %s\
+\n\t\t\tSchema Name = %s\
+\n\t\t\tProc Name = %s\
+\n\t\t\tColumn Type = %s", 
                 statement,
                 __wstring_with_length( s1, sz_catalog_name, cb_catalog_name ), 
                 __wstring_with_length( s2, sz_schema_name, cb_schema_name ), 

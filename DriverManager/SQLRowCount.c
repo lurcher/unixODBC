@@ -164,8 +164,8 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tRow Count = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tRow Count = %p",
                 statement,
                 rowcount );
 
@@ -236,7 +236,7 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
     {
         sprintf( statement -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tRow Count = %s",
+\n\t\t\tRow Count = %s",
                     __get_return_status( ret, s1 ),
                     __ptr_as_string( s1, rowcount ));
 

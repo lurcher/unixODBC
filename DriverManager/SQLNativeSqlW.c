@@ -172,11 +172,11 @@ SQLRETURN SQLNativeSqlW(
         }
 
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tSQL In = %s\
-            \n\t\t\tSQL Out = %p\
-            \n\t\t\tSQL Out Len = %d\
-            \n\t\t\tSQL Len Ptr = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tSQL In = %s\
+\n\t\t\tSQL Out = %p\
+\n\t\t\tSQL Out Len = %d\
+\n\t\t\tSQL Len Ptr = %p",
                 connection,
                 __wstring_with_length( s1, sz_sql_str_in, cb_sql_str_in ),
                 sz_sql_str,
@@ -345,7 +345,7 @@ SQLRETURN SQLNativeSqlW(
 
         sprintf( connection -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tSQL Out = %s",
+\n\t\t\tSQL Out = %s",
                     __get_return_status( ret, s2 ),
                     __idata_as_string( s1, SQL_CHAR, 
                         pcb_sql_str, sz_sql_str ));

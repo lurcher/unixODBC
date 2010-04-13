@@ -166,8 +166,8 @@ SQLRETURN SQLExecDirectW( SQLHSTMT statement_handle,
         }
 
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tSQL = %s",
+\n\t\t\tStatement = %p\
+\n\t\t\tSQL = %s",
                 statement,
                 __wstring_with_length( s1, statement_text, text_length ));
 

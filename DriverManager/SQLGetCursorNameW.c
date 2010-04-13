@@ -154,10 +154,10 @@ SQLRETURN SQLGetCursorNameW( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tCursor Name = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tName Length= %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tCursor Name = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tName Length= %p",
                 statement,
                 cursor_name,
                 buffer_length, 

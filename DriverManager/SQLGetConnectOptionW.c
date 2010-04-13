@@ -187,9 +187,9 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tOption = %s\
-            \n\t\t\tValue = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tOption = %s\
+\n\t\t\tValue = %p",
                 connection,
                 __con_attr_as_string( s1, option ),
                 value );

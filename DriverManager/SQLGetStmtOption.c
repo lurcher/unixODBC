@@ -148,9 +148,9 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tOption = %s\
-            \n\t\t\tValue = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tOption = %s\
+\n\t\t\tValue = %p",
                 statement,
                 __stmt_attr_as_string( s1, option ),
                 value );

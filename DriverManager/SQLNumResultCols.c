@@ -147,8 +147,8 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tColumn Count = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tColumn Count = %p",
                 statement,
                 column_count );
 
@@ -234,7 +234,7 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
 		if ( SQL_SUCCEEDED( ret )) {
         	sprintf( statement -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tCount = %s",
+\n\t\t\tCount = %s",
                     __get_return_status( ret, s2 ),
                     __sptr_as_string( s1, column_count ));
 		}

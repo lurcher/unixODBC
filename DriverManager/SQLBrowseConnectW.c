@@ -196,10 +196,10 @@ SQLRETURN SQLBrowseConnectW(
     if ( log_info.log_flag )
     {
         sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tStr In = %s\
-            \n\t\t\tStr Out = %s\
-            \n\t\t\tPtr Conn Str Out = %p",
+\n\t\t\tConnection = %p\
+\n\t\t\tStr In = %s\
+\n\t\t\tStr Out = %s\
+\n\t\t\tPtr Conn Str Out = %p",
                 connection,
                 __wstring_with_length( s1, conn_str_in, len_conn_str_in ), 
                 __wstring_with_length( s2, conn_str_out, conn_str_out_max ), 

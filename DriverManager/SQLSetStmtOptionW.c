@@ -212,9 +212,9 @@ SQLRETURN SQLSetStmtOptionW( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tOption = %s\
-            \n\t\t\tValue = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tOption = %s\
+\n\t\t\tValue = %d",
                 statement,
                 __stmt_attr_as_string( s1, option ),
                 (int)value );

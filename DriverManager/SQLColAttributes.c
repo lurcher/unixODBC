@@ -261,13 +261,13 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tColumn Number = %d\
-            \n\t\t\tField Identifier = %s\
-            \n\t\t\tCharacter Attr = %p\
-            \n\t\t\tBuffer Length = %d\
-            \n\t\t\tString Length = %p\
-            \n\t\t\tNumeric Attribute = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tColumn Number = %d\
+\n\t\t\tField Identifier = %s\
+\n\t\t\tCharacter Attr = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tString Length = %p\
+\n\t\t\tNumeric Attribute = %p",
                 statement,
                 column_number,
                 __col_attr_as_string( s1, field_identifier ),

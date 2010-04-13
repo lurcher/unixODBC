@@ -155,7 +155,7 @@ SQLRETURN SQLFetch( SQLHSTMT statement_handle )
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p",
+\n\t\t\tStatement = %p",
                 statement );
 
         dm_log_write( __FILE__, 

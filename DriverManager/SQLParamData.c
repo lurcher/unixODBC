@@ -157,8 +157,8 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tValue = %p",
+\n\t\t\tStatement = %p\
+\n\t\t\tValue = %p",
                 statement,
                 value );
 
@@ -348,7 +348,7 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
     {
         sprintf( statement -> msg, 
                 "\n\t\tExit:[%s]\
-                \n\t\t\tValue = %p",
+\n\t\t\tValue = %p",
                     __get_return_status( ret, s1 ),
                     *value );
 

@@ -150,10 +150,10 @@ SQLRETURN SQLSetPos(
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, "\n\t\tEntry:\
-            \n\t\t\tStatement = %p\
-            \n\t\t\tIrow = %ld\
-            \n\t\t\tFoption = %d\
-            \n\t\t\tFlock = %d",
+\n\t\t\tStatement = %p\
+\n\t\t\tIrow = %ld\
+\n\t\t\tFoption = %d\
+\n\t\t\tFlock = %d",
                 statement,
                 (long int)irow,
                 foption,
