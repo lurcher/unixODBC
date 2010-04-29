@@ -1,4 +1,7 @@
 2.3.1
+    
+    * Change type definition of a integer in SQLConnect.c, just to avoid
+      confusion
 
 20th-April-2010
 2.3.0

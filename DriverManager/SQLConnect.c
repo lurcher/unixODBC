@@ -1256,7 +1256,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
         /*
          * Fix by qcai@starquest.com
          */
-        int actual_version = 0;
+        SQLUINTEGER actual_version = 0;
         int ret;
 
         env_lib_list -> count ++;
