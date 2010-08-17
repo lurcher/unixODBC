@@ -2,6 +2,9 @@
     
     * Change type definition of a integer in SQLConnect.c, just to avoid
       confusion
+    * Allow setting the DM overrive values in the connection string to SQLDriverConnect
+      for example
+      "DRIVER={Easysoft ODBC-SQL Server};Server=myserver;UID=user;PWD=pass;DMStmtAttr=SQL_QUERY_TIMEOUT=10;"
 
 20th-April-2010
 2.3.0

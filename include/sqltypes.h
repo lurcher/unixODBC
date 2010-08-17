@@ -89,10 +89,6 @@ typedef signed short        TCHAR;
 typedef char				TCHAR;
 #endif
 
-#ifndef DONT_TD_VOID
-typedef void				VOID;
-#endif
-
 typedef unsigned short		WORD;
 #if (SIZEOF_LONG_INT == 4)
 typedef unsigned long		DWORD;

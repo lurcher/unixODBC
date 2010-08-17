@@ -2125,11 +2125,7 @@ RETCODE TraceOpenLogFile(SQLPOINTER,LPSTR,LPSTR,DWORD); 	/*!< open a trace log f
 #endif
 RETCODE TraceCloseLogFile(SQLPOINTER);					    /*!< Request to close a trace log		                */
 SQLRETURN TraceReturn(SQLPOINTER,SQLRETURN);                /*!< Call to produce trace output upon function return. */
-#ifdef __cplusplus
-DWORD	 TraceVersion();							        /*!< Returns trace API version			                */
-#else
-DWORD	 TraceVersion(VOID);							    /*!< Returns trace API version			                */
-#endif
+DWORD	 TraceVersion(void);						        /*!< Returns trace API version			                */
 
 /* Functions for Visual Studio Analyzer*/
 /* to turn on/off tracing or VS events, call TraceVSControl by setting or clearing the following bits  */
@@ -2162,7 +2158,7 @@ typedef struct tagODBC_VS_ARGS {
 	RETCODE	RetCode;
 } ODBC_VS_ARGS, *PODBC_VS_ARGS;
 
-VOID	FireVSDebugEvent(PODBC_VS_ARGS);
+void	FireVSDebugEvent(PODBC_VS_ARGS);
 /*@}*/
 
 #ifdef __cplusplus
@@ -2177,7 +2173,7 @@ BOOL ODBCSetTryWaitValue ( DWORD dwValue );
 #ifdef __cplusplus
 DWORD ODBCGetTryWaitValue ( );
 #else
-DWORD ODBCGetTryWaitValue ( VOID );
+DWORD ODBCGetTryWaitValue ( void );
 #endif
 
 #ifndef __SQLUCODE_H

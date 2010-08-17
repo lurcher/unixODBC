@@ -607,6 +607,21 @@ void __release_conn( struct con_struct *con_str )
     con_str -> count = 0;
 }
 
+void __handle_attr_extensions_cs( DMHDBC connection, struct con_struct *con_str )
+{
+    char *ptr;
+
+    if (( ptr = __get_attribute_value( con_str, "DMEnvAttr" )) != NULL ) {
+        __parse_attribute_string( &connection -> env_attribute, ptr, SQL_NTS );
+    }
+    if (( ptr = __get_attribute_value( con_str, "DMConnAttr" )) != NULL ) {
+        __parse_attribute_string( &connection -> dbc_attribute, ptr, SQL_NTS );
+    }
+    if (( ptr = __get_attribute_value( con_str, "DMStmtAttr" )) != NULL ) {
+        __parse_attribute_string( &connection -> stmt_attribute, ptr, SQL_NTS );
+    }
+}
+
 SQLRETURN SQLDriverConnectA(
     SQLHDBC            hdbc,
     SQLHWND            hwnd,
@@ -1181,6 +1196,12 @@ SQLRETURN SQLDriverConnect(
          */
 
         __handle_attr_extensions( connection, dsn, driver_name );
+    }
+    else {
+        /* 
+         * the attributes may be in the connection string
+         */
+        __handle_attr_extensions_cs( connection, &con_struct );
     }
 
     __release_conn( &con_struct );

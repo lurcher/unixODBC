@@ -4250,7 +4250,7 @@ BOOL ODBCSetTryWaitValue ( DWORD dwValue )
 #ifdef __cplusplus
 DWORD ODBCGetTryWaitValue ( )
 #else
-DWORD ODBCGetTryWaitValue ( VOID )
+DWORD ODBCGetTryWaitValue ( void )
 #endif
 {
 	return 0;

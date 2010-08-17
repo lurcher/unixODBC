@@ -557,6 +557,12 @@ SQLRETURN SQLDriverConnectW(
 
         __handle_attr_extensions( connection, dsn, driver_name );
     }
+    else {
+        /* 
+         * the attributes may be in the connection string
+         */
+        __handle_attr_extensions_cs( connection, &con_struct );
+    }
 
     __release_conn( &con_struct );
 
