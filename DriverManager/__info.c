@@ -3694,7 +3694,7 @@ static void insert_into_error_list( EHEAD *error_header, ERROR *e1 )
 
         prev = NULL;
         curr = error_header -> sql_error_head.error_list_head;
-        while ( curr && check_error_order( curr, e1, error_header ) > 0 )
+        while ( curr && check_error_order( curr, e1, error_header ) >= 0 )
         {
             prev = curr;
             curr = curr -> next;
@@ -3757,7 +3757,7 @@ static void insert_into_diag_list( EHEAD *error_header, ERROR *e2 )
 
         prev = NULL;
         curr = error_header -> sql_diag_head.internal_list_head;
-        while ( curr && check_error_order( curr, e2, error_header ) > 0 )
+        while ( curr && check_error_order( curr, e2, error_header ) >= 0 )
         {
             prev = curr;
             curr = curr -> next;
