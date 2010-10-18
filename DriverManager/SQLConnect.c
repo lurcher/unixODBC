@@ -1251,6 +1251,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
         env_lib_list = env_lib_list -> next;
     }
 
+    connection -> driver_act_ver = 0;
     if ( env_lib_list )
     {
         /*
@@ -2133,12 +2134,6 @@ int __connect_part_two( DMHDBC connection )
      * it supports
      */
 
-    /*
-     * see if it's a version 3 driver so we can do descriptor
-     * stuff.
-     */
-
-    connection -> driver_act_ver = 0;
     if ( CHECK_SQLGETINFO( connection ) || CHECK_SQLGETINFOW( connection ))
     {
         char txt[ 20 ];
