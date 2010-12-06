@@ -537,6 +537,10 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
         if ( strcasecmp( cp -> keyword, "DSN" ) == 0 )
         {
             if ( got_driver && exclude )
+                /* 11-29-2010 JM Modify to free the allocated memory before continuing. */
+                free( cp -> keyword );
+                free( cp -> attribute );
+                free( cp );
                 continue;
 
             got_dsn = 1;
@@ -545,6 +549,10 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
             strcmp( cp -> keyword, "FILEDSN" ) == 0 )
         {
             if ( got_dsn && exclude )
+                /* 11-29-2010 JM Modify to free the allocated memory before continuing. */
+                free( cp -> keyword );
+                free( cp -> attribute );
+                free( cp );
                 continue;
 
             got_driver = 1;
