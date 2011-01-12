@@ -430,7 +430,7 @@ SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
 
     if ( attribute == SQL_ATTR_METADATA_ID )
     {
-        statement -> metadata_id = (long int) value;
+        statement -> metadata_id = (SQLINTEGER) value;
     }
 
     if ( attribute == SQL_ATTR_IMP_ROW_DESC || 

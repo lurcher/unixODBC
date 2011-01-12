@@ -391,7 +391,7 @@ int len;
 
     ptr = *cp;
 
-    if ( strcmp( *keyword, "DRIVER" ) == 0 )
+    if ( strcasecmp( *keyword, "DRIVER" ) == 0 )
     {
         if ( **cp && **cp == '{' )
         {
@@ -463,7 +463,7 @@ struct con_pair *ptr, *end;
         ptr = con_str -> list;
         while( ptr )
         {
-            if( strcmp( kword, ptr -> keyword ) == 0 )
+            if( strcasecmp( kword, ptr -> keyword ) == 0 )
             {
                 free( ptr -> attribute );
                 ptr -> attribute = malloc( strlen( value ) + 1 );
@@ -536,24 +536,26 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
     {
         if ( strcasecmp( cp -> keyword, "DSN" ) == 0 )
         {
-            if ( got_driver && exclude )
+            if ( got_driver && exclude ) {
                 /* 11-29-2010 JM Modify to free the allocated memory before continuing. */
                 free( cp -> keyword );
                 free( cp -> attribute );
                 free( cp );
                 continue;
+            }
 
             got_dsn = 1;
         }
         else if ( strcasecmp( cp -> keyword, "DRIVER" ) == 0 ||
-            strcmp( cp -> keyword, "FILEDSN" ) == 0 )
+            strcasecmp( cp -> keyword, "FILEDSN" ) == 0 )
         {
-            if ( got_dsn && exclude )
+            if ( got_dsn && exclude ) {
                 /* 11-29-2010 JM Modify to free the allocated memory before continuing. */
                 free( cp -> keyword );
                 free( cp -> attribute );
                 free( cp );
                 continue;
+            }
 
             got_driver = 1;
         }
@@ -1017,8 +1019,8 @@ SQLRETURN SQLDriverConnect(
 			 			* Don't pass FILEDSN down
 			 			*/
 
-						if ( strcmp( cp -> keyword, "FILEDSN" ) &&
-							strcmp( cp -> keyword, "FILEDSN" ) )
+						if ( strcasecmp( cp -> keyword, "FILEDSN" ) &&
+							strcasecmp( cp -> keyword, "FILEDSN" ) )
 						{
 							if ( strlen((char*) conn_str_in ) > 0 )
 							{
@@ -1085,7 +1087,6 @@ SQLRETURN SQLDriverConnect(
      *
      * have we got a DRIVER= attribute
      */
-
     driver = __get_attribute_value( &con_struct, "DRIVER" );
     if ( driver )
     {

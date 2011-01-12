@@ -198,7 +198,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
     {
       case SQL_ATTR_CONNECTION_POOLING:
         {
-            long int ptr = (long int) value;
+            SQLUINTEGER ptr = (SQLUINTEGER) value;
 
             if ( ptr != SQL_CP_OFF &&
                 ptr != SQL_CP_ONE_PER_DRIVER &&
@@ -223,7 +223,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
       case SQL_ATTR_CP_MATCH:
         {
-            long int ptr = (long int) value;
+            SQLUINTEGER ptr = (SQLUINTEGER) value;
 
             if ( ptr != SQL_CP_STRICT_MATCH &&
                 ptr != SQL_CP_RELAXED_MATCH )
@@ -247,7 +247,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
       case SQL_ATTR_ODBC_VERSION:
         {
-            long int ptr = (long int) value;
+            SQLUINTEGER ptr = (SQLUINTEGER) value;
 
             if ( ptr != SQL_OV_ODBC2 &&
                     ptr != SQL_OV_ODBC3 )
@@ -288,7 +288,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
       case SQL_ATTR_OUTPUT_NTS:
         {
-            long int ptr = (long int) value;
+            SQLUINTEGER ptr = (SQLUINTEGER) value;
 
             /*
              * this must be one of the most brain dead atribute,

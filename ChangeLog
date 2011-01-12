@@ -7,6 +7,7 @@
       "DRIVER={Easysoft ODBC-SQL Server};Server=myserver;UID=user;PWD=pass;DMStmtAttr=SQL_QUERY_TIMEOUT=10;"
     * Error and info message order was being inverted by the driver manager
     * Fix memory leak in SQLDriverConnect.c (Thanks JM)
+    * The keyword matching for DRIVER=, DSN= etc was case sensitive. Make it insensitive now
 
 20th-April-2010
 2.3.0

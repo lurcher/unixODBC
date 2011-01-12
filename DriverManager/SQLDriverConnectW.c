@@ -174,7 +174,7 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
             got_dsn = 1;
         }
         else if ( strcasecmp( cp -> keyword, "DRIVER" ) == 0 ||
-            strcmp( cp -> keyword, "FILEDSN" ) == 0 )
+            strcasecmp( cp -> keyword, "FILEDSN" ) == 0 )
         {
             if ( got_dsn )
                 continue;
