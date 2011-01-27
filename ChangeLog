@@ -8,6 +8,7 @@
     * Error and info message order was being inverted by the driver manager
     * Fix memory leak in SQLDriverConnect.c (Thanks JM)
     * The keyword matching for DRIVER=, DSN= etc was case sensitive. Make it insensitive now
+    * Avoid sprintf NULL pointer problem in SQLGetDiagRec
 
 20th-April-2010
 2.3.0

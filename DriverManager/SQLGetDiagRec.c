@@ -623,7 +623,7 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        sqlstate,
+                        sqlstate ? sqlstate : (SQLCHAR*)"NULL",
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, message_text ));
@@ -701,7 +701,7 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        sqlstate,
+                        sqlstate ? sqlstate : (SQLCHAR*)"NULL",
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, message_text ));
@@ -779,7 +779,7 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        sqlstate,
+                        sqlstate ? sqlstate : (SQLCHAR*)"NULL",
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, message_text ));
@@ -857,7 +857,7 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        sqlstate,
+                        sqlstate ? sqlstate : (SQLCHAR*)"NULL",
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, message_text ));
