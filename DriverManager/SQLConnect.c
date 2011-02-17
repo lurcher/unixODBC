@@ -2745,7 +2745,7 @@ static int sql_strcmp( SQLCHAR *s1, SQLCHAR *s2, SQLSMALLINT l1, SQLSMALLINT l2 
     }
     else
     {
-        return memcmp( s1, s1, l1 );
+        return memcmp( s1, s2, l1 );
     }
 }
 

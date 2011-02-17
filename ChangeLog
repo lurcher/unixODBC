@@ -9,6 +9,7 @@
     * Fix memory leak in SQLDriverConnect.c (Thanks JM)
     * The keyword matching for DRIVER=, DSN= etc was case sensitive. Make it insensitive now
     * Avoid sprintf NULL pointer problem in SQLGetDiagRec
+    * Fix typo affecting the pooling of connections, (thanks Chris)
 
 20th-April-2010
 2.3.0
