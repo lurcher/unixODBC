@@ -327,7 +327,7 @@ if test "x$thread" = "xtrue"; then
 		AC_DEFINE([HAVE_LIBPTHREAD], [1], [Use -lpthread threading lib])
         gotthread="yes";
         THREADLIB="-lpthread"
-        if test "x$ac_cv_prog_gcc"="xyes"; then
+        if test "x$ac_cv_prog_gcc" = "xyes"; then
           dnl Check if the compiler will build with -pthread as a option
           AC_CHECK_COMP_OPT(pthread)
         else
@@ -343,7 +343,7 @@ if test "x$thread" = "xtrue"; then
         AC_DEFINE(HAVE_LIBPTHREAD,1)
         gotthread="yes";
         THREADLIB=""
-        if test "x$ac_cv_prog_gcc"="xyes"; then
+        if test "x$ac_cv_prog_gcc" = "xyes"; then
           dnl Check if the compiler will build with -pthread as a option
           AC_CHECK_COMP_OPT(pthread)
         else
@@ -354,7 +354,7 @@ if test "x$thread" = "xtrue"; then
     fi
 
     if test "x$gotthread" = "xno"; then
-      if test "x$ac_cv_prog_gcc"="xyes"; then
+      if test "x$ac_cv_prog_gcc" = "xyes"; then
         dnl This is for freebsd that needs -lpthread before it finds the lib
         AC_CHECK_COMP_OPT(pthread)
         AC_CHECK_LIBPT_NOC(c, pthread_mutex_lock,
