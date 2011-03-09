@@ -664,7 +664,7 @@ SQLRETURN SQLDriverConnect(
 {
     DMHDBC connection = (DMHDBC)hdbc;
     struct con_struct con_struct;
-    char *driver, *dsn = NULL, *filedsn, *tsavefile, savefile[ 128 ];
+    char *driver, *dsn = NULL, *filedsn, *tsavefile, savefile[ INI_MAX_PROPERTY_VALUE + 1 ];
     char lib_name[ INI_MAX_PROPERTY_VALUE + 1 ];
     char driver_name[ INI_MAX_PROPERTY_VALUE + 1 ];
     SQLRETURN ret_from_connect;
@@ -969,7 +969,13 @@ SQLRETURN SQLDriverConnect(
     tsavefile = __get_attribute_value( &con_struct, "SAVEFILE" );
     if ( tsavefile )
     {
-        strcpy( savefile, tsavefile );
+        if ( strlen( tsavefile ) > INI_MAX_PROPERTY_VALUE ) {
+            memcpy( savefile, tsavefile, INI_MAX_PROPERTY_VALUE );
+            savefile[ INI_MAX_PROPERTY_VALUE ] = '\0';
+        }
+        else {
+            strcpy( savefile, tsavefile );
+        }
     }
     else
     {

@@ -11,6 +11,9 @@
     * Avoid sprintf NULL pointer problem in SQLGetDiagRec
     * Fix typo affecting the pooling of connections, (thanks Chris)
     * Fix SunCC _mcount problem
+    * Attempt to stamp version info on teh libs generated. There are aps in use linked against other 
+      driver managers that expect VERS_3.52
+    * Fix potential buffer overrun when using SAFEFILE
 
 20th-April-2010
 2.3.0
