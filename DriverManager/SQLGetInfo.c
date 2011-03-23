@@ -256,7 +256,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                             ERROR_HY024, NULL,
                             connection -> environment -> requested_version );
 
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                    return SQL_ERROR;
                 }
             }
         }
@@ -291,7 +291,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
 
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                    return SQL_ERROR;
                 }
             }
         }
@@ -328,7 +328,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return SQL_ERROR;
             }
 
             switch( info_type )
@@ -455,7 +455,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return SQL_ERROR;
             }
 
             ret = SQLGETINFO( connection,
@@ -466,7 +466,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                     string_length );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, ret );
+        return ret;
     }
 
     if ( type == 1 )
@@ -505,7 +505,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
             *string_length = sizeof( SQLUSMALLINT );
 	}
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return ret;
 }
 
 SQLRETURN SQLGetInfo( SQLHDBC connection_handle,
