@@ -15,6 +15,7 @@
       driver managers that expect VERS_3.52
     * Fix potential buffer overrun when using SAFEFILE
     * Fix mutex problem in the exit from __SQLGetInfo (thanks Richard)
+    * Allow getting SQL_DM_VER via SQLGetInfo before connecting to a driver
 
 20th-April-2010
 2.3.0

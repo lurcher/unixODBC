@@ -559,7 +559,8 @@ SQLRETURN SQLGetInfo( SQLHDBC connection_handle,
 
     thread_protect( SQL_HANDLE_DBC, connection );
 
-    if ( info_type != SQL_ODBC_VER &&
+    if ( info_type != SQL_ODBC_VER && 
+            info_type != SQL_DM_VER &&
             connection -> state == STATE_C2 )
     {
         dm_log_write( __FILE__, 
