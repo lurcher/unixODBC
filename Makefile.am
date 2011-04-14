@@ -40,4 +40,4 @@ install-data-am:
 	-touch $(DESTDIR)${sysconfdir}/odbcinst.ini
 	-touch $(DESTDIR)${sysconfdir}/odbc.ini
 	-mkdir -p $(DESTDIR)${sysconfdir}/ODBCDataSources
-	$(DESTDIR)${bindir}/odbc_config --header > $(DESTDIR)${includedir}/unixodbc_conf.h
+	cp unixodbc_conf.h $(DESTDIR)${includedir}/unixodbc_conf.h

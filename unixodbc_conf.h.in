@@ -1,0 +1,29 @@
+#undef HAVE_UNISTD_H
+
+#undef HAVE_PWD_H
+
+#undef HAVE_SYS_TIME_H
+
+#undef ODBC_STD
+
+#undef UNICODE
+
+#undef GUID_DEFINED
+
+#undef SQL_WCHART_CONVERT
+
+#undef HAVE_LONG_LONG
+
+#undef ODBCINT64_TYPEA
+
+#undef UODBCINT64_TYPE
+
+#undef DISABLE_INI_CACHING
+
+#undef SIZEOF_LONG_INT
+
+#undef ALLREADY_HAVE_WINDOWS_TYPE
+
+#undef DONT_TD_VOID
+
+#undef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING
