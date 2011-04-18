@@ -34,7 +34,9 @@ EXTRA_DIST = \
 	Interix/configure \
 	Interix/config.guess \
 	Interix/libtool \
-    m4
+    m4 \
+    configure.in \
+    Makefile.svn
 
 install-data-am:
 	-touch $(DESTDIR)${sysconfdir}/odbcinst.ini

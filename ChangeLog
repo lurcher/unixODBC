@@ -17,6 +17,7 @@
     * Fix mutex problem in the exit from __SQLGetInfo (thanks Richard)
     * Allow getting SQL_DM_VER via SQLGetInfo before connecting to a driver
     * Generate unixodbc_conf.h using macros to allow cross compiling
+    * Fix some libltdl problems 
 
 20th-April-2010
 2.3.0

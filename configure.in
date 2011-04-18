@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(unixODBC, 2.3.1-pre, nick@unixodbc.org )
-AC_CONFIG_AUX_DIR([libltdl/config])
+dnl AC_CONFIG_AUX_DIR([libltdl/config])
 
 AM_INIT_AUTOMAKE(unixODBC, 2.3.1-pre)
 
@@ -131,7 +131,7 @@ INCLTDL=""
 LIBLTDL=""
 
 AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
+dnl AC_PROG_LIBTOOL
 
 AC_CONFIG_MACRO_DIR([libltdl/m4])
 dnl LT_CONFIG_LTDL_DIR([libltdl])
@@ -139,7 +139,7 @@ dnl LTDL_INIT
 
 LT_CONFIG_LTDL_DIR([libltdl])
 LT_INIT([dlopen])
-LTDL_INIT([nonrecursive])
+LTDL_INIT([convenience])
 
 dnl Substitute INCLTDL and LIBLTDL in the Makefiles
 AC_SUBST(LTDLINCL)
