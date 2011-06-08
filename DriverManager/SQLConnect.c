@@ -596,7 +596,12 @@ static char const rcsid[]= "$RCSfile: SQLConnect.c,v $ $Revision: 1.66 $";
 #else
 #define CURSOR_LIB      "libodbccr"
 #endif
-#define CURSOR_LIB_VER  ".1"
+
+#ifndef CURSOR_LIB_VER
+#ifdef  DEFINE_CURSOR_LIB_VER
+#define CURSOR_LIB_VER  "2"
+#endif
+#endif
 
 /*
  * structure to contain the loaded lib entry points
@@ -2276,22 +2281,40 @@ int __connect_part_two( DMHDBC connection )
 			strcpy( ext, SHLIBEXT );
 		}
 
-        sprintf( name, "%s%s%s", CURSOR_LIB, ext, CURSOR_LIB_VER );
+#ifdef CURSOR_LIB_VER
+            sprintf( name, "%s%s.%s", CURSOR_LIB, ext, CURSOR_LIB_VER );
+#else
+            sprintf( name, "%s%s", CURSOR_LIB, ext );
+#endif
 
         if ( !(connection -> cl_handle = odbc_dlopen( name )))
         {
+            char b1[ 1024 ];
             /*
              * try again
              */
 
+#ifdef CURSOR_LIB_VER
 #ifdef __VMS
-            sprintf( name, "%s:%s%s%s", SYSTEM_LIB_PATH, CURSOR_LIB, ext, CURSOR_LIB_VER );
+                sprintf( name, "%s:%s%s.%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext, CURSOR_LIB_VER );
 #else
 #ifdef __OS2__
-	/* OS/2 does not use the system_lib_path or version defines to construct a name */
-            sprintf( name, "%s%s", CURSOR_LIB, ext );
+	            /* OS/2 does not use the system_lib_path or version defines to construct a name */
+                sprintf( name, "%s.%s", CURSOR_LIB, ext );
 #else
-            sprintf( name, "%s/%s%s%s", SYSTEM_LIB_PATH, CURSOR_LIB, ext, CURSOR_LIB_VER );
+                sprintf( name, "%s/%s%s.%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext, CURSOR_LIB_VER );
+#endif
+#endif
+#else 
+#ifdef __VMS
+                sprintf( name, "%s:%s%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext );
+#else
+#ifdef __OS2__
+	            /* OS/2 does not use the system_lib_path or version defines to construct a name */
+                sprintf( name, "%s%s", CURSOR_LIB, ext );
+#else
+                sprintf( name, "%s/%s%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext );
+#endif
 #endif
 #endif
             if ( !(connection -> cl_handle = odbc_dlopen( name )))
@@ -2299,7 +2322,7 @@ int __connect_part_two( DMHDBC connection )
                 char txt[ 256 ];
 
                 sprintf( txt, "Can't open cursor lib '%s' : %s", 
-                    CURSOR_LIB, lt_dlerror());
+                    name, lt_dlerror());
 
                 dm_log_write( __FILE__,
                         __LINE__,
