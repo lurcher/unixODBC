@@ -155,7 +155,7 @@ int main( int argc, char *argv[] )
                     break;
 #endif
                 default:
-                    strcpy( stderr, szSyntax );
+                    fputs( szSyntax, stderr );
                     exit( 1 );
             }
             continue;
@@ -268,7 +268,7 @@ int main( int argc, char *argv[] )
 /****************************
  * OpenDatabase - do everything we have to do to get a viable connection to szDSN
  ***************************/
-int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *szPWD )
+static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *szPWD )
 {
     SQLCHAR dsn[ 1024 ], uid[ 1024 ], pwd[ 1024 ];
     SQLTCHAR cstr[ 1024 ];
@@ -367,7 +367,7 @@ int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char
  * ExecuteSQL - create a statement, execute the SQL, and get rid of the statement
  *            - show results as per request; bHTMLTable has precedence over other options
  ***************************/
-int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
+static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
 {
     SQLHSTMT        hStmt;
     SQLTCHAR        szSepLine[32001];   
@@ -476,7 +476,7 @@ int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, in
  * ExecuteHelp - create a statement, execute the SQL, and get rid of the statement
  *             - show results as per request; bHTMLTable has precedence over other options
  ***************************/
-int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
+static int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
 {
     char            szTable[250]                        = "";
     SQLHSTMT        hStmt;
@@ -574,7 +574,7 @@ int CloseDatabase( SQLHENV hEnv, SQLHDBC hDbc )
 /****************************
  * WRITE HTML
  ***************************/
-void WriteHeaderHTMLTable( SQLHSTMT hStmt )
+static void WriteHeaderHTMLTable( SQLHSTMT hStmt )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
@@ -601,7 +601,7 @@ void WriteHeaderHTMLTable( SQLHSTMT hStmt )
     printf( "</tr>\n" );
 }
 
-void WriteBodyHTMLTable( SQLHSTMT hStmt )
+static void WriteBodyHTMLTable( SQLHSTMT hStmt )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
@@ -647,7 +647,7 @@ void WriteBodyHTMLTable( SQLHSTMT hStmt )
     }
 }
 
-void WriteFooterHTMLTable( SQLHSTMT hStmt )
+static void WriteFooterHTMLTable( SQLHSTMT hStmt )
 {
     printf( "</table>\n" );
 }
@@ -658,7 +658,7 @@ void WriteFooterHTMLTable( SQLHSTMT hStmt )
  * - last column no longer has a delimit char (it is implicit)...
  *   this is consistent with odbctxt
  ***************************/
-void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter )
+static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
@@ -679,7 +679,7 @@ void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter )
     putchar( '\n' );
 }
 
-void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
+static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
@@ -773,7 +773,7 @@ void UWriteHeaderNormal( SQLHSTMT hStmt, SQLTCHAR *szSepLine )
     puts((char*) szSepLine );
 }
 
-SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
+static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
@@ -870,7 +870,7 @@ void UWriteFooterNormal( SQLHSTMT hStmt, SQLTCHAR   *szSepLine, SQLLEN nRows )
 
 
 
-int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt )
+static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt )
 {
     SQLTCHAR        szError[501];
     SQLTCHAR        szSqlState[10];
