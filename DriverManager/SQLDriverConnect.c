@@ -843,22 +843,22 @@ SQLRETURN SQLDriverConnect(
 			else 
 			{
 				prefix = returned_dsn;
-				target = strchr( returned_dsn, '=' );
+				target = (SQLCHAR*)strchr( returned_dsn, '=' );
 				if ( target ) 
 				{
 					*target = '\0';
 					target ++;
-        			__append_pair( &con_struct, prefix, target );
+        			__append_pair( &con_struct, (char*)prefix, (char*)target );
 				}
 				else {
-        			__append_pair( &con_struct, "DSN", returned_dsn );
+        			__append_pair( &con_struct, "DSN", (char*)returned_dsn );
 				}
 			}
 
 			/*
 			 * regenerate to pass to driver
 			 */
-			__generate_connection_string( &con_struct, local_conn_str_in, sizeof( local_conn_str_in ));
+			__generate_connection_string( &con_struct, (char*)local_conn_str_in, sizeof( local_conn_str_in ));
 			conn_str_in = local_conn_str_in;
         	len_conn_str_in = strlen((char*) conn_str_in );
 		}
