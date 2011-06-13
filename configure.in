@@ -284,7 +284,7 @@ fi
 AC_CHECK_LONG_LONG
 AC_CHECK_SIZEOF([long int])
 
-AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp )
+AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid )
 
 LIBADD_DL=
 AC_SUBST(LIBADD_DL)

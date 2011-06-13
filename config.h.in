@@ -110,8 +110,14 @@
 /* Define to 1 if you have the `ftok' function. */
 #undef HAVE_FTOK
 
+/* Define to 1 if you have the `getpwuid' function. */
+#undef HAVE_GETPWUID
+
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the `getuid' function. */
+#undef HAVE_GETUID
 
 /* Define if you have the iconv() function. */
 #undef HAVE_ICONV

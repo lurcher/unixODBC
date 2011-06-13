@@ -3,11 +3,19 @@
 
 #define ODBCVER 0x0380
 
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#ifdef HAVE_PWD_H
 #include <pwd.h>
+#endif
 #include <ltdl.h>
+#ifdef HAVE_STRING_H
 #include <string.h>
+#endif
+#ifdef HAVE_TIME_H
 #include <time.h>
+#endif
 
 #ifdef HAVE_SYNCH_H
 #include <synch.h>

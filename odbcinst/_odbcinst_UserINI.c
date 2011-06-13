@@ -53,18 +53,28 @@ BOOL _odbcinst_UserINI( char *pszFileName, BOOL bVerify )
 {
     FILE            *hFile;
     char            *szEnv_INIUSER              = getenv("ODBCINI");
+#ifdef HAVE_GETUID
     uid_t           nUserID                     = getuid();
+#else
+    uid_t           nUserID                     = 0;
+#endif
     struct passwd   *pPasswd                    = NULL;
     char            *pHomeDir                   = NULL;
 
     pHomeDir    = "/home";                              
+#ifdef HAVE_GETPWUID
     pPasswd     = (struct passwd *)getpwuid(nUserID);   
+#endif
 
     pszFileName[0] = '\0';
 
+#ifdef HAVE_PWD_H
     if ( pPasswd != NULL )
         if ( ( char *)pPasswd->pw_dir != NULL )
             pHomeDir    = pPasswd->pw_dir;
+#else
+    pHomeDir = getenv("HOME");
+#endif
 
     if ( szEnv_INIUSER )
     {
