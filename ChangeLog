@@ -20,6 +20,7 @@
     * Fix some libltdl problems 
     * Fix some naiming problems with the cursor lib
     * Fix odbcinst problems on systems without pwd.h
+    * Change lib version to 2 to reflect SQLLEN changes in v2.3
 
 20th-April-2010
 2.3.0

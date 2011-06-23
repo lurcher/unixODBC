@@ -496,7 +496,7 @@ AC_CHECK_FUNCS( putenv socket strdup strstr setenv setlocale strchr )
 dnl This is the unixODBC source tree
 AC_DEFINE([UNIXODBC_SOURCE],[],[We are building inside the unixODBC source tree])
 
-LIB_VERSION="1:0:0"
+LIB_VERSION="2:0:0"
 AC_SUBST(LIB_VERSION)
 
 AC_CONFIG_HEADERS(config.h)
