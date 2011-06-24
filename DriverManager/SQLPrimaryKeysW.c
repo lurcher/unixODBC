@@ -346,7 +346,7 @@ SQLRETURN SQLPrimaryKeysW(
 
         if ( ret == SQL_SUCCESS_WITH_INFO )
         {
-            function_return_ex( SQL_HANDLE_STMT, statement, ret, TRUE );
+            function_return_ex( IGNORE_THREAD, statement, ret, TRUE );
         }
 
         SQLNUMRESULTCOLS( statement -> connection,
