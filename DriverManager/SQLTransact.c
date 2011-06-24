@@ -463,8 +463,6 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_HY012, NULL,
                     environment -> requested_version );
 
-            thread_release( SQL_HANDLE_ENV, environment );
-
             return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
         }
 

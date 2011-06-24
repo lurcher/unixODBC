@@ -1260,6 +1260,9 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 		if ( __validate_env( (DMHENV) input_handle ))
 		{
 			DMHENV environment = (DMHENV) input_handle;
+
+            thread_protect( SQL_HANDLE_ENV, environment );
+
 			__post_internal_error( &environment -> error,
 						ERROR_HY092, NULL,
 						environment -> requested_version );
@@ -1269,6 +1272,9 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 		else if ( __validate_dbc( (DMHDBC) input_handle ))
 		{
 			DMHDBC connection = (DMHDBC) input_handle;
+
+            thread_protect( SQL_HANDLE_DBC, connection );
+
 			__post_internal_error( &connection -> error,
 					ERROR_HY092, NULL,
 					connection -> environment -> requested_version );

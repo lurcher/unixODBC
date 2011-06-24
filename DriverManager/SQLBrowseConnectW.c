@@ -624,7 +624,7 @@ SQLRETURN SQLBrowseConnectW(
 
         if( ret == SQL_SUCCESS_WITH_INFO )
         {
-            function_return_ex( SQL_HANDLE_DBC, connection, ret, TRUE );
+            function_return_ex( IGNORE_THREAD, connection, ret, TRUE );
         }
 
         if ( !__connect_part_two( connection ))

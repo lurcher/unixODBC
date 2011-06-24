@@ -269,7 +269,7 @@ SQLRETURN SQLBrowseConnect(
                 ERROR_08002, NULL, 
                 connection -> environment -> requested_version );
 
-        return function_return( -1, connection, SQL_ERROR );
+        return function_return( IGNORE_THREAD, connection, SQL_ERROR );
     }
 
     thread_protect( SQL_HANDLE_DBC, connection );
@@ -572,7 +572,7 @@ SQLRETURN SQLBrowseConnect(
 
         if( ret == SQL_SUCCESS_WITH_INFO )
         {
-            function_return_ex( SQL_HANDLE_DBC, connection, ret, TRUE );
+            function_return_ex( IGNORE_THREAD, connection, ret, TRUE );
         }
 
         if ( !__connect_part_two( connection ))

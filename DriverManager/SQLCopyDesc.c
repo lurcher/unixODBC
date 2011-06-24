@@ -249,8 +249,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 ERROR_HY010, NULL,
                 target_descriptor -> connection -> environment -> requested_version );
 
-			function_return( SQL_HANDLE_DESC, target_descriptor, SQL_SUCCESS );
-        	return function_return( SQL_HANDLE_DESC, target_descriptor, SQL_ERROR );
+        	return function_return( IGNORE_THREAD, src_descriptor, SQL_ERROR );
     	}
 	}
 
@@ -288,8 +287,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     src_descriptor -> msg );
         }
 
-        thread_release( SQL_HANDLE_DBC, src_descriptor -> connection );
-        return function_return( IGNORE_THREAD, target_descriptor, ret );
+        return function_return( IGNORE_THREAD, src_descriptor, ret );
     }
     else
     {

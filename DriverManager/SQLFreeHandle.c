@@ -239,8 +239,6 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         ERROR_HY010, NULL,
                         environment -> requested_version );
 
-            	thread_release( SQL_HANDLE_ENV, environment );
-
                 return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
@@ -305,8 +303,6 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                 __post_internal_error( &connection -> error,
                         ERROR_HY010, NULL,
                         connection -> environment -> requested_version );
-
-            	thread_release( SQL_HANDLE_ENV, environment );
 
                 return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
@@ -409,8 +405,6 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                           ERROR_HY010, NULL,
                           statement -> connection -> environment -> requested_version );
 
-                thread_release( SQL_HANDLE_STMT, statement );
-				
                 return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
             }
 
@@ -548,7 +542,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 						ERROR_HY017, NULL,
 						connection -> environment -> requested_version );
 		
-				return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+				return function_return( IGNORE_THREAD, descriptor, SQL_ERROR );
 			}
 		
             thread_protect( SQL_HANDLE_DESC, descriptor );
@@ -564,8 +558,6 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                 __post_internal_error( &descriptor -> error,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
-
-            	thread_release( SQL_HANDLE_DESC, descriptor );
 
                 return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
             }
