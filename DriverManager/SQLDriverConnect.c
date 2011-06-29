@@ -1116,26 +1116,12 @@ SQLRETURN SQLDriverConnect(
                 lib_name, sizeof( lib_name ), "ODBCINST.INI" );
 #endif
 
-        if ( lib_name[ 0 ] == '\0' )
-        {
-            /*
-             * at this point a box could pop up to allow the selection of a driver
-             *
-             * do this later
-             */
+        /*
+         * Assume if its not in a odbcinst,ini then its a direct reference
+         */
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: IM002" );
-
-            __post_internal_error( &connection -> error,
-                    ERROR_IM002, NULL,
-                    connection -> environment -> requested_version );
-            __release_conn( &con_struct );
-
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        if ( lib_name[ 0 ] == '\0' ) {
+            strcpy( lib_name, driver );
         }
 
         strcpy( connection -> dsn, "" );

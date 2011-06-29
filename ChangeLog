@@ -22,6 +22,7 @@
     * Fix odbcinst problems on systems without pwd.h
     * Change lib version to 2 to reflect SQLLEN changes in v2.3
     * Fix threading problem (thanks Petr Vandrovec)
+    * Allow use of lib name in a DRIVER= connection string
 
 20th-April-2010
 2.3.0
