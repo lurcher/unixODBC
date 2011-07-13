@@ -190,7 +190,11 @@ extern "C" {                         /* Assume C declarations for C++ */
 #define SQL_OPT_TRACE_OFF               0UL
 #define SQL_OPT_TRACE_ON                1UL
 #define SQL_OPT_TRACE_DEFAULT           SQL_OPT_TRACE_OFF
+#ifdef _WINDOWS_
+#define SQL_OPT_TRACE_FILE_DEFAULT      "\\temp\\SQL.LOG"
+#else
 #define SQL_OPT_TRACE_FILE_DEFAULT      "/tmp/SQL.LOG"
+#endif
 
 /* SQL_ODBC_CURSORS options */
 #define SQL_CUR_USE_IF_NEEDED           0UL

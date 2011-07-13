@@ -609,9 +609,11 @@ SQLRETURN  SQL_API SQLCancelHandle(SQLSMALLINT HandleType, SQLHANDLE InputHandle
     SQLRETURN  SQL_API SQLColAttribute(SQLHSTMT StatementHandle,
                                         SQLUSMALLINT ColumnNumber, SQLUSMALLINT FieldIdentifier,
                                         SQLPOINTER CharacterAttribute, SQLSMALLINT BufferLength,
-                                        SQLSMALLINT *StringLength, SQLLEN *NumericAttribute 
-										/* spec says (SQLPOINTER) not (SQLEN*) - PAH */ );
-										/* Ms now say SQLLEN* http://msdn.microsoft.com/library/en-us/odbc/htm/dasdkodbcoverview_64bit.asp - NG */
+                                        SQLSMALLINT *StringLength, SQLLEN *NumericAttribute );
+
+										/* spec says (SQLPOINTER) not (SQLEN*) - PAH */
+										/* Ms now say SQLLEN* 
+                                           http://msdn.microsoft.com/library/en-us/odbc/htm/dasdkodbcoverview_64bit.asp - NG */
 										
 #endif
 

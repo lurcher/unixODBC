@@ -69,7 +69,9 @@ extern "C" {
 #define SQL_API
 #endif
 #define	BOOL				int
+#ifndef _WINDOWS_
 typedef void*				HWND;
+#endif
 typedef char				CHAR;
 #ifdef UNICODE
 
@@ -110,7 +112,9 @@ typedef TCHAR*              LPTSTR;
 typedef char*               LPSTR;
 typedef DWORD*           	LPDWORD;
 
+#ifndef _WINDOWS_
 typedef void*               HINSTANCE;
+#endif
 
 #endif
 
