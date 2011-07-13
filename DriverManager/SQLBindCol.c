@@ -291,7 +291,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
      * Its possible to call with the indicator and buffer NULL to unbind without setting the type
 	 */
 
-	if (( target_value != NULL || strlen_or_ind ) && !check_target_type( target_type ))
+	if (( target_value || strlen_or_ind ) && !check_target_type( target_type ))
 	{
         dm_log_write( __FILE__, 
                 __LINE__, 
