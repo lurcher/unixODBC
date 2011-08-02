@@ -283,6 +283,12 @@ typedef struct environment
     struct env_lib_struct *env_lib_list;/* use this to avoid multiple AllocEnv in the driver */
 } *DMHENV;
 
+
+#ifdef FAST_HANDLE_VALIDATE
+    struct statement;
+#endif
+
+
 /*
  * connection pooling attributes
  */
@@ -291,10 +297,15 @@ typedef struct connection
 {
     int             type;               /* magic number */
     struct connection *next_class_list; /* static list of all dbc handles */
-    char            msg[ LOG_MSG_MAX ];	/* buff to format msgs */
+    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
     int             state;              /* state of connection */
-    DMHENV          environment;         /* environment that own's the
+    DMHENV          environment;        /* environment that own's the
                                            connection */
+#ifdef FAST_HANDLE_VALIDATE
+    struct statement *statements;       /* List of statements owned by this 
+                                           connection */
+#endif
+    
     void            *dl_handle;         /* handle of the loaded lib */
     char            dl_name[ 256 ];     /* name of loaded lib */
     struct driver_func *functions;      /* entry points */
@@ -401,8 +412,13 @@ typedef struct descriptor
 {
     int             type;               /* magic number */
     struct descriptor *next_class_list; /* static list of all desc handles */
-    char            msg[ LOG_MSG_MAX ];	/* buff to format msgs */
+    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
     int             state;              /* state of descriptor */
+
+#ifdef FAST_HANDLE_VALIDATE
+    struct descriptor *prev_class_list;/* static list of all desc handles */
+#endif    
+
     EHEAD           error;              /* keep track of errors */
     DRV_SQLHDESC    driver_desc;        /* driver descriptor */
     DMHDBC          connection;         /* DM connection that owns this */
@@ -420,9 +436,14 @@ typedef struct descriptor
 typedef struct statement
 {
     int             type;               /* magic number */
-    struct statement *next_class_list; /* static list of all stmt handles */
-    char            msg[ LOG_MSG_MAX ];	/* buff to format msgs */
+    struct statement *next_class_list;  /* static list of all stmt handles */
+    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
     int             state;              /* state of statement */
+#ifdef FAST_HANDLE_VALIDATE
+    struct statement *prev_class_list;  /* static list of all stmt handles */
+    struct statement *next_conn_list;   /* Single linked list storing statements 
+                                           owned by "connection" connection */
+#endif
     DMHDBC          connection;         /* DM connection that owns this */
     DRV_SQLHANDLE   driver_stmt;        /* statement in the driver */
     SQLSMALLINT     hascols;            /* is there a result set */
@@ -503,6 +524,8 @@ int __validate_dbc( DMHDBC );
 void __release_dbc( DMHDBC connection );
 
 DMHSTMT __alloc_stmt( void );
+void __register_stmt ( DMHDBC connection, DMHSTMT statement );
+void __set_stmt_state ( DMHDBC connection, SQLSMALLINT cb_value );
 int __validate_stmt( DMHSTMT );
 void __release_stmt( DMHSTMT );
 
@@ -535,7 +558,6 @@ void __disconnect_part_two( DMHDBC connection );
 void __disconnect_part_three( DMHDBC connection );
 void __disconnect_part_four( DMHDBC connection );
 DMHDBC __get_dbc_root( void );
-DMHSTMT __get_stmt_root( void );
 
 void  __check_for_function( DMHDBC connection,
         SQLUSMALLINT function_id,

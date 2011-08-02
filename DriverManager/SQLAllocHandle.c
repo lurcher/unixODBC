@@ -694,9 +694,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 if ( connection -> state == STATE_C4 )
                     connection -> state = STATE_C5;
 
-                connection -> statement_count ++;
-
-                statement -> connection = connection;
+                __register_stmt ( connection, statement );
 
                 *output_handle = (SQLHANDLE) statement;
 

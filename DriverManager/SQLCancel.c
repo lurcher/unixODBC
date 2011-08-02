@@ -138,7 +138,14 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 statement -> msg );
     }
 
-    thread_protect( SQL_HANDLE_STMT, statement );
+    /*
+     * Allow this past the thread checks if the driver is at all thread safe, as SQLCancel can 
+     * be called across threads
+     */
+    if ( statement -> connection -> protection_level == 3 ) 
+    {
+        thread_protect( SQL_HANDLE_STMT, statement ); 
+    }
 
     /*
      * check states
@@ -156,7 +163,14 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        if ( statement -> connection -> protection_level == 3 ) 
+        {
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        }
+        else 
+        {
+            return function_return( IGNORE_THREAD, statement, SQL_ERROR );
+        }
     }
 
     ret = SQLCANCEL( statement -> connection,
@@ -234,5 +248,12 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    if ( statement -> connection -> protection_level == 3 ) 
+    {
+        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+    }
+    else 
+    {
+        return function_return( IGNORE_THREAD, statement, ret );
+    }
 }

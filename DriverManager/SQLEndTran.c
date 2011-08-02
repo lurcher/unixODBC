@@ -409,18 +409,20 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
 
         function_entry( connection );
 
-        sprintf( connection -> msg, "\n\t\tEntry:\
-            \n\t\t\tConnection = %p\
-            \n\t\t\tCompletion Type = %d",
-                (void*)connection,
-                (int)completion_type );
-
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                connection -> msg );
-
+        if ( log_info.log_flag )
+        {
+            sprintf( connection -> msg, "\n\t\tEntry:\
+                \n\t\t\tConnection = %p\
+                \n\t\t\tCompletion Type = %d",
+                    (void*)connection,
+                    (int)completion_type );
+    
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    connection -> msg );
+        }
         thread_protect( SQL_HANDLE_DBC, connection );
 
         if ( connection -> state == STATE_C1 ||
@@ -510,11 +512,9 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
 
 	    if( SQL_SUCCEEDED(ret) )
 	    {
-	    DMHSTMT statement;
-	    SQLINTEGER stmt_remaining;
-	    SQLSMALLINT cb_value;
-	    SQLSMALLINT cb_value_length = sizeof(SQLSMALLINT);
-	    SQLRETURN ret1;
+            SQLSMALLINT cb_value;
+            SQLSMALLINT cb_value_length = sizeof(SQLSMALLINT);
+            SQLRETURN ret1;
 	    
             /*
              * for each statement belonging to this connection set its state 
@@ -560,61 +560,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
 
             if( connection -> cbs_found )
             {
-	    		/* 
-	     	 	 * We need to protect this at a higher level than connection
-	     	 	 * as statements can be coming and going
-	     	 	 */
-	
-	    		mutex_lib_entry();
-	
-            	statement = __get_stmt_root();
-            	stmt_remaining = connection -> statement_count;
-            
-                while ( statement && stmt_remaining > 0 )
-                {
-                    if ( statement -> connection == connection )
-                    {
-                        if ( (statement -> state == STATE_S2 ||
-                              statement -> state == STATE_S3) &&
-                             cb_value == SQL_CB_DELETE )
-                        {
-                            statement -> state = STATE_S1;
-                            statement -> prepared = 0;
-                        }
-                        else if ( statement -> state == STATE_S4 ||
-                              statement -> state == STATE_S5 ||
-                              statement -> state == STATE_S6 ||
-                              statement -> state == STATE_S7 )
-                        {
-                            if( !statement -> prepared && 
-                                (cb_value == SQL_CB_DELETE ||
-                                 cb_value == SQL_CB_CLOSE) )
-                            {
-                                statement -> state = STATE_S1;
-                            }
-                            else if( statement -> prepared )
-                            {
-                                if( cb_value == SQL_CB_DELETE )
-                                {
-                                    statement -> state = STATE_S1;
-                                    statement -> prepared = 0;
-                                }
-                                else if( cb_value == SQL_CB_CLOSE )
-                                {
-                                    if ( statement -> state == STATE_S4 )
-                                      statement -> state = STATE_S2;
-                                    else
-                                      statement -> state = STATE_S3;
-                                }
-                            }
-                        }
-
-                        stmt_remaining --;
-                    }
-
-                    statement = statement -> next_class_list;
-                }
-				mutex_lib_exit();
+                __set_stmt_state( connection, cb_value );
             }
         }
 

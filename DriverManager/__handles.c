@@ -263,7 +263,8 @@ static DMHDESC descriptor_root;
  * Level 3 - The driver is protected at the env level, only one thing
  * at a time.
  *
- * By default the driver open connections with a lock level of 3, 
+ * By default the driver open connections with a lock level of 0, 
+ * drivers should be expecetd to be thread safe now.
  * this can be changed by adding the line
  *
  * Threading = N
@@ -758,15 +759,6 @@ void __release_dbc( DMHDBC connection )
 }
 
 /*
- *  get the statement root, for use in SQLEndTran and SQLTransact
- */
-
-DMHSTMT __get_stmt_root( void )
-{
-    return statement_root;
-}
-
-/*
  * allocate and register a statement handle
  */
 
@@ -785,6 +777,12 @@ DMHSTMT __alloc_stmt( void )
          */
 
         statement -> next_class_list = statement_root;
+#ifdef FAST_HANDLE_VALIDATE
+        if ( statement_root )
+        {
+            statement_root -> prev_class_list = statement;
+        }
+#endif    
         statement_root = statement;
         statement -> type = HSTMT_MAGIC;
     }
@@ -806,6 +804,124 @@ DMHSTMT __alloc_stmt( void )
 }
 
 /*
+ * assigns a statements to the connection
+ */
+
+void __register_stmt ( DMHDBC connection, DMHSTMT statement )
+{
+    mutex_entry( &mutex_lists );
+
+    connection -> statement_count ++;
+    statement -> connection = connection;
+#ifdef FAST_HANDLE_VALIDATE
+    statement -> next_conn_list = connection -> statements;
+    connection -> statements = statement;
+#endif
+    mutex_exit( &mutex_lists );
+}
+
+/*
+ * Sets statement state after commit or rollback transaction
+ */ 
+void __set_stmt_state ( DMHDBC connection, SQLSMALLINT cb_value )
+{
+    DMHSTMT         statement;
+    SQLINTEGER stmt_remaining;
+
+    mutex_entry( &mutex_lists );
+#ifdef FAST_HANDLE_VALIDATE
+    statement      = connection -> statements;
+    while ( statement )
+    {
+        if ( (statement -> state == STATE_S2 ||
+              statement -> state == STATE_S3) &&
+             cb_value == SQL_CB_DELETE )
+        {
+            statement -> state = STATE_S1;
+            statement -> prepared = 0;
+        }
+        else if ( statement -> state == STATE_S4 ||
+              statement -> state == STATE_S5 ||
+              statement -> state == STATE_S6 ||
+              statement -> state == STATE_S7 )
+        {
+            if( !statement -> prepared && 
+                (cb_value == SQL_CB_DELETE ||
+                 cb_value == SQL_CB_CLOSE) )
+            {
+                statement -> state = STATE_S1;
+            }
+            else if( statement -> prepared )
+            {
+                if( cb_value == SQL_CB_DELETE )
+                {
+                    statement -> state = STATE_S1;
+                    statement -> prepared = 0;
+                }
+                else if( cb_value == SQL_CB_CLOSE )
+                {
+                    if ( statement -> state == STATE_S4 )
+                      statement -> state = STATE_S2;
+                    else
+                      statement -> state = STATE_S3;
+                }
+            }
+        }
+        statement = statement -> next_conn_list;
+    }
+#else
+    statement      = statement_root;
+    stmt_remaining = connection -> statement_count;
+
+    while ( statement && stmt_remaining > 0 )
+    {
+        if ( statement -> connection == connection )
+        {
+            if ( (statement -> state == STATE_S2 ||
+                  statement -> state == STATE_S3) &&
+                 cb_value == SQL_CB_DELETE )
+            {
+                statement -> state = STATE_S1;
+                statement -> prepared = 0;
+            }
+            else if ( statement -> state == STATE_S4 ||
+                  statement -> state == STATE_S5 ||
+                  statement -> state == STATE_S6 ||
+                  statement -> state == STATE_S7 )
+            {
+                if( !statement -> prepared && 
+                    (cb_value == SQL_CB_DELETE ||
+                     cb_value == SQL_CB_CLOSE) )
+                {
+                    statement -> state = STATE_S1;
+                }
+                else if( statement -> prepared )
+                {
+                    if( cb_value == SQL_CB_DELETE )
+                    {
+                        statement -> state = STATE_S1;
+                        statement -> prepared = 0;
+                    }
+                    else if( cb_value == SQL_CB_CLOSE )
+                    {
+                        if ( statement -> state == STATE_S4 )
+                          statement -> state = STATE_S2;
+                        else
+                          statement -> state = STATE_S3;
+                    }
+                }
+            }
+
+            stmt_remaining --;
+        }
+
+        statement = statement -> next_class_list;
+    }
+#endif
+    mutex_exit( &mutex_lists );
+}
+
+/*
  * clear all statements on a DBC
  */
 
@@ -815,8 +931,42 @@ int __clean_stmt_from_dbc( DMHDBC connection )
     int ret = 0;
 
     mutex_entry( &mutex_lists );
+#ifdef FAST_HANDLE_VALIDATE
+    while ( connection -> statements )
+    {
+        ptr  = connection -> statements;
+        last = connection -> statements -> prev_class_list;
+        
+        connection -> statements = ptr -> next_conn_list;
+        if ( last )
+        {
+            last -> next_class_list = ptr -> next_class_list;
+            if ( last -> next_class_list )
+            {
+                last -> next_class_list -> prev_class_list = last;
+            }
+        }
+        else
+        {
+            statement_root = ptr -> next_class_list;
+            if ( statement_root )
+            {
+                statement_root -> prev_class_list = NULL;
+            }
+        }
+        clear_error_head( &ptr -> error );
+
+#ifdef HAVE_LIBPTH
+#elif HAVE_LIBPTHREAD
+        pthread_mutex_destroy( &ptr -> mutex );
+#elif HAVE_LIBTHREAD
+        mutex_destroy( &ptr -> mutex );
+#endif
+        free( ptr );
+    }        
+#else
     last = NULL;
-    ptr = statement_root;
+    ptr  = statement_root;
 
     while( ptr )
     {
@@ -853,7 +1003,7 @@ int __clean_stmt_from_dbc( DMHDBC connection )
             ptr = ptr -> next_class_list;
         }
     }
-
+#endif
     mutex_exit( &mutex_lists );
 
     return ret;
@@ -865,19 +1015,30 @@ int __clean_stmt_from_dbc( DMHDBC connection )
 
 int __check_stmt_from_dbc( DMHDBC connection, int state )
 {
-    DMHSTMT ptr, last;
-    int ret = 0;
+    DMHSTMT ptr;
     int found = 0;
 
     mutex_entry( &mutex_lists );
-    last = NULL;
+#ifdef FAST_HANDLE_VALIDATE
+    ptr = connection -> statements;
+    while( ptr )
+    {
+        if ( ptr -> state == state ) 
+        {
+            found = 1;
+            break;
+        }
+    
+        ptr = ptr -> next_conn_list;
+    }
+#else
     ptr = statement_root;
-
     while( ptr )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> state == state ) {
+            if ( ptr -> state == state ) 
+            {
                 found = 1;
                 break;
             }
@@ -885,7 +1046,7 @@ int __check_stmt_from_dbc( DMHDBC connection, int state )
 
         ptr = ptr -> next_class_list;
     }
-
+#endif
     mutex_exit( &mutex_lists );
 
     return found;
@@ -894,21 +1055,36 @@ int __check_stmt_from_dbc( DMHDBC connection, int state )
 int __check_stmt_from_desc( DMHDESC desc, int state )
 {
     DMHDBC connection;
-    DMHSTMT ptr, last;
-    int ret = 0;
+    DMHSTMT ptr;
     int found = 0;
 
     mutex_entry( &mutex_lists );
-    last = NULL;
-    ptr = statement_root;
     connection = desc -> connection;
-
+#ifdef FAST_HANDLE_VALIDATE
+    ptr = connection -> statements;
+    while( ptr )
+    {
+        if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc ) 
+        {
+            if ( ptr -> state == state ) 
+            {
+                found = 1;
+                break;
+            }
+        }
+    
+        ptr = ptr -> next_conn_list;
+    }
+#else
+    ptr = statement_root;
     while( ptr )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc ) {
-                if ( ptr -> state == state ) {
+            if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc ) 
+            {
+                if ( ptr -> state == state ) 
+                {
                     found = 1;
                     break;
                 }
@@ -917,7 +1093,7 @@ int __check_stmt_from_desc( DMHDESC desc, int state )
 
         ptr = ptr -> next_class_list;
     }
-
+#endif
     mutex_exit( &mutex_lists );
 
     return found;
@@ -926,21 +1102,36 @@ int __check_stmt_from_desc( DMHDESC desc, int state )
 int __check_stmt_from_desc_ird( DMHDESC desc, int state )
 {
     DMHDBC connection;
-    DMHSTMT ptr, last;
-    int ret = 0;
+    DMHSTMT ptr;
     int found = 0;
 
     mutex_entry( &mutex_lists );
-    last = NULL;
-    ptr = statement_root;
     connection = desc -> connection;
-
+#ifdef FAST_HANDLE_VALIDATE
+    ptr = connection -> statements;
+    while( ptr )
+    {
+        if ( ptr -> ird == desc ) 
+        {
+            if ( ptr -> state == state ) 
+            {
+                found = 1;
+                break;
+            }
+        }
+    
+        ptr = ptr -> next_conn_list;
+    }
+#else
+    ptr = statement_root;
     while( ptr )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> ird == desc ) {
-                if ( ptr -> state == state ) {
+            if ( ptr -> ird == desc ) 
+            {
+                if ( ptr -> state == state ) 
+                {
                     found = 1;
                     break;
                 }
@@ -949,7 +1140,7 @@ int __check_stmt_from_desc_ird( DMHDESC desc, int state )
 
         ptr = ptr -> next_class_list;
     }
-
+#endif
     mutex_exit( &mutex_lists );
 
     return found;
@@ -967,7 +1158,7 @@ int __validate_stmt( DMHSTMT statement )
 {
 #ifdef FAST_HANDLE_VALIDATE
 
-    if ( *(( int * ) statement ) == HSTMT_MAGIC )
+    if ( statement && *(( int * ) statement ) == HSTMT_MAGIC )
         return 1;
     else
         return 0;
@@ -1009,7 +1200,48 @@ void __release_stmt( DMHSTMT statement )
     DMHSTMT ptr;
 
     mutex_entry( &mutex_lists );
-
+#ifdef FAST_HANDLE_VALIDATE
+    /*
+     * A check never mind
+     */
+    if ( statement && ( *(( int * ) statement ) == HSTMT_MAGIC ))
+    {
+        ptr  = statement;
+        last = statement->prev_class_list;
+        
+        if ( statement -> connection )
+        {
+            DMHDBC connection = statement -> connection;
+            DMHSTMT conn_last = NULL;
+            DMHSTMT  conn_ptr = connection -> statements;
+            while ( conn_ptr )
+            {
+                if ( statement == conn_ptr )
+                {
+                    break;
+                }
+                conn_last = conn_ptr;
+                conn_ptr  = conn_ptr -> next_conn_list;
+            }
+            if ( conn_ptr )
+            {
+                if ( conn_last )
+                {
+                    conn_last -> next_conn_list = conn_ptr -> next_conn_list;
+                }
+                else
+                {
+                    connection -> statements    = conn_ptr -> next_conn_list;
+                }
+            }
+        }
+    }
+    else
+    {
+        ptr  = NULL;
+        last = NULL;
+    }
+#else
     ptr = statement_root;
 
     while( ptr )
@@ -1021,16 +1253,28 @@ void __release_stmt( DMHSTMT statement )
         last = ptr;
         ptr = ptr -> next_class_list;
     }
-
+#endif
     if ( ptr )
     {
         if ( last )
         {
             last -> next_class_list = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+            if ( last -> next_class_list )
+            {
+                last -> next_class_list -> prev_class_list = last;
+            }
+#endif            
         }
         else
         {
             statement_root = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+            if ( statement_root )
+            {
+                statement_root -> prev_class_list = NULL;
+            }
+#endif            
         }
     }
 
@@ -1073,6 +1317,12 @@ DMHDESC __alloc_desc( void )
          */
 
         descriptor -> next_class_list = descriptor_root;
+#ifdef FAST_HANDLE_VALIDATE
+        if ( descriptor_root )
+        {
+            descriptor_root -> prev_class_list = descriptor;
+        }
+#endif    
         descriptor_root = descriptor;
         descriptor -> type = HDESC_MAGIC;
     }
@@ -1153,10 +1403,22 @@ int __clean_desc_from_dbc( DMHDBC connection )
             if ( last )
             {
                 last -> next_class_list = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+                if ( last -> next_class_list )
+                {
+                    last -> next_class_list -> prev_class_list = last;
+                }
+#endif            
             }
             else
             {
                 descriptor_root = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+                if ( descriptor_root )
+                {
+                    descriptor_root -> prev_class_list = NULL;
+                }
+#endif            
             }
             clear_error_head( &ptr -> error );
 
@@ -1198,7 +1460,21 @@ void __release_desc( DMHDESC descriptor )
     DMHDESC ptr;
 
     mutex_entry( &mutex_lists );
-
+#ifdef FAST_HANDLE_VALIDATE
+    /*
+     * A check never mind
+     */
+    if ( descriptor && ( *(( int * ) descriptor ) == HDESC_MAGIC ))
+    {
+        ptr  = descriptor;
+        last = descriptor->prev_class_list;
+    }
+    else
+    {
+        ptr  = NULL;
+        last = NULL;
+    }
+#else
     ptr = descriptor_root;
 
     while( ptr )
@@ -1210,16 +1486,29 @@ void __release_desc( DMHDESC descriptor )
         last = ptr;
         ptr = ptr -> next_class_list;
     }
+#endif
 
     if ( ptr )
     {
         if ( last )
         {
             last -> next_class_list = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+            if ( last -> next_class_list )
+            {
+                last -> next_class_list -> prev_class_list = last;
+            }
+#endif            
         }
         else
         {
             descriptor_root = ptr -> next_class_list;
+#ifdef FAST_HANDLE_VALIDATE
+            if ( descriptor_root )
+            {
+                descriptor_root -> prev_class_list = NULL;
+            }
+#endif            
         }
     }
 

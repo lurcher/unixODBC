@@ -968,7 +968,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
 	if ( threading_level == 99 ) 
 	{
-    	SQLGetPrivateProfileString( "ODBC", "Threading", "3",
+    	SQLGetPrivateProfileString( "ODBC", "Threading", "0",
 				threading_string, sizeof( threading_string ), 
                 		"ODBCINST.INI" );
 
