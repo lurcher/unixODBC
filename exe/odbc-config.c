@@ -109,6 +109,10 @@ static void cInc( void )
 #ifdef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING
     printf( "#ifndef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING\n #define DO_YOU_KNOW_WHAT_YOUR_ARE_DOING\n#endif\n" );
 #endif
+
+#ifdef BUILD_LEGACY_64_BIT_MODE
+    printf( "#ifndef BUILD_LEGACY_64_BIT_MODE\n #define BUILD_LEGACY_64_BIT_MODE\n#endif\n" );
+#endif
 }
 
 static void cflags( void )
@@ -163,6 +167,10 @@ static void cflags( void )
 
 #ifdef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING
     printf( "-DDO_YOU_KNOW_WHAT_YOUR_ARE_DOING " );
+#endif
+
+#ifdef BUILD_LEGACY_64_BIT_MODE
+    printf( "-DBUILD_LEGACY_64_BIT_MODE " );
 #endif
 
 #ifdef INCLUDE_PREFIX
