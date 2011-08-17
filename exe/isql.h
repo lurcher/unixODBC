@@ -61,8 +61,8 @@ char *szSyntax =
 "* Please visit;                              *\n" \
 "*                                            *\n" \
 "*      http://www.unixodbc.org               *\n" \
+"*      nick@lurcher.org                      *\n" \
 "*      pharvey@codebydesign.com              *\n" \
-"*      nick@easysoft.com                     *\n" \
 "**********************************************\n\n";
 
 #else
@@ -108,8 +108,8 @@ char *szSyntax =
 "* Please visit;                              *\n" \
 "*                                            *\n" \
 "*      http://www.unixodbc.org               *\n" \
+"*      nick@lurcher.org                      *\n" \
 "*      pharvey@codebydesign.com              *\n" \
-"*      nick@easysoft.com                     *\n" \
 "**********************************************\n\n";
 
 #endif

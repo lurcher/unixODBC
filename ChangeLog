@@ -819,7 +819,7 @@ Release 2.0.8
     * Fix threading problem when multiple ENV's are in use
 
 Release 2.0.7 Peter Harvey <pharvey@codebydesign.com> And
-                Nick Gorham <nick@easysoft.com>
+                Nick Gorham <nick@lurcher.org>
 
 2001-06-06
 
@@ -867,7 +867,7 @@ Release 2.0.7 Peter Harvey <pharvey@codebydesign.com> And
     * Remove default trace option from ODBCINSTConstructProperties
     * Stop ODBCConfig from accepting null DSN names
 
-Release 2.0.6 Nick Gorham <nick@easysoft.com>
+Release 2.0.6 Nick Gorham <nick@lurcher.org>
 
 2001-04-18
     
@@ -890,7 +890,7 @@ Release 2.0.6 Nick Gorham <nick@easysoft.com>
 
 Release 2.0.5
 
-2001-03-21 Nick Gorham <nick@easysoft.com>
+2001-03-21 Nick Gorham <nick@lurcher.org>
 
     * Add extra autoconf checks for -pthread and -mt compiler
       options
@@ -906,7 +906,7 @@ Release 2.0.5
 
 Release 2.0.4
 
-2001-02-02 Nick Gorham <nick@easysoft.com>
+2001-02-02 Nick Gorham <nick@lurcher.org>
 
     * Changes to Postgres driver for operation with PG 7
       and locale changes (Zoltan Boszormenyi)
@@ -922,7 +922,7 @@ Release 2.0.4
 Release 2.0.3
 
 2001-01-13 Peter Harvey <pharvey@codebydesign.com> and
-    Nick Gorham <nick@easysoft.com>
+    Nick Gorham <nick@lurcher.org>
 
     * sqp: added a yywrap() to eliminate link dependency
     * sqi: home dir default if no path with database file name
@@ -949,14 +949,14 @@ Release 2.0.2
 
 Release 2.0.1
 
-2001-01-06 Nick Gorham <nick@easysoft.com> 
+2001-01-06 Nick Gorham <nick@lurcher.org> 
 
     * Fix bug introduced with UNICODE that corrupted the SQLSTATE
       from SQLError
 
 Release 2.0.0
 
-2001-01-04 Nick Gorham <nick@easysoft.com> 
+2001-01-04 Nick Gorham <nick@lurcher.org> 
 
     * Added table browse for DataManager
     * Fix problem in template driver with Solaris compiler
@@ -998,7 +998,7 @@ Release 2.0.0
 
 Release 1.8.13
 
-2000-11-14  Nick Gorham <nick@easysoft.com>
+2000-11-14  Nick Gorham <nick@lurcher.org>
 
     * Add missing line continuation char in SQLGetDiagField.c
     * Add fix to SQLGetDiagField to return the server name on 
@@ -1027,7 +1027,7 @@ Release 1.8.13
     * Fixed bug in odbctest's SQLColAttributes call
     * Add test in configure for localtime_r and use if present
 
-2000-08-18  Nick Gorham <nick@easysoft.com>
+2000-08-18  Nick Gorham <nick@lurcher.org>
 
 Release 1.8.12
 
@@ -1038,7 +1038,7 @@ Release 1.8.12
 
 Release 1.8.11
 
-2000-08-16  Nick Gorham <nick@easysoft.com>
+2000-08-16  Nick Gorham <nick@lurcher.org>
 
     * Add --enable-fastvalidate option. This reduces the safety of the 
       handle checking but improves performance when using many handles
@@ -1079,7 +1079,7 @@ Release 1.8.11
 
 Release 1.8.10
 
-2000-06-15  Nick Gorham <nick@easysoft.com>
+2000-06-15  Nick Gorham <nick@lurcher.org>
 
     * Add some fixes to make it work and compile on IRIX (Murad)
     * Add a couple of missing casts in odbctest (Michael)
@@ -1106,7 +1106,7 @@ Release 1.8.10
 
 Release 1.8.9
 
-2000-06-13  Nick Gorham <nick@easysoft.com>
+2000-06-13  Nick Gorham <nick@lurcher.org>
 
     * Fix a State problem when coming out of a SQLParamData cycle
     * Fix bug where SQLBrowseConnect may leave a connection in C1
@@ -1131,7 +1131,7 @@ Release 1.8.9
     * Assorted fixes to text driver (Peter)
     * odbctest now ready to use (hopefully)
 
-2000-05-03  Nick Gorham <nick@easysoft.com>
+2000-05-03  Nick Gorham <nick@lurcher.org>
 
     * Fix bug in configure.in where disabling build of drivers 
       also disabled build of GUI bits.
@@ -1142,7 +1142,7 @@ Release 1.8.9
 
 Release 1.8.8
 
-2000-04-27  Nick Gorham <nick@easysoft.com>
+2000-04-27  Nick Gorham <nick@lurcher.org>
 
     * Add extra include for unixware
     * Added some fixes to the template driver found by
@@ -1166,7 +1166,7 @@ Release 1.8.8
       ODBC 2 driver, it failed to set SQLGetDiagRec in the output
       of SQLGetFunctions
 
-2000-03-11  Nick Gorham <nick@easysoft.com>
+2000-03-11  Nick Gorham <nick@lurcher.org>
 
     * Adjust configure to check for limits, and use this
       to find max file path. It was only 14 char before under
@@ -1183,14 +1183,14 @@ Release 1.8.8
       connecting
     * Add GTK+ Based gODBCConfig
     
-2000-03-01  Nick Gorham <nick@easysoft.com>
+2000-03-01  Nick Gorham <nick@lurcher.org>
 
     * Add extra defines to sqltypes.h
     * Fix bug in the Postgres driver with the use if the
       SQL_DATA_AT_EXEC value
     * Replace the ODBCINI with ODBCHOME environment var
 
-2000-02-23  Nick Gorham <nick@easysoft.com>
+2000-02-23  Nick Gorham <nick@lurcher.org>
 
     * Remove the GLOBAL flag from the dlopen in the libtool
       lib. This caused problems with perl DBD::ODBC
@@ -1200,7 +1200,7 @@ Release 1.8.8
 
 Release 1.8.6
 
-2000-02-21  Nick Gorham <nick@easysoft.com>
+2000-02-21  Nick Gorham <nick@lurcher.org>
 
     * Fix memory leak in the Postgres driver
     * Fix a bug in the DM when using threads and ODBC 3 drivers,
@@ -1210,13 +1210,13 @@ Release 1.8.6
     * Add support for Solaris Threada
     * Make building with thread support the default
 
-2000-02-12  Nick Gorham <nick@easysoft.com>
+2000-02-12  Nick Gorham <nick@lurcher.org>
 
     * Add option to use ODBCINI to move the odbcinst and odbc ini 
       file. This was asked for by applix
     * Add setup lib for Easysoft ODBC-ODBC bridge
      
-2000-02-02  Nick Gorham <nick@easysoft.com>
+2000-02-02  Nick Gorham <nick@lurcher.org>
 
     * Add flag in odbcinst.ini to disable the SQLFetch -> 
       SQLExtendedFetch mapping for broken drivers
@@ -1228,7 +1228,7 @@ Release 1.8.6
 
 Release 1.8.4
 
-2000-01-18  Nick Gorham <nick@easysoft.com>
+2000-01-18  Nick Gorham <nick@lurcher.org>
 
     * Fix bug in SQLAllocHandle where a failed stmt alloc would
       report a error on the statement not the connection and
@@ -1244,12 +1244,12 @@ Release 1.8.4
 
 Release 1.8.3
 
-1999-12-28  Nick Gorham <nick@easysoft.com>
+1999-12-28  Nick Gorham <nick@lurcher.org>
 
     * Fix a bug where a SQLDisconnect was not releasing the 
       lib handle
 
-1999-12-11  Nick Gorham <nick@easysoft.com>
+1999-12-11  Nick Gorham <nick@lurcher.org>
 
     * Merge in changes from the Postgres ODBC people to fix a
       problem with LONGBIN's
@@ -1259,7 +1259,7 @@ Release 1.8.3
 
 Release 1.8.2 For AlphaLinux Distribution
 
-1999-12-02  Nick Gorham <nick@easysoft.com>
+1999-12-02  Nick Gorham <nick@lurcher.org>
 
     * Fix some daft mistakes in odbcinst.c, and the template driver
     * Remove the C++ comments from the Postgres driver so it can
@@ -1268,27 +1268,27 @@ Release 1.8.2 For AlphaLinux Distribution
     * Add strncasecmp to extras
     * Make the Postgres driver use the socket lib if needed
 
-1999-11-23  Nick Gorham <nick@easysoft.com>
+1999-11-23  Nick Gorham <nick@lurcher.org>
 
     * Add support for encrypted passwords in the Postgre driber
     * Remove some remaining non-libtool dlopen code
     * Fix some threading problems
 
-1999-11-19  Nick Gorham <nick@easysoft.com>
+1999-11-19  Nick Gorham <nick@lurcher.org>
 
 Release 1.8.1 **********
 
     * Make the code more portable
     * Remove CR from Postgres source
 
-1999-11-17  Nick Gorham <nick@easysoft.com>
+1999-11-17  Nick Gorham <nick@lurcher.org>
 
     * Fix a bug with the ODBC 3 error functions.
     * Fix a missing function_entry from SQLExecDirect().
 
 Release 1.8 *************
 
-1999-11-13  Nick Gorham <nick@easysoft.com>
+1999-11-13  Nick Gorham <nick@lurcher.org>
 
     * Fix bug with logging that killed StarOffice
     * Upgrade the Postgres driver to 6.4.6, this fixes
@@ -1297,7 +1297,7 @@ Release 1.8 *************
       from a special [ODBC] section in odbcinst.ini. This 
       means that what goes on before the connect can be logged
       
-1999-11-10  Nick Gorham <nick@easysoft.com>
+1999-11-10  Nick Gorham <nick@lurcher.org>
 
     * Make SQLError,SQLGetDiagField and SQLGetDiagRec usable
       with all versions of application and driver.
@@ -1305,14 +1305,14 @@ Release 1.8 *************
       MiniSQL lib.
     * Add configure flag to disable the building of the drivers.
 
-1999-11-02  Nick Gorham <nick@easysoft.com>
+1999-11-02  Nick Gorham <nick@lurcher.org>
 
     * Fix bug in the cursor lib introduced by the fix for the glibc
       bugs.
     * Fix bug where SQLSetConnectAttr/Option can return without
       clearing a connection thread lock.
 
-1999-10-29  Nick Gorham <nick@easysoft.com>
+1999-10-29  Nick Gorham <nick@lurcher.org>
 
     * Make the postgres driver able to connect via UNIX domain
       sockets
@@ -1321,7 +1321,7 @@ Release 1.8 *************
 
     * Assorted stupid bugs fixed in the DM
 
-1999-10-26  Nick Gorham <nick@easysoft.com>
+1999-10-26  Nick Gorham <nick@lurcher.org>
 
     * Started rewrite of the SQLError/SQLGetDiagSupport in the
       driver manager
@@ -1336,11 +1336,11 @@ Release 1.8 *************
       incremented on the first connection, but decremented on all
       free dbc's, this caused the count to go negative at time.
 
-1999-10-09  Nick Gorham <nick@easysoft.com>
+1999-10-09  Nick Gorham <nick@lurcher.org>
 
     * Added Manush's patch to map ODBC 3-2 datetime values
 
-1999-10-05  Nick Gorham <nick@easysoft.com>
+1999-10-05  Nick Gorham <nick@lurcher.org>
 
     * working on getting the build to be more portable
     * added --enable-gui configure option to turn off all c++ and GUI bits
@@ -1356,7 +1356,7 @@ Release 1.8 *************
 
 Release 1.7 *************
 
-1999-07-26  Nick Gorham <nick@easysoft.com>
+1999-07-26  Nick Gorham <nick@lurcher.org>
 
     * New config added, now using autoconf.
     * Thread safe support added.

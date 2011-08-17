@@ -1,7 +1,7 @@
 /*********************************************************************
  *
  * Written, as part of unixODBC by Nick Gorham
- * (nick@easysoft.com).
+ * (nick@lurcher.org).
  *
  * copyright (c) 2004 Nick Gorham
  *

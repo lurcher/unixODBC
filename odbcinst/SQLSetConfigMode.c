@@ -7,7 +7,7 @@
  * Contributions from...
  * -----------------------------------------------
  * Peter Harvey		- pharvey@codebydesign.com
- * Nick Gorham      - nick@easysoft.com
+ * Nick Gorham      - nick@lurcher.org
  **************************************************/
 
 #include <config.h>

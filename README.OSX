@@ -19,7 +19,7 @@ Building With GNU Auto Tools (by Nick):
 	at hand in the form of dlcompat-20010831.tar.gz. This file
 	contains wrappers to emulate the calls. I have put this in
 	
-	ftp://ftp.easysoft.com/pub/beta/unixODBC/dlcompat-20010831.tar.gz
+	ftp://ftp.unixodbc.org/pub/beta/unixODBC/dlcompat-20010831.tar.gz
 	
 	It should be downloaded, unpacked then run make install
 	
@@ -99,7 +99,7 @@ Thats how it should be to work under the driver manager
 
 +-------------------------------------------------------------+
 | Peter Harvey <pharvey@codebydesign.com>                     |
-| Added to by Nick Gorham <nick@easysoft.com>                 |
+| Added to by Nick Gorham <nick@lurcher.org>                  |
 +-------------------------------------------------------------+
 		
 	
