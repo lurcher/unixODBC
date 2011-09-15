@@ -41,6 +41,7 @@ char *szSyntax =
 "* -3         Use ODBC 3 calls                *\n" \
 "* -n         Use new line processing         *\n" \
 "* -e         Use SQLExecDirect not Prepare   *\n" \
+"* -k         Use SQLDriverConnect            *\n" \
 "* --version  version                         *\n" \
 "*                                            *\n" \
 "* Commands                                   *\n" \

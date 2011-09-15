@@ -27,7 +27,9 @@
       safe by now. If the driver is at all thread safe, allow SQLCancel to bipass the
       interlock.
     * Performance change to handle large numbers of connection and statement handles better.
-      Cnks for the change from the folks at Acision.
+      Thanks for the change from the folks at Acision.
+    * Add -k option to isql to treat the DSN as a connection string and use SQLDriverConnect
+        isql -k "DSN=server;UID=test;PWD=test"
 
 20th-April-2010
 2.3.0

@@ -56,6 +56,7 @@ int     ac_off                      = 0;
 int     bHTMLTable                  = 0;
 int     cDelimiter                  = 0;
 int     bColumnNames                = 0;
+int     buseDC                      = 0;
 SQLUSMALLINT    has_moreresults     = 1;
 
 int main( int argc, char *argv[] )
@@ -128,6 +129,9 @@ int main( int argc, char *argv[] )
                     break;
                 case 'n':
                     bNewStyle = 1;
+                    break;
+                case 'k':
+                    buseDC = 1;
                     break;
                 case '-':
                     printf( "unixODBC " VERSION "\n" );
@@ -500,13 +504,25 @@ OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *sz
             return 0;
         }
 
-        if ( !SQL_SUCCEEDED( SQLConnect( *phDbc, (SQLCHAR*)szDSN, SQL_NTS, (SQLCHAR*)szUID, SQL_NTS, (SQLCHAR*)szPWD, SQL_NTS )))
-        {
-            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
-            fprintf( stderr, "[ISQL]ERROR: Could not SQLConnect\n" );
-            SQLFreeHandle( SQL_HANDLE_DBC, *phDbc );
-            SQLFreeHandle( SQL_HANDLE_ENV, *phEnv );
-            return 0;
+        if ( buseDC ) {
+            if ( !SQL_SUCCEEDED( SQLDriverConnect( *phDbc, NULL, (SQLCHAR*)szDSN, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT )))
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
+                fprintf( stderr, "[ISQL]ERROR: Could not SQLDriverConnect\n" );
+                SQLFreeHandle( SQL_HANDLE_DBC, *phDbc );
+                SQLFreeHandle( SQL_HANDLE_ENV, *phEnv );
+                return 0;
+            }
+        }
+        else {
+            if ( !SQL_SUCCEEDED( SQLConnect( *phDbc, (SQLCHAR*)szDSN, SQL_NTS, (SQLCHAR*)szUID, SQL_NTS, (SQLCHAR*)szPWD, SQL_NTS )))
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
+                fprintf( stderr, "[ISQL]ERROR: Could not SQLConnect\n" );
+                SQLFreeHandle( SQL_HANDLE_DBC, *phDbc );
+                SQLFreeHandle( SQL_HANDLE_ENV, *phEnv );
+                return 0;
+            }
         }
     }
     else
@@ -525,13 +541,25 @@ OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *sz
             return 0;
         }
 
-        if ( !SQL_SUCCEEDED( SQLConnect( *phDbc, (SQLCHAR*)szDSN, SQL_NTS, (SQLCHAR*)szUID, SQL_NTS, (SQLCHAR*)szPWD, SQL_NTS )))
-        {
-            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
-            fprintf( stderr, "[ISQL]ERROR: Could not SQLConnect\n" );
-            SQLFreeConnect( *phDbc );
-            SQLFreeEnv( *phEnv );
-            return 0;
+        if ( buseDC ) {
+            if ( !SQL_SUCCEEDED( SQLDriverConnect( *phDbc, NULL, (SQLCHAR*)szDSN, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT )))
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
+                fprintf( stderr, "[ISQL]ERROR: Could not SQLDriverConnect\n" );
+                SQLFreeConnect( *phDbc );
+                SQLFreeEnv( *phEnv );
+                return 0;
+            }
+        }
+        else {
+            if ( !SQL_SUCCEEDED( SQLConnect( *phDbc, (SQLCHAR*)szDSN, SQL_NTS, (SQLCHAR*)szUID, SQL_NTS, (SQLCHAR*)szPWD, SQL_NTS )))
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, 0 );
+                fprintf( stderr, "[ISQL]ERROR: Could not SQLConnect\n" );
+                SQLFreeConnect( *phDbc );
+                SQLFreeEnv( *phEnv );
+                return 0;
+            }
         }
     }
 
