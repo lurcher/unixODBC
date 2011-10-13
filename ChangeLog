@@ -30,6 +30,7 @@
       Thanks for the change from the folks at Acision.
     * Add -k option to isql to treat the DSN as a connection string and use SQLDriverConnect
         isql -k "DSN=server;UID=test;PWD=test"
+    * Couple of the SQLSetConnactAttr values are now SQLULEN instead of SQLUINTEGER
 
 20th-April-2010
 2.3.0

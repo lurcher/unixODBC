@@ -388,7 +388,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
         break;
 
       case SQL_ATTR_ODBC_CURSORS:
-        *((SQLINTEGER*)value) = connection -> cursors;
+        *((SQLULEN*)value) = connection -> cursors;
         type = 1;
         break;
 
@@ -412,7 +412,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
         }
         else
         {
-            *((SQLINTEGER*)value) = connection -> async_enable;
+            *((SQLULEN*)value) = connection -> async_enable;
             type = 1;
         }
         break;
