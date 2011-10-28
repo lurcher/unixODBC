@@ -825,7 +825,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                         connection -> driver_dbc,
                         attribute,
                         s1,
-                        string_length );
+                        string_length * sizeof( SQLWCHAR ));
 
                     if ( s1 )
                         free( s1 );

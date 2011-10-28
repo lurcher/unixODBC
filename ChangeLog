@@ -31,6 +31,8 @@
     * Add -k option to isql to treat the DSN as a connection string and use SQLDriverConnect
         isql -k "DSN=server;UID=test;PWD=test"
     * Couple of the SQLSetConnactAttr values are now SQLULEN instead of SQLUINTEGER
+    * SQLSetConnectAttr was passing a char length instead of a byte length into the 
+      Driver SQLSetConnectAttr when converting from Ansi->Unicode
 
 20th-April-2010
 2.3.0
