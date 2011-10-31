@@ -760,17 +760,27 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
                             as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, SQL_NTS, connection );
                         }
                     }
+
+                    ret = SQLSETCONNECTATTR( connection,
+                            connection -> driver_dbc,
+                            attribute,
+                            as1 ? as1 : value,
+                            string_length / sizeof( SQLWCHAR ));
+
+                    if ( as1 ) 
+                    {
+                        free( as1 );
+                    }
+                    break;
+
+                  default:
+                    ret = SQLSETCONNECTATTR( connection,
+                            connection -> driver_dbc,
+                            attribute,
+                            value,
+                            string_length );
                     break;
                 }
-
-                ret = SQLSETCONNECTATTR( connection,
-                        connection -> driver_dbc,
-                        attribute,
-                        as1 ? as1 : value,
-                        string_length );
-
-                if ( as1 )
-                    free( as1 );
             }
         }
 
