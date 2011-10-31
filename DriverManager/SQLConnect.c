@@ -3542,6 +3542,22 @@ void return_to_pool( DMHDBC connection )
     }
 
     /*
+     * allow the driver to reset itself if its a 3.8 driver
+     */
+
+    if ( connection -> driver_version == SQL_OV_ODBC3_80 ) 
+    {
+        if ( CHECK_SQLSETCONNECTATTR( connection ))
+        {
+            SQLSETCONNECTATTR( connection,
+                    connection -> driver_dbc,
+                    SQL_ATTR_RESET_CONNECTION,
+                    SQL_RESET_CONNECTION_YES,
+                    0 );
+        }
+    }
+
+    /*
      * remove all information from the connection
      */
 

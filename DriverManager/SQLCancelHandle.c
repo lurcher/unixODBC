@@ -127,7 +127,13 @@ SQLRETURN SQLCancelHandle( SQLSMALLINT handle_type, SQLHANDLE handle )
                     statement -> msg );
         }
 
-        if ( CHECK_SQLCANCEL( statement -> connection ))
+        if ( CHECK_SQLCANCELHANDLE( statement -> connection ))
+        {
+            ret = SQLCANCELHANDLE( statement -> connection,
+                handle_type,
+                statement -> driver_stmt );
+        }
+        else if ( CHECK_SQLCANCEL( statement -> connection ))
         {
             ret = SQLCANCEL( statement -> connection,
                 statement -> driver_stmt );
