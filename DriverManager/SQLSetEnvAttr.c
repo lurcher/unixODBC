@@ -332,6 +332,13 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
         }
         break;
 
+        /*
+         * Third party extensions
+         */
+
+      case 1064:        /* SQL_ATTR_APP_UNICODE_TYPE */
+        break;
+
       default:
         dm_log_write( __FILE__, 
                 __LINE__, 

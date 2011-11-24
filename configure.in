@@ -59,7 +59,7 @@ AC_ARG_ENABLE( drivers,
     yes) drivers=true ;;
     no) drivers=false ;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-drivers) ;;
-    esac],[drivers=no])
+    esac],[drivers=false])
 
 dnl Check if we want to build the driver config
 
@@ -69,7 +69,7 @@ AC_ARG_ENABLE( driverc,
     yes) driverc=true ;;
     no) driverc=false ;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-driver-conf) ;;
-    esac],[driverc=no])
+    esac],[driverc=false])
 
 AC_ARG_ENABLE( fastvalidate, 
 [  --enable-fastvalidate   use relaxed handle checking in the DM [default=no]],
@@ -92,7 +92,7 @@ dnl Check for sys/sem.h
 AC_CHECK_HEADERS(sys/sem.h, semh=true, semh=false)
 
 AC_ARG_ENABLE( stats,
-[  --enable-stats          build with statistic gathering support [default=yes]],
+[  --enable-stats          build with statistic gathering support [default=no]],
 [ case "${enableval}" in
     yes) if test "x$semh" = "xfalse"; then
            AC_MSG_ERROR(stats enabled but required header was not found)
@@ -100,7 +100,7 @@ AC_ARG_ENABLE( stats,
         stats=true ;;
     no) stats=false ;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-stats) ;;
-    esac],[stats=$semh])
+    esac],[stats=false])
 
 AC_ARG_ENABLE( handlemap, 
 [  --enable-handlemap      driver manager can map driver handles called back from broken drivers [default=no]],

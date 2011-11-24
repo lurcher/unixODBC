@@ -33,6 +33,7 @@
     * Couple of the SQLSetConnactAttr values are now SQLULEN instead of SQLUINTEGER
     * SQLSetConnectAttr was passing a char length instead of a byte length into the 
       Driver SQLSetConnectAttr when converting from Ansi->Unicode
+    * Driver version was not being held when a second connection was made to the driver
 
 20th-April-2010
 2.3.0
