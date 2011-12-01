@@ -1,3 +1,4 @@
+26th-November-2011
 2.3.1
     
     * Change type definition of a integer in SQLConnect.c, just to avoid
@@ -11,7 +12,7 @@
     * Avoid sprintf NULL pointer problem in SQLGetDiagRec
     * Fix typo affecting the pooling of connections, (thanks Chris)
     * Fix SunCC _mcount problem
-    * Attempt to stamp version info on teh libs generated. There are aps in use linked against other 
+    * Attempt to stamp version info on thie libs generated. There are aps in use linked against other 
       driver managers that expect VERS_3.52
     * Fix potential buffer overrun when using SAFEFILE
     * Fix mutex problem in the exit from __SQLGetInfo (thanks Richard)
