@@ -2,6 +2,9 @@
 
     * The logging of WStrings was using the incorrect length in some cases
     * Pass SQLDescribeCol call to driver when in state 2 (not a cursor spec).
+    * Pass SQLMoreResults call to driver when in state 2 (not a cursor spec).
+      Both the last two changes are not as per the original book state table
+      but alling with the current MS driver manager
 
 26th-November-2011
 2.3.1

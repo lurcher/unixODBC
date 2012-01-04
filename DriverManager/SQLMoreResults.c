@@ -171,7 +171,7 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
      * check states
      */
     if ( statement -> state == STATE_S1 ||
-            statement -> state == STATE_S2 ||
+            /* statement -> state == STATE_S2 || */
             statement -> state == STATE_S3 )
     {
         sprintf( statement -> msg, 
