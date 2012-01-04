@@ -318,6 +318,9 @@ SQLRETURN SQLDescribeCol( SQLHSTMT statement_handle,
 
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
+    /* 
+     * This seems to be down to the driver in the MS DM
+     *
     else if ( statement -> state == STATE_S2 )
     {
         dm_log_write( __FILE__, 
@@ -332,6 +335,7 @@ SQLRETURN SQLDescribeCol( SQLHSTMT statement_handle,
 
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
+    */
     else if ( statement -> state == STATE_S4 )
     {
         dm_log_write( __FILE__, 

@@ -3120,7 +3120,7 @@ char * __wstring_with_length( SQLCHAR *ostr, SQLWCHAR *instr, SQLINTEGER len )
         if ( ( i = wide_strlen( instr ) ) < LOG_MESSAGE_LEN )
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, i, NULL );
             strcat((char*) ostr, "]" );
         }
         else
@@ -3137,7 +3137,7 @@ char * __wstring_with_length( SQLCHAR *ostr, SQLWCHAR *instr, SQLINTEGER len )
         if ( len < LOG_MESSAGE_LEN )
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, len, NULL );
             strcat((char*) ostr, "]" );
         }
         else

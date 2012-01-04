@@ -1,5 +1,8 @@
 2.3.2-pre
 
+    * The logging of WStrings was using the incorrect length in some cases
+    * Pass SQLDescribeCol call to driver when in state 2 (not a cursor spec).
+
 26th-November-2011
 2.3.1
     
