@@ -57,6 +57,7 @@ int     bHTMLTable                  = 0;
 int     cDelimiter                  = 0;
 int     bColumnNames                = 0;
 int     buseDC                      = 0;
+int     buseED                      = 0;
 SQLUSMALLINT    has_moreresults     = 1;
 
 int main( int argc, char *argv[] )
@@ -132,6 +133,9 @@ int main( int argc, char *argv[] )
                     break;
                 case 'k':
                     buseDC = 1;
+                    break;
+                case 'e':
+                    buseED = 1;
                     break;
                 case '-':
                     printf( "unixODBC " VERSION "\n" );
@@ -927,33 +931,56 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
         }
     }
 
-    if ( SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL )) != SQL_SUCCESS )
-    {
-        if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
-        fprintf( stderr, "[ISQL]ERROR: Could not SQLPrepare\n" );
-        SQLFreeStmt( hStmt, SQL_DROP );
-        free(szSepLine);
-        return 0;
-    }
+    if ( buseED ) {
+        ret = SQLExecDirect( hStmt, (SQLCHAR*)szSQL, strlen( szSQL ));
 
-    ret =  SQLExecute( hStmt );
+        if ( ret == SQL_NO_DATA )
+        {
+            fprintf( stderr, "[ISQL]INFO: SQLExecDirect returned SQL_NO_DATA\n" );
+        }
+        else if ( ret == SQL_SUCCESS_WITH_INFO )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]INFO: SQLExecDirect returned SQL_SUCCESS_WITH_INFO\n" );
+        }
+        else if ( ret != SQL_SUCCESS )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]ERROR: Could not SQLExecDirect\n" );
+            SQLFreeStmt( hStmt, SQL_DROP );
+            free(szSepLine);
+            return 0;
+        }
+    }
+    else {
+        if ( SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL )) != SQL_SUCCESS )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]ERROR: Could not SQLPrepare\n" );
+            SQLFreeStmt( hStmt, SQL_DROP );
+            free(szSepLine);
+            return 0;
+        }
+    
+        ret =  SQLExecute( hStmt );
 
-    if ( ret == SQL_NO_DATA )
-    {
-        fprintf( stderr, "[ISQL]INFO: SQLExecute returned SQL_NO_DATA\n" );
-    }
-    else if ( ret == SQL_SUCCESS_WITH_INFO )
-    {
-        if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
-        fprintf( stderr, "[ISQL]INFO: SQLExecute returned SQL_SUCCESS_WITH_INFO\n" );
-    }
-    else if ( ret != SQL_SUCCESS )
-    {
-        if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
-        fprintf( stderr, "[ISQL]ERROR: Could not SQLExecute\n" );
-        SQLFreeStmt( hStmt, SQL_DROP );
-        free(szSepLine);
-        return 0;
+        if ( ret == SQL_NO_DATA )
+        {
+            fprintf( stderr, "[ISQL]INFO: SQLExecute returned SQL_NO_DATA\n" );
+        }
+        else if ( ret == SQL_SUCCESS_WITH_INFO )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]INFO: SQLExecute returned SQL_SUCCESS_WITH_INFO\n" );
+        }
+        else if ( ret != SQL_SUCCESS )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]ERROR: Could not SQLExecute\n" );
+            SQLFreeStmt( hStmt, SQL_DROP );
+            free(szSepLine);
+            return 0;
+        }
     }
 
     /*

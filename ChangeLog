@@ -5,6 +5,7 @@
     * Pass SQLMoreResults call to driver when in state 2 (not a cursor spec).
       Both the last two changes are not as per the original book state table
       but alling with the current MS driver manager
+    * The -e option to isql got lost somewhere. Back in now
 
 26th-November-2011
 2.3.1

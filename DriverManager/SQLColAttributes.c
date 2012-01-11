@@ -342,6 +342,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
 
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
+    /*
     else if ( statement -> state == STATE_S2 &&
             field_identifier != SQL_DESC_COUNT )
     {
@@ -357,6 +358,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
 
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
+    */
     else if ( statement -> state == STATE_S4 )
     {
         dm_log_write( __FILE__, 
