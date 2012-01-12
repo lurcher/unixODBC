@@ -6,6 +6,7 @@
       Both the last two changes are not as per the original book state table
       but alling with the current MS driver manager
     * The -e option to isql got lost somewhere. Back in now
+    * Update install-sh
 
 26th-November-2011
 2.3.1
