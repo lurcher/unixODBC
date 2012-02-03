@@ -7,6 +7,7 @@
       but alling with the current MS driver manager
     * The -e option to isql got lost somewhere. Back in now
     * Update install-sh
+    * SQLCancel assumed that the DM was being built with thread support
 
 26th-November-2011
 2.3.1
@@ -22,7 +23,7 @@
     * Avoid sprintf NULL pointer problem in SQLGetDiagRec
     * Fix typo affecting the pooling of connections, (thanks Chris)
     * Fix SunCC _mcount problem
-    * Attempt to stamp version info on thie libs generated. There are aps in use linked against other 
+    * Attempt to stamp version info on the libs generated. There are aps in use linked against other 
       driver managers that expect VERS_3.52
     * Fix potential buffer overrun when using SAFEFILE
     * Fix mutex problem in the exit from __SQLGetInfo (thanks Richard)

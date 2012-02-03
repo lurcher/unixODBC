@@ -138,6 +138,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 statement -> msg );
     }
 
+#if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
     /*
      * Allow this past the thread checks if the driver is at all thread safe, as SQLCancel can 
      * be called across threads
@@ -146,6 +147,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
     {
         thread_protect( SQL_HANDLE_STMT, statement ); 
     }
+#endif
 
     /*
      * check states
@@ -163,6 +165,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
+#if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
         if ( statement -> connection -> protection_level == 3 ) 
         {
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
@@ -171,6 +174,9 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
         {
             return function_return( IGNORE_THREAD, statement, SQL_ERROR );
         }
+#else 
+        return function_return( IGNORE_THREAD, statement, SQL_ERROR );
+#endif
     }
 
     ret = SQLCANCEL( statement -> connection,
@@ -248,6 +254,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 statement -> msg );
     }
 
+#if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
     if ( statement -> connection -> protection_level == 3 ) 
     {
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
@@ -256,4 +263,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
     {
         return function_return( IGNORE_THREAD, statement, ret );
     }
+#else
+    return function_return( IGNORE_THREAD, statement, ret );
+#endif
 }
