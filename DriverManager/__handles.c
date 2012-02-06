@@ -1009,6 +1009,56 @@ int __clean_stmt_from_dbc( DMHDBC connection )
     return ret;
 }
 
+int __check_stmt_from_dbc_v( DMHDBC connection, int statecount, ... )
+{
+    va_list ap;
+    int states[ MAX_STATE_ARGS ];
+    DMHSTMT ptr;
+    int found = 0;
+    int i;
+
+    va_start (ap, statecount);
+    for ( i = 0; i < statecount; i ++ ) {
+        states[ i ] = va_arg (ap, int );
+    }
+    va_end (ap);
+
+    mutex_entry( &mutex_lists );
+#ifdef FAST_HANDLE_VALIDATE
+    ptr = connection -> statements;
+    while( !found && ptr )
+    {
+        for ( i = 0; i < statecount; i ++ ) {
+            if ( ptr -> state == states[ i ] ) {
+                found = 1;
+                break;
+            }
+       }
+    
+        ptr = ptr -> next_conn_list;
+    }
+#else
+    ptr = statement_root;
+    while( !found && ptr )
+    {
+        if ( ptr -> connection == connection )
+        {
+            for ( i = 0; i < statecount; i ++ ) {
+                if ( ptr -> state == states[ i ] ) {
+                    found = 1;
+                    break;
+                }
+            }
+        }
+
+        ptr = ptr -> next_class_list;
+    }
+#endif
+    mutex_exit( &mutex_lists );
+
+    return found;
+}
+
 /*
  * check if any statements on this connection are in a given state
  */

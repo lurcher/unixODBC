@@ -286,11 +286,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                 if ( connection -> environment == environment &&
                         connection -> state > STATE_C4 )
                 {
-                    if( __check_stmt_from_dbc( connection, STATE_S8 ) ||
-                        __check_stmt_from_dbc( connection, STATE_S9 ) ||
-                        __check_stmt_from_dbc( connection, STATE_S10 ) ||
-                        __check_stmt_from_dbc( connection, STATE_S11 ) ||
-                        __check_stmt_from_dbc( connection, STATE_S12 )) {
+                    if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
 
                         dm_log_write( __FILE__, 
                                 __LINE__, 
@@ -446,11 +442,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
          * check status of statements belonging to this connection
          */
 
-        if( __check_stmt_from_dbc( connection, STATE_S8 ) ||
-            __check_stmt_from_dbc( connection, STATE_S9 ) ||
-            __check_stmt_from_dbc( connection, STATE_S10 ) ||
-            __check_stmt_from_dbc( connection, STATE_S11 ) ||
-            __check_stmt_from_dbc( connection, STATE_S12 )) {
+        if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
 
             dm_log_write( __FILE__, 
                     __LINE__, 

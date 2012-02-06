@@ -8,6 +8,7 @@
     * The -e option to isql got lost somewhere. Back in now
     * Update install-sh
     * SQLCancel assumed that the DM was being built with thread support
+    * Try and speed up SQLTransact and SQLEndTran operation
 
 26th-November-2011
 2.3.1

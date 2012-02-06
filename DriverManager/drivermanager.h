@@ -716,6 +716,8 @@ int __get_version( EHEAD * head );
 int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINTER value );
 int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTER value );
 int __check_stmt_from_dbc( DMHDBC connection, int state );
+#define MAX_STATE_ARGS  5
+int __check_stmt_from_dbc_v( DMHDBC connection, int statecount, ... );
 int __check_stmt_from_desc( DMHDESC desc, int state );
 int __check_stmt_from_desc_ird( DMHDESC desc, int state );
 
