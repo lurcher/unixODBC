@@ -7,7 +7,7 @@ libodbcpsql_la_LDFLAGS = \
 	-no-undefined \
 	$(LIBSOCKET) $(LIBNSL) \
 	-export-dynamic \
-	-export-symbols @srcdir@/driver.exp
+	-export-symbols @srcdir@/driver.exp \
 	-module
 
 EXTRA_DIST = \

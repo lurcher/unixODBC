@@ -4,11 +4,12 @@
     * Pass SQLDescribeCol call to driver when in state 2 (not a cursor spec).
     * Pass SQLMoreResults call to driver when in state 2 (not a cursor spec).
       Both the last two changes are not as per the original book state table
-      but alling with the current MS driver manager
+      but allign with the current MS driver manager
     * The -e option to isql got lost somewhere. Back in now
     * Update install-sh
     * SQLCancel assumed that the DM was being built with thread support
     * Try and speed up SQLTransact and SQLEndTran operation
+    * Add missing \ in Postgres7.1 Makefile
 
 26th-November-2011
 2.3.1
@@ -31,7 +32,7 @@
     * Allow getting SQL_DM_VER via SQLGetInfo before connecting to a driver
     * Generate unixodbc_conf.h using macros to allow cross compiling
     * Fix some libltdl problems 
-    * Fix some naiming problems with the cursor lib
+    * Fix some naming problems with the cursor lib
     * Fix odbcinst problems on systems without pwd.h
     * Change lib version to 2 to reflect SQLLEN changes in v2.3
     * Fix threading problem (thanks Petr Vandrovec)
