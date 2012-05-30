@@ -639,7 +639,8 @@ typedef enum error_id
     ERROR_SL009,
     ERROR_SL010,
     ERROR_SL008,
-    ERROR_HY000
+    ERROR_HY000,
+    ERROR_IM011
 } error_id;
 
 #define IGNORE_THREAD       (-1)

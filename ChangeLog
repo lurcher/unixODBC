@@ -10,6 +10,7 @@
     * SQLCancel assumed that the DM was being built with thread support
     * Try and speed up SQLTransact and SQLEndTran operation
     * Add missing \ in Postgres7.1 Makefile
+    * Correct some potential buffer overflows
 
 26th-November-2011
 2.3.1

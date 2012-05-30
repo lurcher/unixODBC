@@ -943,8 +943,6 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      * before opening the lib
      */
 
-    *warnings = FALSE;
-
     /*
      * if the driver comes from odbc.ini not via odbcinst.ini the driver name will be empty
      * so only look for the entry if its set
@@ -3928,6 +3926,8 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
     /*
      * if necessary change the threading level
      */
+
+    warnings = 0;
 
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {

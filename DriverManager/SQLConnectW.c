@@ -349,6 +349,8 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
      * if necessary change the threading level
      */
 
+    warnings = 0;
+
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );

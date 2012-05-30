@@ -321,7 +321,7 @@ extern int pooling_enabled;
 void __generate_connection_string( struct con_struct *con_str, char *str, int str_len )
 {
 struct con_pair *cp;
-char tmp[ 1024 ];
+char *tmp;
 
     str[ 0 ] = '\0';
 
@@ -333,6 +333,7 @@ char tmp[ 1024 ];
     cp = con_str -> list;
     while( cp )
     {
+        tmp = malloc( strlen( cp -> keyword ) + strlen( cp -> attribute ) + 10 );
         if( strcasecmp( cp -> keyword, "DRIVER" ) == 0 )
         {
             sprintf( tmp, "%s={%s};", cp -> keyword, cp -> attribute );
@@ -350,6 +351,7 @@ char tmp[ 1024 ];
         {
             strcat( str, tmp );
         }
+        free( tmp );
                                 
         cp = cp -> next;
     }
@@ -671,8 +673,8 @@ SQLRETURN SQLDriverConnect(
     SQLCHAR s1[ 2048 ];
     SQLCHAR local_conn_str_in[ 2048 ];
     SQLCHAR local_out_conection[ 2048 ];
-    char save_filedsn[ 128 ];
-    int warnings;
+    char *save_filedsn;
+    int warnings = 0;
 
     /*
      * check connection
@@ -990,13 +992,13 @@ SQLRETURN SQLDriverConnect(
     filedsn = __get_attribute_value( &con_struct, "FILEDSN" );
     if ( filedsn )
     {
-        char str[ 2048 ];
+        char str[ 1024 * 16 ];
 
         if ( SQLReadFileDSN( filedsn, "ODBC", NULL, str, sizeof( str ), NULL ))
         {
             struct con_struct con_struct1;
 
-	    	strcpy( save_filedsn, filedsn );
+            save_filedsn = strdup( filedsn );
 
             if ( strlen( str ))
             {
@@ -1019,7 +1021,7 @@ SQLRETURN SQLDriverConnect(
                     cp = con_struct.list;
                     while( cp )
                     {
-		    			char str1[ 256 ];
+		    			char *str1;
 
 						/*
 			 			* Don't pass FILEDSN down
@@ -1028,6 +1030,26 @@ SQLRETURN SQLDriverConnect(
 						if ( strcasecmp( cp -> keyword, "FILEDSN" ) &&
 							strcasecmp( cp -> keyword, "FILEDSN" ) )
 						{
+                            str1 = malloc( strlen( cp -> keyword ) + strlen( cp -> attribute ) + 10 );
+
+                            if ( !str1 ) {
+                                dm_log_write( __FILE__, 
+                                        __LINE__, 
+                                        LOG_INFO, 
+                                        LOG_INFO, 
+                                        "Error: HY001" );
+                        
+                                __post_internal_error( &connection -> error,
+                                        ERROR_HY001, NULL,
+                                        connection -> environment -> requested_version );
+
+                                if ( save_filedsn ) {
+                                    free( save_filedsn );
+                                }
+                        
+                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                            }
+
 							if ( strlen((char*) conn_str_in ) > 0 )
 							{
                 				sprintf( str1, ";%s=%s", cp -> keyword, cp -> attribute );
@@ -1036,7 +1058,18 @@ SQLRETURN SQLDriverConnect(
 							{
                    				sprintf( str1, "%s=%s", cp -> keyword, cp -> attribute );
 							}
-                			strcat((char*) conn_str_in, str1 );
+
+                            if ( strlen( conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
+                			    strcat((char*) conn_str_in, str1 );
+                            }
+                            else {
+                                warnings = 1;
+                                __post_internal_error( &connection -> error,
+                                        ERROR_01004, NULL,
+                                        connection -> environment -> requested_version );
+                            }
+
+                            free( str1 );
 						}
 
                         cp = cp -> next;
@@ -1052,7 +1085,26 @@ SQLRETURN SQLDriverConnect(
                     {
                         if ( !__get_attribute_value( &con_struct, cp -> keyword ))
                         {
-                            char str1[ 256 ];
+                            char *str1;
+
+                            str1 = malloc( strlen( cp -> keyword ) + strlen( cp -> attribute ) + 10 );
+                            if ( !str1 ) {
+                                dm_log_write( __FILE__, 
+                                        __LINE__, 
+                                        LOG_INFO, 
+                                        LOG_INFO, 
+                                        "Error: HY001" );
+                        
+                                __post_internal_error( &connection -> error,
+                                        ERROR_HY001, NULL,
+                                        connection -> environment -> requested_version );
+
+                                if ( save_filedsn ) {
+                                    free( save_filedsn );
+                                }
+                        
+                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                            }
 
 							if ( strlen((char*) conn_str_in ) > 0 )
 							{
@@ -1062,7 +1114,15 @@ SQLRETURN SQLDriverConnect(
 							{
                             	sprintf( str1, "%s=%s", cp -> keyword, cp -> attribute );
 							}
-                            strcat((char*) conn_str_in, str1 );
+                            if ( strlen( conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
+                                strcat((char*) conn_str_in, str1 );
+                            }
+                            else {
+                                warnings = 1;
+                                __post_internal_error( &connection -> error,
+                                        ERROR_01004, NULL,
+                                        connection -> environment -> requested_version );
+                            }
                         }
                         cp = cp -> next;
                     }
@@ -1085,7 +1145,7 @@ SQLRETURN SQLDriverConnect(
     }
     else
     {
-	    save_filedsn[ 0 ] = '\0';
+	    save_filedsn = NULL;
     }
 
     /*
@@ -1099,6 +1159,24 @@ SQLRETURN SQLDriverConnect(
         /*
          * look up the driver in the ini file
          */
+
+        if ( strlen( driver ) >= sizeof( driver_name )) {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: IM011" );
+                        
+            __post_internal_error( &connection -> error,
+                    ERROR_IM011, NULL,
+                    connection -> environment -> requested_version );
+
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
+                        
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        }
 
         strcpy( driver_name, driver );
 
@@ -1144,6 +1222,10 @@ SQLRETURN SQLDriverConnect(
 
             __release_conn( &con_struct );
 
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
+
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
@@ -1160,6 +1242,10 @@ SQLRETURN SQLDriverConnect(
                     connection -> environment -> requested_version );
 
             __release_conn( &con_struct );
+
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
 
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
@@ -1181,6 +1267,10 @@ SQLRETURN SQLDriverConnect(
                     connection -> environment -> requested_version );
 
             __release_conn( &con_struct );
+
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
 
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
@@ -1212,6 +1302,10 @@ SQLRETURN SQLDriverConnect(
      */
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
+        if ( save_filedsn ) {
+            free( save_filedsn );
+        }
+
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
@@ -1228,6 +1322,10 @@ SQLRETURN SQLDriverConnect(
         __post_internal_error( &connection -> error,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
+
+        if ( save_filedsn ) {
+            free( save_filedsn );
+        }
 
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
@@ -1354,6 +1452,10 @@ SQLRETURN SQLDriverConnect(
                     LOG_INFO,
                     LOG_INFO,
                     connection -> msg );
+
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
 
             return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
         }
@@ -1509,6 +1611,10 @@ SQLRETURN SQLDriverConnect(
                     LOG_INFO,
                     connection -> msg );
 
+            if ( save_filedsn ) {
+                free( save_filedsn );
+            }
+
             return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
         }
         else
@@ -1554,6 +1660,10 @@ SQLRETURN SQLDriverConnect(
         __disconnect_part_two( connection );
         __disconnect_part_one( connection );
         __disconnect_part_four( connection );
+
+        if ( save_filedsn ) {
+            free( save_filedsn );
+        }
 
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
@@ -1605,7 +1715,7 @@ SQLRETURN SQLDriverConnect(
 	    }
     }
 
-    if ( strlen( save_filedsn ))
+    if ( save_filedsn && strlen( save_filedsn ))
     {
 	    char *str = strdup((char*) conn_str_out );
 	    strcpy((char*) conn_str_out, "FILEDSN=" );
@@ -1618,6 +1728,10 @@ SQLRETURN SQLDriverConnect(
 	    {
 		    *ptr_conn_str_out = strlen((char*) conn_str_out );
 	    }
+    }
+
+    if ( save_filedsn ) {
+        free( save_filedsn );
     }
 
     /*

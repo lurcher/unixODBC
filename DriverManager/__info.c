@@ -5442,6 +5442,13 @@ void __post_internal_error_api( EHEAD *error_handle,
         class = SUBCLASS_ODBC;
         break;
 
+      case ERROR_IM011:
+        strcpy( sqlstate, "IM011" );
+        message = "Driver name too long";
+        subclass = SUBCLASS_ODBC;
+        class = SUBCLASS_ODBC;
+        break;
+
       case ERROR_IM012:
         strcpy( sqlstate, "IM012" );
         message = "DRIVER keyword syntax error";
@@ -5484,7 +5491,6 @@ void __post_internal_error_api( EHEAD *error_handle,
             strcpy( sqlstate, "S1000" );
         message = "General error";
         break;
-
 
 	  default:
         strcpy( sqlstate, "?????" );

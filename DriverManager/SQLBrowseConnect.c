@@ -211,7 +211,7 @@ SQLRETURN SQLBrowseConnect(
     SQLRETURN ret;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ], s2[ 100 + LOG_MESSAGE_LEN];
 	SQLWCHAR *uc_in_str;
-    int warnings;
+    int warnings = 0;
 
     /*
      * check connection

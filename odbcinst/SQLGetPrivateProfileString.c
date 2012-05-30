@@ -188,7 +188,13 @@ static int _check_ini_cache( int *ret,
         if ( pRetBuffer )
         {
             if ( ini_cache -> value )
-                strcpy( pRetBuffer, ini_cache -> value );
+                if ( nRetBuffer < strlen( ini_cache -> value )) {
+                    strncpy( pRetBuffer, ini_cache -> value, nRetBuffer );
+                    pRetBuffer[ nRetBuffer - 1 ] = '\0';
+                }
+                else {
+                    strcpy( pRetBuffer, ini_cache -> value );
+                }
 
             *ret = ini_cache -> ret_value;
             return 1;

@@ -212,7 +212,7 @@ SQLRETURN SQLDriverConnectW(
 	SQLCHAR local_conn_str_in[ 1024 ];
     SQLRETURN ret_from_connect;
     SQLCHAR s1[ 2048 ];
-    int warnings;
+    int warnings = 0;
 
     /*
      * check connection

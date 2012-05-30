@@ -109,6 +109,10 @@ BOOL SQLReadFileDSN(            LPCSTR  pszFileName,
         inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_INVALID_REQUEST_TYPE, "" );
         return FALSE;
     }
+    if ( pszFileName && strlen( pszFileName ) > ODBC_FILENAME_MAX ) {
+        inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_INVALID_PATH, "" );
+        return FALSE;
+    }
 
     *pszString = '\0';
 
