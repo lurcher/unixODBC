@@ -257,7 +257,8 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
     else if ( SQL_SUCCEEDED( ret ))
     {
         if ( statement -> interupted_func == SQL_API_SQLEXECDIRECT ||
-                statement -> interupted_func == SQL_API_SQLEXECUTE )
+                statement -> interupted_func == SQL_API_SQLEXECUTE || 
+                statement -> interupted_func == SQL_API_SQLMORERESULTS )
         {
 #ifdef NR_PROBE
             SQLRETURN local_ret;
