@@ -11,6 +11,7 @@
     * Try and speed up SQLTransact and SQLEndTran operation
     * Add missing \ in Postgres7.1 Makefile
     * Correct some potential buffer overflows
+    * Handle SQL_NEED_DATA from a SQLMoreResults 
 
 26th-November-2011
 2.3.1
@@ -73,8 +74,8 @@
 	* Add missing .y in nn driver, now I need to get it to work
     * Assoured bux fixes and format problems, thanks Tom
 	* SQLBindCol on metadata calls was incorrectly going via the cursor lib if it 
-	* fix isql problem with nested definitions.
 	  was enabled
+	* fix isql problem with nested definitions.
 	* Add configure option to enable building of driver config libs
 	* Shift build to using config.h, the compile lines were so big it was hard to 
 	  see warnings

@@ -300,6 +300,12 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
             statement -> state = STATE_S1;
         }
     }
+    else if ( ret == SQL_NEED_DATA )
+    {
+        statement -> interupted_func = SQL_API_SQLMORERESULTS;
+        statement -> interupted_state = statement -> state;
+        statement -> state = STATE_S8;
+    }
     else
     {
         /*
