@@ -12,6 +12,8 @@
     * Add missing \ in Postgres7.1 Makefile
     * Correct some potential buffer overflows
     * Handle SQL_NEED_DATA from a SQLMoreResults 
+    * Get the local charset via nl_langinfo(CODESET) when asking the DM to do ASCII-UNICODE conversions
+    * Handle (and remove) leading spaces from ini entries
 
 26th-November-2011
 2.3.1

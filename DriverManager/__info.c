@@ -466,6 +466,10 @@
 #include <time.h>
 #endif
 
+#ifdef HAVE_LANGINFO_H
+#include <langinfo.h>
+#endif
+
 #include "drivermanager.h"
 
 static char const rcsid[]= "$RCSfile: __info.c,v $ $Revision: 1.50 $";
@@ -484,7 +488,7 @@ int unicode_setup( DMHDBC connection )
     char ascii[ 256 ], unicode[ 256 ];
     char *be_ucode[] = { "UCS-2-INTERNAL", "UCS-2BE", "UCS-2", "ucs2", NULL };
     char *le_ucode[] = { "UCS-2-INTERNAL", "UCS-2LE", NULL };
-    char *asc[] = { "char", "ISO8859-1", "ISO-8859-1", "8859-1", "iso8859_1", "ASCII", NULL };
+    char *asc[] = { "char", "char", "ISO8859-1", "ISO-8859-1", "8859-1", "iso8859_1", "ASCII", NULL };
     union { long l; char c[sizeof (long)]; } u;
     int be;
 
@@ -496,6 +500,13 @@ int unicode_setup( DMHDBC connection )
     be = (u.c[sizeof (long) - 1] == 1);
 
     mutex_iconv_entry();
+
+#ifdef HAVE_NL_LANGINFO
+    /* 
+     * Try with current locale settings first 
+     */
+    asc[ 0 ] = nl_langinfo(CODESET);
+#endif
 
     /*
      * if required find a match

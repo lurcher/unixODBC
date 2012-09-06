@@ -420,16 +420,26 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
         if ( nValidFile == INI_SUCCESS )
         {
             char *ptr;
+            ptr = szLine;
             do
             {
-                if ( szLine[0] == cLeftBracket )
+                /*
+                 * remove leading spaces
+                 */
+                while( isspace( *ptr )) {
+                    ptr ++;
+                }
+                if ( *ptr == '\0' ) {
+                    continue;
+                }
+                if ( *ptr == cLeftBracket )
                 {
-                    _iniObjectRead( (*hIni), szLine, szObjectName );
+                    _iniObjectRead( (*hIni), ptr, szObjectName );
                     iniObjectInsert( (*hIni), szObjectName );
                 }
-                else if ( (strchr( cComment, szLine[0] ) == NULL ) && !isspace(szLine[0]) )
+                else if ((strchr( cComment, *ptr ) == NULL ));
                 {
-                    _iniPropertyRead( (*hIni), szLine, szPropertyName, szPropertyValue );
+                    _iniPropertyRead( (*hIni), ptr, szPropertyName, szPropertyValue );
                     iniPropertyInsert( (*hIni), szPropertyName, szPropertyValue );
                 }
 
