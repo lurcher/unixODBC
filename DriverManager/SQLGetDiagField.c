@@ -206,6 +206,26 @@ IM004,IM005,IM006,IM007,IM008,IM010,IM011,IM012"
 
 extern int __is_env( EHEAD * head );
 
+/*
+ * is it a diag identifier that we have to convert from unicode to ansi
+ */
+
+static int is_char_diag( int diag_identifier )
+{
+    switch( diag_identifier ) {
+        case SQL_DIAG_CLASS_ORIGIN:
+        case SQL_DIAG_CONNECTION_NAME:
+        case SQL_DIAG_MESSAGE_TEXT:
+        case SQL_DIAG_SERVER_NAME:
+        case SQL_DIAG_SQLSTATE:
+        case SQL_DIAG_SUBCLASS_ORIGIN:
+            return 1;
+
+        default:
+            return 0;
+    }
+}
+
 static SQLRETURN extract_sql_error_field( EHEAD *head,
                 SQLSMALLINT rec_number,
                 SQLSMALLINT diag_identifier,
@@ -492,7 +512,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             SQLWCHAR *s1 = NULL;
 			int char_buffer_len = sizeof( SQLWCHAR ) * buffer_length;
 
-            if ( buffer_length > 0 )
+            if ( is_char_diag( diag_identifier ) && diag_info_ptr && buffer_length > 0 )
             {
                 s1 = malloc( char_buffer_len + sizeof( SQLWCHAR ));
             }
@@ -503,7 +523,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                     rec_number,
                     diag_identifier,
                     s1 ? s1 : diag_info_ptr,
-                    char_buffer_len,
+                    s1 ? char_buffer_len + sizeof( SQLWCHAR ) : buffer_length,
                     string_length_ptr );
 
             if ( SQL_SUCCEEDED( ret ) && s1 && diag_info_ptr )

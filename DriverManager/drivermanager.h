@@ -158,7 +158,7 @@ typedef struct error
     SQLRETURN   diag_connection_name_ret;
     SQLRETURN   diag_server_name_ret;
     SQLINTEGER  diag_column_number;
-    SQLINTEGER  diag_row_number;
+    SQLLEN      diag_row_number;
     SQLWCHAR    diag_class_origin[ 128 ];
     SQLWCHAR    diag_subclass_origin[ 128 ];
     SQLWCHAR    diag_connection_name[ 128 ];

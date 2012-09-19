@@ -14,6 +14,7 @@
     * Handle SQL_NEED_DATA from a SQLMoreResults 
     * Get the local charset via nl_langinfo(CODESET) when asking the DM to do ASCII-UNICODE conversions
     * Handle (and remove) leading spaces from ini entries
+    * Fixed unicode conversion problems in SQLGetDiagField(W)
 
 26th-November-2011
 2.3.1

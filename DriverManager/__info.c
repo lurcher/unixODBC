@@ -3660,8 +3660,9 @@ int wide_strlen( SQLWCHAR *str1 )
 {
     int len = 0;
 
-    while( str1[ len ] )
+    while( str1[ len ] ) {
         len ++;
+    }
 
     return len;
 }

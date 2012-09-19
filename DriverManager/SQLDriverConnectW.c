@@ -143,16 +143,16 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
 
     if ( str_len == SQL_NTS )
     {
-        len =  wide_strlen( str ) + 1;
-        local_str = malloc( len );
+        len = wide_strlen( str );
+        local_str = malloc( len + 1 );
     }
     else
     {
-        len = str_len + 1;
-        local_str = malloc( len );
+        len = str_len;
+        local_str = malloc( len + 1 );
     }
 
-    unicode_to_ansi_copy( local_str, len - 1, str, len - 1, NULL );
+    unicode_to_ansi_copy( local_str, len, str, len, NULL );
 
     if ( !local_str || strlen( local_str ) == 0 ||
         ( strlen( local_str ) == 1 && *local_str == ';' ))
