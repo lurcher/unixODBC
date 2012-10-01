@@ -349,6 +349,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
     {
         cstr[ i ] = zcstr[ i ];
     }
+    cstr[ i ] = 0;
 
     if ( !SQL_SUCCEEDED( SQLDriverConnect( *phDbc, NULL, cstr, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT  )))
     {

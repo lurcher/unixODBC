@@ -394,10 +394,14 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
             hFile = uo_fopen( pszFileName, "r" );
         }
 
-	if ( ( !hFile ) &&
-		( errno != ENFILE ) && ( errno != EMFILE ) && 
-		( errno != ENOMEM ) && ( errno != EACCES ) )
+    if ( ( !hFile ) &&
+        ( errno != ENFILE ) && ( errno != EMFILE ) &&
+        ( errno != ENOMEM ) && ( errno != EACCES ) && 
+        ( errno != EFBIG ) && ( errno != EINTR ) &&
+        ( errno != ENOSPC ) && ( errno != EOVERFLOW ) &&
+        ( errno != EWOULDBLOCK ))
         {
+
             /*
              * This could fail because of something other than the file not existing...
              * so open as w+ just in case

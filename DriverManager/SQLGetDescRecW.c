@@ -349,7 +349,7 @@ SQLRETURN SQLGetDescRecW( SQLHDESC descriptor_handle,
 \n\t\t\tScale = %s\
 \n\t\t\tNullable = %s",
                     __get_return_status( ret, s8 ),
-                    __sdata_as_string( s1, SQL_CHAR, 
+                    __sdata_as_string( s1, SQL_WCHAR, 
                         string_length, name ),
                     __sptr_as_string( s2, type ),
                     __sptr_as_string( s3, sub_type ),

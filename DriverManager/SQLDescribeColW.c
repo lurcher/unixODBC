@@ -452,7 +452,7 @@ SQLRETURN SQLDescribeColW( SQLHSTMT statement_handle,
                 \n\t\t\tDecimal Digits = %s\
                 \n\t\t\tNullable = %s",
                     __get_return_status( ret, s6 ),
-                    __sdata_as_string( s1, SQL_CHAR, 
+                    __sdata_as_string( s1, SQL_WCHAR, 
                         name_length, column_name ),
                     __sptr_as_string( s2, data_type ),
                     __ptr_as_string( s3, (SQLLEN*)column_size ),

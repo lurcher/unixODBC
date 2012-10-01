@@ -281,7 +281,7 @@ SQLRETURN SQLGetCursorNameW( SQLHSTMT statement_handle,
                 "\n\t\tExit:[%s]\
                 \n\t\t\tCursor Name = %s",
                     __get_return_status( ret, s1 ),
-                    __sdata_as_string( s1, SQL_CHAR, 
+                    __sdata_as_string( s1, SQL_WCHAR, 
                         name_length, cursor_name ));
 
         dm_log_write( __FILE__, 
