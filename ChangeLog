@@ -17,6 +17,7 @@
     * Fixed unicode conversion problems in SQLGetDiagField(W)
     * missing terminating null in iusql
     * add to the list of errno states that does not cause a create of the ini file
+    * SQLSetConnactAttr() -> SQLSetConnectAttrW() was passing incorrect string length
 
 26th-November-2011
 2.3.1
