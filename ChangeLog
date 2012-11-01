@@ -18,6 +18,8 @@
     * missing terminating null in iusql
     * add to the list of errno states that does not cause a create of the ini file
     * SQLSetConnactAttr() -> SQLSetConnectAttrW() was passing incorrect string length
+    * Fix double free in SQLGetDiagFieldW
+    * Fix Unicode/Ansi conversion problem in SQLGetDiagFieldW.c
 
 26th-November-2011
 2.3.1

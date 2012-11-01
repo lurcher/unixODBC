@@ -253,14 +253,31 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             else if ( !__get_connection( head ) -> unicode_driver &&
                 CHECK_SQLGETDIAGFIELD( __get_connection( head )))
             {
-                ret = SQLGETDIAGFIELDW( __get_connection( head ),
+                SQLCHAR *as1 = NULL;
+
+                if ( buffer_length > 0 && diag_info_ptr )
+                {
+                    as1 = malloc( buffer_length + 1 );
+                }
+
+                ret = SQLGETDIAGFIELD( __get_connection( head ),
                         SQL_HANDLE_STMT,
                         __get_driver_handle( head ),
                         0,
                         diag_identifier,
-                        diag_info_ptr,
-                        buffer_length,
+                        as1 ? as1 : diag_info_ptr,
+                        buffer_length / 2,
                         string_length_ptr );
+
+                if ( SQL_SUCCEEDED( ret ) && as1 && diag_info_ptr )
+                {
+                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ));
+                }
+
+                if ( as1 )
+                {
+                    free( as1 );
+                }
 
                 return ret;
             }
@@ -305,31 +322,14 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             else if ( !__get_connection( head ) -> unicode_driver &&
                 CHECK_SQLGETDIAGFIELD( __get_connection( head )))
             {
-                SQLCHAR *as1 = NULL;
-
-                if ( buffer_length > 0 && diag_info_ptr )
-                {
-                    as1 = malloc( buffer_length + 1 );
-                }
-
                 ret = SQLGETDIAGFIELD( __get_connection( head ),
                         SQL_HANDLE_STMT,
                         __get_driver_handle( head ),
                         0,
                         diag_identifier,
-                        as1 ? as1 : diag_info_ptr,
-                        buffer_length / 2,
+                        diag_info_ptr,
+                        buffer_length,
                         string_length_ptr );
-
-                if ( SQL_SUCCEEDED( ret ) && as1 && diag_info_ptr )
-                {
-                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ));
-                }
-
-                if ( as1 )
-                {
-                    free( as1 );
-                }
 
                 return ret;
             }
@@ -565,7 +565,6 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 *string_length_ptr = wide_strlen( str );
             }
 
-            free( str );
             return ret;
         }
         break;
