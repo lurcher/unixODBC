@@ -3471,6 +3471,7 @@ void return_to_pool( DMHDBC connection )
         ptr -> connection.quite_mode_set = connection -> quite_mode_set;
         ptr -> connection.txn_isolation = connection -> txn_isolation;
         ptr -> connection.txn_isolation_set = connection -> txn_isolation_set;
+        ptr -> connection.unicode_driver = connection ->unicode_driver;
 
         ptr -> connection.cursors = connection -> cursors;
         ptr -> connection.cl_handle = connection -> cl_handle;

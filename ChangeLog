@@ -21,6 +21,7 @@
     * Fix double free in SQLGetDiagFieldW
     * Fix Unicode/Ansi conversion problem in SQLGetDiagFieldW.c
     * Add support for Driver64 in SQLDriverConnectW
+    * Add missing unicode setting when returning a connection to the pool
 
 26th-November-2011
 2.3.1
