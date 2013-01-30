@@ -353,6 +353,8 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
 
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
+        __disconnect_part_four( connection );       /* release unicode handles */
+
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
@@ -366,6 +368,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                 "Error: IM001" );
 
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
         __post_internal_error( &connection -> error,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
@@ -616,6 +619,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
         if ( !SQL_SUCCEEDED( ret_from_connect ))
         {
             __disconnect_part_one( connection );
+            __disconnect_part_four( connection );       /* release unicode handles */
 
             return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
         }
@@ -650,6 +654,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
 
         __disconnect_part_two( connection );
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
 
         connection -> state = STATE_C3;
 

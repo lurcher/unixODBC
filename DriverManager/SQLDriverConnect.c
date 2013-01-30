@@ -1306,6 +1306,8 @@ SQLRETURN SQLDriverConnect(
             free( save_filedsn );
         }
 
+        __disconnect_part_four( connection );       /* release unicode handles */
+
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
@@ -1319,6 +1321,7 @@ SQLRETURN SQLDriverConnect(
                 "Error: IM001" );
 
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
         __post_internal_error( &connection -> error,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );

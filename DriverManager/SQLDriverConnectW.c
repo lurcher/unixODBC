@@ -568,6 +568,7 @@ SQLRETURN SQLDriverConnectW(
      */
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
+        __disconnect_part_four( connection );       /* release unicode handles */
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
@@ -581,6 +582,7 @@ SQLRETURN SQLDriverConnectW(
                 "Error: IM001" );
 
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
         __post_internal_error( &connection -> error,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
@@ -687,6 +689,7 @@ SQLRETURN SQLDriverConnectW(
             if ( !SQL_SUCCEEDED( ret_from_connect ))
             {
                 __disconnect_part_one( connection );
+                __disconnect_part_four( connection );       /* release unicode handles */
 
                 sprintf( connection -> msg,
                         "\n\t\tExit:[%s]",
@@ -833,6 +836,7 @@ SQLRETURN SQLDriverConnectW(
             if ( !SQL_SUCCEEDED( ret_from_connect ))
             {
                 __disconnect_part_one( connection );
+                __disconnect_part_four( connection );       /* release unicode handles */
 
                 sprintf( connection -> msg,
                         "\n\t\tExit:[%s]",
@@ -876,6 +880,7 @@ SQLRETURN SQLDriverConnectW(
     {
         __disconnect_part_two( connection );
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
 
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }

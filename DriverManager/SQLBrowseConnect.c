@@ -393,6 +393,8 @@ SQLRETURN SQLBrowseConnect(
 
         if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
         {
+            __disconnect_part_four( connection );       /* release unicode handles */
+
             dm_log_write( __FILE__,
                     __LINE__,
                     LOG_INFO,
@@ -411,6 +413,7 @@ SQLRETURN SQLBrowseConnect(
                         "Error: IM001" );
 
             __disconnect_part_one( connection );
+            __disconnect_part_four( connection );       /* release unicode handles */
             __post_internal_error( &connection -> error,
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
@@ -470,6 +473,7 @@ SQLRETURN SQLBrowseConnect(
                       "Error: IM001" );
 
         __disconnect_part_one( connection );
+        __disconnect_part_four( connection );       /* release unicode handles */
         __post_internal_error( &connection -> error,
                                ERROR_IM001, NULL,
                                connection -> environment -> requested_version );
@@ -555,6 +559,7 @@ SQLRETURN SQLBrowseConnect(
     	if ( ret != SQL_NEED_DATA ) 
 		{
         	__disconnect_part_one( connection );
+            __disconnect_part_four( connection );       /* release unicode handles */
         	connection -> state = STATE_C2;
 		}
 		else 
@@ -579,6 +584,7 @@ SQLRETURN SQLBrowseConnect(
         {
             __disconnect_part_two( connection );
             __disconnect_part_one( connection );
+            __disconnect_part_four( connection );       /* release unicode handles */
             if ( log_info.log_flag )
             {
                 sprintf( connection -> msg, 
