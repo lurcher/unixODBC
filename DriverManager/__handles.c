@@ -1354,7 +1354,7 @@ void __release_stmt( DMHSTMT statement )
 
 DMHDESC __alloc_desc( void )
 {
-    DMHDESC descriptor = NULL;
+    DMHDESC descriptor;
 
     mutex_entry( &mutex_lists );
 
@@ -1375,18 +1375,17 @@ DMHDESC __alloc_desc( void )
 #endif    
         descriptor_root = descriptor;
         descriptor -> type = HDESC_MAGIC;
-    }
 
-    setup_error_head( &descriptor -> error, descriptor,
-            SQL_HANDLE_DESC );
+        setup_error_head( &descriptor -> error, descriptor, SQL_HANDLE_DESC );
 
 #ifdef HAVE_LIBPTH
-    pth_mutex_init( &descriptor -> mutex );
+        pth_mutex_init( &descriptor -> mutex );
 #elif HAVE_LIBPTHREAD
-    pthread_mutex_init( &descriptor -> mutex, NULL );
+        pthread_mutex_init( &descriptor -> mutex, NULL );
 #elif HAVE_LIBTHREAD
-    mutex_init( &descriptor -> mutex, USYNC_THREAD, NULL );
+        mutex_init( &descriptor -> mutex, USYNC_THREAD, NULL );
 #endif
+    }
 
     mutex_exit( &mutex_lists );
 

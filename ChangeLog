@@ -23,6 +23,7 @@
     * Add support for Driver64 in SQLDriverConnectW
     * Add missing unicode setting when returning a connection to the pool
     * Tidy up leaking iconv handles if connect_part_one fails
+    * Fix (and avoid) some out of memory problems
 
 26th-November-2011
 2.3.1
