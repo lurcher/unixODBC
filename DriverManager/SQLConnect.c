@@ -1101,9 +1101,12 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     if ( !(connection -> dl_handle = odbc_dlopen( driver_lib )))
     {
         char txt[ 2048 ];
+        const char *err;
+
+        err = lt_dlerror();
 
         sprintf( txt, "Can't open lib '%s' : %s", 
-                driver_lib, lt_dlerror());
+                driver_lib, err ? err : "NULL ERROR RETURN" );
 
         dm_log_write( __FILE__,
                 __LINE__,
@@ -2330,9 +2333,12 @@ int __connect_part_two( DMHDBC connection )
             if ( !(connection -> cl_handle = odbc_dlopen( name )))
             {
                 char txt[ 256 ];
+                const char *err;
+
+                err = lt_dlerror();
 
                 sprintf( txt, "Can't open cursor lib '%s' : %s", 
-                    name, lt_dlerror());
+                    name, err ? err : "NULL ERROR RETURN" );
 
                 dm_log_write( __FILE__,
                         __LINE__,
