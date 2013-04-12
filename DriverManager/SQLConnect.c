@@ -788,7 +788,7 @@ static struct lib_count *lib_list = NULL;
 static struct lib_count single_lib_count;
 static char single_lib_name[ INI_MAX_PROPERTY_VALUE + 1 ];
 
-static void *odbc_dlopen( char *libname )
+static void *odbc_dlopen( char *libname, char **err )
 {
     void *hand;
     struct lib_count *list;
@@ -821,29 +821,34 @@ static void *odbc_dlopen( char *libname )
 
         if ( hand )
         {
-	    /*
-	     * If only one, then use the static space
-	     */
-
-	    if ( lib_list == NULL )
-	    {
-		    list = &single_lib_count;
-		    list -> next = lib_list;
-		    lib_list = list;
-		    list -> count = 1;
-		    list -> lib_name = single_lib_name;
-		    strcpy( single_lib_name, libname );
-		    list -> handle = hand;
-	    }
-	    else
-	    {
-		    list = malloc( sizeof( struct lib_count ));
-		    list -> next = lib_list;
-		    lib_list = list;
-		    list -> count = 1;
-		    list -> lib_name = strdup( libname );
-		    list -> handle = hand;
-	    }
+	        /*
+	        * If only one, then use the static space
+	        */
+    
+	        if ( lib_list == NULL )
+	        {
+		        list = &single_lib_count;
+		        list -> next = lib_list;
+		        lib_list = list;
+		        list -> count = 1;
+		        list -> lib_name = single_lib_name;
+		        strcpy( single_lib_name, libname );
+		        list -> handle = hand;
+	        }
+	        else
+	        {
+		        list = malloc( sizeof( struct lib_count ));
+		        list -> next = lib_list;
+		        lib_list = list;
+		        list -> count = 1;
+		        list -> lib_name = strdup( libname );
+		        list -> handle = hand;
+	        }
+        }
+        else {
+            if ( err ) {
+                *err = (char*) lt_dlerror();
+            }
         }
     }
 
@@ -936,6 +941,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     char disable_gf[ 50 ];
     char fake_string[ 50 ];
     int fake_unicode;
+    char *err;
     struct env_lib_struct *env_lib_list, *env_lib_prev;
 
     /*
@@ -1101,12 +1107,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     connection -> functions = NULL;
     connection -> dl_handle = NULL;
 
-    if ( !(connection -> dl_handle = odbc_dlopen( driver_lib )))
+    if ( !(connection -> dl_handle = odbc_dlopen( driver_lib, &err )))
     {
         char txt[ 2048 ];
-        const char *err;
-
-        err = lt_dlerror();
 
         sprintf( txt, "Can't open lib '%s' : %s", 
                 driver_lib, err ? err : "NULL ERROR RETURN" );
@@ -2282,6 +2285,7 @@ int __connect_part_two( DMHDBC connection )
 		char ext[ 32 ]; 
 		char name[ 128 ];
         int (*cl_connect)(void*, struct driver_helper_funcs*);
+        char *err;
         struct driver_helper_funcs dh;
 
 		/*
@@ -2303,7 +2307,7 @@ int __connect_part_two( DMHDBC connection )
             sprintf( name, "%s%s", CURSOR_LIB, ext );
 #endif
 
-        if ( !(connection -> cl_handle = odbc_dlopen( name )))
+        if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
         {
             char b1[ 1024 ];
             /*
@@ -2333,12 +2337,9 @@ int __connect_part_two( DMHDBC connection )
 #endif
 #endif
 #endif
-            if ( !(connection -> cl_handle = odbc_dlopen( name )))
+            if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
             {
                 char txt[ 256 ];
-                const char *err;
-
-                err = lt_dlerror();
 
                 sprintf( txt, "Can't open cursor lib '%s' : %s", 
                     name, err ? err : "NULL ERROR RETURN" );
