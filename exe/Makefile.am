@@ -1,4 +1,4 @@
-bin_PROGRAMS = isql dltest odbcinst iusql odbc_config
+bin_PROGRAMS = isql dltest odbcinst iusql odbc_config slencheck
 
 INCLUDES = -I@top_srcdir@/include $(LTDLINCL) 
 
@@ -45,6 +45,16 @@ iusql_SOURCES = iusql.c
 dltest_SOURCES = dltest.c
 
 odbc_config_SOURCES = odbc-config.c
+
+slencheck_LDADD = \
+	../DriverManager/libodbc.la \
+ 	$(READLINE)
+
+slencheck_DEPENDENCIES = \
+	../DriverManager/libodbc.la
+
+slencheck_SOURCES = slencheck.c
+
 
 dltest_DEPENDENCIES = $(LTDLDEPS)
 dltest_LDADD = $(LIBLTDL)

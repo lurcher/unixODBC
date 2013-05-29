@@ -25,6 +25,7 @@
     * Tidy up leaking iconv handles if connect_part_one fails
     * Fix (and avoid) some out of memory problems
     * Wrap lt_dlinit and dlerror in the lib mutex
+    * Add slencheck executable to try and find the sizeof(SQLLEN) from a installed driver
 
 26th-November-2011
 2.3.1
