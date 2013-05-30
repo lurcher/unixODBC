@@ -122,6 +122,12 @@ int main( int argc, char **argv )
 
     if ( size ) {
         printf( "slencheck: sizeof(SQLLEN) == %d\n", size );
+        if ( size == sizeof( SQLLEN )) {
+            printf( "slencheck: driver manager and driver matched\n" );
+        }
+        else {
+            printf( "slencheck: driver manager and driver differ!!!\n" );
+        }
     }
     else {
         printf( "slencheck: can't decide on sizeof(SQLLEN)\n" );
