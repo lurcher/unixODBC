@@ -441,7 +441,7 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
                     _iniObjectRead( (*hIni), ptr, szObjectName );
                     iniObjectInsert( (*hIni), szObjectName );
                 }
-                else if ((strchr( cComment, *ptr ) == NULL ));
+                else if ((strchr( cComment, *ptr ) == NULL ))
                 {
                     _iniPropertyRead( (*hIni), ptr, szPropertyName, szPropertyValue );
                     iniPropertyInsert( (*hIni), szPropertyName, szPropertyValue );
