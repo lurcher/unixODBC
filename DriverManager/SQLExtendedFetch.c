@@ -312,6 +312,10 @@ SQLRETURN SQLExtendedFetch(
     {
         statement -> state = STATE_S7;
     }
+    else if ( ret == SQL_NO_DATA )
+    {
+        statement -> state = STATE_S7;
+    }
 
     if ( log_info.log_flag )
     {

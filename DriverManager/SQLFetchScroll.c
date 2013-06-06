@@ -337,6 +337,7 @@ SQLRETURN SQLFetchScroll( SQLHSTMT statement_handle,
     }
     else if ( ret == SQL_NO_DATA ) {
         statement -> eod = 1;
+        statement -> state = STATE_S6;
     }
 
     if ( log_info.log_flag )

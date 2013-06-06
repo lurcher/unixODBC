@@ -26,6 +26,7 @@
     * Fix (and avoid) some out of memory problems
     * Wrap lt_dlinit and dlerror in the lib mutex
     * Add slencheck executable to try and find the sizeof(SQLLEN) from a installed driver
+    * SQL_NO_DATA after SQL_STILL_EXECUTING in SQLExtendedFetch was not setting the state correctly
 
 26th-November-2011
 2.3.1
