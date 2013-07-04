@@ -122,6 +122,7 @@ int main( int argc, char *argv[] )
                     break;
                 case '3':
                     version3 = 1;
+                    break;
                 case 'v':
                     bVerbose = 1;
                     break;
@@ -615,8 +616,7 @@ static void display_result_set( SQLHDBC hDbc, SQLHSTMT hStmt )
         {
             if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
             fprintf( stderr, "[ISQL]ERROR: Could not SQLNumResultCols\n" );
-            SQLFreeStmt( hStmt, SQL_DROP );
-            free(szSepLine);
+            break;
         }
 
         if ( cols > 0 )

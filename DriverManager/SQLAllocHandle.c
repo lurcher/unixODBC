@@ -599,7 +599,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
              * pass the call on
              */
 
-            if ( requested_version == SQL_OV_ODBC3 )
+            if ( requested_version >= SQL_OV_ODBC3 )
             {
                 if ( CHECK_SQLALLOCHANDLE( connection ))
                 {

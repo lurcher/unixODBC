@@ -257,7 +257,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
   int driver_ver=connection->driver_act_ver;
   int wanted_ver=connection->environment->requested_version;
 
-  if(driver_ver==SQL_OV_ODBC2 && wanted_ver==SQL_OV_ODBC3) {
+  if(driver_ver==SQL_OV_ODBC2 && wanted_ver>=SQL_OV_ODBC3) {
     switch(map) {
     case MAP_SQL_DM2D:
       type=sql_new_to_old(type);
@@ -275,7 +275,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
       type=c_old_to_new(type);
       break;
     }
-  } else if(driver_ver==SQL_OV_ODBC3 && wanted_ver==SQL_OV_ODBC2) {
+  } else if(driver_ver>=SQL_OV_ODBC3 && wanted_ver==SQL_OV_ODBC2) {
     switch(map) {
     case MAP_SQL_DM2D:
       type=sql_old_to_new(type);
@@ -293,7 +293,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
       type=c_new_to_old(type);
       break;
     }
-  } else if(driver_ver==SQL_OV_ODBC3 && wanted_ver==SQL_OV_ODBC3) {
+  } else if(driver_ver>=SQL_OV_ODBC3 && wanted_ver>=SQL_OV_ODBC3) {
     switch(map) {
     case MAP_SQL_DM2D:
     case MAP_SQL_D2DM:

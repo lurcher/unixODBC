@@ -250,7 +250,8 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
             SQLUINTEGER ptr = (SQLUINTEGER) value;
 
             if ( ptr != SQL_OV_ODBC2 &&
-                    ptr != SQL_OV_ODBC3 )
+                    ptr != SQL_OV_ODBC3 &&
+                    ptr != SQL_OV_ODBC3_80 )
             {
                 dm_log_write( __FILE__, 
                         __LINE__, 

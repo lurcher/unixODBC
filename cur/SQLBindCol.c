@@ -90,7 +90,7 @@ int free_bound_columns( CLHSTMT cl_statement )
     {
         CLBCOL *next;
         
-        if ( bcol -> local_buffer );
+        if ( bcol -> local_buffer )
         {
             free( bcol -> local_buffer );
         }

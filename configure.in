@@ -532,6 +532,7 @@ AC_OUTPUT( Makefile \
     Drivers/template/Makefile \
     Drivers/MiniSQL/Makefile \
     include/Makefile \
+    man/Makefile \
     doc/Makefile \
     doc/AdministratorManual/Makefile \
     doc/ProgrammerManual/Makefile \

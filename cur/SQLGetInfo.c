@@ -140,6 +140,7 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
         value = SQL_PS_POSITIONED_DELETE |
                     SQL_PS_POSITIONED_UPDATE | 
                     SQL_PS_SELECT_FOR_UPDATE;
+        break;
 
       case SQL_ROW_UPDATES:
         cval = "Y";

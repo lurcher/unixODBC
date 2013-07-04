@@ -1436,7 +1436,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
          * if it looks like a 3.x driver, try setting the interface type
          * to 3.x
          */
-		if ( connection -> driver_act_ver == SQL_OV_ODBC3 && CHECK_SQLSETENVATTR( connection ))
+		if ( connection -> driver_act_ver >= SQL_OV_ODBC3 && CHECK_SQLSETENVATTR( connection ))
 		{
             ret = SQLSETENVATTR( connection,
                     connection -> driver_env,
@@ -1499,7 +1499,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      * allocate a connection handle
      */
 
-    if ( connection -> driver_version == SQL_OV_ODBC3 )
+    if ( connection -> driver_version >= SQL_OV_ODBC3 )
     {
         ret = SQL_SUCCESS;
 
@@ -1873,7 +1873,7 @@ int __connect_part_two( DMHDBC connection )
          * some drivers (SAPDB) fail to return the correct values in this situation
          */
 
-        if ( connection -> driver_act_ver == SQL_OV_ODBC3 )
+        if ( connection -> driver_act_ver >= SQL_OV_ODBC3 )
         {
             ret = SQLGETFUNCTIONS( connection,
                 connection -> driver_dbc,
@@ -1899,7 +1899,7 @@ int __connect_part_two( DMHDBC connection )
                     SQLRETURN ret;
                     SQLUSMALLINT supported;
 
-					if ( connection -> driver_act_ver == SQL_OV_ODBC3 )
+					if ( connection -> driver_act_ver >= SQL_OV_ODBC3 )
 					{
                         supported = SQL_FUNC_EXISTS( supported_funcs, connection -> functions[ i ].ordinal );
 
@@ -2163,7 +2163,7 @@ int __connect_part_two( DMHDBC connection )
         char txt[ 20 ];
         SQLRETURN ret;
 
-        if ( connection -> driver_act_ver == SQL_OV_ODBC3 )
+        if ( connection -> driver_act_ver >= SQL_OV_ODBC3 )
         {
             ret = __SQLGetInfo( connection,
                     SQL_XOPEN_CLI_YEAR,
@@ -2213,7 +2213,7 @@ int __connect_part_two( DMHDBC connection )
              * check if static cursors support scrolling
              */
 
-            if ( connection -> driver_act_ver ==
+            if ( connection -> driver_act_ver >=
                     SQL_OV_ODBC3 )
             {
                 ret = __SQLGetInfo( connection,
@@ -2431,7 +2431,7 @@ static void release_env( DMHDBC connection )
         }
         else
         {
-            if ( connection -> driver_version == SQL_OV_ODBC3 )
+            if ( connection -> driver_version >= SQL_OV_ODBC3 )
             {
 				ret = SQL_ERROR;
                 if ( CHECK_SQLFREEHANDLE( connection ))
@@ -2509,7 +2509,7 @@ void __disconnect_part_one( DMHDBC connection )
      */
     if ( connection -> driver_dbc )
     {
-        if ( connection -> driver_version == SQL_OV_ODBC3 )
+        if ( connection -> driver_version >= SQL_OV_ODBC3 )
         {
             if ( CHECK_SQLFREEHANDLE( connection ))
             {
@@ -2681,7 +2681,7 @@ void __disconnect_part_four( DMHDBC connection )
 
 void __disconnect_part_three( DMHDBC connection )
 {
-    if ( connection -> driver_version == SQL_OV_ODBC3 )
+    if ( connection -> driver_version >= SQL_OV_ODBC3 )
     {
         if ( CHECK_SQLFREEHANDLE( connection ))
         {
@@ -2814,7 +2814,7 @@ static void close_pooled_connection( CPOOL *ptr )
          * complete disconnection from driver
          */
 
-        if ( ptr -> connection.driver_version == SQL_OV_ODBC3 )
+        if ( ptr -> connection.driver_version >= SQL_OV_ODBC3 )
         {
             if ( CHECK_SQLFREEHANDLE(( &ptr -> connection )))
             {

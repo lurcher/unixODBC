@@ -3043,7 +3043,7 @@ void __map_error_state( char * state, int requested_version )
             ptr ++;
         }
     }
-    else if ( requested_version == SQL_OV_ODBC3 )
+    else if ( requested_version >= SQL_OV_ODBC3 )
     {
         ptr = state_mapping_2_3;
 
@@ -4031,7 +4031,7 @@ void __post_internal_error_ex_w( EHEAD *error_header,
 
 void setup_error_head( EHEAD *error_header, void *handle, int type )
 {
-    memset( error_header, 0, sizeof( error_header ));
+    memset( error_header, 0, sizeof( *error_header ));
 
     error_header -> owning_handle = handle;
     error_header -> handle_type = type;
@@ -5092,7 +5092,7 @@ void function_entry( void *handle )
      */
 
 #ifdef USE_OLD_ODBC2_ERROR_CLEARING
-    if ( version == SQL_OV_ODBC3 )
+    if ( version >= SQL_OV_ODBC3 )
 #endif
     {
         prev = NULL;
@@ -5167,7 +5167,7 @@ void __post_internal_error_api( EHEAD *error_handle,
           case SQL_API_SQLDESCRIBEPARAM:
           case SQL_API_SQLBINDPARAMETER:
           case SQL_API_SQLSETPARAM:
-                if ( connection_mode == SQL_OV_ODBC3 )
+                if ( connection_mode >= SQL_OV_ODBC3 )
                     strcpy( sqlstate, "07009" );
                 else
                     strcpy( sqlstate, "S1093" );
@@ -5175,7 +5175,7 @@ void __post_internal_error_api( EHEAD *error_handle,
                 break;
 
           default:
-                if ( connection_mode == SQL_OV_ODBC3 )
+                if ( connection_mode >= SQL_OV_ODBC3 )
                     strcpy( sqlstate, "07009" );
                 else
                     strcpy( sqlstate, "S1002" );
@@ -5246,7 +5246,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY001:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY001" );
         else
             strcpy( sqlstate, "S1011" );
@@ -5254,7 +5254,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY003:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY003" );
         else
             strcpy( sqlstate, "S1003" );
@@ -5262,7 +5262,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY004:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY004" );
         else
             strcpy( sqlstate, "S1004" );
@@ -5270,7 +5270,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY007:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY007" );
         else
             strcpy( sqlstate, "S1007" );
@@ -5278,7 +5278,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY009:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY009" );
         else
             strcpy( sqlstate, "S1009" );
@@ -5286,7 +5286,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY010:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY010" );
         else
             strcpy( sqlstate, "S1010" );
@@ -5294,7 +5294,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY011:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY011" );
         else
             strcpy( sqlstate, "S1011" );
@@ -5302,7 +5302,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY012:
-	    if ( connection_mode == SQL_OV_ODBC3 )
+	    if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY012" );
         else
             strcpy( sqlstate, "S1012" );
@@ -5310,7 +5310,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY013:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY013" );
         else
             strcpy( sqlstate, "S1013" );
@@ -5323,7 +5323,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY024:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY024" );
         else
             strcpy( sqlstate, "S1009" );
@@ -5331,7 +5331,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY090:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY090" );
         else
             strcpy( sqlstate, "S1090" );
@@ -5339,7 +5339,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY092:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY092" );
         else
             strcpy( sqlstate, "S1092" );
@@ -5347,7 +5347,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY097:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY097" );
         else
             strcpy( sqlstate, "S1097" );
@@ -5355,7 +5355,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY098:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY098" );
         else
             strcpy( sqlstate, "S1098" );
@@ -5363,7 +5363,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY099:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY099" );
         else
             strcpy( sqlstate, "S1099" );
@@ -5371,7 +5371,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY100:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY100" );
         else
             strcpy( sqlstate, "S1100" );
@@ -5379,7 +5379,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY101:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY101" );
         else
             strcpy( sqlstate, "S1101" );
@@ -5387,7 +5387,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY103:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY103" );
         else
             strcpy( sqlstate, "S1103" );
@@ -5395,7 +5395,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY105:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY105" );
         else
             strcpy( sqlstate, "S1105" );
@@ -5403,7 +5403,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY106:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY106" );
         else
             strcpy( sqlstate, "S1106" );
@@ -5411,7 +5411,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY110:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY110" );
         else
             strcpy( sqlstate, "S1110" );
@@ -5419,7 +5419,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY111:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY111" );
         else
             strcpy( sqlstate, "S1111" );
@@ -5427,7 +5427,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HYC00:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HYC00" );
         else
             strcpy( sqlstate, "S1C00" );
@@ -5519,7 +5519,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         break;
 
       case ERROR_HY000:
-        if ( connection_mode == SQL_OV_ODBC3 )
+        if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY000" );
         else
             strcpy( sqlstate, "S1000" );

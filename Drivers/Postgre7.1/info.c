@@ -1007,7 +1007,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 	strcpy(prefixes, globals.extra_systable_prefixes);
 	i = 0;
 	prefix[i] = strtok(prefixes, ";");
-	while (prefix[i] && i<32) {
+	while (prefix[i] && i<sizeof(prefix)-1) {
 		prefix[++i] = strtok(NULL, ";");
 	}
 
@@ -1023,7 +1023,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 		free(tableType);
 		i = 0;
 		table_type[i] = strtok(table_types, ",");
-		while (table_type[i] && i<32) {
+		while (table_type[i] && i<sizeof(table_type)-1) {
 			table_type[++i] = strtok(NULL, ",");
 		}
 

@@ -230,7 +230,7 @@ SQLRETURN SQLDescribeParam(
             statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ) &&
-            statement -> connection -> environment -> requested_version == SQL_OV_ODBC3 )
+            statement -> connection -> environment -> requested_version >= SQL_OV_ODBC3 )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

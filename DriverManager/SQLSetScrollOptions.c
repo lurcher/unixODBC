@@ -252,7 +252,7 @@ SQLRETURN SQLSetScrollOptions(
                 crow_keyset,
                 crow_rowset );
     }
-    else if ( statement -> connection -> driver_act_ver == SQL_OV_ODBC3 &&
+    else if ( statement -> connection -> driver_act_ver >= SQL_OV_ODBC3 &&
             (CHECK_SQLGETINFO( statement -> connection ) || 
 			CHECK_SQLGETINFOW( statement -> connection )) &&
             (CHECK_SQLSETSTMTATTR( statement -> connection ) ||

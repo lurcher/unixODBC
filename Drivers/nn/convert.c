@@ -234,7 +234,7 @@ fptr_t	nnodbc_get_c2sql_cvt(int ctype, int sqltype)
 {
 	int	i, cidx = -1, sqlidx = -1;
 
-	for(i=0; i< sizeof(ctype_idx_tab); i++ )
+	for(i=0; i< sizeof(ctype_idx_tab) / sizeof(ctype_idx_tab[ 0 ]); i++ )
 	{
 		if( ctype_idx_tab[i].ctype == ctype )
 		{
@@ -246,7 +246,7 @@ fptr_t	nnodbc_get_c2sql_cvt(int ctype, int sqltype)
 	if( cidx == -1 )
 		return 0;
 
-	for(i=0; i< sizeof(ctype_idx_tab); i++ )
+	for(i=0; i< sizeof(sqltype_idx_tab) / sizeof(sqltype_idx_tab[ 0 ]); i++ )
 	{
 		if( sqltype_idx_tab[i].sqltype == sqltype )
 		{
@@ -420,7 +420,7 @@ fptr_t	nnodbc_get_sql2c_cvt(int sqltype, int ctype)
 {
 	int	i, cidx = -1, sqlidx = -1;
 
-	for(i=0; i< sizeof(ctype_idx_tab); i++ )
+	for(i=0; i< sizeof(ctype_idx_tab) / sizeof(ctype_idx_tab[ 0 ]); i++ )
 	{
 		if( ctype_idx_tab[i].ctype == ctype )
 		{
@@ -432,7 +432,7 @@ fptr_t	nnodbc_get_sql2c_cvt(int sqltype, int ctype)
 	if( cidx == -1 )
 		return 0;
 
-	for(i=0; i< sizeof(ctype_idx_tab); i++ )
+	for(i=0; i< sizeof(sqltype_idx_tab) / sizeof(sqltype_idx_tab[ 0 ]); i++ )
 	{
 		if( sqltype_idx_tab[i].sqltype == sqltype )
 		{

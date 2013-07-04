@@ -657,6 +657,7 @@ static attr_options env_options[] =
 		{
 			{ "SQL_OV_ODBC2", SQL_OV_ODBC2 }, 
 			{ "SQL_OV_ODBC3", SQL_OV_ODBC3 }, 
+			{ "SQL_OV_ODBC3_80", SQL_OV_ODBC3_80 }, 
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
@@ -988,7 +989,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
             return;
         }
 
-        if ( connection -> driver_version == SQL_OV_ODBC3 )
+        if ( connection -> driver_version >= SQL_OV_ODBC3 )
         {
             if ( CHECK_SQLSETENVATTR( connection ))
             {
@@ -1022,7 +1023,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
     {
         DMHDBC connection = (DMHDBC) handle;
 
-        if ( connection -> driver_version == SQL_OV_ODBC3 )
+        if ( connection -> driver_version >= SQL_OV_ODBC3 )
         {
             if ( CHECK_SQLSETCONNECTATTR( connection ))
             {
@@ -1094,7 +1095,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
         DMHSTMT statement = (DMHSTMT) handle;
         DMHDBC connection = statement -> connection;
 
-        if ( connection -> driver_version == SQL_OV_ODBC3 )
+        if ( connection -> driver_version >= SQL_OV_ODBC3 )
         {
             if ( CHECK_SQLSETSTMTATTR( connection ))
             {

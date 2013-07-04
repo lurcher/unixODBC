@@ -14,6 +14,7 @@ SUBDIRS = \
 	Drivers \
 	include \
 	doc \
+    man \
 	samples 
 
 EXTRA_DIST = \

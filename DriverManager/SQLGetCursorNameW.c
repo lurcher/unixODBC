@@ -172,7 +172,7 @@ SQLRETURN SQLGetCursorNameW( SQLHSTMT statement_handle,
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if ( !buffer_length < 0 )
+    if ( buffer_length < 0 )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
