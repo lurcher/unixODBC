@@ -10,7 +10,7 @@ $ define/translation=concealed ODBCSRC "''basedir'.]"
 $!
 $ if p1 .eqs. "" then $goto ERR_NOPARAMS
 $!
-$ includes = "ODBCSRC:[include],ODBCSRC:[extras],ODBCSRC:[libltdl]"
+$ includes = "ODBCSRC:[include],ODBCSRC:[extras],""/ODBCSRC/libltdl"""
 $! /first_include requires CC 6.4 or later but avoids impossibly long /define qualifier
 $ CFLAGS="/names=as_is/prefix=all/include=(" + includes + ")/first_include=(ODBCSRC:[include]vmsconfig.h)
 $ LFLAGS="/nodebug/notrace"
@@ -39,14 +39,20 @@ $   if f$search("ODBCSRC:[vms]libodbcinst.olb") .eqs. "" then library/create ODB
 $   if f$search("ODBCSRC:[vms]libodbc.olb") .eqs. "" then library/create ODBCSRC:[vms]libodbc.olb
 $   if f$search("ODBCSRC:[vms]libodbcpsql.olb") .eqs. "" then library/create ODBCSRC:[vms]libodbcpsql.olb
 $   call create_vmsconfig_h
-$   call compile "ODBCSRC:[extras]" "*.C" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
-$   call compile "ODBCSRC:[ini]" "*.C" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
-$   call compile "ODBCSRC:[log]" "*.C" "ODBCSRC:[vms]libodbcinst.olb"
-$   call compile "ODBCSRC:[lst]" "*.C" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
-$   call compile "ODBCSRC:[odbcinst]" "*.C" "ODBCSRC:[vms]libodbcinst.olb"
-$   call compile "ODBCSRC:[drivermanager]" "*.C" "ODBCSRC:[vms]libodbc.olb"
-$   call compile "ODBCSRC:[exe]" "*.C"
-$   call compile "ODBCSRC:[drivers.postgresql]" "*.C" "ODBCSRC:[vms]libodbcpsql.olb"
+$   call compile "ODBCSRC:[extras]" "*.c" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
+$   call compile "ODBCSRC:[ini]" "*.c" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
+$   call compile "ODBCSRC:[log]" "*.c" "ODBCSRC:[vms]libodbcinst.olb"
+$   call compile "ODBCSRC:[lst]" "*.c" "ODBCSRC:[vms]libodbcinst.olb" "ODBCSRC:[vms]libodbc.olb"
+$   call compile "ODBCSRC:[odbcinst]" "*.c" "ODBCSRC:[vms]libodbcinst.olb"
+$   call compile "ODBCSRC:[drivermanager]" "*.c" "ODBCSRC:[vms]libodbc.olb"
+$   call compile "ODBCSRC:[exe]" "*.c"
+$   if f$getdvi("ODBCSRC:", "ACPTYPE") .eqs. "F11V5"
+$   then
+$       set process/parse=extended
+$       call compile "ODBCSRC:[Drivers.Postgre7^.1]" "*.c" "ODBCSRC:[vms]libodbcpsql.olb"
+$   else
+$       call compile "ODBCSRC:[Drivers.Postgre7_1]" "*.c" "ODBCSRC:[vms]libodbcpsql.olb"
+$   endif
 $   set default 'cwd'
 $!
 $ endif
@@ -167,7 +173,7 @@ $   if f$edit(filename,"UPCASE") .eqs. "INIOS2PROFILE" then goto loop
 $   object = F$SEARCH ("''filename'.OBJ;*",2)
 $   if object .eqs. ""
 $   then
-$      say "cc" + CFLAGS + " ''filename'.C"
+$      say "cc" + CFLAGS + " ''filename'.c"
 $      on warning then continue
 $      cc 'CFLAGS' 'filename'
 $!     keep module names upper case to avoid insanity on ODS-5 volumes
@@ -199,8 +205,15 @@ $ write vmsconfig "#if __VMS_VER >= 70000000"
 $ write vmsconfig "#define HAVE_STRCASECMP"
 $ write vmsconfig "#define HAVE_STRNCASECMP"
 $ write vmsconfig "#define HAVE_STDARG_H"
+$ write vmsconfig "#define HAVE_STDLIB_H"
+$ write vmsconfig "#define HAVE_STRING_H"
+$ write vmsconfig "#define HAVE_STRINGS_H"
+$ write vmsconfig "#define HAVE_DTIME"
+$ write vmsconfig "#define HAVE_SYS_TIME_H"
+$ write vmsconfig "#define HAVE_GETTIMEOFDAY"
+$ write vmsconfig "#define HAVE_UNISTD_H"
 $ write vmsconfig "#endif"
-$ write vmsconfig "#define SIZEOF_LONG_INT 8"
+$ write vmsconfig "#define SIZEOF_LONG_INT 4"
 $ write vmsconfig "#define UNIXODBC_SOURCE"
 $ write vmsconfig "#define readonly __readonly"
 $ write vmsconfig "#define DEFLIB_PATH ""ODBC_LIBDIR:[LIB]"""
@@ -216,6 +229,7 @@ $ write vmsconfig "#define SYSTEM_FILE_PATH ""ODBC_LIBDIR:[ETC]"""
 $ write vmsconfig "char* getvmsenv (char* symbol);"
 $ close vmsconfig
 $!
+$ if f$search("ODBCSRC:[include]unixodbc_conf.h") .nes. "" then delete/noconfirm/nolog ODBCSRC:[include]unixodbc_conf.h;*
 $ open/write unixodbcconfig ODBCSRC:[include]unixodbc_conf.h
 $ write unixodbcconfig "/* auto-generated definitions for VMS port */
 $ write unixodbcconfig "#ifndef HAVE_PWD_H"
@@ -225,6 +239,10 @@ $ write unixodbcconfig "#ifndef SIZEOF_LONG_INT"
 $ write unixodbcconfig " #define SIZEOF_LONG_INT 8"
 $ write unixodbcconfig "#endif"
 $ close unixodbcconfig
+$ if f$search("ODBCSRC:[include]config.h") .nes. "" then delete/noconfirm/nolog ODBCSRC:[include]config.h;*
+$ open/write config_h ODBCSRC:[include]config.h
+$ write config_h "/* The real stuff is in vmsconfig.h */
+$ close config_h
 $ exit
 $ endsubroutine ! create_vmsconfig_h
 $!

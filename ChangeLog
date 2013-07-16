@@ -30,6 +30,7 @@
     * A little more 3.80 stuff being added
     * Added fixes found by coverity
     * Added man pages
+    * Patches to update VMS build
 
 26th-November-2011
 2.3.1

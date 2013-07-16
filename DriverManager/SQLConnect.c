@@ -587,6 +587,11 @@
  **********************************************************************/
 
 #include <config.h>
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#elif defined(HAVE_TIME_H)
+#include <time.h>
+#endif
 #include "drivermanager.h"
 
 static char const rcsid[]= "$RCSfile: SQLConnect.c,v $ $Revision: 1.66 $";

@@ -1,8 +1,8 @@
-Building unixODBC on OpenVMS (Alpha only)
+Building unixODBC on OpenVMS (non-VAX only)
 =========================================
 
 Here's an initial go at building unixODBC on OpenVMS, at present this will 
-only run on alpha but if anyone requires use of this on VAX drop me an email
+only run on alpha and itanium, but if anyone requires use of this on VAX drop me an email
 (suypport@easysoft.com) and I'll do the necessary transfer vector macro's to export 
 the required symbols from the two shared objects (ODBC.EXE and ODBCINST.EXE).
 
@@ -135,4 +135,4 @@ ConnSettings        =
 
 Jason
 
-last updated 7-NOV-2002 by Craig A. Berry -- craigberry@mac.com
+last updated 12-Jul-2013 by Craig A. Berry -- craigberry@mac.com

@@ -423,24 +423,24 @@ SQLRETURN SQLDriverConnectW(
 			else 
 			{
 				prefix = returned_dsn;
-				target = strchr( returned_dsn, '=' );
+				target = (SQLCHAR*)strchr( (char*)returned_dsn, '=' );
 				if ( target ) 
 				{
 					*target = '\0';
 					target ++;
-        			__append_pair( &con_struct, prefix, target );
+        			__append_pair( &con_struct, (char*)prefix, (char*)target );
 				}
 				else {
-        			__append_pair( &con_struct, "DSN", returned_dsn );
+        			__append_pair( &con_struct, "DSN", (char*)returned_dsn );
 				}
 			}
 
 			/*
 			 * regenerate to pass to driver
 			 */
-			__generate_connection_string( &con_struct, local_conn_str_in, sizeof( local_conn_str_in ));
+			__generate_connection_string( &con_struct, (char*)local_conn_str_in, sizeof( local_conn_str_in ));
         	len_conn_str_in = strlen((char*) local_conn_str_in );
-			ansi_to_unicode_copy( local_conn_string, local_conn_str_in, len_conn_str_in, connection );
+			ansi_to_unicode_copy( local_conn_string, (char*)local_conn_str_in, len_conn_str_in, connection );
 			conn_str_in = local_conn_string;
 		}
 	}

@@ -845,7 +845,7 @@ SQLRETURN SQLDriverConnect(
 			else 
 			{
 				prefix = returned_dsn;
-				target = (SQLCHAR*)strchr( returned_dsn, '=' );
+				target = (SQLCHAR*)strchr( (char*)returned_dsn, '=' );
 				if ( target ) 
 				{
 					*target = '\0';
@@ -1059,7 +1059,7 @@ SQLRETURN SQLDriverConnect(
                    				sprintf( str1, "%s=%s", cp -> keyword, cp -> attribute );
 							}
 
-                            if ( strlen( conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
+                            if ( strlen( (char*)conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
                 			    strcat((char*) conn_str_in, str1 );
                             }
                             else {
@@ -1114,7 +1114,7 @@ SQLRETURN SQLDriverConnect(
 							{
                             	sprintf( str1, "%s=%s", cp -> keyword, cp -> attribute );
 							}
-                            if ( strlen( conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
+                            if ( strlen( (char*)conn_str_in ) + strlen( str1 ) < conn_str_out_max ) {
                                 strcat((char*) conn_str_in, str1 );
                             }
                             else {

@@ -3856,7 +3856,7 @@ void __post_internal_error_ex( EHEAD *error_header,
     e1 -> native_error = native_error;
     e2 -> native_error = native_error;
     ansi_to_unicode_copy(e1 -> sqlstate,
-                         sqlstate, SQL_NTS, __get_connection( error_header ));
+                         (char*)sqlstate, SQL_NTS, __get_connection( error_header ));
     wide_strcpy( e2 -> sqlstate, e1 -> sqlstate );
 
     e1 -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, __get_connection( error_header ) );
@@ -3897,26 +3897,26 @@ void __post_internal_error_ex( EHEAD *error_header,
     e2 -> diag_row_number = 0;
 
     if ( class_origin == SUBCLASS_ODBC )
-    	ansi_to_unicode_copy( e1 -> diag_class_origin, (SQLCHAR*) "ODBC 3.0",
+    	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ODBC 3.0",
 			      SQL_NTS, __get_connection( error_header ) );
     else
-    	ansi_to_unicode_copy( e1 -> diag_class_origin, (SQLCHAR*) "ISO 9075",
+    	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ISO 9075",
 			      SQL_NTS, __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_class_origin, e1 -> diag_class_origin );
 
     if ( subclass_origin == SUBCLASS_ODBC )
-    	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (SQLCHAR*) "ODBC 3.0",
+    	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ODBC 3.0",
 			      SQL_NTS, __get_connection( error_header ) );
     else
-    	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (SQLCHAR*) "ISO 9075",
+    	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ISO 9075",
 			      SQL_NTS, __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_subclass_origin, e1 -> diag_subclass_origin );
 
-    ansi_to_unicode_copy( e1 -> diag_connection_name, (SQLCHAR*) "", SQL_NTS,
+    ansi_to_unicode_copy( e1 -> diag_connection_name, (char*) "", SQL_NTS,
 			  __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_connection_name, e1 -> diag_connection_name );
 
-    ansi_to_unicode_copy( e1 -> diag_server_name, (SQLCHAR*) "", SQL_NTS,
+    ansi_to_unicode_copy( e1 -> diag_server_name, (char*) "", SQL_NTS,
 			  __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_server_name, e1 -> diag_server_name );
 
@@ -3948,7 +3948,7 @@ void __post_internal_error_ex_w( EHEAD *error_header,
      * add our prefix
      */
 
-    ansi_to_unicode_copy(msg, (SQLCHAR*) ERROR_PREFIX, SQL_NTS,
+    ansi_to_unicode_copy(msg, (char*) ERROR_PREFIX, SQL_NTS,
 			 __get_connection( error_header ));
     wide_strcat( msg, message_text );
 
@@ -3993,18 +3993,18 @@ void __post_internal_error_ex_w( EHEAD *error_header,
     e2 -> diag_row_number = 0;
 
     if ( class_origin == SUBCLASS_ODBC )
-        ansi_to_unicode_copy( e1 -> diag_class_origin, (SQLCHAR*) "ODBC 3.0",
+        ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ODBC 3.0",
 							  SQL_NTS, __get_connection( error_header ) );
     else
-        ansi_to_unicode_copy( e1 -> diag_class_origin, (SQLCHAR*) "ISO 9075",
+        ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ISO 9075",
 							  SQL_NTS, __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_class_origin, e1 -> diag_class_origin );
 
     if ( subclass_origin == SUBCLASS_ODBC )
-        ansi_to_unicode_copy( e1 -> diag_subclass_origin, (SQLCHAR*) "ODBC 3.0",
+        ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ODBC 3.0",
 							  SQL_NTS, __get_connection( error_header ) );
     else
-        ansi_to_unicode_copy( e1 ->diag_subclass_origin, (SQLCHAR*) "ISO 9075",
+        ansi_to_unicode_copy( e1 ->diag_subclass_origin, (char*) "ISO 9075",
 							  SQL_NTS, __get_connection( error_header ) );
     wide_strcpy( e2 -> diag_subclass_origin, e1 -> diag_subclass_origin );
 
@@ -5616,9 +5616,9 @@ void dm_log_write( char *function_name, int line, int type, int severity,
 #if defined( HAVE_GETTIMEOFDAY ) && defined( HAVE_SYS_TIME_H )
 		{
 			struct timeval tv;
-			struct timezone tz;
+			void* tz = NULL;
 
-			gettimeofday( &tv, &tz );
+			gettimeofday( &tv, tz );
 
 			sprintf( tstamp_str, "[%ld.%06ld]", tv.tv_sec, tv.tv_usec );
 		}

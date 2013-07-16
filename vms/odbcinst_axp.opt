@@ -1,5 +1,7 @@
 CASE_SENSITIVE=YES
-SYMBOL_VECTOR = (SQLManageDataSources=PROCEDURE,-
+SYMBOL_VECTOR = (-
+_SQLDriverConnectPrompt=PROCEDURE,-
+SQLManageDataSources=PROCEDURE,-
 SQLCreateDataSource=PROCEDURE,-
 SQLGetTranslator=PROCEDURE,-
 SQLInstallDriverManager=PROCEDURE,-
@@ -23,4 +25,5 @@ SQLInstallDriverEx=PROCEDURE,-
 SQLInstallTranslatorEx=PROCEDURE,-
 SQLGetConfigMode=PROCEDURE,-
 SQLSetConfigMode=PROCEDURE,-
+odbcinst_system_file_name=PROCEDURE,-
 odbcinst_system_file_path=PROCEDURE)
