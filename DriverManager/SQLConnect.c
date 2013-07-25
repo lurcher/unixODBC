@@ -2414,6 +2414,8 @@ static void release_env( DMHDBC connection )
     {
         env_lib_prev = env_lib_list = NULL;
 
+        mutex_lib_entry();
+
         if ( connection -> env_list_ent )
         {
             env_lib_list = connection -> environment -> env_lib_list;
@@ -2430,9 +2432,7 @@ static void release_env( DMHDBC connection )
 
         if ( env_lib_list && env_lib_list -> count > 1 )
         {
-            mutex_lib_entry();
             env_lib_list -> count --;
-            mutex_lib_exit();
         }
         else
         {
@@ -2476,8 +2476,6 @@ static void release_env( DMHDBC connection )
              * remove the entry
              */
 
-            mutex_lib_entry();
-
             if ( env_lib_prev )
             {
                 env_lib_prev -> next = env_lib_list -> next;
@@ -2495,9 +2493,9 @@ static void release_env( DMHDBC connection )
             	free( env_lib_list -> lib_name );
             	free( env_lib_list );
 			}
-
-            mutex_lib_exit();
         }
+
+        mutex_lib_exit();
     }
 }
 

@@ -31,6 +31,7 @@
     * Added fixes found by coverity
     * Added man pages
     * Patches to update VMS build
+    * Change mutex protection arounf release_env
 
 26th-November-2011
 2.3.1
