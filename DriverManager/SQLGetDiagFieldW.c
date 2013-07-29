@@ -231,7 +231,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                     wide_strncpy( diag_info_ptr, head -> diag_dynamic_function, buffer_length );
                     if ( string_length_ptr )
                     {
-                        *string_length_ptr = wide_strlen( head -> diag_dynamic_function );
+                        *string_length_ptr = wide_strlen( head -> diag_dynamic_function ) * sizeof( SQLWCHAR );
                     }
                 }
                 return head -> diag_dynamic_function_ret;
@@ -272,6 +272,10 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 if ( SQL_SUCCEEDED( ret ) && as1 && diag_info_ptr )
                 {
                     ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ));
+                }
+                if ( SQL_SUCCEEDED( ret ) && string_length_ptr )
+                {
+                    *string_length_ptr *= sizeof( SQLWCHAR );
                 }
 
                 if ( as1 )
@@ -501,7 +505,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 wide_strncpy( diag_info_ptr, ptr -> diag_class_origin, buffer_length );
                 if ( string_length_ptr )
                 {
-                    *string_length_ptr = wide_strlen( ptr -> diag_class_origin );
+                    *string_length_ptr = wide_strlen( ptr -> diag_class_origin ) * sizeof( SQLWCHAR );
                 }
                 return ptr -> diag_class_origin_ret;
             }
@@ -529,7 +533,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 wide_strcpy( diag_info_ptr, ptr -> diag_connection_name );
                 if ( string_length_ptr )
                 {
-                    *string_length_ptr = wide_strlen( ptr -> diag_connection_name );
+                    *string_length_ptr = wide_strlen( ptr -> diag_connection_name ) * sizeof( SQLWCHAR );
                 }
                 return ptr -> diag_connection_name_ret;
             }
@@ -562,7 +566,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             }
             if ( string_length_ptr )
             {
-                *string_length_ptr = wide_strlen( str );
+                *string_length_ptr = wide_strlen( str ) * sizeof( SQLWCHAR );
             }
 
             return ret;
@@ -596,7 +600,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 wide_strcpy( diag_info_ptr, ptr -> diag_server_name );
                 if ( string_length_ptr )
                 {
-                    *string_length_ptr = wide_strlen( ptr -> diag_server_name );
+                    *string_length_ptr = wide_strlen( ptr -> diag_server_name ) * sizeof( SQLWCHAR );
                 }
                 return ptr -> diag_server_name_ret;
             }
@@ -636,7 +640,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             }
             if ( string_length_ptr )
             {
-                *string_length_ptr = wide_strlen( str );
+                *string_length_ptr = wide_strlen( str ) * sizeof( SQLWCHAR );
             }
             return ret;
         }
@@ -649,7 +653,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 wide_strcpy( diag_info_ptr, ptr -> diag_subclass_origin );
                 if ( string_length_ptr )
                 {
-                    *string_length_ptr = wide_strlen( ptr -> diag_subclass_origin );
+                    *string_length_ptr = wide_strlen( ptr -> diag_subclass_origin ) * sizeof( SQLWCHAR );
                 }
                 return ptr -> diag_subclass_origin_ret;
             }

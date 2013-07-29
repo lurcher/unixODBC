@@ -32,6 +32,7 @@
     * Added man pages
     * Patches to update VMS build
     * Change mutex protection around release_env
+    * Altered strlen to be count of bytes in SQLGetDiagFieldW
 
 26th-November-2011
 2.3.1
