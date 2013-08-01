@@ -33,6 +33,7 @@
     * Patches to update VMS build
     * Change mutex protection around release_env
     * Altered strlen to be count of bytes in SQLGetDiagFieldW
+    * Add check for W function support in do_attr
 
 26th-November-2011
 2.3.1
