@@ -5431,7 +5431,7 @@ void __post_internal_error_api( EHEAD *error_handle,
             strcpy( sqlstate, "HYC00" );
         else
             strcpy( sqlstate, "S1C00" );
-        message = "Optional featire not implemented";
+        message = "Optional feature not implemented";
         break;
 
       case ERROR_IM001:

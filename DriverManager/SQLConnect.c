@@ -768,6 +768,21 @@ static void do_attr( DMHDBC connection, int value,
                         attr2,
                         value );
         }
+        else if (CHECK_SQLSETCONNECTATTRW( connection ))     /* they are int values, so this should be safe */
+        {
+            SQLSETCONNECTATTRW(connection,
+                        connection -> driver_dbc,
+                        attr3,
+                        value,
+                        sizeof( value ));
+        }
+        else if (CHECK_SQLSETCONNECTOPTIONW(connection) && attr2 )
+        {
+            SQLSETCONNECTOPTIONW(connection,
+                        connection -> driver_dbc,
+                        attr2,
+                        value );
+        }
     }
 }
 
