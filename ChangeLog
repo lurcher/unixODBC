@@ -34,6 +34,7 @@
     * Change mutex protection around release_env
     * Altered strlen to be count of bytes in SQLGetDiagFieldW
     * Add check for W function support in do_attr
+    * Allow SQLDrivers to return attribute length with no supplied buffer
 
 26th-November-2011
 2.3.1

@@ -398,14 +398,13 @@ try_again:
                     sprintf( buffer, "%s=%s", szPropertyName, 
                             szValue );
 
-                    if ( total_len + strlen( buffer ) + 1 > cb_drvr_attr_max )
-                    {
-                        ret = SQL_SUCCESS_WITH_INFO;
-                        break;
-                    }
-                    else
-                    {
-                        if ( sz_driver_attributes )
+                    if ( sz_driver_attributes ) {
+
+                        if ( total_len + strlen( buffer ) + 1 > cb_drvr_attr_max )
+                        {
+                            ret = SQL_SUCCESS_WITH_INFO;
+                        }
+                        else
                         {
                             strcpy((char*) sz_driver_attributes, buffer );
                             sz_driver_attributes += strlen( buffer ) + 1;

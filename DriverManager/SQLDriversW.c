@@ -319,19 +319,18 @@ try_again:
                     sprintf( buffer, "%s=%s", szPropertyName, 
                             szValue );
 
-                    if ( total_len + strlen( buffer ) + 1 > cb_drvr_attr_max )
-                    {
-                        ret = SQL_SUCCESS_WITH_INFO;
-                        break;
-                    }
-                    else
-                    {
-                        if ( sz_driver_attributes )
+                    if ( sz_driver_attributes ) {
+
+                        if ( total_len + strlen( buffer ) + 1 > cb_drvr_attr_max )
+                        {
+                            ret = SQL_SUCCESS_WITH_INFO;
+                        }
+                        else
                         {
                             SQLWCHAR *s1;
-
+    
                             s1 = ansi_to_unicode_alloc((SQLCHAR*) buffer, SQL_NTS, NULL );
-
+    
                             if ( s1 )
                             {
                                 wide_strcpy( sz_driver_attributes, s1 );
@@ -340,6 +339,7 @@ try_again:
                             sz_driver_attributes += strlen( buffer ) + 1;
                         }
                     }
+
                     total_len += strlen( buffer ) + 1;
 
                     iniPropertyNext( hIni );
