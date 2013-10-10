@@ -37,7 +37,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
 		return FALSE;
 	}
-	
+
 	if ( pszDriver[0] == '\0' )
 	{
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
