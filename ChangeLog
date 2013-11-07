@@ -1,3 +1,7 @@
+2.3.3
+
+    * Reporting of logging state was broken in SQLGetConnectAttr
+
 8th-October-2013
 2.3.2
 

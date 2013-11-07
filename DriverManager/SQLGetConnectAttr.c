@@ -204,7 +204,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
             }
             else
             {
-                *((SQLINTEGER*)value) = SQL_OPT_TRACE_ON;
+                *((SQLINTEGER*)value) = SQL_OPT_TRACE_OFF;
             }
         }
 
