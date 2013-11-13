@@ -1,6 +1,7 @@
 2.3.3
 
     * Reporting of logging state was broken in SQLGetConnectAttr
+    * Fix incorrect text against HY007
 
 8th-October-2013
 2.3.2

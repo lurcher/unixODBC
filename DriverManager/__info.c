@@ -5274,7 +5274,7 @@ void __post_internal_error_api( EHEAD *error_handle,
             strcpy( sqlstate, "HY007" );
         else
             strcpy( sqlstate, "S1007" );
-        message = "Invalid use of null pointer";
+        message = "Associated statement is not prepared";
         break;
 
       case ERROR_HY009:
