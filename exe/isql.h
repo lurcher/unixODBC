@@ -42,6 +42,7 @@ char *szSyntax =
 "* -n         Use new line processing         *\n" \
 "* -e         Use SQLExecDirect not Prepare   *\n" \
 "* -k         Use SQLDriverConnect            *\n" \
+"* -L         Length of col display (def:300) *\n" \
 "* --version  version                         *\n" \
 "*                                            *\n" \
 "* Commands                                   *\n" \

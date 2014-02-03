@@ -31,7 +31,7 @@ static int ExecuteSlash( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumn
 static int	CloseDatabase( SQLHENV hEnv, SQLHDBC hDbc );
 
 static void WriteHeaderHTMLTable( SQLHSTMT hStmt );
-static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR	*szSepLine );
+static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR	**szSepLine );
 static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter );
 static void WriteBodyHTMLTable( SQLHSTMT hStmt );
 static SQLLEN WriteBodyNormal( SQLHSTMT hStmt );
@@ -58,6 +58,7 @@ int     cDelimiter                  = 0;
 int     bColumnNames                = 0;
 int     buseDC                      = 0;
 int     buseED                      = 0;
+int     max_col_size                = MAX_DATA_WIDTH;
 SQLUSMALLINT    has_moreresults     = 1;
 
 int main( int argc, char *argv[] )
@@ -137,6 +138,9 @@ int main( int argc, char *argv[] )
                     break;
                 case 'e':
                     buseED = 1;
+                    break;
+                case 'L':
+                    max_col_size = atoi( &(argv[nArg][2]) );
                     break;
                 case '-':
                     printf( "unixODBC " VERSION "\n" );
@@ -451,6 +455,13 @@ int main( int argc, char *argv[] )
     exit( 0 );
 }
 
+static void mem_error( int line ) 
+{
+    if ( bVerbose ) DumpODBCLog( hEnv, 0, 0 );
+    fprintf( stderr, "[ISQL]ERROR: memory allocation fail before line %d\n", line );
+    exit(-1);
+}
+
 /****************************
  * OptimalDisplayWidth
  ***************************/
@@ -468,13 +479,21 @@ OptimalDisplayWidth( SQLHSTMT hStmt, SQLINTEGER nCol, int nUserWidth )
     SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, sizeof(szColumnName), NULL, NULL );
     nLabelWidth = strlen((char*) szColumnName );
 
+    /*
+     * catch sqlserver var(max) types
+     */
+
+    if ( nDataWidth == 0 ) {
+        nDataWidth = max_col_size;
+    }
+
     nOptimalDisplayWidth = max( nLabelWidth, nDataWidth );
 
     if ( nUserWidth > 0 )
         nOptimalDisplayWidth = min( nOptimalDisplayWidth, nUserWidth );
 
-    if ( nOptimalDisplayWidth > MAX_DATA_WIDTH )
-        nOptimalDisplayWidth = MAX_DATA_WIDTH;
+    if ( nOptimalDisplayWidth > max_col_size )
+        nOptimalDisplayWidth = max_col_size;
 
     return nOptimalDisplayWidth;
 }
@@ -627,7 +646,7 @@ static void display_result_set( SQLHDBC hDbc, SQLHSTMT hStmt )
             if ( bHTMLTable )
                 WriteHeaderHTMLTable( hStmt );
             else if ( cDelimiter == 0 )
-                WriteHeaderNormal( hStmt, szSepLine );
+                WriteHeaderNormal( hStmt, &szSepLine );
             else if ( cDelimiter && bColumnNames )
                 WriteHeaderDelimited( hStmt, cDelimiter );
 
@@ -1023,7 +1042,7 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
             if ( bHTMLTable )
                 WriteHeaderHTMLTable( hStmt );
             else if ( cDelimiter == 0 )
-                WriteHeaderNormal( hStmt, szSepLine );
+                WriteHeaderNormal( hStmt, &szSepLine );
             else if ( cDelimiter && bColumnNames )
                 WriteHeaderDelimited( hStmt, cDelimiter );
 
@@ -1157,7 +1176,7 @@ ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int b
     if ( bHTMLTable )
         WriteHeaderHTMLTable( hStmt );
     else if ( cDelimiter == 0 )
-        WriteHeaderNormal( hStmt, szSepLine );
+        WriteHeaderNormal( hStmt, &szSepLine );
     else if ( cDelimiter && bColumnNames )
         WriteHeaderDelimited( hStmt, cDelimiter );
 
@@ -1244,14 +1263,17 @@ static void WriteBodyHTMLTable( SQLHSTMT hStmt )
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
     SQLLEN          nIndicator                      = 0;
-    SQLCHAR         szColumnValue[MAX_DATA_WIDTH+1];
+    SQLCHAR         *szColumnValue;
     SQLRETURN       nReturn                         = 0;
     SQLRETURN       ret;
 
-    *szColumnValue = '\0';
-
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
+
+    szColumnValue = malloc( max_col_size + 1 );
+    if ( !szColumnValue ) {
+        mem_error( __LINE__ );
+    }
 
     while ( (ret = SQLFetch( hStmt )) == SQL_SUCCESS ) /* ROWS */
     {
@@ -1262,10 +1284,15 @@ static void WriteBodyHTMLTable( SQLHSTMT hStmt )
             printf( "<td>\n" );
             printf( "<font face=Arial,Helvetica>\n" );
 
-            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, sizeof(szColumnValue), &nIndicator );
+            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, max_col_size + 1, &nIndicator );
             if ( nReturn == SQL_SUCCESS && nIndicator != SQL_NULL_DATA )
             {
                 fputs((char*) szColumnValue, stdout );
+            }
+            else if ( nReturn == SQL_SUCCESS_WITH_INFO ) {
+                szColumnValue[ max_col_size ] = '\0';
+                fputs((char*) szColumnValue, stdout );
+                fputs((char*) "...", stdout );
             }
             else if ( nReturn == SQL_ERROR )
             {
@@ -1282,6 +1309,8 @@ static void WriteBodyHTMLTable( SQLHSTMT hStmt )
             break;
         printf( "</tr>\n" );
     }
+
+    free( szColumnValue );
 }
 
 static void WriteFooterHTMLTable( SQLHSTMT hStmt )
@@ -1321,12 +1350,15 @@ static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
     SQLLEN          nIndicator                      = 0;
-    SQLCHAR         szColumnValue[MAX_DATA_WIDTH+1];
+    SQLCHAR         *szColumnValue;
     SQLRETURN       nReturn                         = 0;
     SQLRETURN       ret;
     SQLINTEGER      *types;
 
-    *szColumnValue = '\0';
+    szColumnValue = malloc( max_col_size + 1 );
+    if ( !szColumnValue ) {
+        mem_error( __LINE__ );
+    }
 
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
@@ -1366,7 +1398,7 @@ static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
         /* COLS */
         for ( nCol = 1; nCol <= nColumns; nCol++ )
         {
-            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, sizeof(szColumnValue), &nIndicator );
+            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, max_col_size + 1, &nIndicator );
             if ( nReturn == SQL_SUCCESS && nIndicator != SQL_NULL_DATA )
             {
                 if ( types && types[ nCol - 1 ] )
@@ -1374,6 +1406,24 @@ static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
                     putchar( '"' );
                 }
                 fputs((char*) szColumnValue, stdout );
+                if ( types && types[ nCol - 1 ] )
+                {
+                    putchar( '"' );
+                }
+                if ( nCol < nColumns )
+                {
+                    putchar( cDelimiter );
+                }
+            }
+            else if ( nReturn == SQL_SUCCESS_WITH_INFO ) 
+            {
+                szColumnValue[ max_col_size ] = '\0';
+                if ( types && types[ nCol - 1 ] )
+                {
+                    putchar( '"' );
+                }
+                fputs((char*) szColumnValue, stdout );
+                fputs((char*) "...", stdout );
                 if ( types && types[ nCol - 1 ] )
                 {
                     putchar( '"' );
@@ -1413,22 +1463,31 @@ static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
     {
         free( types );
     }
+
+    free( szColumnValue );
 }
 
 /****************************
  * WRITE NORMAL
  ***************************/
-static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR *szSepLine )
+static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR **szSepLine )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLCHAR         szColumn[MAX_DATA_WIDTH+20];    
-    SQLCHAR         szColumnName[MAX_DATA_WIDTH+1]; 
-    /*SQLCHAR			szHdrLine[32001]				= "";	*/
+    SQLCHAR         *szColumn;    
+    SQLCHAR         *szColumnName; 
     SQLCHAR         *szHdrLine;
     SQLUINTEGER     nOptimalDisplayWidth            = 10;
 
-    szHdrLine = calloc(1, 32001);
+    szColumnName = malloc( max_col_size + 1 );
+    if ( !szColumnName ) {
+        mem_error( __LINE__ );
+    }
+    szColumn = malloc( max_col_size + 3 );
+    if ( !szColumn ) {
+        free( szColumnName );
+        mem_error( __LINE__ );
+    }
 
     *szColumn = '\0';
     *szColumnName = '\0';
@@ -1436,18 +1495,32 @@ static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR *szSepLine )
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
 
+    if ( nColumns > 0 ) {
+        szHdrLine = calloc(1, 512 + max_col_size * nColumns );
+        if ( !szHdrLine ) {
+            mem_error( __LINE__ );
+        }
+        *szSepLine = realloc( *szSepLine, 512 + max_col_size * nColumns );
+        if ( !*szSepLine ) {
+            mem_error( __LINE__ );
+        }
+    }
+    else {
+        szHdrLine = calloc(1, 32001);
+    }
+
     for ( nCol = 1; nCol <= nColumns; nCol++ )
     {
         int sret;
 
         nOptimalDisplayWidth = OptimalDisplayWidth( hStmt, nCol, nUserWidth );
-        SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, sizeof(szColumnName), NULL, NULL );
+        SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, max_col_size, NULL, NULL );
 
         /* SEP */
-        memset( szColumn, '\0', sizeof(szColumn) );
+        memset( szColumn, '\0', max_col_size + 2 );
         memset( szColumn, '-', nOptimalDisplayWidth + 1 );
-        strcat((char*) szSepLine, "+" );
-        strcat((char*) szSepLine,(char*) szColumn );
+        strcat((char*) *szSepLine, "+" );
+        strcat((char*) *szSepLine,(char*) szColumn );
 
         /* HDR */
         sret = sprintf( (char*)szColumn, "| %-*.*s",
@@ -1457,13 +1530,16 @@ static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR *szSepLine )
                     (int)nOptimalDisplayWidth, (int)nOptimalDisplayWidth, "**ERROR**");
         strcat( (char*)szHdrLine,(char*) szColumn );
     }
-    strcat((char*) szSepLine, "+\n" );
+    strcat((char*) *szSepLine, "+\n" );
     strcat((char*) szHdrLine, "|\n" );
 
-    fputs((char*) szSepLine, stdout );
+    fputs((char*) *szSepLine, stdout );
     fputs((char*) szHdrLine, stdout );
-    fputs((char*) szSepLine, stdout );
+    fputs((char*) *szSepLine, stdout );
+
     free(szHdrLine);
+    free( szColumnName );
+    free( szColumn );
 }
 
 static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
@@ -1471,14 +1547,22 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
     SQLLEN          nIndicator                      = 0;
-    SQLCHAR         szColumn[MAX_DATA_WIDTH+20];
-    SQLCHAR         szColumnValue[MAX_DATA_WIDTH+1];
+    SQLCHAR         *szColumn;
+    SQLCHAR         *szColumnValue;
     SQLRETURN       nReturn                         = 0;
     SQLLEN          nRows                           = 0;
     SQLUINTEGER     nOptimalDisplayWidth            = 10;
 
-    *szColumn = '\0';
-    *szColumnValue = '\0';
+    szColumnValue = malloc( max_col_size + 1 );
+    if ( !szColumnValue ) {
+        mem_error( __LINE__ );
+    }
+
+    szColumn = malloc( max_col_size + 21 );
+    if ( !szColumn ) {
+        free( szColumnValue );
+        mem_error( __LINE__ );
+    }
 
     nReturn = SQLNumResultCols( hStmt, &nColumns );
     if ( nReturn != SQL_SUCCESS && nReturn != SQL_SUCCESS_WITH_INFO )
@@ -1494,8 +1578,8 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
             int sret;
 
             nOptimalDisplayWidth = OptimalDisplayWidth( hStmt, nCol, nUserWidth );
-            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, sizeof(szColumnValue), &nIndicator );
-            szColumnValue[MAX_DATA_WIDTH] = '\0';
+            nReturn = SQLGetData( hStmt, nCol, SQL_C_CHAR, (SQLPOINTER)szColumnValue, max_col_size + 1, &nIndicator );
+            szColumnValue[max_col_size] = '\0';
 
             if ( nReturn == SQL_SUCCESS && nIndicator != SQL_NULL_DATA )
             {
@@ -1504,6 +1588,12 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
                 if (sret < 0) sprintf( (char*)szColumn, "| %-*.*s",
                                        (int)nOptimalDisplayWidth, (int)nOptimalDisplayWidth, "**ERROR**" );
 
+            }
+            else if ( nReturn == SQL_SUCCESS_WITH_INFO ) {
+                sret = sprintf( (char*)szColumn, "| %-*.*s...",
+                                (int)nOptimalDisplayWidth - 3, (int)nOptimalDisplayWidth - 3, szColumnValue );
+                if (sret < 0) sprintf( (char*)szColumn, "| %-*.*s",
+                                       (int)nOptimalDisplayWidth, (int)nOptimalDisplayWidth, "**ERROR**" );
             }
             else if ( nReturn == SQL_ERROR )
             {
@@ -1525,6 +1615,9 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
     {
         if ( bVerbose ) DumpODBCLog( 0, 0, hStmt );
     }
+
+    free( szColumnValue );
+    free( szColumn);
 
     return nRows;
 }

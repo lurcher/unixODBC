@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libodbcpsql.la
 
-INCLUDES = -I@top_srcdir@/include $(LTDLINCL)
+AM_CPPFLAGS = -I@top_srcdir@/include $(LTDLINCL)
 
 libodbcpsql_la_LDFLAGS = \
 	-version-info 2:0:0 \

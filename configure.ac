@@ -1,8 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(unixODBC, 2.3.3-pre, nick@unixodbc.org)
-dnl AC_CONFIG_AUX_DIR([libltdl/config])
 
-AM_INIT_AUTOMAKE(unixODBC, 2.3.3-pre)
+AC_INIT([unixODBC], [2.3.3-pre], nick@unixodbc.org, [unixODBC])
+AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
 AC_PROG_AWK
@@ -285,6 +284,8 @@ AC_CHECK_LONG_LONG
 AC_CHECK_SIZEOF([long int])
 
 AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid nl_langinfo )
+
+AM_LANGINFO_CODESET
 
 LIBADD_DL=
 AC_SUBST(LIBADD_DL)

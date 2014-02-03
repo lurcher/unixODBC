@@ -1,7 +1,7 @@
 if MSQL
 lib_LTLIBRARIES = libodbcmini.la
 
-INCLUDES = -I@top_srcdir@/include -I. -I@msql_headers@ -I${LTDLINCL}
+AM_CPPFLAGS = -I@top_srcdir@/include -I. -I@msql_headers@ -I${LTDLINCL}
 
 libodbcmini_la_SOURCES = \
 	SQLAllocConnect.c \

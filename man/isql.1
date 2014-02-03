@@ -59,7 +59,7 @@ Wrap the character fields in double quotes.
 Use the ODBC 3 calls.
 
 .IP \fB-n\fR
-Use the newline processing.
+Use the new line processing. (multiple lines of SQL, terminated with command GO).
 
 .IP \fB-e\fR
 Use the SQLExecDirect instead of Prepare.
@@ -72,6 +72,9 @@ Turn on the verbose mode, where the errors are fully described. Useful for debug
 
 .IP \fB--version\fR
 Prints the program version and exits.
+
+.IP \fB-L\fINUM\fR
+Alter the maximum number of characters displayed from a character field to \fINUM\fR characters. Default is 300.
 
 .SH COMMANDS
 This section briefly describes some isql runtime commands.

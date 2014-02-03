@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libodbcextraslc.la
 
-INCLUDES = -I@top_srcdir@/include
+AM_CPPFLAGS = -I@top_srcdir@/include
 
 EXTRA_DIST = vms.c
 

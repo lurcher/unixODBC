@@ -1,6 +1,6 @@
 bin_PROGRAMS = isql dltest odbcinst iusql odbc_config slencheck
 
-INCLUDES = -I@top_srcdir@/include $(LTDLINCL) 
+AM_CPPFLAGS = -I@top_srcdir@/include $(LTDLINCL) 
 
 EXTRA_DIST = \
 	isql.h \

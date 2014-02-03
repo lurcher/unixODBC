@@ -238,7 +238,7 @@ SQLRETURN SQLBindParameter(
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( cb_value_max < 0 )
+    if ( cb_value_max < 0 && cb_value_max != SQL_NTS )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

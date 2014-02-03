@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libinilc.la
 
-INCLUDES = -I@top_srcdir@/include
+AM_CPPFLAGS = -I@top_srcdir@/include
 
 libinilc_la_LDFLAGS = -no-undefined 
 

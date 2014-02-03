@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libodbccr.la
 
-INCLUDES = -I@top_srcdir@/include \
+AM_CPPFLAGS = -I@top_srcdir@/include \
             -I@top_srcdir@/DriverManager $(LTDLINCL)
 
 EXTRA_DIST = \

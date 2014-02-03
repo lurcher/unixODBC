@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libtemplate.la
 
-INCLUDES = -I@top_srcdir@/include -I. $(LTDLINCL)
+AM_CPPFLAGS = -I@top_srcdir@/include -I. $(LTDLINCL)
 
 libtemplate_la_LDFLAGS = -no-undefined  -version-info 1:0:0 
 

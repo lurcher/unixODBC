@@ -1,6 +1,7 @@
 /* slist.h -- generalised singly linked lists
 
-   Copyright (C) 2000, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2004, 2009, 2011-2013 Free Software Foundation,
+   Inc.
    Written by Gary V. Vaughan, 2000
 
    NOTE: The canonical source of this file is maintained with the
@@ -30,7 +31,7 @@ or obtained by writing to the Free Software Foundation, Inc.,
 
 /* A generalised list.  This is deliberately transparent so that you
    can make the NEXT field of all your chained data structures first,
-   and then cast them to `(SList *)' so that they can be manipulated
+   and then cast them to '(SList *)' so that they can be manipulated
    by this API.
 
    Alternatively, you can generate raw SList elements using slist_new(),
@@ -38,23 +39,25 @@ or obtained by writing to the Free Software Foundation, Inc.,
    get to manage the memory involved by yourself.
 */
 
-#if !defined(SLIST_H)
+#if !defined SLIST_H
 #define SLIST_H 1
 
-#if defined(LTDL)
+#if defined LTDL
 #  include <libltdl/lt__glibc.h>
 #  include <libltdl/lt_system.h>
 #else
 #  define LT_SCOPE
 #endif
 
-#if defined(__cplusplus)
+#include <stddef.h>
+
+#if defined __cplusplus
 extern "C" {
 #endif
 
 typedef struct slist {
   struct slist *next;		/* chain forward pointer*/
-  const void *userdata;		/* for boxed `SList' item */
+  const void *userdata;		/* for boxed 'SList' item */
 } SList;
 
 typedef void *	SListCallback	(SList *item, void *userdata);
@@ -65,7 +68,7 @@ LT_SCOPE SList *slist_concat	(SList *head, SList *tail);
 LT_SCOPE SList *slist_cons	(SList *item, SList *slist);
 
 LT_SCOPE SList *slist_delete	(SList *slist, void (*delete_fct) (void *item));
-LT_SCOPE void *	slist_remove	(SList **phead, SListCallback *find,
+LT_SCOPE SList *slist_remove	(SList **phead, SListCallback *find,
 				 void *matchdata);
 LT_SCOPE SList *slist_reverse	(SList *slist);
 LT_SCOPE SList *slist_sort	(SList *slist, SListCompare *compare,
@@ -83,12 +86,12 @@ LT_SCOPE void *	slist_foreach   (SList *slist, SListCallback *foreach,
 LT_SCOPE SList *slist_box	(const void *userdata);
 LT_SCOPE void *	slist_unbox	(SList *item);
 
-#if defined(__cplusplus)
+#if defined __cplusplus
 }
 #endif
 
-#if !defined(LTDL)
+#if !defined LTDL
 #  undef LT_SCOPE
 #endif
 
-#endif /*!defined(SLIST_H)*/
+#endif /*!defined SLIST_H*/

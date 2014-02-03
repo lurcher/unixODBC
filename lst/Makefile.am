@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = liblstlc.la
 
-INCLUDES = -I@top_srcdir@/include
+AM_CPPFLAGS = -I@top_srcdir@/include
 
 liblstlc_la_LDFLAGS = -no-undefined 
 

@@ -501,7 +501,7 @@ int unicode_setup( DMHDBC connection )
 
     mutex_iconv_entry();
 
-#ifdef HAVE_NL_LANGINFO
+#if defined( HAVE_NL_LANGINFO ) && defined(HAVE_LANGINFO_CODESET)
     /* 
      * Try with current locale settings first 
      */

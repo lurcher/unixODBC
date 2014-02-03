@@ -2,6 +2,10 @@
 
     * Reporting of logging state was broken in SQLGetConnectAttr
     * Fix incorrect text against HY007
+    * Add -L option to isql to increase max column data display
+    * Update automake toolset in svn
+    * Add SQLFreeStmt( SQL_CLOSE ) function to SQLCancel
+    * Allow SQL_NTS as a buffer length to SQLBindParameter
 
 8th-October-2013
 2.3.2

@@ -1,4 +1,4 @@
-ACLOCAL_AMFLAGS=-I libltdl/m4
+ACLOCAL_AMFLAGS=-I m4 
 
 SUBDIRS = \
 	extras \
@@ -36,7 +36,7 @@ EXTRA_DIST = \
 	Interix/config.guess \
 	Interix/libtool \
     m4 \
-    configure.in \
+    configure.ac \
     Makefile.svn
 
 install-data-am:

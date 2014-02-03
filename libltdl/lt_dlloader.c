@@ -1,6 +1,7 @@
 /* lt_dlloader.c -- dynamic library loader interface
 
-   Copyright (C) 2004, 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 2004, 2007-2008, 2011-2013 Free Software Foundation,
+   Inc.
    Written by Gary V. Vaughan, 2004
 
    NOTE: The canonical source of this file is maintained with the
@@ -52,7 +53,7 @@ loader_callback (SList *item, void *userdata)
 
   assert (vtable);
 
-  return streq (vtable->name, name) ? (void *) item : NULL;
+  return STREQ (vtable->name, name) ? (void *) item : NULL;
 }
 
 
@@ -150,7 +151,7 @@ lt_dlloader_get	(lt_dlloader loader)
    modules need this loader; in either case, the loader list is not
    changed if NULL is returned.  */
 lt_dlvtable *
-lt_dlloader_remove (char *name)
+lt_dlloader_remove (const char *name)
 {
   const lt_dlvtable *	vtable	= lt_dlloader_find (name);
   static const char	id_string[] = "lt_dlloader_remove";
@@ -165,7 +166,7 @@ lt_dlloader_remove (char *name)
       return 0;
     }
 
-  /* Fail if there are any open modules which use this loader.  */
+  /* Fail if there are any open modules that use this loader.  */
   iface = lt_dlinterface_register (id_string, NULL);
   while ((handle = lt_dlhandle_iterate (iface, handle)))
     {
@@ -199,12 +200,12 @@ lt_dlloader_remove (char *name)
 
   /* If we got this far, remove the loader from our global list.  */
   return (lt_dlvtable *)
-      slist_unbox ((SList *) slist_remove (&loaders, loader_callback, name));
+      slist_unbox ((SList *) slist_remove (&loaders, loader_callback, (void *) name));
 }
 
 
 const lt_dlvtable *
-lt_dlloader_find (char *name)
+lt_dlloader_find (const char *name)
 {
-  return lt_dlloader_get (slist_find (loaders, loader_callback, name));
+  return lt_dlloader_get (slist_find (loaders, loader_callback, (void *) name));
 }

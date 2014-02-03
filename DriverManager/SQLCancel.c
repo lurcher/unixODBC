@@ -239,6 +239,23 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
         {
             statement -> state = STATE_S12;
         }
+        else {  /* Same action as SQLFreeStmt( SQL_CLOSE ) */
+            if ( statement -> state == STATE_S4 )
+            {
+                if ( statement -> prepared )
+                    statement -> state = STATE_S2;
+                else
+                    statement -> state = STATE_S1;
+            }
+            else
+            {
+                if ( statement -> prepared )
+                    statement -> state = STATE_S3;
+                else
+                    statement -> state = STATE_S1;
+            }
+            statement -> hascols = 0;
+        }
     }
 
     if ( log_info.log_flag )

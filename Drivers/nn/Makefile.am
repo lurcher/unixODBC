@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libnn.la
 
-INCLUDES = -I@top_srcdir@/include -I.
+AM_CPPFLAGS = -I@top_srcdir@/include -I.
 
 libnn_la_LDFLAGS = -no-undefined  -version-info 1:0:0 -module
 

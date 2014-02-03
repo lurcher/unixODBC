@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libloglc.la
 
-INCLUDES = -I@top_srcdir@/include
+AM_CPPFLAGS = -I@top_srcdir@/include
 
 libloglc_la_SOURCES = \
 	_logFreeMsg.c \

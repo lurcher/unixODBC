@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = libodbcinst.la
 
-INCLUDES = -I@top_srcdir@/include \
+AM_CPPFLAGS = -I@top_srcdir@/include \
 	$(LTDLINCL)
 
 EXTRA_DIST = \
