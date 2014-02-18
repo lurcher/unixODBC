@@ -6,6 +6,7 @@
     * Update automake toolset in svn
     * Add SQLFreeStmt( SQL_CLOSE ) function to SQLCancel
     * Allow SQL_NTS as a buffer length to SQLBindParameter
+    * More manual pages for the tools
 
 8th-October-2013
 2.3.2

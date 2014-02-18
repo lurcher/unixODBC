@@ -1,0 +1,117 @@
+.TH odbc_config 1 "Thu 13 Feb 2014" "version 2.3.2" "UnixODBC manual pages"
+
+.SH NAME
+odbc_config \- get compile options for compiling unixODBC client
+
+.SH SYNOPSIS
+.SY odbc_config
+.OP \-\-prefix
+.OP \-\-exec-prefix
+.OP \-\-include-prefix
+.OP \-\-lib-prefix
+.OP \-\-bin-prefix
+.OP \-\-version
+.OP \-\-libs
+.OP \-\-static-libs
+.OP \-\-libtool-libs
+.OP \-\-cflags
+.OP \-\-odbcversion
+.OP \-\-odbcini
+.OP \-\-odbcinstini
+.OP \-\-header
+.OP \-\-ulen
+.YS
+
+.SH DESCRIPTION
+.B odbc_config
+provides built-in options, specified at build time of the unixODBC suite, which
+are useful for building unixODBC clients and similar programs.
+
+.SH OPTIONS
+.B
+.IP \-\-prefix
+Prefix for architecture-independent file tree.
+
+.B
+.IP \-\-exec-prefix
+Prefix for architecture-dependent file tree.
+
+.B
+.IP \-\-include-prefix
+Directory with C header files for unixODBC.
+
+.B
+.IP \-\-lib-prefix
+Directory with object code (.so) libraries.
+
+.B
+.IP \-\-bin-prefix
+Location of user executables.
+
+.B
+.IP \-\-version
+unixODBC version.
+
+.B
+.IP \-\-libs
+Compiler flags for linking dynamic libraries.
+
+.B
+.IP \-\-static-libs
+Absolute file name of static unixODBC library.
+
+.B
+.IP \-\-libtool-libs
+Absolute file name of libtool unixODBC library.
+
+.B
+.IP \-\-cflags
+Compiler flags to find include files and critical compiler flags and defines used
+when compiling the libodbc library.
+
+.B
+.IP \-\-odbcversion
+Version of the ODBC specification used by the unixODBC.
+
+.B
+.IP \-\-odbcini
+Absolute file name of the system-wide DSN configuration file
+.IR odbc.ini .
+
+.B
+.IP \-\-odbcinstini
+Absolute file name of the driver configuration file
+.IR odbcinst.ini .
+
+.B
+.IP \-\-header
+Definitions of used C preprocessor constants. It is suitable to be piped into
+C header file.
+
+.B
+.IP \-\-ulen
+Compiler flag for defining
+.IR SIZEOF_SQLULEN .
+
+.SH SEE ALSO
+.BR odbcinst.ini (5),
+.BR odbc.ini (5)
+
+.SH AUTHORS
+The authors of unixODBC are
+.MT pharvey@codebydesign.com
+Peter Harvey
+.ME
+and
+.MT nick@lurcher.org
+Nick Gorham
+.ME .
+For the full list of contributors see the
+.I AUTHORS
+file.
+
+.SH COPYRIGHT
+unixODBC is licensed under the GNU Lesser General Public License. For details
+about the license, see the
+.I COPYING
+file.

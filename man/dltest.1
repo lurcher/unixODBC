@@ -1,0 +1,52 @@
+.TH dltest 1 "Thu 13 Feb 2014" "version 2.3.2" "UnixODBC manual pages"
+.SH NAME
+dltest \- A simple library symbol test
+
+.SH SYNOPSIS
+.B dltest
+.R [
+.I library symbol
+.R ]
+
+.SH DESCRIPTION
+.B dltest
+is simple test of occurence of the
+.I symbol
+in the
+.IR library .
+The
+.I library
+must be a full (with path) file name of the shared object, in which the search for
+.I symbol
+should be performed.
+
+Without any parameters, dltest print short help message.
+
+.SH EXAMPLES
+To determine if the symbol
+.B printf
+is found in the
+.IR libc-2\.18\.so :
+
+.RS
+$ dltest /usr/lib/libc-2.18.so printf
+.RE
+
+.SH AUTHORS
+The authors of unixODBC are
+.MT pharvey@codebydesign.com
+Peter Harvey
+.ME
+and
+.MT nick@lurcher.org
+Nick Gorham
+.ME .
+For the full list of contributors see the
+.I AUTHORS
+file.
+
+.SH COPYRIGHT
+unixODBC is licensed under the GNU Lesser General Public License. For details
+about the license, see the
+.I COPYING
+file.

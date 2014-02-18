@@ -309,7 +309,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-dist_man_MANS = isql.1  odbc.ini.5  odbcinst.1  odbcinst.ini.5 unixODBC.7
+dist_man_MANS = isql.1  odbc.ini.5  odbcinst.1  odbcinst.ini.5 unixODBC.7 dltest.1 iusql.1 odbc_config.1
 all: all-am
 
 .SUFFIXES:
