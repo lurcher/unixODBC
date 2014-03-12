@@ -4485,7 +4485,7 @@ static void extract_diag_error_w( int htype,
                 sqlstate,
                 &native,
                 msg1,
-                sizeof( msg1 ),
+                SQL_MAX_MESSAGE_LENGTH,
                 &len );
 
         if ( SQL_SUCCEEDED( ret ))
@@ -4712,7 +4712,7 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
                 sqlstate,
                 &native,
                 msg1,
-                sizeof( msg1 ),
+                SQL_MAX_MESSAGE_LENGTH,
                 &len );
 
         if ( SQL_SUCCEEDED( ret ))
@@ -4834,8 +4834,26 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                         }
                         else if ( CHECK_SQLERRORW( hdbc )) 
                         {
-                        printf( "wibble\n" );
                             extract_sql_error_w( SQL_NULL_HENV, 
+                                    hdbc -> driver_dbc, 
+                                    SQL_NULL_HSTMT, 
+                                    hdbc,
+                                    &hdbc -> error, 
+                                    ret_code );
+                        }
+                        else if ( CHECK_SQLGETDIAGFIELD( hdbc ) &&
+                                CHECK_SQLGETDIAGREC( hdbc ))
+                        {
+                            extract_diag_error( SQL_HANDLE_DBC,
+                                    hdbc -> driver_dbc,
+                                    hdbc,
+                                    &hdbc -> error,
+                                    ret_code,
+                                    save_to_diag );
+                        }
+                        else if ( CHECK_SQLERROR( hdbc )) 
+                        {
+                            extract_sql_error( SQL_NULL_HENV, 
                                     hdbc -> driver_dbc, 
                                     SQL_NULL_HSTMT, 
                                     hdbc,
@@ -4864,6 +4882,25 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                         else if ( CHECK_SQLERROR( hdbc )) 
                         {
                             extract_sql_error( SQL_NULL_HENV, 
+                                    hdbc -> driver_dbc, 
+                                    SQL_NULL_HSTMT, 
+                                    hdbc,
+                                    &hdbc -> error, 
+                                    ret_code );
+                        }
+                        else if ( CHECK_SQLGETDIAGFIELDW( hdbc ) &&
+                                CHECK_SQLGETDIAGRECW( hdbc ))
+                        {
+                            extract_diag_error_w( SQL_HANDLE_DBC,
+                                    hdbc -> driver_dbc,
+                                    hdbc,
+                                    &hdbc -> error,
+                                    ret_code,
+                                    save_to_diag );
+                        }
+                        else if ( CHECK_SQLERRORW( hdbc )) 
+                        {
+                            extract_sql_error_w( SQL_NULL_HENV, 
                                     hdbc -> driver_dbc, 
                                     SQL_NULL_HSTMT, 
                                     hdbc,
@@ -4910,6 +4947,25 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                                 &hstmt -> error, 
                                 ret_code );
                     }
+                    else if ( CHECK_SQLGETDIAGFIELD( hstmt -> connection ) &&
+                            CHECK_SQLGETDIAGREC( hstmt -> connection ))
+                    {
+                        extract_diag_error( SQL_HANDLE_STMT,
+                                hstmt -> driver_stmt,
+                                hstmt -> connection,
+                                &hstmt -> error,
+                                ret_code,
+                                save_to_diag );
+                    }
+                    else if ( CHECK_SQLERROR( hstmt -> connection )) 
+                    {
+                        extract_sql_error( SQL_NULL_HENV, 
+                                SQL_NULL_HDBC, 
+                                hstmt -> driver_stmt, 
+                                hstmt -> connection,
+                                &hstmt -> error, 
+                                ret_code );
+                    }
                     else 
                     {
                         __post_internal_error( &hstmt -> error,
@@ -4932,6 +4988,25 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                     else if ( CHECK_SQLERROR( hstmt -> connection )) 
                     {
                         extract_sql_error( SQL_NULL_HENV, 
+                                SQL_NULL_HDBC, 
+                                hstmt -> driver_stmt, 
+                                hstmt -> connection,
+                                &hstmt -> error, 
+                                ret_code );
+                    }
+                    else if ( CHECK_SQLGETDIAGFIELDW( hstmt -> connection ) &&
+                            CHECK_SQLGETDIAGRECW( hstmt -> connection ))
+                    {
+                        extract_diag_error_w( SQL_HANDLE_STMT,
+                                hstmt -> driver_stmt,
+                                hstmt -> connection,
+                                &hstmt -> error,
+                                ret_code,
+                                save_to_diag );
+                    }
+                    else if ( CHECK_SQLERRORW( hstmt -> connection )) 
+                    {
+                        extract_sql_error_w( SQL_NULL_HENV, 
                                 SQL_NULL_HDBC, 
                                 hstmt -> driver_stmt, 
                                 hstmt -> connection,
@@ -4964,6 +5039,16 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                                 ret_code,
                                 save_to_diag );
                     }
+                    else if ( CHECK_SQLGETDIAGFIELD( hdesc -> connection ) &&
+                            CHECK_SQLGETDIAGREC( hdesc -> connection ))
+                    {
+                        extract_diag_error( SQL_HANDLE_DESC,
+                                hdesc -> driver_desc,
+                                hdesc -> connection,
+                                &hdesc -> error,
+                                ret_code,
+                                save_to_diag );
+                    }
                     else 
                     {
                         __post_internal_error( &hdesc -> error,
@@ -4977,6 +5062,16 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
                             CHECK_SQLGETDIAGREC( hdesc -> connection ))
                     {
                         extract_diag_error( SQL_HANDLE_DESC,
+                                hdesc -> driver_desc,
+                                hdesc -> connection,
+                                &hdesc -> error,
+                                ret_code,
+                                save_to_diag );
+                    }
+                    else if ( CHECK_SQLGETDIAGFIELDW( hdesc -> connection ) &&
+                            CHECK_SQLGETDIAGRECW( hdesc -> connection ))
+                    {
+                        extract_diag_error_w( SQL_HANDLE_DESC,
                                 hdesc -> driver_desc,
                                 hdesc -> connection,
                                 &hdesc -> error,
