@@ -461,10 +461,10 @@ DMHENV __alloc_env( void )
                     LOG_INFO,
                     LOG_INFO, environment -> msg );
         }
-    }
+        setup_error_head( &environment -> error, environment,
+                SQL_HANDLE_ENV );
 
-    setup_error_head( &environment -> error, environment,
-            SQL_HANDLE_ENV );
+    }
 
     mutex_exit( &mutex_lists );
 
@@ -599,27 +599,28 @@ DMHDBC __alloc_dbc( void )
         connection -> next_class_list = connection_root;
         connection_root = connection;
         connection -> type = HDBC_MAGIC;
-    }
 
-    setup_error_head( &connection -> error, connection,
-            SQL_HANDLE_DBC );
+        setup_error_head( &connection -> error, connection,
+                SQL_HANDLE_DBC );
 
 #ifdef HAVE_LIBPTH
-    pth_mutex_init( &connection -> mutex );
-    /*
-     * for the moment protect on a environment level
-     */
-    connection -> protection_level = TS_LEVEL3;
+        pth_mutex_init( &connection -> mutex );
+        /*
+        * for the moment protect on a environment level
+        */
+        connection -> protection_level = TS_LEVEL3;
 #elif HAVE_LIBPTHREAD
-    pthread_mutex_init( &connection -> mutex, NULL );
-    /*
-     * for the moment protect on a environment level
-     */
-    connection -> protection_level = TS_LEVEL3;
+        pthread_mutex_init( &connection -> mutex, NULL );
+        /*
+        * for the moment protect on a environment level
+        */
+        connection -> protection_level = TS_LEVEL3;
 #elif HAVE_LIBTHREAD
-    mutex_init( &connection -> mutex, USYNC_THREAD, NULL );
-    connection -> protection_level = TS_LEVEL3;
+        mutex_init( &connection -> mutex, USYNC_THREAD, NULL );
+        connection -> protection_level = TS_LEVEL3;
 #endif
+
+    }
 
     mutex_exit( &mutex_lists );
 
@@ -785,18 +786,19 @@ DMHSTMT __alloc_stmt( void )
 #endif    
         statement_root = statement;
         statement -> type = HSTMT_MAGIC;
-    }
 
-    setup_error_head( &statement -> error, statement,
-            SQL_HANDLE_STMT );
+        setup_error_head( &statement -> error, statement,
+                SQL_HANDLE_STMT );
 
 #ifdef HAVE_LIBPTH
-    pth_mutex_init( &statement -> mutex );
+        pth_mutex_init( &statement -> mutex );
 #elif HAVE_LIBPTHREAD
-    pthread_mutex_init( &statement -> mutex, NULL );
+        pthread_mutex_init( &statement -> mutex, NULL );
 #elif HAVE_LIBTHREAD
-    mutex_init( &statement -> mutex, USYNC_THREAD, NULL );
+        mutex_init( &statement -> mutex, USYNC_THREAD, NULL );
 #endif
+
+    }
 
     mutex_exit( &mutex_lists );
 

@@ -8,7 +8,8 @@
     * Allow SQL_NTS as a buffer length to SQLBindParameter
     * More manual pages for the tools
     * Fix buffer overrun returning long diagnostic from driver
-    * CRoss call between wide and ascii error reporting in the driver when needed
+    * Cross call between wide and ascii error reporting in the driver when needed
+    * Fix some possible unchecked memory references after malloc
 
 8th-October-2013
 2.3.2
