@@ -413,8 +413,12 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL )));
 
-                free( ts1 );
-                free( ts2 );
+                if ( ts1 ) {
+                    free( ts1 );
+                }
+                if ( ts2 ) {
+                    free( ts2 );
+                }
             }
             else
             {
@@ -536,8 +540,12 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection )));
 
-                free( ts1 );
-                free( ts2 );
+                if ( ts1 ) {
+                    free( ts1 );
+                }
+                if ( ts2 ) {
+                    free( ts2 );
+                }
             }
             else
             {
@@ -659,8 +667,12 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection )));
 
-                free( ts1 );
-                free( ts2 );
+                if ( ts1 ) {
+                    free( ts1 );
+                }
+                if ( ts2 ) {
+                    free( ts2 );
+                }
             }
             else
             {
@@ -782,8 +794,12 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, descriptor -> connection )));
 
-                free( ts1 );
-                free( ts2 );
+                if ( ts1 ) {
+                    free( ts1 );
+                }
+                if ( ts2 ) {
+                    free( ts2 );
+                }
             }
             else
             {
