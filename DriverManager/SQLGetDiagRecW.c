@@ -339,6 +339,7 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
     SQLRETURN ret;
     SQLCHAR s0[ 32 ], s1[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s2[ 100 + LOG_MESSAGE_LEN ];
+    SQLCHAR s3[ 100 + LOG_MESSAGE_LEN ];
 
     if ( rec_number < 1 )
     {
@@ -408,17 +409,18 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL )),
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL )));
 
-                if ( ts1 ) {
-                    free( ts1 );
-                }
-                if ( ts2 ) {
-                    free( ts2 );
-                }
+		if ( ts1 ) {
+                	free( ts1 );
+		}
+		if ( ts2 ) {
+                	free( ts2 );
+		}
             }
             else
             {
@@ -535,17 +537,18 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection )),
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
-                            text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection )));
+                            	text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection )));
 
-                if ( ts1 ) {
-                    free( ts1 );
-                }
-                if ( ts2 ) {
-                    free( ts2 );
-                }
+		if ( ts1 ) {
+                	free( ts1 );
+		}
+		if ( ts2 ) {
+                	free( ts2 );
+		}
             }
             else
             {
@@ -662,17 +665,18 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection )),
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection )));
 
-                if ( ts1 ) {
-                    free( ts1 );
-                }
-                if ( ts2 ) {
-                    free( ts2 );
-                }
+		if ( ts1 ) {
+                	free( ts1 );
+		}
+		if ( ts2 ) {
+                	free( ts2 );
+		}
             }
             else
             {
@@ -789,17 +793,18 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, descriptor -> connection ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, descriptor -> connection )),
                         __iptr_as_string( s0, native ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, descriptor -> connection )));
 
-                if ( ts1 ) {
-                    free( ts1 );
-                }
-                if ( ts2 ) {
-                    free( ts2 );
-                }
+		if ( ts1 ) {
+                	free( ts1 );
+		}
+		if ( ts2 ) {
+                	free( ts2 );
+		}
             }
             else
             {

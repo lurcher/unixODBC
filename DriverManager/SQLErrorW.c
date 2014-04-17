@@ -202,6 +202,7 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
     SQLRETURN ret;
     SQLCHAR s0[ 32 ], s1[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s2[ 100 + LOG_MESSAGE_LEN ];
+    SQLCHAR s3[ 100 + LOG_MESSAGE_LEN ];
 
     if ( statement_handle )
     {
@@ -297,7 +298,8 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ( ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection )),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection ))));
@@ -417,7 +419,8 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection ))));
@@ -501,7 +504,8 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
-                        ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL ),
+                        __sdata_as_string( s3, SQL_CHAR,
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
                             text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL ))));
