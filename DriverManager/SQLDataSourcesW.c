@@ -99,13 +99,6 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
     char driver[ INI_MAX_PROPERTY_VALUE + 1 ];
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
 
-    /*
-     * restrict for unicode
-     */
-
-    buffer_length1 = buffer_length1 / 2;
-    buffer_length2 = buffer_length2 / 2;
-
     if ( !__validate_env( environment ))
     {
         dm_log_write( __FILE__, 
