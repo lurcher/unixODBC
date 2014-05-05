@@ -11,6 +11,7 @@
     * Cross call between wide and ascii error reporting in the driver when needed
     * Fix some possible unchecked memory references after malloc
     * Prevent free( NULL ) in SQLGetDiagRecW
+    * SQLDataSourcesW takes buffer_lenghts as characters not bytes
 
 8th-October-2013
 2.3.2
