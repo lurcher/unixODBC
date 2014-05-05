@@ -390,7 +390,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
                   case SQL_DESC_NAME:
                     if ( SQL_SUCCEEDED( ret ) && character_attribute && as1 )
                     {
-                        ansi_to_unicode_copy( character_attribute, (char*) as1, SQL_NTS, statement -> connection );
+                        ansi_to_unicode_copy( character_attribute, (char*) as1, SQL_NTS, statement -> connection, NULL );
 					}
 					if ( SQL_SUCCEEDED( ret ) && string_length )
 					{
@@ -469,7 +469,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
               case SQL_COLUMN_NAME:
                 if ( SQL_SUCCEEDED( ret ) && character_attribute && as1 )
                 {
-                    ansi_to_unicode_copy( character_attribute, (char*) as1, SQL_NTS, statement -> connection );
+                    ansi_to_unicode_copy( character_attribute, (char*) as1, SQL_NTS, statement -> connection, NULL );
 				}
 				if ( SQL_SUCCEEDED( ret ) && string_length )
 				{

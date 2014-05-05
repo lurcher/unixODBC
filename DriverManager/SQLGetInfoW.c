@@ -506,7 +506,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
               case SQL_OUTER_JOINS:
                 if ( SQL_SUCCEEDED( ret ) && info_value && as1 )
                 {
-                    ansi_to_unicode_copy( info_value, (char*) as1, SQL_NTS, connection );
+                    ansi_to_unicode_copy( info_value, (char*) as1, SQL_NTS, connection, NULL );
 				}
 				if ( SQL_SUCCEEDED( ret ) && string_length )
 				{
@@ -539,7 +539,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
         SQLWCHAR *s1;
         int len;
 
-        s1 = ansi_to_unicode_alloc((SQLCHAR*) cptr, SQL_NTS, connection );
+        s1 = ansi_to_unicode_alloc((SQLCHAR*) cptr, SQL_NTS, connection, NULL );
 
         len = strlen( cptr ) * sizeof( SQLWCHAR );
 

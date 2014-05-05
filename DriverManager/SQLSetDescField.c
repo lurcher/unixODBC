@@ -243,7 +243,7 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
       if (field_identifier == SQL_DESC_NAME)
       {
-        s1 = ansi_to_unicode_alloc( value, buffer_length, descriptor -> connection);
+        s1 = ansi_to_unicode_alloc( value, buffer_length, descriptor -> connection, NULL );
 
       }
       else

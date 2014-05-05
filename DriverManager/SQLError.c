@@ -226,10 +226,10 @@ static SQLRETURN extract_sql_error( EHEAD *head,
 
     if ( sqlstate )
     {
-        unicode_to_ansi_copy((char*) sqlstate, 6, err -> sqlstate, SQL_NTS, connection );
+        unicode_to_ansi_copy((char*) sqlstate, 6, err -> sqlstate, SQL_NTS, connection, NULL );
     }
 
-    str = unicode_to_ansi_alloc( err -> msg, SQL_NTS, connection );
+    str = unicode_to_ansi_alloc( err -> msg, SQL_NTS, connection, NULL );
 
     if ( buffer_length < strlen( str ) + 1 )
     {

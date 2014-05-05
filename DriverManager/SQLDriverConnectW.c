@@ -152,7 +152,7 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
         local_str = malloc( len + 1 );
     }
 
-    unicode_to_ansi_copy( local_str, len, str, len, NULL );
+    unicode_to_ansi_copy( local_str, len, str, len, NULL, NULL );
 
     if ( !local_str || strlen( local_str ) == 0 ||
         ( strlen( local_str ) == 1 && *local_str == ';' ))
@@ -376,7 +376,7 @@ SQLRETURN SQLDriverConnectW(
         	ansi_conn_str_in = "DSN=DEFAULT;";
         	len_conn_str_in = strlen( ansi_conn_str_in );
 
-			ansi_to_unicode_copy( local_conn_string, ansi_conn_str_in, len_conn_str_in, connection );
+			ansi_to_unicode_copy( local_conn_string, ansi_conn_str_in, len_conn_str_in, connection, NULL );
 			conn_str_in = local_conn_string;
 
 			__parse_connection_string( &con_struct,
@@ -440,7 +440,7 @@ SQLRETURN SQLDriverConnectW(
 			 */
 			__generate_connection_string( &con_struct, (char*)local_conn_str_in, sizeof( local_conn_str_in ));
         	len_conn_str_in = strlen((char*) local_conn_str_in );
-			ansi_to_unicode_copy( local_conn_string, (char*)local_conn_str_in, len_conn_str_in, connection );
+			ansi_to_unicode_copy( local_conn_string, (char*)local_conn_str_in, len_conn_str_in, connection, NULL );
 			conn_str_in = local_conn_string;
 		}
 	}
@@ -722,7 +722,7 @@ SQLRETURN SQLDriverConnectW(
                 len = len_conn_str_in + sizeof( SQLWCHAR );
             }
             in_str = malloc( len );
-            unicode_to_ansi_copy( in_str, len, conn_str_in, len, connection );
+            unicode_to_ansi_copy( in_str, len, conn_str_in, len, connection, NULL );
         }
         else
         {
@@ -757,7 +757,7 @@ SQLRETURN SQLDriverConnectW(
         {
             if ( SQL_SUCCEEDED( ret_from_connect ))
             {
-                ansi_to_unicode_copy( conn_str_out, out_str, SQL_NTS, connection );
+                ansi_to_unicode_copy( conn_str_out, out_str, SQL_NTS, connection, NULL );
             }
 
             free( out_str );

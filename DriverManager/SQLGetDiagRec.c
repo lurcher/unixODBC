@@ -328,11 +328,11 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
 	    	return SQL_NO_DATA;
 		}
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ));
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ), NULL );
 
         if ( sqlstate )
         {
-            unicode_to_ansi_copy((char*) sqlstate, 6, ptr -> sqlstate, SQL_NTS, __get_connection( head ));
+            unicode_to_ansi_copy((char*) sqlstate, 6, ptr -> sqlstate, SQL_NTS, __get_connection( head ), NULL );
         }
         if ( buffer_length < strlen((char*) as1 ) + 1 )
         {
@@ -414,12 +414,12 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
             {
                 if ( sqlstate )
                 {
-                    unicode_to_ansi_copy((char*) sqlstate, 6, s1, SQL_NTS, __get_connection( head ));
+                    unicode_to_ansi_copy((char*) sqlstate, 6, s1, SQL_NTS, __get_connection( head ), NULL );
                     __map_error_state((char*) sqlstate, __get_version( head ));
                 }
                 if ( message_text )
                 {
-                    unicode_to_ansi_copy((char*) message_text, buffer_length, s2, SQL_NTS, __get_connection( head ));
+                    unicode_to_ansi_copy((char*) message_text, buffer_length, s2, SQL_NTS, __get_connection( head ), NULL );
                 }
             }
 
@@ -460,11 +460,11 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
 	    		return SQL_NO_DATA;
 			}
 
-            as1 = (SQLCHAR*) unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ));
+            as1 = (SQLCHAR*) unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ), NULL );
 
             if ( sqlstate )
             {
-                unicode_to_ansi_copy((char*) sqlstate, 6, ptr -> sqlstate, SQL_NTS, __get_connection( head ));
+                unicode_to_ansi_copy((char*) sqlstate, 6, ptr -> sqlstate, SQL_NTS, __get_connection( head ), NULL );
             }
             if ( as1 && buffer_length < strlen((char*) as1 ) + 1 )
             {

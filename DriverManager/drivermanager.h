@@ -670,10 +670,10 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
 void function_entry( void *handle );
 void setup_error_head( EHEAD *error_header, void *handle, int handle_type );
 void clear_error_head( EHEAD *error_header );
-SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_len, DMHDBC connection );
-SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection );
-char *unicode_to_ansi_copy( char* dest, int dest_len, SQLWCHAR *src, SQLINTEGER len, DMHDBC connection );
-char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection );
+SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_len, DMHDBC connection, int *wlen );
+SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection, int *wlen );
+char *unicode_to_ansi_copy( char* dest, int dest_len, SQLWCHAR *src, SQLINTEGER len, DMHDBC connection, int *clen );
+char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection, int *clen );
 int unicode_setup( DMHDBC connection );
 void unicode_shutdown( DMHDBC connection );
 char * __get_return_status( SQLRETURN ret, SQLCHAR *buffer );

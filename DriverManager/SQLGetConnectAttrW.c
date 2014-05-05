@@ -170,11 +170,11 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
             {
                 if ( buffer_length > len + sizeof( SQLWCHAR ))
                 {
-                    ansi_to_unicode_copy( value, ptr, SQL_NTS, connection );
+                    ansi_to_unicode_copy( value, ptr, SQL_NTS, connection, NULL );
                 }
                 else
                 {
-                    ansi_to_unicode_copy( value, ptr, buffer_length - 1, connection );
+                    ansi_to_unicode_copy( value, ptr, buffer_length - 1, connection, NULL );
                     ((SQLWCHAR*)value)[( buffer_length - 1 ) / sizeof( SQLWCHAR )] = 0;
                     ret = SQL_SUCCESS_WITH_INFO;
                 }
@@ -619,7 +619,7 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                       case SQL_ATTR_TRANSLATE_LIB:
                         if ( SQL_SUCCEEDED( ret ) && value && buffer_length > 0 && as1 )
                         {
-                            ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, connection );
+                            ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, connection, NULL );
                         }
                         if ( as1 )
                         {
@@ -678,7 +678,7 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value && buffer_length > 0 && as1 )
                     {
-                        ansi_to_unicode_copy( value, (char*)as1, SQL_NTS, connection );
+                        ansi_to_unicode_copy( value, (char*)as1, SQL_NTS, connection, NULL );
                     }
                     if ( as1 )
                     {

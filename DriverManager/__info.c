@@ -637,9 +637,14 @@ void unicode_shutdown( DMHDBC connection )
  * returned a malloc'd buffer in unicode converted from the ansi buffer
  */
 
-SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection )
+SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection, int *wlen )
 {
     SQLWCHAR *ustr;
+
+    if ( wlen ) 
+    {
+        *wlen = len;
+    }
 
     if( !str )
     {
@@ -657,7 +662,7 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
         return NULL;
     }
 
-    return ansi_to_unicode_copy( ustr, (char*) str, len + 1, connection );
+    return ansi_to_unicode_copy( ustr, (char*) str, len + 1, connection, wlen );
 }
 
 /*
@@ -665,9 +670,14 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
  * the chosen conversion method
  */
 
-char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection )
+char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection, int *clen )
 {
     char *aptr;
+
+    if ( clen ) 
+    {
+        *clen = len;
+    }
 
     if ( !str )
     {
@@ -685,14 +695,14 @@ char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection )
         return NULL;
     }
 
-    return unicode_to_ansi_copy( aptr, len, str, len, connection );
+    return unicode_to_ansi_copy( aptr, len, str, len, connection, clen );
 }
 
 /*
  * copy from a unicode buffer to a ansi buffer using the chosen conversion
  */
 
-char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER buffer_len, DMHDBC connection )
+char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER buffer_len, DMHDBC connection, int *clen )
 {
     int i;
 
@@ -722,6 +732,11 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
                     &opt, &obl )) != (size_t)(-1))
         {
    		mutex_iconv_exit();
+
+            if ( clen ) 
+            {
+                *clen = opt - dest;
+            }
             return dest;
         }
     }
@@ -739,6 +754,11 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
 #endif
     }
 
+    if ( clen ) 
+    {
+        *clen = i;
+    }
+
     dest[ i ] = '\0';
 
     return dest;
@@ -748,7 +768,7 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
  * copy from a ansi buffer to a unicode buffer using the chosen conversion
  */
 
-SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_len, DMHDBC connection )
+SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_len, DMHDBC connection, int *wlen )
 {
     int i;
 
@@ -778,6 +798,11 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
                     &opt, &obl ) != (size_t)(-1))
         {
 			mutex_iconv_exit();
+
+            if ( wlen ) 
+            {
+                *wlen = ( opt - ((char*)dest)) / sizeof( SQLWCHAR );
+            }
             return dest;
         }
 
@@ -793,6 +818,11 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
 #else
         dest[ i ] = src[ i ] & 0x00FF;
 #endif
+    }
+
+    if ( wlen ) 
+    {
+        *wlen = i;
     }
 
     dest[ i ] = 0;
@@ -3063,11 +3093,11 @@ void __map_error_state_w( SQLWCHAR * wstate, int requested_version )
 {
     char state[ 6 ];
 
-    unicode_to_ansi_copy( state, 6, wstate, SQL_NTS, NULL );
+    unicode_to_ansi_copy( state, 6, wstate, SQL_NTS, NULL, NULL );
 
     __map_error_state( state, requested_version );
 
-    ansi_to_unicode_copy( wstate, state, SQL_NTS, NULL );
+    ansi_to_unicode_copy( wstate, state, SQL_NTS, NULL, NULL );
 }
 
 /*
@@ -3131,13 +3161,13 @@ char * __wstring_with_length( SQLCHAR *ostr, SQLWCHAR *instr, SQLINTEGER len )
         if ( ( i = wide_strlen( instr ) ) < LOG_MESSAGE_LEN )
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, i, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, i, NULL, NULL );
             strcat((char*) ostr, "]" );
         }
         else
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL, NULL );
             strcat((char*) ostr, "...]" );
         }
         sprintf( tmp, "[length = %d (SQL_NTS)]", i );
@@ -3148,13 +3178,13 @@ char * __wstring_with_length( SQLCHAR *ostr, SQLWCHAR *instr, SQLINTEGER len )
         if ( len < LOG_MESSAGE_LEN )
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, len, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, len, NULL, NULL );
             strcat((char*) ostr, "]" );
         }
         else
         {
             strcpy((char*) ostr, "[" );
-            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL );
+            unicode_to_ansi_copy((char*) ostr + 1, LOG_MESSAGE_LEN, instr, LOG_MESSAGE_LEN, NULL, NULL );
             strcat((char*) ostr, "...]" );
         }
         sprintf( tmp, "[length = %d]", (int)len );
@@ -3676,8 +3706,8 @@ static int check_error_order( ERROR *e1, ERROR *e2, EHEAD *head )
      * as far as I can see, a simple strcmp gives the order we need 
      */
 
-    s1 = unicode_to_ansi_alloc( e1 -> sqlstate, SQL_NTS, __get_connection( head ));
-    s2 = unicode_to_ansi_alloc( e2 -> sqlstate, SQL_NTS, __get_connection( head ));
+    s1 = unicode_to_ansi_alloc( e1 -> sqlstate, SQL_NTS, __get_connection( head ), NULL);
+    s2 = unicode_to_ansi_alloc( e2 -> sqlstate, SQL_NTS, __get_connection( head ), NULL );
 
     ret = strcmp( s1, s2 );
 
@@ -3856,10 +3886,10 @@ void __post_internal_error_ex( EHEAD *error_header,
     e1 -> native_error = native_error;
     e2 -> native_error = native_error;
     ansi_to_unicode_copy(e1 -> sqlstate,
-                         (char*)sqlstate, SQL_NTS, __get_connection( error_header ));
+                         (char*)sqlstate, SQL_NTS, __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> sqlstate, e1 -> sqlstate );
 
-    e1 -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, __get_connection( error_header ) );
+    e1 -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, __get_connection( error_header ), NULL );
     if ( !e1 -> msg )
     {
         free( e1 );
@@ -3898,26 +3928,26 @@ void __post_internal_error_ex( EHEAD *error_header,
 
     if ( class_origin == SUBCLASS_ODBC )
     	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ODBC 3.0",
-			      SQL_NTS, __get_connection( error_header ) );
+			      SQL_NTS, __get_connection( error_header ), NULL );
     else
     	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ISO 9075",
-			      SQL_NTS, __get_connection( error_header ) );
+			      SQL_NTS, __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_class_origin, e1 -> diag_class_origin );
 
     if ( subclass_origin == SUBCLASS_ODBC )
     	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ODBC 3.0",
-			      SQL_NTS, __get_connection( error_header ) );
+			      SQL_NTS, __get_connection( error_header ), NULL );
     else
     	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ISO 9075",
-			      SQL_NTS, __get_connection( error_header ) );
+			      SQL_NTS, __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_subclass_origin, e1 -> diag_subclass_origin );
 
     ansi_to_unicode_copy( e1 -> diag_connection_name, (char*) "", SQL_NTS,
-			  __get_connection( error_header ) );
+			  __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_connection_name, e1 -> diag_connection_name );
 
     ansi_to_unicode_copy( e1 -> diag_server_name, (char*) "", SQL_NTS,
-			  __get_connection( error_header ) );
+			  __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_server_name, e1 -> diag_server_name );
 
     /*
@@ -3949,7 +3979,7 @@ void __post_internal_error_ex_w( EHEAD *error_header,
      */
 
     ansi_to_unicode_copy(msg, (char*) ERROR_PREFIX, SQL_NTS,
-			 __get_connection( error_header ));
+			 __get_connection( error_header ), NULL);
     wide_strcat( msg, message_text );
 
     e1 = malloc( sizeof( ERROR ));
@@ -3994,18 +4024,18 @@ void __post_internal_error_ex_w( EHEAD *error_header,
 
     if ( class_origin == SUBCLASS_ODBC )
         ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ODBC 3.0",
-							  SQL_NTS, __get_connection( error_header ) );
+							  SQL_NTS, __get_connection( error_header ), NULL );
     else
         ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ISO 9075",
-							  SQL_NTS, __get_connection( error_header ) );
+							  SQL_NTS, __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_class_origin, e1 -> diag_class_origin );
 
     if ( subclass_origin == SUBCLASS_ODBC )
         ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ODBC 3.0",
-							  SQL_NTS, __get_connection( error_header ) );
+							  SQL_NTS, __get_connection( error_header ), NULL );
     else
         ansi_to_unicode_copy( e1 ->diag_subclass_origin, (char*) "ISO 9075",
-							  SQL_NTS, __get_connection( error_header ) );
+							  SQL_NTS, __get_connection( error_header ), NULL );
     wide_strcpy( e2 -> diag_subclass_origin, e1 -> diag_subclass_origin );
 
     e1 -> diag_connection_name[ 0 ] = 0;
@@ -4149,10 +4179,10 @@ static void extract_diag_error( int htype,
              */
 
             e -> native_error = native;
-            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection );
+            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection, NULL );
             wide_strcpy( e -> sqlstate, tmp );
             free( tmp );
-            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
             e -> return_val = return_code;
 
             insert_into_error_list( head, e );
@@ -4168,10 +4198,10 @@ static void extract_diag_error( int htype,
 
                 e = malloc( sizeof( ERROR ));
                 e -> native_error = native;
-                tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection );
+                tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection, NULL );
                 wide_strcpy( e -> sqlstate, tmp );
                 free( tmp );
-                e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+                e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
                 e -> return_val = return_code;
 
                 insert_into_diag_list( head, e );
@@ -4212,7 +4242,7 @@ static void extract_diag_error( int htype,
                             sizeof( msg ),
                             &len )))
                         {
-                            tmp = ansi_to_unicode_alloc(msg, SQL_NTS, connection );
+                            tmp = ansi_to_unicode_alloc(msg, SQL_NTS, connection, NULL );
                             wide_strcpy( head->diag_dynamic_function, tmp );
                             free( tmp );
                         }
@@ -4281,7 +4311,7 @@ static void extract_diag_error( int htype,
                         sizeof( msg ),
                         &len )))
                     {
-                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
                         wide_strcpy( e->diag_class_origin, tmp );
                         free( tmp );
                     }
@@ -4295,7 +4325,7 @@ static void extract_diag_error( int htype,
                         sizeof( msg ),
                         &len )))
                     {
-                        tmp = ansi_to_unicode_alloc(msg, SQL_NTS, connection );
+                        tmp = ansi_to_unicode_alloc(msg, SQL_NTS, connection, NULL );
                         wide_strcpy( e->diag_subclass_origin, tmp );
                         free( tmp );
                     }
@@ -4309,7 +4339,7 @@ static void extract_diag_error( int htype,
                         sizeof( msg ),
                         &len )))
                     {
-                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
                         wide_strcpy( e->diag_connection_name, tmp );
                         free( tmp );
                     }
@@ -4323,7 +4353,7 @@ static void extract_diag_error( int htype,
                         sizeof( msg ),
                         &len )))
                     {
-                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+                        tmp = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
                         wide_strcpy( e -> diag_server_name, tmp );
                         free( tmp );
                     }
@@ -4407,10 +4437,10 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
 #endif
 
             e -> native_error = native;
-            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection );
+            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection, NULL );
             wide_strcpy( e -> sqlstate, tmp );
             free( tmp );
-            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
             e -> return_val = return_code;
 
             insert_into_error_list( head, e );
@@ -4429,10 +4459,10 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
             e -> diag_server_name_ret= SQL_ERROR;
 
             e -> native_error = native;
-            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection );
+            tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection, NULL );
             wide_strcpy( e -> sqlstate, tmp );
             free( tmp );
-            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection );
+            e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );
             e -> return_val = return_code;
 
             insert_into_diag_list( head, e );
@@ -4671,8 +4701,8 @@ static void extract_diag_error_w( int htype,
             {
                 SQLCHAR *as1, *as2;
 
-                as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection );
+                as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection, NULL );
 
                 sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                         as1, as2 );
@@ -4732,7 +4762,7 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
 #ifdef STRICT_ODBC_ERROR
             wide_strcpy( msg, msg1 );
 #else
-            tmp = ansi_to_unicode_alloc((SQLCHAR*) ERROR_PREFIX, SQL_NTS, connection );
+            tmp = ansi_to_unicode_alloc((SQLCHAR*) ERROR_PREFIX, SQL_NTS, connection, NULL );
             wide_strcpy( msg, tmp );
             free( tmp );
             wide_strcat( msg, msg1 );
@@ -4765,8 +4795,8 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
             {
                 SQLCHAR *as1, *as2;
 
-                as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection );
+                as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection, NULL );
 
                 sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                         as1, as2 );

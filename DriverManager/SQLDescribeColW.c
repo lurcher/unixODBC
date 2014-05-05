@@ -414,7 +414,7 @@ SQLRETURN SQLDescribeColW( SQLHSTMT statement_handle,
 
         if ( column_name && as1 )
         {
-            ansi_to_unicode_copy( column_name, (char*) as1, SQL_NTS, statement -> connection );
+            ansi_to_unicode_copy( column_name, (char*) as1, SQL_NTS, statement -> connection, NULL );
         }
 
         if ( as1 )

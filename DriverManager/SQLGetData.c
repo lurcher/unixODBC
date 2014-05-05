@@ -462,11 +462,11 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             if ( ind_value > buffer_length )
             {
-                ansi_to_unicode_copy( target_value, (char*) as1, buffer_length, statement -> connection );
+                ansi_to_unicode_copy( target_value, (char*) as1, buffer_length, statement -> connection, NULL );
             }
             else
             {
-                ansi_to_unicode_copy( target_value, (char*) as1, ind_value + 1, statement -> connection );
+                ansi_to_unicode_copy( target_value, (char*) as1, ind_value + 1, statement -> connection, NULL );
             }
         }
 

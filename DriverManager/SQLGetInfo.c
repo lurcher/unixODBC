@@ -428,7 +428,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
               case SQL_OUTER_JOINS:
                 if ( SQL_SUCCEEDED( ret ) && info_value && s1 )
                 {
-                    unicode_to_ansi_copy( info_value, buffer_length, s1, SQL_NTS, connection );
+                    unicode_to_ansi_copy( info_value, buffer_length, s1, SQL_NTS, connection, NULL  );
                 }
 				if ( SQL_SUCCEEDED( ret ) && string_length && info_value ) 
 				{

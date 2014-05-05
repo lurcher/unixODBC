@@ -179,7 +179,7 @@ SQLRETURN SQLSetConnectOptionW( SQLHDBC connection_handle,
                 {
                     free( log_info.log_file_name );
                 }
-                log_info.log_file_name = unicode_to_ansi_alloc((SQLWCHAR *) value, SQL_NTS, connection );
+                log_info.log_file_name = unicode_to_ansi_alloc((SQLWCHAR *) value, SQL_NTS, connection, NULL );
             }
         }
         else 

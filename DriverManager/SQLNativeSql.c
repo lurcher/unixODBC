@@ -300,7 +300,7 @@ SQLRETURN SQLNativeSql(
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
-        s1 = ansi_to_unicode_alloc( sz_sql_str_in, cb_sql_str_in, connection );
+        s1 = ansi_to_unicode_alloc( sz_sql_str_in, cb_sql_str_in, connection, NULL  );
 
         if ( sz_sql_str && cb_sql_str_max > 0 )
         {
@@ -317,7 +317,7 @@ SQLRETURN SQLNativeSql(
 
         if ( SQL_SUCCEEDED( ret ) && s2 && sz_sql_str )
         {
-            unicode_to_ansi_copy((char*) sz_sql_str, cb_sql_str_max, s2, SQL_NTS, connection );
+            unicode_to_ansi_copy((char*) sz_sql_str, cb_sql_str_max, s2, SQL_NTS, connection, NULL  );
         }
 
         if ( s1 )

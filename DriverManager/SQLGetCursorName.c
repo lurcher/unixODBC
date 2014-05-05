@@ -259,7 +259,7 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 
         if ( SQL_SUCCEEDED( ret ) && cursor_name && s1 )
         {
-            unicode_to_ansi_copy((char*) cursor_name, buffer_length, s1, SQL_NTS, statement -> connection );
+            unicode_to_ansi_copy((char*) cursor_name, buffer_length, s1, SQL_NTS, statement -> connection, NULL );
         }
 
         if ( s1 )

@@ -538,7 +538,7 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                   case SQL_ATTR_TRACEFILE:
                   case SQL_ATTR_TRANSLATE_LIB:
                     string_length = SQL_NTS;
-                    ptr = (void *) ansi_to_unicode_alloc(( SQLCHAR * ) value, SQL_NTS, connection );
+                    ptr = (void *) ansi_to_unicode_alloc(( SQLCHAR * ) value, SQL_NTS, connection, NULL );
                     break;
 
                   default:

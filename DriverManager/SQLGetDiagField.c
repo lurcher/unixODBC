@@ -333,7 +333,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             {
                 if ( SQL_SUCCEEDED( head -> diag_dynamic_function_ret ) && diag_info_ptr )
                 {
-                    unicode_to_ansi_copy( diag_info_ptr, buffer_length, head -> diag_dynamic_function, buffer_length, __get_connection( head ));
+                    unicode_to_ansi_copy( diag_info_ptr, buffer_length, head -> diag_dynamic_function, buffer_length, __get_connection( head ), NULL );
                     if ( string_length_ptr )
                     {
                         *string_length_ptr = wide_strlen( head -> diag_dynamic_function );
@@ -362,7 +362,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 
                 if ( SQL_SUCCEEDED( ret ) && diag_info_ptr && s1 )
                 {
-                    unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, buffer_length, __get_connection( head ));
+                    unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, buffer_length, __get_connection( head ), NULL );
                 }
 
                 if ( s1 )
@@ -528,7 +528,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 
             if ( SQL_SUCCEEDED( ret ) && s1 && diag_info_ptr )
             {
-                unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ));
+                unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
             }
 
             if ( s1 )
@@ -613,7 +613,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             if ( SQL_SUCCEEDED( ptr -> diag_class_origin_ret ))
             {
-                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_class_origin, buffer_length, __get_connection( head ));
+                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_class_origin, buffer_length, __get_connection( head ), NULL );
                 if ( string_length_ptr )
                 {
                     *string_length_ptr = wide_strlen( ptr -> diag_class_origin );
@@ -641,7 +641,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             if ( SQL_SUCCEEDED( ptr -> diag_connection_name_ret ))
             {
-                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_connection_name, buffer_length, __get_connection( head ));
+                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_connection_name, buffer_length, __get_connection( head ), NULL );
                 if ( string_length_ptr )
                 {
                     *string_length_ptr = wide_strlen( ptr -> diag_connection_name );
@@ -660,7 +660,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             char *str;
             int ret = SQL_SUCCESS;
 
-            str = unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ));
+            str = unicode_to_ansi_alloc( ptr -> msg, SQL_NTS, __get_connection( head ), NULL );
 
             if ( diag_info_ptr )
             {
@@ -713,7 +713,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             if ( SQL_SUCCEEDED( ptr -> diag_server_name_ret ))
             {
-                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_server_name, buffer_length, __get_connection( head ));
+                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_server_name, buffer_length, __get_connection( head ), NULL );
                 if ( string_length_ptr )
                 {
                     *string_length_ptr = wide_strlen( ptr -> diag_server_name );
@@ -732,7 +732,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             char *str;
             int ret = SQL_SUCCESS;
 
-            str = unicode_to_ansi_alloc( ptr -> sqlstate, SQL_NTS, __get_connection( head ));
+            str = unicode_to_ansi_alloc( ptr -> sqlstate, SQL_NTS, __get_connection( head ), NULL );
 
             if ( diag_info_ptr )
             {
@@ -772,7 +772,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             if ( SQL_SUCCEEDED( ptr -> diag_subclass_origin_ret ))
             {
-                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_subclass_origin, buffer_length, __get_connection( head ));
+                unicode_to_ansi_copy( diag_info_ptr, buffer_length, ptr -> diag_subclass_origin, buffer_length, __get_connection( head ), NULL );
                 if ( string_length_ptr )
                 {
                     *string_length_ptr = wide_strlen( ptr -> diag_subclass_origin );

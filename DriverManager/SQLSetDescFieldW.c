@@ -275,7 +275,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 		switch ( field_identifier )
 		{
 			case SQL_DESC_NAME:		/* This is the only R/W SQLCHAR* type */
-        		ascii_str = (SQLCHAR*) unicode_to_ansi_alloc( value, buffer_length, descriptor -> connection );
+        		ascii_str = (SQLCHAR*) unicode_to_ansi_alloc( value, buffer_length, descriptor -> connection, NULL );
 				value = ascii_str;
 				buffer_length = strlen((char*) ascii_str );
 				break;

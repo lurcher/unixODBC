@@ -326,7 +326,7 @@ SQLRETURN SQLGetDescFieldW( SQLHDESC descriptor_handle,
               case SQL_DESC_TYPE_NAME:
                 if ( as1 && buffer_length > 0 && value )
                 {
-                    ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, descriptor -> connection );
+                    ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, descriptor -> connection, NULL );
                 }
 				if ( string_length )
 				{

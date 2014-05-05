@@ -479,7 +479,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                   case SQL_DESC_NAME:
                     if ( SQL_SUCCEEDED( ret ) && character_attribute && s1 )
                     {
-                        unicode_to_ansi_copy( character_attribute, buffer_length, s1,  SQL_NTS, statement -> connection );
+                        unicode_to_ansi_copy( character_attribute, buffer_length, s1,  SQL_NTS, statement -> connection, NULL );
                     }
 					if ( SQL_SUCCEEDED( ret ) && string_length ) 
 					{
@@ -564,7 +564,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
               case SQL_COLUMN_NAME:
                 if ( SQL_SUCCEEDED( ret ) && character_attribute && s1 )
                 {
-                    unicode_to_ansi_copy( character_attribute, buffer_length, s1, SQL_NTS, statement -> connection );
+                    unicode_to_ansi_copy( character_attribute, buffer_length, s1, SQL_NTS, statement -> connection, NULL );
                 }
 				if ( SQL_SUCCEEDED( ret ) && string_length ) 
 				{

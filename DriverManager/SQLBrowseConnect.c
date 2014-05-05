@@ -448,12 +448,14 @@ SQLRETURN SQLBrowseConnect(
     }
     else if (CHECK_SQLBROWSECONNECTW( connection ))
     {
-        uc_in_str = ansi_to_unicode_alloc((SQLCHAR*)in_str,SQL_NTS,connection);
+        int wlen;
+
+        uc_in_str = ansi_to_unicode_alloc((SQLCHAR*)in_str,SQL_NTS,connection, &wlen);
         
         ret = SQLBROWSECONNECTW( connection,
             connection -> driver_dbc,
             uc_in_str,
-            strlen( in_str ),
+            wlen,
             conn_str_out,
             conn_str_out_max,
             ptr_conn_str_out );

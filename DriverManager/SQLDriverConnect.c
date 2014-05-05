@@ -1468,8 +1468,10 @@ SQLRETURN SQLDriverConnect(
     {
         SQLWCHAR *uc_conn_str_in, *s1 = NULL;
         SQLCHAR s2[ 128 ];
+        int wlen;
 
-        uc_conn_str_in = ansi_to_unicode_alloc( conn_str_in, len_conn_str_in, connection );
+        uc_conn_str_in = ansi_to_unicode_alloc( conn_str_in, len_conn_str_in, connection, &wlen );
+        len_conn_str_in = wlen;
 
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
@@ -1538,8 +1540,8 @@ SQLRETURN SQLDriverConnect(
                                 message_text,
                                 SUBCLASS_ODBC, SUBCLASS_ODBC );
 
-                        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                        as2 = (SQLCHAR*) unicode_to_ansi_alloc( message_text, SQL_NTS, connection );
+                        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                        as2 = (SQLCHAR*) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
                         sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                                 as1, as2 );
@@ -1579,8 +1581,8 @@ SQLRETURN SQLDriverConnect(
                                 message_text,
                                 SUBCLASS_ODBC, SUBCLASS_ODBC );
 
-                        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                        as2 = (SQLCHAR*) unicode_to_ansi_alloc( message_text, SQL_NTS, connection );
+                        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                        as2 = (SQLCHAR*) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
                         sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                             as1, as2 );
@@ -1624,7 +1626,7 @@ SQLRETURN SQLDriverConnect(
         {
             if ( conn_str_out && s1 )
             {
-                unicode_to_ansi_copy((char*) conn_str_out, conn_str_out_max, s1, SQL_NTS, connection );
+                unicode_to_ansi_copy((char*) conn_str_out, conn_str_out_max, s1, SQL_NTS, connection, NULL );
             }
         }
 

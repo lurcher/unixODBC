@@ -307,6 +307,7 @@ SQLRETURN SQLColumnPrivilegesW(
     else
     {
         SQLCHAR *as1, *as2, *as3, *as4;
+        int clen;
 
         if ( !CHECK_SQLCOLUMNPRIVILEGES( statement -> connection ))
         {
@@ -328,10 +329,14 @@ SQLRETURN SQLColumnPrivilegesW(
          * than we need
          */
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( catalog_name, name_length1, statement -> connection );
-        as2 = (SQLCHAR*) unicode_to_ansi_alloc( schema_name, name_length2, statement -> connection );
-        as3 = (SQLCHAR*) unicode_to_ansi_alloc( table_name, name_length3, statement -> connection );
-        as4 = (SQLCHAR*) unicode_to_ansi_alloc( column_name, name_length4, statement -> connection );
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( catalog_name, name_length1, statement -> connection, &clen );
+        name_length1 = clen;
+        as2 = (SQLCHAR*) unicode_to_ansi_alloc( schema_name, name_length2, statement -> connection, &clen );
+        name_length2 = clen;
+        as3 = (SQLCHAR*) unicode_to_ansi_alloc( table_name, name_length3, statement -> connection, &clen );
+        name_length3 = clen;
+        as4 = (SQLCHAR*) unicode_to_ansi_alloc( column_name, name_length4, statement -> connection, &clen );
+        name_length4 = clen;
 
         ret = SQLCOLUMNPRIVILEGES( statement -> connection ,
                 statement -> driver_stmt,

@@ -765,7 +765,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                       case SQL_ATTR_CURRENT_CATALOG:
                       case SQL_ATTR_TRACEFILE:
                       case SQL_ATTR_TRANSLATE_LIB:
-                        s1 = ansi_to_unicode_alloc( value, SQL_NTS, connection );
+                        s1 = ansi_to_unicode_alloc( value, SQL_NTS, connection, NULL );
 
                         ret = SQLSETCONNECTOPTIONW( connection,
                                 connection -> driver_dbc,
@@ -809,7 +809,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                   case SQL_ATTR_CURRENT_CATALOG:
                   case SQL_ATTR_TRACEFILE:
                   case SQL_ATTR_TRANSLATE_LIB:
-                    s1 = ansi_to_unicode_alloc( value, string_length, connection );
+                    s1 = ansi_to_unicode_alloc( value, string_length, connection, NULL );
 
                     ret = SQLSETCONNECTATTRW( connection,
                         connection -> driver_dbc,

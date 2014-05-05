@@ -362,6 +362,7 @@ SQLRETURN SQLSpecialColumns( SQLHSTMT statement_handle,
     if ( statement -> connection -> unicode_driver )
     {
         SQLWCHAR *s1, *s2, *s3;
+        int wlen;
 
         if ( !CHECK_SQLSPECIALCOLUMNSW( statement -> connection ))
         {
@@ -378,9 +379,12 @@ SQLRETURN SQLSpecialColumns( SQLHSTMT statement_handle,
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
 
-        s1 = ansi_to_unicode_alloc( catalog_name, name_length1, statement -> connection );
-        s2 = ansi_to_unicode_alloc( schema_name, name_length2, statement -> connection );
-        s3 = ansi_to_unicode_alloc( table_name, name_length3, statement -> connection );
+        s1 = ansi_to_unicode_alloc( catalog_name, name_length1, statement -> connection, &wlen );
+        name_length1 = wlen;
+        s2 = ansi_to_unicode_alloc( schema_name, name_length2, statement -> connection, &wlen );
+        name_length2 = wlen;
+        s3 = ansi_to_unicode_alloc( table_name, name_length3, statement -> connection, &wlen );
+        name_length3 = wlen;
 
         ret = SQLSPECIALCOLUMNSW( statement -> connection ,
                 statement -> driver_stmt,

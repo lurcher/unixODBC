@@ -204,6 +204,7 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
     else
     {
         SQLCHAR *as1;
+        int clen;
 
         if ( !CHECK_SQLSETCURSORNAME( statement -> connection ))
         {
@@ -220,7 +221,9 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( cursor_name, name_length, statement -> connection );
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( cursor_name, name_length, statement -> connection, &clen );
+
+        name_length = clen;
 
         ret = SQLSETCURSORNAME( statement -> connection,
                 statement -> driver_stmt,

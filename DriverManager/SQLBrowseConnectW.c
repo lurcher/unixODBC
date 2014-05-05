@@ -394,7 +394,7 @@ SQLRETURN SQLBrowseConnectW(
 
     if ( CHECK_SQLBROWSECONNECTW( connection ))
     {
-        uc_in_str = ansi_to_unicode_alloc((SQLCHAR*) in_str, SQL_NTS, connection );
+        uc_in_str = ansi_to_unicode_alloc((SQLCHAR*) in_str, SQL_NTS, connection, NULL );
 
         ret = SQLBROWSECONNECTW( connection,
                 connection -> driver_dbc,
@@ -428,7 +428,7 @@ SQLRETURN SQLBrowseConnectW(
 
                 if ( len > 0 )
                 {
-                    ansi_to_unicode_copy( conn_str_out, (char*) ob, len, connection );
+                    ansi_to_unicode_copy( conn_str_out, (char*) ob, len, connection, NULL );
                 }
 
                 if ( ptr_conn_str_out )

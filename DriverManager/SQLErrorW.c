@@ -108,7 +108,7 @@ static SQLRETURN extract_sql_error_w( EHEAD *head,
     {
         SQLWCHAR *tmp;
 
-        tmp = ansi_to_unicode_alloc((SQLCHAR*) "00000", SQL_NTS,  __get_connection( head ));
+        tmp = ansi_to_unicode_alloc((SQLCHAR*) "00000", SQL_NTS,  __get_connection( head ), NULL );
         wide_strcpy( sqlstate, tmp );
         free( tmp );
     }
@@ -299,10 +299,10 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection )),
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection, NULL )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection ))));
+                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection, NULL ))));
 
                 free( ts1 );
                 free( ts2 );
@@ -420,10 +420,10 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection )),
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection ))));
+                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL ))));
 
                 free( ts1 );
                 free( ts2 );
@@ -505,10 +505,10 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
 \n\t\t\tMessage Text = %s",
                         __get_return_status( ret, s2 ),
                         __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL )),
+				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL, NULL )),
                         __iptr_as_string( s0, native_error ),
                         __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL ))));
+                            text_length, ( ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL, NULL ))));
 
                 free( ts1 );
                 free( ts2 );

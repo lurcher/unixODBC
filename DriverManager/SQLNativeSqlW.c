@@ -280,6 +280,7 @@ SQLRETURN SQLNativeSqlW(
     else
     {
         SQLCHAR *as1 = NULL, *as2 = NULL;
+        int clen;
 
         if ( !CHECK_SQLNATIVESQL( connection ))
         {
@@ -296,7 +297,9 @@ SQLRETURN SQLNativeSqlW(
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sz_sql_str_in, cb_sql_str_in, connection );
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sz_sql_str_in, cb_sql_str_in, connection, &clen );
+
+        cb_sql_str_in = clen;
 
         if ( cb_sql_str_max > 0 && sz_sql_str )
         {
@@ -313,7 +316,7 @@ SQLRETURN SQLNativeSqlW(
 
         if ( SQL_SUCCEEDED( ret ) && as2 && sz_sql_str )
         {
-            ansi_to_unicode_copy( sz_sql_str, (char*) as2, SQL_NTS, connection );
+            ansi_to_unicode_copy( sz_sql_str, (char*) as2, SQL_NTS, connection, NULL );
         }
 
         if ( as1 ) free( as1 );

@@ -1333,11 +1333,11 @@ void *__attr_override_wide( void *handle, int type, int attribute, void *value, 
 			switch( type ) 
 			{
       			case SQL_HANDLE_DBC:
-					ansi_to_unicode_copy( buffer, as->value, SQL_NTS, (DMHDBC) handle );
+					ansi_to_unicode_copy( buffer, as->value, SQL_NTS, (DMHDBC) handle, NULL );
 					break;
 
       			case SQL_HANDLE_STMT:
-					ansi_to_unicode_copy( buffer, as->value, SQL_NTS, ((DMHSTMT) handle ) -> connection );
+					ansi_to_unicode_copy( buffer, as->value, SQL_NTS, ((DMHSTMT) handle ) -> connection, NULL );
 					break;
 			}
             return buffer;

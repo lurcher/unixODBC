@@ -271,7 +271,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 
                 if ( SQL_SUCCEEDED( ret ) && as1 && diag_info_ptr )
                 {
-                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ));
+                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ), NULL);
                 }
                 if ( SQL_SUCCEEDED( ret ) && string_length_ptr )
                 {
@@ -460,7 +460,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 if ( diag_info_ptr && as1 )
                 {
                     __map_error_state( (char*) as1, __get_version( head ));
-                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ));
+                    ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ), NULL );
                 }
             }
 

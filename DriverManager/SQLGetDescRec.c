@@ -350,7 +350,7 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
         if ( SQL_SUCCEEDED( ret ) && name && s1 )
         {
-            unicode_to_ansi_copy((char*) name, buffer_length, s1, SQL_NTS, descriptor -> connection );
+            unicode_to_ansi_copy((char*) name, buffer_length, s1, SQL_NTS, descriptor -> connection, NULL );
         }
         if ( s1 )
         {

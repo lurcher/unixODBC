@@ -11,6 +11,8 @@
     * Cross call between wide and ascii error reporting in the driver when needed
     * Fix some possible unchecked memory references after malloc
     * Prevent free( NULL ) in SQLGetDiagRecW
+    * Add missing A->W conversion in SQLGetStmtOption
+    * Allow iconv to convert strings into the driver with differing A and W lengthts (UTF)
     * SQLDataSourcesW takes buffer_lenghts as characters not bytes
 
 8th-October-2013

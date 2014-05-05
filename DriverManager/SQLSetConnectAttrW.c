@@ -241,7 +241,7 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
                 {
                     free( log_info.log_file_name );
                 }
-                log_info.log_file_name = unicode_to_ansi_alloc((SQLWCHAR *) value, SQL_NTS, connection );
+                log_info.log_file_name = unicode_to_ansi_alloc((SQLWCHAR *) value, SQL_NTS, connection, NULL );
             }
         }
         else 
@@ -703,7 +703,7 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
                       case SQL_ATTR_TRANSLATE_LIB:
                         if ( value )
                         {
-                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, SQL_NTS, connection );
+                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, SQL_NTS, connection, NULL );
                         }
                         break;
                     }
@@ -743,11 +743,11 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
                     {
                         if ( string_length > 0 )
                         {
-                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, string_length, connection );
+                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, string_length, connection, NULL );
                         }
                         else if ( string_length == SQL_NTS )
                         {
-                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, SQL_NTS, connection );
+                            as1 = (SQLCHAR*) unicode_to_ansi_alloc( value, SQL_NTS, connection, NULL );
                         }
                     }
 

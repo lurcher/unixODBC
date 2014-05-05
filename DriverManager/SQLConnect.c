@@ -4110,9 +4110,9 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
     {
         SQLWCHAR * uc_dsn, *uc_user, *uc_auth;
 
-        uc_dsn = ansi_to_unicode_alloc((SQLCHAR*) dsn, SQL_NTS, connection );
-        uc_user = ansi_to_unicode_alloc( user_name, name_length2, connection );
-        uc_auth = ansi_to_unicode_alloc( authentication, name_length3, connection );
+        uc_dsn = ansi_to_unicode_alloc((SQLCHAR*) dsn, SQL_NTS, connection, NULL );
+        uc_user = ansi_to_unicode_alloc( user_name, name_length2, connection, NULL );
+        uc_auth = ansi_to_unicode_alloc( authentication, name_length3, connection, NULL );
 
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
@@ -4176,8 +4176,8 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
                                 message_text,
                                 SUBCLASS_ODBC, SUBCLASS_ODBC );
 
-                        as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                        as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection );
+                        as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                        as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
                         sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                                 as1, as2 );
@@ -4217,8 +4217,8 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
                                 message_text,
                                 SUBCLASS_ODBC, SUBCLASS_ODBC );
 
-                        as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection );
-                        as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection );
+                        as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
+                        as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
                         sprintf( connection -> msg, "\t\tDIAG [%s] %s",
                                 as1, as2 );

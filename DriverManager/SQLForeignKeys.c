@@ -313,6 +313,7 @@ SQLRETURN SQLForeignKeys(
     if ( statement -> connection -> unicode_driver )
     {
         SQLWCHAR *s1, *s2, *s3, *s4, *s5, *s6;
+        int wlen;
 
         if ( !CHECK_SQLFOREIGNKEYSW( statement -> connection ))
         {
@@ -329,12 +330,18 @@ SQLRETURN SQLForeignKeys(
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
 
-        s1 = ansi_to_unicode_alloc( szpk_catalog_name, cbpk_catalog_name, statement -> connection );
-        s2 = ansi_to_unicode_alloc( szpk_schema_name, cbpk_schema_name, statement -> connection );
-        s3 = ansi_to_unicode_alloc( szpk_table_name, cbpk_table_name, statement -> connection );
-        s4 = ansi_to_unicode_alloc( szfk_catalog_name, cbfk_catalog_name, statement -> connection );
-        s5 = ansi_to_unicode_alloc( szfk_schema_name, cbfk_schema_name, statement -> connection );
-        s6 = ansi_to_unicode_alloc( szfk_table_name, cbfk_table_name, statement -> connection );
+        s1 = ansi_to_unicode_alloc( szpk_catalog_name, cbpk_catalog_name, statement -> connection, &wlen );
+        cbpk_catalog_name = wlen;
+        s2 = ansi_to_unicode_alloc( szpk_schema_name, cbpk_schema_name, statement -> connection, &wlen );
+        cbpk_schema_name = wlen;
+        s3 = ansi_to_unicode_alloc( szpk_table_name, cbpk_table_name, statement -> connection, &wlen );
+        cbpk_table_name = wlen;
+        s4 = ansi_to_unicode_alloc( szfk_catalog_name, cbfk_catalog_name, statement -> connection, &wlen );
+        cbfk_catalog_name = wlen;
+        s5 = ansi_to_unicode_alloc( szfk_schema_name, cbfk_schema_name, statement -> connection, &wlen );
+        cbfk_schema_name = wlen;
+        s6 = ansi_to_unicode_alloc( szfk_table_name, cbfk_table_name, statement -> connection, &wlen );
+        cbfk_table_name = wlen;
 
         ret = SQLFOREIGNKEYSW( statement -> connection ,
                 statement -> driver_stmt,

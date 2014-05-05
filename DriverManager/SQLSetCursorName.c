@@ -228,6 +228,7 @@ SQLRETURN SQLSetCursorName( SQLHSTMT statement_handle,
     if ( statement -> connection -> unicode_driver )
     {
         SQLWCHAR *s1;
+        int wlen;
 
         if ( !CHECK_SQLSETCURSORNAMEW( statement -> connection ))
         {
@@ -244,7 +245,9 @@ SQLRETURN SQLSetCursorName( SQLHSTMT statement_handle,
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
 
-        s1 = ansi_to_unicode_alloc( cursor_name, name_length, statement -> connection );
+        s1 = ansi_to_unicode_alloc( cursor_name, name_length, statement -> connection, &wlen );
+
+        name_length = wlen;
 
         ret = SQLSETCURSORNAMEW( statement -> connection,
                 statement -> driver_stmt,

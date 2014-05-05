@@ -271,7 +271,7 @@ try_again:
             {
                 SQLWCHAR *s1;
 
-                s1 = ansi_to_unicode_alloc((SQLCHAR*) object, SQL_NTS, NULL );
+                s1 = ansi_to_unicode_alloc((SQLCHAR*) object, SQL_NTS, NULL, NULL );
                 if ( s1 )
                 {
                     wide_strcpy( sz_driver_desc, s1 );
@@ -329,7 +329,7 @@ try_again:
                         {
                             SQLWCHAR *s1;
     
-                            s1 = ansi_to_unicode_alloc((SQLCHAR*) buffer, SQL_NTS, NULL );
+                            s1 = ansi_to_unicode_alloc((SQLCHAR*) buffer, SQL_NTS, NULL, NULL );
     
                             if ( s1 )
                             {

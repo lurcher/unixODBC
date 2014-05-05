@@ -617,7 +617,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
                       case SQL_ATTR_TRANSLATE_LIB:
                         if ( SQL_SUCCEEDED( ret ) && value && s1 )
                         {
-                            unicode_to_ansi_copy( value, buffer_length, s1, SQL_NTS, connection );
+                            unicode_to_ansi_copy( value, buffer_length, s1, SQL_NTS, connection, NULL );
                         }
 						if ( SQL_SUCCEEDED( ret ) && string_length ) 
 						{
@@ -676,7 +676,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value && s1 )
                     {
-                        unicode_to_ansi_copy( value, buffer_length, s1, SQL_NTS, connection );
+                        unicode_to_ansi_copy( value, buffer_length, s1, SQL_NTS, connection, NULL );
                     }
 					if ( SQL_SUCCEEDED( ret ) && string_length ) 
 					{

@@ -259,7 +259,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
         {
             SQLWCHAR *s1;
 
-            s1 = ansi_to_unicode_alloc((SQLCHAR*) object, SQL_NTS, NULL );
+            s1 = ansi_to_unicode_alloc((SQLCHAR*) object, SQL_NTS, NULL, NULL );
 
             if ( s1 )
             {
@@ -281,7 +281,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
         {
             SQLWCHAR *s1;
 
-            s1 = ansi_to_unicode_alloc((SQLCHAR*) property, SQL_NTS, NULL );
+            s1 = ansi_to_unicode_alloc((SQLCHAR*) property, SQL_NTS, NULL, NULL );
 
             if ( s1 )
             {

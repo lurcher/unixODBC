@@ -315,7 +315,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
 
     connection -> pooled_connection = NULL;
 
-    unicode_to_ansi_copy((char*) ansi_dsn, sizeof( ansi_dsn ), dsn, sizeof( ansi_dsn ),  NULL );
+    unicode_to_ansi_copy((char*) ansi_dsn, sizeof( ansi_dsn ), dsn, sizeof( ansi_dsn ), NULL, NULL );
 
     if ( !__find_lib_name((char*) ansi_dsn, lib_name, driver_name ))
     {
@@ -402,17 +402,17 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
         if ( user_name )
         {
             if ( name_length2 == SQL_NTS )
-                unicode_to_ansi_copy((char*) ansi_user, sizeof( ansi_user ),user_name, sizeof( ansi_user ), connection);
+                unicode_to_ansi_copy((char*) ansi_user, sizeof( ansi_user ),user_name, sizeof( ansi_user ), connection, NULL);
             else
-                unicode_to_ansi_copy((char*) ansi_user, sizeof( ansi_user ),user_name, name_length2, connection );
+                unicode_to_ansi_copy((char*) ansi_user, sizeof( ansi_user ),user_name, name_length2, connection, NULL );
         }
 
         if ( authentication )
         {
             if ( name_length3 == SQL_NTS )
-                unicode_to_ansi_copy((char*) ansi_pwd, sizeof( ansi_pwd ), authentication, sizeof( ansi_pwd ), connection);
+                unicode_to_ansi_copy((char*) ansi_pwd, sizeof( ansi_pwd ), authentication, sizeof( ansi_pwd ), connection, NULL);
             else
-                unicode_to_ansi_copy((char*) ansi_pwd, sizeof( ansi_pwd ), authentication, name_length3, connection );
+                unicode_to_ansi_copy((char*) ansi_pwd, sizeof( ansi_pwd ), authentication, name_length3, connection, NULL );
         }
 
         /*

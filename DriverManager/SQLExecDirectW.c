@@ -317,6 +317,7 @@ SQLRETURN SQLExecDirectW( SQLHSTMT statement_handle,
     else
     {
         SQLCHAR *as1 = NULL;
+        int clen;
 
 #ifdef NR_PROBE
         if ( !CHECK_SQLEXECDIRECT( statement -> connection ) ||
@@ -351,7 +352,9 @@ SQLRETURN SQLExecDirectW( SQLHSTMT statement_handle,
         }
 #endif
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( statement_text, text_length, statement -> connection );
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( statement_text, text_length, statement -> connection, &clen );
+
+        text_length = clen;
 
         ret = SQLEXECDIRECT( statement -> connection,
                 statement -> driver_stmt,

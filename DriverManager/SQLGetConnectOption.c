@@ -390,7 +390,7 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value && s1 )
                     {
-                        unicode_to_ansi_copy( value, 1024, s1, SQL_NTS, connection );
+                        unicode_to_ansi_copy( value, 1024, s1, SQL_NTS, connection, NULL );
                     }
                     break;
                 }
@@ -436,7 +436,7 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
 
                 if ( ptr != value && SQL_SUCCEEDED( ret ))
                 {
-                    unicode_to_ansi_copy( value, 1024, ptr, SQL_NTS, connection );
+                    unicode_to_ansi_copy( value, 1024, ptr, SQL_NTS, connection, NULL );
 
                     /*
                      * are we still here ? good

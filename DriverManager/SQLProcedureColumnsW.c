@@ -292,6 +292,7 @@ SQLRETURN SQLProcedureColumnsW(
     else
     {
         SQLCHAR *as1, *as2, *as3, *as4;
+        int clen;
 
         if ( !CHECK_SQLPROCEDURECOLUMNS( statement -> connection ))
         {
@@ -308,10 +309,14 @@ SQLRETURN SQLProcedureColumnsW(
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
 
-        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sz_catalog_name, cb_catalog_name, statement -> connection );
-        as2 = (SQLCHAR*) unicode_to_ansi_alloc( sz_schema_name, cb_schema_name, statement -> connection );
-        as3 = (SQLCHAR*) unicode_to_ansi_alloc( sz_proc_name, cb_proc_name, statement -> connection );
-        as4 = (SQLCHAR*) unicode_to_ansi_alloc( sz_column_name, cb_column_name, statement -> connection );
+        as1 = (SQLCHAR*) unicode_to_ansi_alloc( sz_catalog_name, cb_catalog_name, statement -> connection, &clen );
+        cb_catalog_name = clen;
+        as2 = (SQLCHAR*) unicode_to_ansi_alloc( sz_schema_name, cb_schema_name, statement -> connection, &clen );
+        cb_schema_name = clen;
+        as3 = (SQLCHAR*) unicode_to_ansi_alloc( sz_proc_name, cb_proc_name, statement -> connection, &clen );
+        cb_proc_name = clen;
+        as4 = (SQLCHAR*) unicode_to_ansi_alloc( sz_column_name, cb_column_name, statement -> connection, &clen );
+        cb_column_name = clen;
 
         ret = SQLPROCEDURECOLUMNS( statement -> connection ,
                 statement -> driver_stmt,

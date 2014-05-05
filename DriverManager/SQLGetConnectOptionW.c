@@ -128,11 +128,11 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
 
         if ( log_info.log_file_name )
         {
-            ansi_to_unicode_copy( value, log_info.log_file_name, SQL_NTS, connection );
+            ansi_to_unicode_copy( value, log_info.log_file_name, SQL_NTS, connection, NULL );
         }
         else
         {
-            ansi_to_unicode_copy( value, "", SQL_NTS, connection );
+            ansi_to_unicode_copy( value, "", SQL_NTS, connection, NULL );
         }
         return ret;
     }
@@ -420,7 +420,7 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value && as1 )
                     {
-                        ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, connection );
+                        ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, connection, NULL );
                     }
 
                     if ( as1 )
@@ -468,7 +468,7 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                 {
                     SQLWCHAR *s1;
 
-                    s1 = ansi_to_unicode_alloc( value, SQL_NTS, connection );
+                    s1 = ansi_to_unicode_alloc( value, SQL_NTS, connection, NULL );
 
                     if ( s1 )
                     {

@@ -325,7 +325,7 @@ SQLRETURN SQLGetDescRecW( SQLHDESC descriptor_handle,
 
         if ( SQL_SUCCEEDED( ret ) && name && as1 )
         {
-            ansi_to_unicode_copy( name, (char*) as1, SQL_NTS, descriptor -> connection );
+            ansi_to_unicode_copy( name, (char*) as1, SQL_NTS, descriptor -> connection, NULL );
         }
         if ( as1 )
         {

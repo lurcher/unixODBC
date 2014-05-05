@@ -339,6 +339,7 @@ SQLRETURN SQLExecDirect( SQLHSTMT statement_handle,
     if ( statement -> connection -> unicode_driver )
     {
         SQLWCHAR *s1;
+        int wlen;
 
 #ifdef NR_PROBE
         if ( !CHECK_SQLEXECDIRECTW( statement -> connection ) ||
@@ -373,7 +374,9 @@ SQLRETURN SQLExecDirect( SQLHSTMT statement_handle,
         }
 #endif
 
-        s1 = ansi_to_unicode_alloc( statement_text, text_length, statement -> connection );
+        s1 = ansi_to_unicode_alloc( statement_text, text_length, statement -> connection, &wlen );
+
+        text_length = wlen;
 
         ret = SQLEXECDIRECTW( statement -> connection,
                 statement -> driver_stmt,
