@@ -14,6 +14,7 @@
     * Add missing A->W conversion in SQLGetStmtOption
     * Allow iconv to convert strings into the driver with differing A and W lengthts (UTF)
     * SQLDataSourcesW takes buffer_lenghts as characters not bytes
+    * Fix memory leak in SQLGetDiagRec
 
 8th-October-2013
 2.3.2

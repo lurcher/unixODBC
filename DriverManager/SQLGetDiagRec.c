@@ -457,6 +457,12 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
 
 			if ( !ptr ) 
 			{
+                if ( s1 )
+                    free( s1 );
+
+                if ( s2 )
+                    free( s2 );
+
 	    		return SQL_NO_DATA;
 			}
 
