@@ -15,6 +15,13 @@
     * Allow iconv to convert strings into the driver with differing A and W lengthts (UTF)
     * SQLDataSourcesW takes buffer_lenghts as characters not bytes
     * Fix memory leak in SQLGetDiagRec
+    * Allow setting custom non standard attributes via DMStmtAttr, format is:
+
+        DMStmtAttr=[xxxx]=yyy
+        DMStmtAttr=[xxxx]={ssss}
+
+        where xxxx = integer attribute to set, yyy is decimal numeric value and
+        ssss is a string value
 
 8th-October-2013
 2.3.2

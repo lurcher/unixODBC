@@ -735,6 +735,23 @@ int found = 0;
         opt ++;
     }
 
+    /*
+     * Handle non standard attributes by [numeric_value]="char value" or [numeric_value]=int_value
+     */
+    if ( !found ) 
+    {
+        if ( kw[ 0 ] == '[' ) {
+            as -> attribute = atoi( kw + 1 );
+            if ( as -> value[ 0 ] == '"' ) {
+            }
+            else {
+                as -> is_int_type = 1;
+                as -> int_value = atoi( as -> value );
+            }
+            found = 1;
+        }
+    }
+
     return found;
 }
 
