@@ -662,7 +662,7 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
         return NULL;
     }
 
-    return ansi_to_unicode_copy( ustr, (char*) str, len + 1, connection, wlen );
+    return ansi_to_unicode_copy( ustr, (char*) str, len, connection, wlen );
 }
 
 /*
@@ -713,7 +713,7 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
 
     if ( buffer_len == SQL_NTS )
     {
-        buffer_len = wide_strlen( src ) + 1;
+        buffer_len = wide_strlen( src );
     }
 #ifdef HAVE_ICONV
 
@@ -737,6 +737,8 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
             {
                 *clen = opt - dest;
             }
+	        /* Null terminate outside of iconv, so that the length returned does not include the null terminator. */
+	        dest[opt - dest] = '\0';
             return dest;
         }
     }
@@ -779,7 +781,7 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
 
     if ( buffer_len == SQL_NTS )
     {
-        buffer_len = strlen( src ) + 1;
+        buffer_len = strlen( src );
     }
 
 #ifdef HAVE_ICONV
@@ -803,6 +805,8 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
             {
                 *wlen = ( opt - ((char*)dest)) / sizeof( SQLWCHAR );
             }
+	        /* Null terminate outside of iconv, so that the length returned does not include the null terminator. */
+	        dest[( opt - ((char*)dest)) / sizeof( SQLWCHAR )] = 0;
             return dest;
         }
 
