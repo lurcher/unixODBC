@@ -1170,6 +1170,33 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                             as -> value );
                 }
             }
+
+            /*
+             * Fall back, the attribute may be ODBC 3 only
+             */
+
+            if ( ret == SQL_ERROR ) {
+
+                if ( CHECK_SQLSETSTMTATTR( connection ))
+                {
+                    if ( as -> is_int_type )
+                    {
+                        ret = SQLSETSTMTATTR( connection,
+                                statement -> driver_stmt,
+                                as -> attribute,
+                                as -> int_value,
+                                0 );
+                    }
+                    else
+                    {
+                        ret = SQLSETSTMTATTR( connection,
+                                statement -> driver_stmt,
+                                as -> attribute,
+                                as -> value,
+                                strlen( as -> value ));
+                    }
+                }
+            }
         }
         if ( log_info.log_flag )
         {
