@@ -349,6 +349,34 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         }
     }
 
+    if ( target_value == NULL ) {
+        dm_log_write( __FILE__, 
+                __LINE__, 
+                LOG_INFO, 
+                LOG_INFO, 
+                "Error: HY009" );
+
+        __post_internal_error( &statement -> error,
+                ERROR_HY009, NULL,
+                statement -> connection -> environment -> requested_version );
+
+        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+    }
+
+    if ( buffer_length < 0 ) {
+        dm_log_write( __FILE__, 
+                __LINE__, 
+                LOG_INFO, 
+                LOG_INFO, 
+                "Error: HY090" );
+
+        __post_internal_error( &statement -> error,
+                ERROR_HY090, NULL,
+                statement -> connection -> environment -> requested_version );
+
+        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+    }
+
     /*
      * TO_DO assorted checks need adding here, relating to bound columns
      * and what sort of SQLGetData extensions the driver supports

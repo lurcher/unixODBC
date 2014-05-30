@@ -23,6 +23,8 @@
         where xxxx = integer attribute to set, yyy is decimal numeric value and
         ssss is a string value
 
+    * Add check in SQLGetData for null target value or negative buffer length
+
 8th-October-2013
 2.3.2
 
