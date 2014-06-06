@@ -432,6 +432,16 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
 
         connection -> driver_dbc = 
             cl_connection -> driver_dbc;
+
+        /*
+         * release the allocated memory
+         */
+
+        if ( cl_connection -> functions ) {
+            free( cl_connection -> functions );
+        }
+
+        free( cl_connection );
     }
 
     return ret;

@@ -24,6 +24,7 @@
         ssss is a string value
 
     * Add check in SQLGetData for null target value or negative buffer length
+    * Fix memory leak when using the cursor lib
 
 8th-October-2013
 2.3.2

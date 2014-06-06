@@ -225,6 +225,12 @@ SQLRETURN SQLColumns( SQLHSTMT statement_handle,
             ( name_length3 < 0 && name_length3 != SQL_NTS ) ||
             ( name_length4 < 0 && name_length4 != SQL_NTS ))
     {
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                "Error: HY090" );
+
         __post_internal_error( &statement -> error,
                 ERROR_HY090, NULL,
                 statement -> connection -> environment -> requested_version );
