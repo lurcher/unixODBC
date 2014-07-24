@@ -45,6 +45,32 @@ Building With GNU Auto Tools (by Nick):
 	
 	    ./configure --enable-gui=no
 
+Problems:
+
+    There is a problem it seems with libtool on OSX that incorrectly sets 
+    the SHLIBEXT. The Driver Manager code will now report this if its used
+    in this condition. There are two solutions. Either after running configure
+    check config.h, and search for the string SHLIBEXT. It should look like this:
+
+#define SHLIBEXT ".dylib"
+
+    But may look like this:
+
+#define SHLIBEXT "test .$module = .yes && echo .so || echo .dylib"
+
+    If it does, then change it to the first definition.
+
+    The other fix is to change the configure script to find the correct value, 
+    search for the line:
+
+shrext_cmds='test .$module = .yes && echo .so || echo .dylib'
+
+    And change to 
+
+shrext_cmds=`test .$module = .yes && echo .so || echo .dylib`
+
+    Then rerun configure
+
 
 Building With Qt qmake (by Peter):
 
