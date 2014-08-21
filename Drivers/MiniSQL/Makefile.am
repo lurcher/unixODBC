@@ -92,9 +92,9 @@ libodbcmini_la_SOURCES = \
 	_NativeTypeLength.c \
 	_NativeTypePrecision.c \
 	_Prepare.c \
-	sqlFreeConnect.c \
-	sqlFreeEnv.c \
-	sqlFreeStmt.c
+	_sqlFreeConnect.c \
+	_sqlFreeEnv.c \
+	_sqlFreeStmt.c
 
 endif
 
@@ -189,9 +189,9 @@ EXTRA_DIST = \
 	_Prepare.c \
 	driver.h \
 	driverextras.h \
-	sqlFreeConnect.c \
-	sqlFreeEnv.c \
-	sqlFreeStmt.c 
+	_sqlFreeConnect.c \
+	_sqlFreeEnv.c \
+	_sqlFreeStmt.c 
 
 libodbcmini_la_LDFLAGS = -no-undefined -version-info 1:0:0 \
 	-L@msql_libraries@ -lmsql -module
