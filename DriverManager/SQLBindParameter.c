@@ -270,21 +270,43 @@ SQLRETURN SQLBindParameter(
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( f_param_type != SQL_PARAM_INPUT &&
-            f_param_type != SQL_PARAM_INPUT_OUTPUT &&
-            f_param_type != SQL_PARAM_OUTPUT )
-    {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                "Error: HY105" );
-
-        __post_internal_error( &statement -> error,
-                ERROR_HY105, NULL,
-                statement -> connection -> environment -> requested_version );
-
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+    if ( statement -> connection -> environment -> requested_version == SQL_OV_ODBC3_80 ) {
+        if ( f_param_type != SQL_PARAM_INPUT &&
+                f_param_type != SQL_PARAM_INPUT_OUTPUT &&
+                f_param_type != SQL_PARAM_OUTPUT &&
+                f_param_type != SQL_PARAM_OUTPUT_STREAM &&
+                f_param_type != SQL_PARAM_INPUT_OUTPUT_STREAM )
+        {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: HY105" );
+    
+            __post_internal_error( &statement -> error,
+                    ERROR_HY105, NULL,
+                    statement -> connection -> environment -> requested_version );
+    
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        }
+    }
+    else {
+        if ( f_param_type != SQL_PARAM_INPUT &&
+                f_param_type != SQL_PARAM_INPUT_OUTPUT &&
+                f_param_type != SQL_PARAM_OUTPUT )
+        {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: HY105" );
+    
+            __post_internal_error( &statement -> error,
+                    ERROR_HY105, NULL,
+                    statement -> connection -> environment -> requested_version );
+    
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        }
     }
 
 	/*

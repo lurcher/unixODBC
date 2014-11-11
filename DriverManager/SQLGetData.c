@@ -514,6 +514,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         }
     }
 
+    if ( statement -> state == STATE_S14 ) {
+        statement -> state = STATE_S15;
+    }
+
     if ( log_info.log_flag )
     {
         sprintf( statement -> msg, 

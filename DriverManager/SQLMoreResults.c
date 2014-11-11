@@ -306,6 +306,12 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
         statement -> interupted_state = statement -> state;
         statement -> state = STATE_S8;
     }
+    else if ( ret == SQL_PARAM_DATA_AVAILABLE )
+    {
+        statement -> interupted_func = SQL_API_SQLMORERESULTS;
+        statement -> interupted_state = statement -> state;
+        statement -> state = STATE_S13;
+    }
     else
     {
         /*

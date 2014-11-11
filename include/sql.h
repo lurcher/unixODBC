@@ -39,6 +39,10 @@ extern "C" {
 #define SQL_NEED_DATA             99
 #define SQL_SUCCEEDED(rc) (((rc)&(~1))==0)
 
+#if (ODBCVER >= 0x0380)
+#define SQL_PARAM_DATA_AVAILABLE    101  
+#endif
+
 /****************************
  * use these to indicate string termination to some function
  ***************************/

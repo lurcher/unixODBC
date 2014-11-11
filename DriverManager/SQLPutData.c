@@ -164,7 +164,8 @@ SQLRETURN SQLPutData( SQLHSTMT statement_handle,
             statement -> state == STATE_S5 ||
             statement -> state == STATE_S6 ||
             statement -> state == STATE_S7 ||
-            statement -> state == STATE_S8 )
+            statement -> state == STATE_S8 ||
+            statement -> state == STATE_S13 )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -263,7 +264,12 @@ SQLRETURN SQLPutData( SQLHSTMT statement_handle,
     }
     else if ( SQL_SUCCEEDED( ret ))
     {
-        statement -> state = STATE_S10;
+        if ( statement -> state == STATE_S13 ) {
+            statement -> state = STATE_S14;
+        }
+        else {
+            statement -> state = STATE_S10;
+        }
     }
     else
     {

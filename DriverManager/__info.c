@@ -3589,6 +3589,9 @@ char * __get_return_status( SQLRETURN ret, SQLCHAR *buffer )
       case SQL_NEED_DATA:
         return "SQL_NEED_DATA";
 
+      case SQL_PARAM_DATA_AVAILABLE:
+        return "SQL_PARAM_DATA_AVAILABLE";
+
       default:
         sprintf((char*) buffer, "UNKNOWN(%d)", ret );
         return (char*)buffer;

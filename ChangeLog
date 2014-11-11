@@ -26,6 +26,8 @@
     * Add check in SQLGetData for null target value or negative buffer length
     * Fix memory leak when using the cursor lib
     * Catch incorrectly expanded SHLIBEXT
+    * There was a bug in the ini caching, now fixed
+    * More ODBC 3.80 additions (streaming parameters)
 
 8th-October-2013
 2.3.2

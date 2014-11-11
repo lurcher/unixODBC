@@ -333,6 +333,12 @@ SQLRETURN SQLExecute( SQLHSTMT statement_handle )
         statement -> interupted_state = statement -> state;
         statement -> state = STATE_S8;
     }
+    else if ( ret == SQL_PARAM_DATA_AVAILABLE )
+    {
+        statement -> interupted_func = SQL_API_SQLEXECUTE;
+        statement -> interupted_state = statement -> state;
+        statement -> state = STATE_S13;
+    }
     else
     {
         statement -> state = STATE_S2;

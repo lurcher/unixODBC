@@ -482,6 +482,12 @@ SQLRETURN SQLExecDirect( SQLHSTMT statement_handle,
 
         statement -> prepared = 0;
     }
+    else if ( ret == SQL_PARAM_DATA_AVAILABLE )
+    {
+        statement -> interupted_func = SQL_API_SQLEXECDIRECT;
+        statement -> interupted_state = statement -> state;
+        statement -> state = STATE_S13;
+    }
     else if ( ret == SQL_STILL_EXECUTING )
     {
         statement -> interupted_func = SQL_API_SQLEXECDIRECT;

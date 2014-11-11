@@ -119,6 +119,10 @@
 #define STATE_S11       11
 #define STATE_S12       12
 
+#define STATE_S13       13          /* SQLExecute/SQLExecDirect/SQLMoreResult  returned SQL_PARAM_DATA_AVAILABLE */
+#define STATE_S14       14          /* SQL_PARAM_DATA_AVAILABLE version of S9, Must Get */
+#define STATE_S15       15          /* SQL_PARAM_DATA_AVAILABLE version of S10, Can Get */
+
 #define STATE_D0        0
 #define STATE_D1i       1
 #define STATE_D1e       2
