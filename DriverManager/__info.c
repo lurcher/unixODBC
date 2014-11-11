@@ -2930,6 +2930,10 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_OUTER_JOINS" );
         break;
 
+      case SQL_DRIVER_AWARE_POOLING_SUPPORTED:
+        sprintf((char*)  s, "SQL_DRIVER_AWARE_POOLING_SUPPORTED" );
+        break;
+
       default:
         sprintf((char*)  s, "%d", (int)type );
     }

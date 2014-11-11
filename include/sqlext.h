@@ -282,6 +282,10 @@ extern "C" {                         /* Assume C declarations for C++ */
 
 #endif  /* ODBCVER >= 0x0300 */
 
+#if (ODBCVER >= 0x0380)
+#define SQL_ATTR_ASYNC_STMT_EVENT           29
+#endif /* ODBCVER >= 0x0380 */
+
 #if (ODBCVER < 0x0300)
 #define SQL_STMT_OPT_MAX                SQL_ROW_NUMBER
 #define SQL_STMT_OPT_MIN	SQL_QUERY_TIMEOUT
@@ -945,6 +949,16 @@ extern "C" {                         /* Assume C declarations for C++ */
 /* Info Types */
 #define SQL_ASYNC_DBC_FUNCTIONS                 10023
 #endif 
+
+#define SQL_DRIVER_AWARE_POOLING_SUPPORTED      10024
+
+#if (ODBCVER >= 0x0380)
+#define SQL_ASYNC_NOTIFICATION                  10025
+
+/* Possible values for SQL_ASYNC_NOTIFICATION */
+#define SQL_ASYNC_NOTIFICATION_NOT_CAPABLE      0x00000000L
+#define SQL_ASYNC_NOTIFICATION_CAPABLE          0x00000001L
+#endif /* ODBCVER >= 0x0380 */
 
 #define	SQL_DTC_TRANSITION_COST					1750
 
@@ -1686,6 +1700,9 @@ extern "C" {                         /* Assume C declarations for C++ */
 #define SQL_US_UNION							SQL_U_UNION
 #define SQL_US_UNION_ALL						SQL_U_UNION_ALL
 
+/* values for SQL_DRIVER_AWARE_POOLING_SUPPORTED */
+#define SQL_DRIVER_AWARE_POOLING_NOT_CAPABLE    0x00000000L
+#define SQL_DRIVER_AWARE_POOLING_CAPABLE        0x00000001L
 #endif  /* ODBCVER >= 0x0300 */
 
 /* SQL_DTC_TRANSITION_COST bitmasks */

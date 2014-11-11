@@ -8,6 +8,7 @@ EXTRA_DIST = \
 	sqlext.h \
 	sqltypes.h \
 	sqlucode.h \
+	sqlspi.h \
 	sqp.h \
 	uodbc_stats.h \
 	uodbc_extras.h \
@@ -22,6 +23,7 @@ include_HEADERS = \
 	sqlext.h \
 	sqltypes.h \
 	sqlucode.h \
+	sqlspi.h \
 	autotest.h \
 	uodbc_stats.h \
 	uodbc_extras.h 
