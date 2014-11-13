@@ -186,7 +186,10 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
     {
         if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
-            statement -> state == STATE_S10 )
+            statement -> state == STATE_S10 ||
+            statement -> state == STATE_S13 ||
+            statement -> state == STATE_S14 ||
+            statement -> state == STATE_S15 )
         {
             if ( statement -> interupted_func == SQL_API_SQLEXECDIRECT )
             {

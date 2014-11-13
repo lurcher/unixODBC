@@ -229,7 +229,10 @@ SQLRETURN SQLDescribeParam(
             statement -> state == STATE_S7 ||
             statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
-            statement -> state == STATE_S10 ) &&
+            statement -> state == STATE_S10 ||
+            statement -> state == STATE_S13 ||
+            statement -> state == STATE_S14 ||
+            statement -> state == STATE_S15 ) &&
             statement -> connection -> environment -> requested_version >= SQL_OV_ODBC3 )
     {
         dm_log_write( __FILE__, 
@@ -246,7 +249,10 @@ SQLRETURN SQLDescribeParam(
     }
     else if (( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
-            statement -> state == STATE_S10 ) &&
+            statement -> state == STATE_S10 ||
+            statement -> state == STATE_S13 ||
+            statement -> state == STATE_S14 ||
+            statement -> state == STATE_S15 ) &&
             statement -> connection -> environment -> requested_version == SQL_OV_ODBC2 )
     {
         dm_log_write( __FILE__, 

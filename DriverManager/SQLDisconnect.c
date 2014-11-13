@@ -265,6 +265,21 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
+    if( __check_stmt_from_dbc( connection, STATE_S13 )) {
+
+        dm_log_write( __FILE__, 
+                __LINE__, 
+                LOG_INFO, 
+                LOG_INFO, 
+                "Error: HY010" );
+
+        __post_internal_error( &connection -> error,
+                ERROR_HY010, NULL,
+                connection -> environment -> requested_version );
+
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+    }
+
     /*
      * is it a pooled connection, or can it go back 
      */

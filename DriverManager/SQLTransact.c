@@ -236,7 +236,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
          * check status of statements belonging to this connection
          */
 
-        if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
+        if( __check_stmt_from_dbc_v( connection, 8, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12, STATE_S13, STATE_S14, STATE_S15 )) {
 
             dm_log_write( __FILE__, 
                     __LINE__, 
@@ -421,7 +421,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                 if ( connection -> environment == environment &&
                         connection -> state > STATE_C4 )
                 {
-                    if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
+                    if( __check_stmt_from_dbc_v( connection, 8, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12, STATE_S13, STATE_S14, STATE_S15 )) {
 
                         dm_log_write( __FILE__, 
                                 __LINE__, 

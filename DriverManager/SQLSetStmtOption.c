@@ -247,7 +247,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 statement -> state == STATE_S9 ||
                 statement -> state == STATE_S10 ||
                 statement -> state == STATE_S11 ||
-                statement -> state == STATE_S12 )
+                statement -> state == STATE_S12 ||
+                statement -> state == STATE_S13 ||
+                statement -> state == STATE_S14 ||
+                statement -> state == STATE_S15 )
         {
             if ( statement -> prepared )
             {
