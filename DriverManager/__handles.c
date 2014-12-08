@@ -479,10 +479,11 @@ int __validate_env( DMHENV env )
 {
 #ifdef FAST_HANDLE_VALIDATE
 
-    if ( *(( int * ) env ) == HENV_MAGIC )
+    if ( env && *(( int * ) env ) == HENV_MAGIC )
         return 1;
     else
         return 0;
+
 #else
 
     DMHENV ptr;
@@ -673,7 +674,8 @@ void dbc_change_thread_support( DMHDBC connection, int level )
 int __validate_dbc( DMHDBC connection )
 {
 #ifdef FAST_HANDLE_VALIDATE
-    if ( *(( int * ) connection ) == HDBC_MAGIC )
+
+    if ( connection && *(( int * ) connection ) == HDBC_MAGIC )
         return 1;
     else
         return 0;
@@ -1402,7 +1404,7 @@ int __validate_desc( DMHDESC descriptor )
 {
 #ifdef FAST_HANDLE_VALIDATE
 
-    if ( *(( int * ) descriptor ) == HDESC_MAGIC )
+    if ( descriptor && *(( int * ) descriptor ) == HDESC_MAGIC )
         return 1;
     else
         return 0;
