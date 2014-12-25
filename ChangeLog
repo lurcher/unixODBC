@@ -29,6 +29,7 @@
     * There was a bug in the ini caching, now fixed
     * More ODBC 3.80 additions (streaming parameters)
     * Check for NULL handle in __validate_xxx()
+    * Avoid potential memory leak in SQLAllocStatement
 
 8th-October-2013
 2.3.2
