@@ -2,7 +2,7 @@
  * sqlFreeConnect
  *
  * Do not try to Free Dbc if there are Stmts... return an error. Let the
- * Driver Manager do a recursive clean up if its wants.
+ * Driver Manager do a recursive clean up if it wants.
  *
  **********************************************************************
  *

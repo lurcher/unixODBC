@@ -233,7 +233,7 @@ static char const rcsid[]= "$RCSfile: __handles.c,v $ $Revision: 1.13 $";
  * valid without the danger of a seg-vio.
  */
 
-static DMHENV enviroment_root;
+static DMHENV environment_root;
 static DMHDBC connection_root;
 static DMHSTMT statement_root;
 static DMHDESC descriptor_root;
@@ -247,25 +247,25 @@ static DMHDESC descriptor_root;
  * We also have a mutex to protect the connection pooling code
  *
  * If compiled with thread support the DM allows four different
- * thread strategies
+ * thread strategies:
  *
- * Level 0 - Only the DM internal structures are protected
- * the driver is assumed to take care of it's self
+ * Level 0 - Only the DM internal structures are protected.
+ * The driver is assumed to take care of itself
  *
- * Level 1 - The driver is protected down to the statement level
- * each statement will be protected, and the same for the connect 
- * level for connect functions, note that descriptors are considered
+ * Level 1 - The driver is protected down to the statement level.
+ * Each statement will be protected, and the same for the connect 
+ * level for connect functions. Note that descriptors are considered
  * equal to statements when it comes to thread protection.
  *
- * Level 2 - The driver is protected at the connection level. only
- * one thread can be in a particular driver at one time
+ * Level 2 - The driver is protected at the connection level. Only
+ * one thread can be in a particular driver at one time.
  *
  * Level 3 - The driver is protected at the env level, only one thing
  * at a time.
  *
- * By default the driver open connections with a lock level of 0, 
- * drivers should be expecetd to be thread safe now.
- * this can be changed by adding the line
+ * By default the driver opens connections with lock level 0; drivers
+ * are expected to be thread safe now. This can be changed by adding
+ * the line
  *
  * Threading = N
  *
@@ -416,8 +416,8 @@ DMHENV __alloc_env( void )
          * add to list of env handles
          */
 
-        environment -> next_class_list = enviroment_root;
-        enviroment_root = environment;
+        environment -> next_class_list = environment_root;
+        environment_root = environment;
         environment -> type = HENV_MAGIC;
 
         SQLGetPrivateProfileString( "ODBC", "Trace", "No",
@@ -491,7 +491,7 @@ int __validate_env( DMHENV env )
 
     mutex_entry( &mutex_lists );
 
-    ptr = enviroment_root;
+    ptr = environment_root;
 
     while( ptr )
     {
@@ -522,7 +522,7 @@ void __release_env( DMHENV environment )
 
     mutex_entry( &mutex_lists );
 
-    ptr = enviroment_root;
+    ptr = environment_root;
 
     while( ptr )
     {
@@ -542,7 +542,7 @@ void __release_env( DMHENV environment )
         }
         else
         {
-            enviroment_root = ptr -> next_class_list;
+            environment_root = ptr -> next_class_list;
         }
     }
 
@@ -607,14 +607,14 @@ DMHDBC __alloc_dbc( void )
 #ifdef HAVE_LIBPTH
         pth_mutex_init( &connection -> mutex );
         /*
-        * for the moment protect on a environment level
-        */
+         * for the moment protect at the environment level
+         */
         connection -> protection_level = TS_LEVEL3;
 #elif HAVE_LIBPTHREAD
         pthread_mutex_init( &connection -> mutex, NULL );
         /*
-        * for the moment protect on a environment level
-        */
+         * for the moment protect at the environment level
+         */
         connection -> protection_level = TS_LEVEL3;
 #elif HAVE_LIBTHREAD
         mutex_init( &connection -> mutex, USYNC_THREAD, NULL );

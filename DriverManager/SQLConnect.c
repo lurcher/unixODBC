@@ -971,7 +971,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     /*
      * if the driver comes from odbc.ini not via odbcinst.ini the driver name will be empty
-     * so only look for the entry if its set
+     * so only look for the entry if it's set
      */
 
     if ( driver_name[ 0 ] != '\0' ) 
@@ -1148,7 +1148,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     }
 
     /*
-     * try and extract the ini and fini functions, and call ini if its 
+     * try and extract the ini and fini functions, and call ini if it's 
      * found
      */
 
@@ -2303,7 +2303,7 @@ int __connect_part_two( DMHDBC connection )
     if ( use_cursor )
     {
 		char ext[ 32 ]; 
-		char name[ 128 ];
+		char name[ ODBC_FILENAME_MAX * 2 + 1 ];
         int (*cl_connect)(void*, struct driver_helper_funcs*);
         char *err;
         struct driver_helper_funcs dh;
@@ -2333,7 +2333,7 @@ int __connect_part_two( DMHDBC connection )
 
         if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
         {
-            char b1[ 1024 ];
+            char b1[ ODBC_FILENAME_MAX + 1 ];
             /*
              * try again
              */
@@ -2573,7 +2573,7 @@ void __disconnect_part_one( DMHDBC connection )
     }
 
     /*
-     * now disconnect the environment, if its the last usage on the connection
+     * now disconnect the environment, if it's the last usage on the connection
      */
 
     if ( connection -> driver_env )
@@ -2637,7 +2637,7 @@ void __disconnect_part_two( DMHDBC connection )
 void __disconnect_part_four( DMHDBC connection )
 {
     /*
-     * now disconnect the environment, if its the last usage on the connection
+     * now disconnect the environment, if it's the last usage on the connection
      */
 
     release_env( connection );
@@ -2868,7 +2868,7 @@ static void close_pooled_connection( CPOOL *ptr )
         ptr -> connection.driver_dbc = (DRV_SQLHANDLE)NULL;
 
         /*
-         * Only call freeenv if its the last connection to the driver
+         * Only call freeenv if it's the last connection to the driver
          */
 
         release_env( &ptr -> connection );
@@ -3144,8 +3144,8 @@ restart:;
                 0 );
 
             /*
-             * if it failed assume that its because it doesn't support
-             * it, but its ok
+             * if it failed assume that it's because it doesn't support
+             * it, but it's ok
              */
 
             if ( SQL_SUCCEEDED( ret ))
@@ -3185,8 +3185,8 @@ restart:;
                         &dead );
             
             /*
-             * if it failed assume that its because it doesn't support
-             * it, but its ok
+             * if it failed assume that it's because it doesn't support
+             * it, but it's ok
              */
 
             if ( SQL_SUCCEEDED( ret ))
@@ -3585,7 +3585,7 @@ void return_to_pool( DMHDBC connection )
     }
 
     /*
-     * allow the driver to reset itself if its a 3.8 driver
+     * allow the driver to reset itself if it's a 3.8 driver
      */
 
     if ( connection -> driver_version == SQL_OV_ODBC3_80 ) 

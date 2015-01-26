@@ -112,7 +112,7 @@ BOOL _odbcinst_UserINI( char *pszFileName, BOOL bVerify )
 
 BOOL _odbcinst_FileINI( char *pszPath )
 {
-	char b1[ 256 ];
+	char b1[ ODBC_FILENAME_MAX + 1 ];
 
     /* we need a viable buffer (with space for FILENAME_MAX chars)... */
     if ( !pszPath )

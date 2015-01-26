@@ -985,7 +985,7 @@ SQLRETURN SQLDriverConnect(
     }
 
     /*
-     * open the file dsn, get each entry from it, if its not in the connection 
+     * open the file dsn, get each entry from it, if it's not in the connection 
      * struct, add it
      */
 
@@ -1195,7 +1195,7 @@ SQLRETURN SQLDriverConnect(
 #endif
 
         /*
-         * Assume if its not in a odbcinst,ini then its a direct reference
+         * Assume if it's not in a odbcinst.ini then it's a direct reference
          */
 
         if ( lib_name[ 0 ] == '\0' ) {

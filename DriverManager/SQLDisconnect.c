@@ -247,7 +247,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
     }
 
     /*
-     * any statemnts that are in in SQL_NEED_DATA
+     * any statements that are in SQL_NEED_DATA
      */
 
     if( __check_stmt_from_dbc( connection, STATE_S8 )) {

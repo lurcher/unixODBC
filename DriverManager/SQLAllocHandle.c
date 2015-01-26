@@ -783,7 +783,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
         
-                            __release_desc( statement -> ard );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -828,8 +827,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL, 
                                     connection -> environment -> requested_version );
 
-                            __release_desc( statement -> ard );
-                            __release_desc( statement -> apd );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -874,9 +871,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
 
-                            __release_desc( statement -> ard );
-                            __release_desc( statement -> apd );
-                            __release_desc( statement -> ird );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -968,7 +962,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
         
-                            __release_desc( statement -> ard );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -1013,8 +1006,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL, 
                                     connection -> environment -> requested_version );
 
-                            __release_desc( statement -> ard );
-                            __release_desc( statement -> apd );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -1059,9 +1050,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
 
-                            __release_desc( statement -> ard );
-                            __release_desc( statement -> apd );
-                            __release_desc( statement -> ird );
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;

@@ -18,7 +18,7 @@ That's weird enought, because it's not even FHS (that would be
 
 Also note that currently (09-Mar-2001) unixODBC crashes when you
 use the libsqlod from the sapdb-srv or sapdb-if RPM packages. If you
-use the one from the the sapdb-web RPM, then it works.
+use the one from the sapdb-web RPM, then it works.
 
 +-------------------------------------------------------------+
 | Holger Schurig holgerschurig@gmx.de                         |

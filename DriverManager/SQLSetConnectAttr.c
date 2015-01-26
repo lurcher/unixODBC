@@ -566,7 +566,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
     value = __attr_override( connection, SQL_HANDLE_DBC, attribute, value, &string_length );
 
     /*
-     * we need to save this even if connected so we can use it for the next connetc
+     * we need to save this even if connected so we can use it for the next connect
      */
     if ( attribute == SQL_ATTR_LOGIN_TIMEOUT )
     {

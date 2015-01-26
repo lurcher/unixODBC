@@ -36,12 +36,12 @@ BOOL SQLInstallDriverEx(		LPCSTR	pszDriver,
 	char	szNameValue[INI_MAX_PROPERTY_NAME+INI_MAX_PROPERTY_VALUE+3];
 	char	szPropertyName[INI_MAX_PROPERTY_NAME+1];
 	char	szValue[INI_MAX_PROPERTY_VALUE+1];
-    char    szIniName[ INI_MAX_OBJECT_NAME + 1 ];
+    char    szIniName[ ODBC_FILENAME_MAX * 2 + 1 ];
 
 	BOOL	bInsertUsageCount;
 	int		nElement;
 	int		nUsageCount 			= 0;				/* SHOULD GET THIS FROM SOMEWHERE ? */
-	char	b1[ 256 ], b2[ 256 ];
+	char	b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
 
 
     inst_logClear();

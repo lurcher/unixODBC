@@ -57,8 +57,8 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
 	void 				*hDLL	= NULL;
 	HODBCINSTPROPERTY	hLastProperty;
 	char				szSectionName[INI_MAX_OBJECT_NAME+1];
-    char                szIniName[ INI_MAX_OBJECT_NAME + 1 ];
-	char				b1[ 256 ], b2[ 256 ];
+    char                szIniName[ ODBC_FILENAME_MAX * 2 + 1 ];
+	char				b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
 
 	/* SANITY CHECKS */
 	if ( pszDriver == NULL )

@@ -30,8 +30,8 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
 	BOOL	(*pConfigDriverW)( HWND, WORD, LPCWSTR, LPCWSTR, LPCWSTR, WORD, WORD *	);
 	char	szDriverSetup[ODBC_FILENAME_MAX+1];
 	HINI	hIni;
-    char    szIniName[ INI_MAX_OBJECT_NAME + 1 ];
-	char	b1[ 256 ], b2[ 256 ];
+    char    szIniName[ ODBC_FILENAME_MAX * 2 + 1 ];
+	char	b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
 
 	*iswide = 0;
 

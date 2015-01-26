@@ -21,7 +21,7 @@ BOOL SQLInstallDriverManager(	LPSTR	pszPath,
 								WORD	*pnPathOut )
 {
     char  szIniName[ INI_MAX_OBJECT_NAME + 1 ];
-	char  b1[ 256 ];
+	char  b1[ ODBC_FILENAME_MAX + 1 ];
 
     inst_logClear();
 

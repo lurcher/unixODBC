@@ -477,7 +477,7 @@ SQLRETURN SQLDriverConnectW(
 #endif
 
         /*
-         * Assume if its not in a odbcinst,ini then its a direct reference
+         * Assume if it's not in a odbcinst.ini then it's a direct reference
          */
 
         if ( lib_name[ 0 ] == '\0' ) {

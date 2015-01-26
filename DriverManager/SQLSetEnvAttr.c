@@ -294,7 +294,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
             /*
              * this must be one of the most brain dead atribute,
              * it can be set, but only to TRUE, any other value
-             * (ie FALSE) returns a error. Its almost as if its not
+             * (ie FALSE) returns a error. It's almost as if it's not
              * settable :-)
              */
 

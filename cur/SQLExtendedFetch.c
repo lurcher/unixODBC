@@ -335,7 +335,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
 
                     /*
                      * Not quite sure if the check is valid, I think I can see where
-                     * I got it from, but not sure if its correct
+                     * I got it from, but not sure if it's correct
                      * 
                     if ( buffer && cbuf -> bound_ind && *cbuf -> bound_ind >= 0 )
                     */

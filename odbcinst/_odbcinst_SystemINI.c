@@ -62,7 +62,7 @@ char *odbcinst_user_file_name( char *buffer )
 BOOL _odbcinst_SystemINI( char *pszFileName, BOOL bVerify )
 {
 	FILE			*hFile;
-	char			b1[ 256 ];
+	char			b1[ ODBC_FILENAME_MAX + 1 ];
 
     sprintf( pszFileName, "%s:odbc.ini", odbcinst_system_file_path( b1 ));
 	
@@ -83,7 +83,7 @@ BOOL _odbcinst_SystemINI( char *pszFileName, BOOL bVerify )
 char *odbcinst_system_file_name( char *buffer )
 {
     char *path;
-    static char save_path[ 512 ];
+    static char save_path[ ODBC_FILENAME_MAX + 1 ];
     static int saved = 0;
 	
     if ( saved ) {
@@ -91,8 +91,8 @@ char *odbcinst_system_file_name( char *buffer )
     }
 
     if (( path = getenv( "ODBCINSTINI" ))) {
-		strcpy( buffer, path );
-	strcpy( save_path, buffer );
+		strncpy( buffer, path, ODBC_FILENAME_MAX );
+	strncpy( save_path, buffer, ODBC_FILENAME_MAX );
 	saved = 1;
         return buffer;
 	}
@@ -106,7 +106,7 @@ char *odbcinst_system_file_name( char *buffer )
 char *odbcinst_system_file_path( char *buffer )
 {
     char *path;
-    static char save_path[ 512 ];
+    static char save_path[ ODBC_FILENAME_MAX + 1 ];
     static int saved = 0;
 
     if ( saved ) {
@@ -114,8 +114,8 @@ char *odbcinst_system_file_path( char *buffer )
     }
 
     if (( path = getenv( "ODBCSYSINI" ))) {
-		strcpy( buffer, path );
-	strcpy( save_path, buffer );
+		strncpy( buffer, path, ODBC_FILENAME_MAX );
+	strncpy( save_path, buffer, ODBC_FILENAME_MAX );
 	saved = 1;
         return buffer;
 	}
@@ -142,7 +142,7 @@ char *odbcinst_user_file_name( char *buffer )
 char *odbcinst_user_file_path( char *buffer )
 {
     char *path;
-    static char save_path[ 512 ];
+    static char save_path[ ODBC_FILENAME_MAX + 1 ];
     static int saved = 0;
 
     if ( saved ) {
@@ -150,8 +150,8 @@ char *odbcinst_user_file_path( char *buffer )
     }
 
     if (( path = getenv( "HOME" ))) {
-		strcpy( buffer, path );
-		strcpy( save_path, buffer );
+		strncpy( buffer, path, ODBC_FILENAME_MAX );
+		strncpy( save_path, buffer, ODBC_FILENAME_MAX );
 		saved = 1;
         return buffer;
 	}
@@ -163,7 +163,7 @@ char *odbcinst_user_file_path( char *buffer )
 BOOL _odbcinst_SystemINI( char *pszFileName, BOOL bVerify )
 {
 	FILE			*hFile;
-	char			b1[ 256 ];
+	char			b1[ ODBC_FILENAME_MAX + 1 ];
 
     sprintf( pszFileName, "%s/odbc.ini", odbcinst_system_file_path( b1 ));
 	

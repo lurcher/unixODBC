@@ -72,7 +72,7 @@ SQLRETURN CLExecute( SQLHSTMT statement_handle )
         cl_statement -> first_fetch_done = 0;
 
         /*
-         * if its a SELECT statement it will generate columns
+         * if it's a SELECT statement it will generate columns
          * WARNING a stored procedure could get here as well
          */
 
