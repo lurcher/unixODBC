@@ -150,6 +150,7 @@ SHLIBEXT="$shrext_cmds"
 AC_MSG_RESULT($shrext_cmds)
 AC_SUBST(SHLIBEXT)
 
+
 AC_DEFINE_UNQUOTED([SHLIBEXT], "$shrext_cmds", [Shared lib extension])
 AC_DEFINE_DIR([DEFLIB_PATH], [libdir], [Lib directory])
 AC_DEFINE_DIR([LIB_PREFIX], [libdir], [Lib directory])
