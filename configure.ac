@@ -144,12 +144,17 @@ dnl Substitute INCLTDL and LIBLTDL in the Makefiles
 AC_SUBST(LTDLINCL)
 AC_SUBST(LIBLTDL)
 
+#dnl Find shared lib extension
+#AC_MSG_CHECKING(for shared lib extension)
+#SHLIBEXT="$shrext_cmds"
+#AC_MSG_RESULT($shrext_cmds)
+#AC_SUBST(SHLIBEXT)
+
 dnl Find shared lib extension
 AC_MSG_CHECKING(for shared lib extension)
-SHLIBEXT="$shrext_cmds"
-AC_MSG_RESULT($shrext_cmds)
-AC_SUBST(SHLIBEXT)
-
+eval "SHLIBEXT=$shrext_cmds"
+AC_MSG_RESULT($SHLIBEXT)
+AC_SUBST(SHLIBEXT,$SHLIBEXT)
 
 AC_DEFINE_UNQUOTED([SHLIBEXT], "$shrext_cmds", [Shared lib extension])
 AC_DEFINE_DIR([DEFLIB_PATH], [libdir], [Lib directory])

@@ -40,12 +40,12 @@ Config Files:
 	The ODBC Installer Library is responsible for reading and writing
 	the unixODBC config files. 
 	
-	The savy can look at;
+	The savvy can look at;
 	 
 	_odbcinst_SystemINI.c
 	_odbcinst_UserINI.c
 	
-	In anycase; you can override where unixODBC looks for its system
+	In any case; you can override where unixODBC looks for its system
 	config files by setting the ODBCSYSINI environment variable during 
 	the use of unixODBC.
       
