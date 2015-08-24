@@ -1,4 +1,7 @@
-2.3.3pre
+2.3.4pre
+
+2nd-Aug-2015
+2.3.3
 
     * Reporting of logging state was broken in SQLGetConnectAttr
     * Fix incorrect text against HY007
