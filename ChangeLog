@@ -1,4 +1,9 @@
-2.3.4pre
+32st-Aug-2015
+2.3.4
+
+    * Fix typo in the loading of the cursor lib, reports
+
+	internal error, unexpected SHLIBEXT
 
 2nd-Aug-2015
 2.3.3

@@ -2318,7 +2318,7 @@ int __connect_part_two( DMHDBC connection )
 		}
 		else
 		{
-            if ( strlen( SHLIBEXT ) + 1 < sizeof( ext )) {
+            if ( strlen( SHLIBEXT ) + 1 > sizeof( ext )) {
                 fprintf( stderr, "internal error, unexpected SHLIBEXT value ('%s') may indicate a problem with configure\n", SHLIBEXT );
                 abort();
             }
