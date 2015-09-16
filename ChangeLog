@@ -1,3 +1,10 @@
+2.3.5pre
+
+    * Add configure option --enable-setlibversion set mark the libs with VERS_3.52
+      Linux only, so any driver built with the libs will work with closed source 
+      DM's
+    * Add persistent storage of isql command line history if readline() is used (thanks Axel)
+
 32st-Aug-2015
 2.3.4
 

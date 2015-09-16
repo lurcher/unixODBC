@@ -74,6 +74,14 @@ int main( int argc, char *argv[] )
     int     line_buffer_size = 9000;
     int     bufpos,linen;
     char    prompt[24];
+#ifdef HAVE_READLINE
+    char    *rlhistory; /* readline history path */
+
+    rlhistory = strdup(getenv("HOME"));
+    realloc(rlhistory, strlen(rlhistory)+16);
+    strcat(rlhistory, "/.isql_history");
+    read_history(rlhistory);
+#endif
 
     szDSN = NULL;
     szUID = NULL;
@@ -250,14 +258,24 @@ int main( int argc, char *argv[] )
             if ( !line )        /* EOF - ctrl D */
             {
                 malloced = 1;
-                line = strdup( "quit" );
+                if ( bNewStyle )
+                {
+                    line = strdup( "\\quit" );
+                }
+                else
+                {
+                    line = strdup( "quit" );
+                }
             }
             else
             {
                 malloced = 0;
             }
 
-            add_history(line);
+            if ( strcmp(line, "quit") && strcmp(line, "\\quit") ) 
+            {
+                add_history(line);
+            }
 #else
             fputs( prompt, stdout );
 
@@ -265,14 +283,28 @@ int main( int argc, char *argv[] )
             if ( !line )        /* EOF - ctrl D */
             {
                 malloced = 1;
-                line = strdup( "quit" );
+                if ( bNewStyle )
+                {
+                    line = strdup( "\\quit" );
+                }
+                else
+                {
+                    line = strdup( "quit" );
+                }
             }
             else
             {
 				if ( line[ 0 ] == '\n' ) 
 				{
 					malloced = 1;
-					line = strdup( "quit" );
+                    if ( bNewStyle )
+                    {
+                        line = strdup( "\\quit" );
+                    }
+                    else
+                    {
+					    line = strdup( "quit" );
+                    }
 				}
 				else 
 				{
@@ -287,14 +319,28 @@ int main( int argc, char *argv[] )
             if ( !line )        /* EOF - ctrl D */
             {
                 malloced = 1;
-                line = strdup( "quit" );
+                if ( bNewStyle )
+                {
+                    line = strdup( "\\quit" );
+                }
+                else
+                {
+                    line = strdup( "quit" );
+                }
             }
             else
             {
 				if ( line[ 0 ] == '\n' ) 
 				{
 					malloced = 1;
-					line = strdup( "quit" );
+                    if ( bNewStyle )
+                    {
+                        line = strdup( "\\quit" );
+                    }
+                    else
+                    {
+					    line = strdup( "quit" );
+                    }
 				}
 				else 
 				{
@@ -450,6 +496,9 @@ int main( int argc, char *argv[] )
     /****************************
      * DISCONNECT
      ***************************/
+
+    write_history(rlhistory);
+
     CloseDatabase( hEnv, hDbc );
 
     exit( 0 );
