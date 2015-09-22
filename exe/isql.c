@@ -497,7 +497,9 @@ int main( int argc, char *argv[] )
      * DISCONNECT
      ***************************/
 
+#ifdef HAVE_READLINE
     write_history(rlhistory);
+#endif
 
     CloseDatabase( hEnv, hDbc );
 
