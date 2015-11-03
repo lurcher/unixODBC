@@ -61,7 +61,7 @@
 static pth_mutex_t mutex_log = PTH_MUTEX_INIT;
 static int pth_init_called = 0;
 
-static int mutex_entry( void )
+static int local_mutex_entry( void )
 {
     if ( !pth_init_called )
     {
@@ -71,7 +71,7 @@ static int mutex_entry( void )
     return pth_mutex_acquire( &mutex_log, 0, NULL );
 }
 
-static int mutex_exit( void )
+static int local_mutex_exit( void )
 {
     return pth_mutex_release( &mutex_log );
 }
@@ -82,12 +82,12 @@ static int mutex_exit( void )
 
 static pthread_mutex_t mutex_log = PTHREAD_MUTEX_INITIALIZER;
 
-static int mutex_entry( void )
+static int local_mutex_entry( void )
 {
     return pthread_mutex_lock( &mutex_log );
 }
 
-static int mutex_exit( void )
+static int local_mutex_exit( void )
 {
     return pthread_mutex_unlock( &mutex_log );
 }
@@ -98,20 +98,20 @@ static int mutex_exit( void )
 
 static mutex_t mutex_log;
 
-static int mutex_entry( void )
+static int local_mutex_entry( void )
 {
     return mutex_lock( &mutex_log );
 }
 
-static int mutex_exit( void )
+static int local_mutex_exit( void )
 {
     return mutex_unlock( &mutex_log );
 }
 
 #else
 
-#define mutex_entry()
-#define mutex_exit()
+#define local_mutex_entry()
+#define local_mutex_exit()
 
 #endif
 /*
@@ -128,7 +128,7 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
 {
     int ret = LOG_ERROR;
 
-    mutex_entry();
+    local_mutex_entry();
 
     if ( !log_tried )
     {
@@ -156,7 +156,7 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
                 pszMessage );
     }
 
-    mutex_exit();
+    local_mutex_exit();
 
     return ret;
 }
@@ -177,12 +177,12 @@ int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg )
 {
     int ret = LOG_NO_DATA;
 
-    mutex_entry();
+    local_mutex_entry();
 
     if ( hODBCINSTLog )
         ret = logPeekMsg( hODBCINSTLog, nMsg, phMsg );
 
-    mutex_exit();
+    local_mutex_exit();
 
     return ret;
 }
@@ -191,12 +191,12 @@ int inst_logClear( void )
 {
     int ret = LOG_ERROR;
 
-    mutex_entry();
+    local_mutex_entry();
 
     if ( hODBCINSTLog ) 
         ret = logClear( hODBCINSTLog );
 
-    mutex_exit();
+    local_mutex_exit();
 
     return ret;
 }

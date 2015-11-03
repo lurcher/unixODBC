@@ -4,6 +4,7 @@
       Linux only, so any driver built with the libs will work with closed source 
       DM's
     * Add persistent storage of isql command line history if readline() is used (thanks Axel)
+    * Rename some local mutex functions to avoid name clashes
 
 32st-Aug-2015
 2.3.4
