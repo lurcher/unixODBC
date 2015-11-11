@@ -4145,7 +4145,7 @@ static void extract_diag_error( int htype,
 {
     SQLRETURN ret;
     SQLCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    SQLCHAR msg1[ SQL_MAX_MESSAGE_LENGTH ];
+    SQLCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLCHAR sqlstate[ 6 ];
     SQLINTEGER native, len;
     SQLINTEGER rec_number;
@@ -4177,6 +4177,14 @@ static void extract_diag_error( int htype,
             ERROR *e = malloc( sizeof( ERROR ));
             SQLWCHAR *tmp;
             SQLINTEGER len;
+
+            /* 
+             * make sure we are truncated in the right place
+             */
+
+            if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
+                msg1[ SQL_MAX_MESSAGE_LENGTH - 1 ] = '\0';
+            }
 
 #ifdef STRICT_ODBC_ERROR
             strcpy((char*) msg, (char*)msg1 );
@@ -4402,7 +4410,7 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
 {
     SQLRETURN ret;
     SQLCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    SQLCHAR msg1[ SQL_MAX_MESSAGE_LENGTH ];
+    SQLCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLCHAR sqlstate[ 6 ];
     SQLINTEGER native;
     SQLSMALLINT len;
@@ -4439,6 +4447,14 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
             /*
              * add our prefix
              */
+
+            /* 
+             * make sure we are truncated in the right place
+             */
+
+            if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
+                msg1[ SQL_MAX_MESSAGE_LENGTH ] = '\0';
+            }
 
 #ifdef STRICT_ODBC_ERROR
             strcpy((char*) msg, (char*)msg1 );
@@ -4503,7 +4519,7 @@ static void extract_diag_error_w( int htype,
 {
     SQLRETURN ret;
     SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH ];
+    SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLWCHAR sqlstate[ 6 ];
     SQLINTEGER native, len;
     SQLINTEGER rec_number;
@@ -4533,6 +4549,14 @@ static void extract_diag_error_w( int htype,
         {
             ERROR *e = malloc( sizeof( ERROR ));
             SQLWCHAR *tmp;
+
+            /* 
+             * make sure we are truncated in the right place
+             */
+
+            if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
+                msg1[ SQL_MAX_MESSAGE_LENGTH ] = 0;
+            }
 
 #ifdef STRICT_ODBC_ERROR
             wide_strcpy( msg, msg1 );
@@ -4769,6 +4793,14 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
             /*
              * add our prefix
              */
+
+            /* 
+             * make sure we are truncated in the right place
+             */
+
+            if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
+                msg1[ SQL_MAX_MESSAGE_LENGTH ] = 0;
+            }
 
 #ifdef STRICT_ODBC_ERROR
             wide_strcpy( msg, msg1 );
