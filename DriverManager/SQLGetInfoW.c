@@ -301,6 +301,20 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                     return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
             }
+            else
+            {
+                dm_log_write( __FILE__, 
+                        __LINE__, 
+                        LOG_INFO, 
+                        LOG_INFO, 
+                        "Error: HY024" );
+
+                __post_internal_error( &connection -> error,
+                        ERROR_HY024, NULL,
+                        connection -> environment -> requested_version );
+
+                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            }
         }
         break;
 
@@ -335,6 +349,20 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
     
                     return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
+            }
+            else
+            {
+                dm_log_write( __FILE__, 
+                        __LINE__, 
+                        LOG_INFO, 
+                        LOG_INFO, 
+                        "Error: HY024" );
+
+                __post_internal_error( &connection -> error,
+                        ERROR_HY024, NULL,
+                        connection -> environment -> requested_version );
+
+                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
         }
         break;

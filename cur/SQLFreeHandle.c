@@ -66,7 +66,7 @@ SQLRETURN CLFreeHandle( SQLSMALLINT handle_type,
       case SQL_HANDLE_STMT:
         {
             CLHSTMT cl_statement = (CLHSTMT) handle; 
-            SQLRETURN ret;
+            SQLRETURN ret = SQL_SUCCESS;
 
             /*
              * call the driver

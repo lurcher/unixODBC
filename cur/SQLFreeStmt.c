@@ -59,7 +59,7 @@ SQLRETURN CLFreeStmt( SQLHSTMT statement_handle,
            SQLUSMALLINT option )
 {
     CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
-    SQLRETURN ret;
+    SQLRETURN ret = SQL_SUCCESS;
 
     /*
      * call the driver

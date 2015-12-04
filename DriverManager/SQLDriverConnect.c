@@ -1123,6 +1123,7 @@ SQLRETURN SQLDriverConnect(
                                         ERROR_01004, NULL,
                                         connection -> environment -> requested_version );
                             }
+                            free( str1 );
                         }
                         cp = cp -> next;
                     }
@@ -1618,6 +1619,11 @@ SQLRETURN SQLDriverConnect(
 
             if ( save_filedsn ) {
                 free( save_filedsn );
+            }
+
+            if ( s1 )
+            {
+                free( s1 );
             }
 
             return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );

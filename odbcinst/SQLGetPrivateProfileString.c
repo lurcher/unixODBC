@@ -204,7 +204,7 @@ static int _check_ini_cache( int *ret,
     return 0;
 }
 
-static int _save_ini_cache( int ret,
+static void _save_ini_cache( int ret,
                     LPCSTR  pszSection,
                     LPCSTR  pszEntry,
                     LPCSTR  pszDefault,
@@ -219,7 +219,7 @@ static int _save_ini_cache( int ret,
     ini_cache = calloc( sizeof( struct ini_cache ), 1 );
     if ( !ini_cache )
     {
-        return 0;
+        return;
     }
 
     if ( pszFileName )
@@ -247,8 +247,6 @@ static int _save_ini_cache( int ret,
 
     ini_cache -> next = ini_cache_head;
     ini_cache_head = ini_cache;
-
-    return 0;
 }
 
 /*
@@ -275,7 +273,7 @@ static int check_ini_cache( int *ret,
 	return rval;
 }
 
-static int save_ini_cache( int ret,
+static void save_ini_cache( int ret,
                     LPCSTR  pszSection,
                     LPCSTR  pszEntry,
                     LPCSTR  pszDefault,
@@ -283,7 +281,7 @@ static int save_ini_cache( int ret,
                     int     nRetBuffer,
                     LPCSTR  pszFileName )
 {
-	int rval, cval;
+	int cval;
 
 	mutex_entry( &mutex_ini );
 
@@ -294,13 +292,11 @@ static int save_ini_cache( int ret,
 	if ( !_check_ini_cache( &cval, pszSection, pszEntry, pszDefault,
 			pRetBuffer, nRetBuffer, pszFileName )) {
 
-		rval = _save_ini_cache( ret, pszSection, pszEntry, pszDefault,
+		_save_ini_cache( ret, pszSection, pszEntry, pszDefault,
 			pRetBuffer, nRetBuffer, pszFileName );
 	}
 
 	mutex_exit( &mutex_ini );
-
-	return rval;
 }
 
 
@@ -317,7 +313,7 @@ static int check_ini_cache( int *ret,
     return 0;
 }
 
-static int save_ini_cache( int ret,
+static void save_ini_cache( int ret,
                     LPCSTR  pszSection,
                     LPCSTR  pszEntry,
                     LPCSTR  pszDefault,
@@ -325,7 +321,6 @@ static int save_ini_cache( int ret,
                     int     nRetBuffer,
                     LPCSTR  pszFileName )
 {
-    return 0;
 }
 
 #endif

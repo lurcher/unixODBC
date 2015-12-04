@@ -4176,7 +4176,6 @@ static void extract_diag_error( int htype,
         {
             ERROR *e = malloc( sizeof( ERROR ));
             SQLWCHAR *tmp;
-            SQLINTEGER len;
 
             /* 
              * make sure we are truncated in the right place
@@ -4761,7 +4760,7 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
 {
     SQLRETURN ret;
     SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH ];
+    SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLWCHAR sqlstate[ 6 ];
     SQLINTEGER native;
     SQLSMALLINT len;

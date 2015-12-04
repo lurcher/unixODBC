@@ -78,7 +78,7 @@ int main( int argc, char *argv[] )
     char    *rlhistory; /* readline history path */
 
     rlhistory = strdup(getenv("HOME"));
-    realloc(rlhistory, strlen(rlhistory)+16);
+    rlhistory = realloc(rlhistory, strlen(rlhistory)+16);
     strcat(rlhistory, "/.isql_history");
     read_history(rlhistory);
 #endif

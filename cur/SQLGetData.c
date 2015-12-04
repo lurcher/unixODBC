@@ -284,7 +284,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
         	SQLSMALLINT ind;
         	SQLCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
         	SQLRETURN ret;
-			int rec;
+			int rec = 1;
 	
         	/*
          	* get the error from the driver before
@@ -484,7 +484,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 						SQLSMALLINT ind;
 						SQLCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
 						SQLRETURN ret;
-						int rec;
+						int rec = 1;
 				
 						/*
 						* get the error from the driver before
@@ -582,7 +582,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 			SQLSMALLINT ind;
 			SQLCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
 			SQLRETURN ret;
-			int rec;
+			int rec = 1;
 	
 			/*
 			* get the error from the driver before
@@ -730,7 +730,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
         SQLSMALLINT ind;
         SQLCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
         SQLRETURN ret;
-		int rec;
+		int rec = 1;
 
         /*
          * get the error from the driver before
