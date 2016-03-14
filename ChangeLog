@@ -5,7 +5,7 @@
       DM's
     * Add persistent storage of isql command line history if readline() is used (thanks Axel)
     * Rename some local mutex functions to avoid name clashes
-    * Assorted fixes (Thanks Markus)
+    * Assorted fixes (Thanks Markus * 2)
 
 32st-Aug-2015
 2.3.4

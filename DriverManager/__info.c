@@ -4198,6 +4198,7 @@ static void extract_diag_error( int htype,
 
             e -> native_error = native;
             tmp = ansi_to_unicode_alloc( sqlstate, SQL_NTS, connection, NULL );
+            printf( "its %s\n", sqlstate );
             wide_strcpy( e -> sqlstate, tmp );
             free( tmp );
             e -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, connection, NULL );

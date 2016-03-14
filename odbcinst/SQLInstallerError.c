@@ -97,7 +97,7 @@ RETCODE SQLInstallerError( WORD nError, DWORD *pnErrorCode, LPSTR pszErrorMsg, W
 		return SQL_ERROR;
 
     /* this is optional so... */
-    if ( !nErrorMsg )
+    if ( !pnErrorMsg )
         pnErrorMsg = &nErrorMsg;
 
     /* get our message */
@@ -186,6 +186,10 @@ SQLRETURN   INSTAPI SQLInstallerErrorW(WORD iError,
 			_single_copy_to_wide( lpszErrorMsg, msg, cbErrorMsgMax );
 		}
 	}
+
+    if ( msg ) {
+        free( msg );
+    }
 
 	return ret;
 }
