@@ -182,7 +182,7 @@ static int _check_ini_cache( int *ret,
         if ( pRetBuffer && !ini_cache -> value )
             continue;
 
-        if ( nRetBuffer <= ini_cache -> buffer_size )
+        if ( nRetBuffer < ini_cache -> buffer_size )
             continue;
 
         if ( pRetBuffer )
