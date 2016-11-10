@@ -7,8 +7,9 @@
     * Rename some local mutex functions to avoid name clashes
     * Assorted fixes (Thanks Markus * 2)
     * Fix regression in ini caching
+    * Mkae SQLDrivers look in user as well as system odbcinst.ini for driver attributes
 
-32st-Aug-2015
+3rd-Aug-2015
 2.3.4
 
     * Fix typo in the loading of the cursor lib, reports
