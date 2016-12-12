@@ -7,7 +7,9 @@
     * Rename some local mutex functions to avoid name clashes
     * Assorted fixes (Thanks Markus * 2)
     * Fix regression in ini caching
-    * Mkae SQLDrivers look in user as well as system odbcinst.ini for driver attributes
+    * Make SQLDrivers look in user as well as system odbcinst.ini for driver attributes
+    * If in use, clear the ini cache when a write is done via SQLWritePrivateProfileString() so 
+      the new value is read
 
 3rd-Aug-2015
 2.3.4

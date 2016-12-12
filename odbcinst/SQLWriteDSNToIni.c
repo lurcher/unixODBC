@@ -13,6 +13,8 @@
 #include <config.h>
 #include <odbcinstext.h>
 
+extern void __clear_ini_cache( void );
+
 BOOL SQLWriteDSNToIni(			LPCSTR	pszDSN,
 								LPCSTR	pszDriver )
 {
@@ -76,6 +78,8 @@ BOOL SQLWriteDSNToIni(			LPCSTR	pszDSN,
 	}
 
 	iniClose( hIni );
+
+    __clear_ini_cache();
 
 	return TRUE;
 }

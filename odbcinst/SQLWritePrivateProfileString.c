@@ -13,6 +13,8 @@
 #include <config.h>
 #include <odbcinstext.h>
 
+extern void __clear_ini_cache( void );
+
 BOOL SQLWritePrivateProfileString(
 								LPCSTR	pszSection,
 								LPCSTR	pszEntry,
@@ -115,6 +117,8 @@ BOOL SQLWritePrivateProfileString(
 	}
 
 	iniClose( hIni );
+
+    __clear_ini_cache();
 
 	return TRUE;
 }

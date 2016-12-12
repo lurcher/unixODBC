@@ -249,8 +249,35 @@ static void _save_ini_cache( int ret,
     ini_cache_head = ini_cache;
 }
 
+static void _clear_ini_cache( void ) 
+{
+    struct ini_cache *ini_cache = ini_cache_head, *prev = NULL;
+
+    while (( ini_cache = ini_cache_head ) != NULL  )
+    {
+        ini_cache_head = ini_cache -> next;
+
+        if ( ini_cache -> fname )
+            free( ini_cache -> fname );
+
+        if ( ini_cache -> section )
+            free( ini_cache -> section );
+
+        if ( ini_cache -> entry )
+            free( ini_cache -> entry );
+
+        if ( ini_cache -> value )
+            free( ini_cache -> value );
+
+        if ( ini_cache -> default_value )
+            free( ini_cache -> default_value );
+
+        free( ini_cache );
+    }
+}
+
 /*
- * wrappers to provide therad safety
+ * wrappers to provide thread safety
  */
 
 static int check_ini_cache( int *ret,
@@ -299,6 +326,14 @@ static void save_ini_cache( int ret,
 	mutex_exit( &mutex_ini );
 }
 
+void __clear_ini_cache( void ) 
+{
+	mutex_entry( &mutex_ini );
+
+    _clear_ini_cache();
+
+	mutex_exit( &mutex_ini );
+}
 
 #else
 
@@ -320,6 +355,10 @@ static void save_ini_cache( int ret,
                     LPSTR   pRetBuffer,
                     int     nRetBuffer,
                     LPCSTR  pszFileName )
+{
+}
+
+void __clear_ini_cache( void ) 
 {
 }
 
