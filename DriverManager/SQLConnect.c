@@ -2989,6 +2989,56 @@ static void close_pooled_connection( CPOOL *ptr )
     __clean_desc_from_dbc( &ptr -> connection );
 }
 
+/*
+ * if a environment gets released from the application, we need to remove any pooled connections that belong to that 
+ * environment
+ */
+
+void __strip_from_pool( DMHENV env )
+{
+    time_t current_time;
+    SQLINTEGER dead;
+    CPOOL *ptr, *prev;
+    int has_checked = 0;
+
+    mutex_pool_entry();
+
+    current_time = time( NULL );
+
+    /*
+     * look in the list of connections for one that matches
+     */
+
+restart:;
+
+    for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
+    {
+        if ( ptr -> connection.environment == env ) {
+            /*
+             * disconnect and remove
+             */
+
+            close_pooled_connection( ptr );
+
+            if ( prev )
+            {
+                prev -> next = ptr -> next;
+                free( ptr );
+            }
+            else
+            {
+                pool_head = ptr -> next;
+                free( ptr );
+            }
+
+            goto restart;
+        }
+    }
+
+    mutex_pool_exit();
+}
+
+
 int search_for_pool( DMHDBC connection,
            SQLCHAR *server_name,
            SQLSMALLINT name_length1,

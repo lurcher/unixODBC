@@ -810,6 +810,7 @@ void __get_attr( char ** cp, char ** keyword, char ** value );
 struct con_pair * __get_pair( char ** cp );
 int __append_pair( struct con_struct *con_str, char *kword, char *value );
 void __handle_attr_extensions_cs( DMHDBC connection, struct con_struct *con_str );
+void __strip_from_pool( DMHENV env );
 
 /*
  * the following two are part of a effort to get a particular unicode driver working

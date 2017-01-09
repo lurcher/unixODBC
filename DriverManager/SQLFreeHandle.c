@@ -244,6 +244,11 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
             thread_release( SQL_HANDLE_ENV, environment );
 
+            /*
+             * release any pooled connections that are using this environment
+             */
+            __strip_from_pool( environment );
+
             __release_env( environment );
             return SQL_SUCCESS;
         }
