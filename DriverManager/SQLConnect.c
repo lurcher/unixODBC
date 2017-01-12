@@ -2435,7 +2435,7 @@ static void release_env( DMHDBC connection )
 
         mutex_lib_entry();
 
-        if ( connection -> env_list_ent )
+        if ( connection -> env_list_ent && connection -> environment )
         {
             env_lib_list = connection -> environment -> env_lib_list;
             while( env_lib_list )
@@ -2990,8 +2990,8 @@ static void close_pooled_connection( CPOOL *ptr )
 }
 
 /*
- * if a environment gets released from the application, we need to remove any pooled connections that belong to that 
- * environment
+ * if a environment gets released from the application, we need to remove any referenvce to that environment 
+ * in pooled connections that belong to that environment
  */
 
 void __strip_from_pool( DMHENV env )
@@ -3009,29 +3009,11 @@ void __strip_from_pool( DMHENV env )
      * look in the list of connections for one that matches
      */
 
-restart:;
-
     for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
     {
         if ( ptr -> connection.environment == env ) {
-            /*
-             * disconnect and remove
-             */
 
-            close_pooled_connection( ptr );
-
-            if ( prev )
-            {
-                prev -> next = ptr -> next;
-                free( ptr );
-            }
-            else
-            {
-                pool_head = ptr -> next;
-                free( ptr );
-            }
-
-            goto restart;
+            ptr -> connection.environment = NULL;
         }
     }
 
@@ -3466,7 +3448,12 @@ restart:;
         connection -> ex_fetch_mapping = ptr -> connection.ex_fetch_mapping;
         connection -> dont_dlclose = ptr -> connection.dont_dlclose;
         connection -> bookmarks_on = ptr -> connection.bookmarks_on;
-        connection -> environment = ptr -> connection.environment;
+
+        /*
+         * copy current environment into the pooled connection
+         */
+
+        ptr -> connection.environment = connection -> environment;
 
         strcpy( connection -> dsn, ptr -> connection.dsn );
 

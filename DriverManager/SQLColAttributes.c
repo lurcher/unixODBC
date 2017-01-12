@@ -287,7 +287,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
 
     if ( column_number == 0 &&
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
-            field_identifier != SQL_DESC_COUNT )
+            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -298,6 +298,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
         __post_internal_error_api( &statement -> error,
                 ERROR_07009, NULL,
                 statement -> connection -> environment -> requested_version,
+                
                 SQL_API_SQLCOLATTRIBUTES );
 
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
@@ -344,7 +345,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
     }
     /*
     else if ( statement -> state == STATE_S2 &&
-            field_identifier != SQL_DESC_COUNT )
+            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

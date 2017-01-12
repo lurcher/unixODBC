@@ -11,6 +11,7 @@
     * If in use, clear the ini cache when a write is done via SQLWritePrivateProfileString() so 
       the new value is read
     * Fix problem with pooling if the environment was released by the application
+    * Add check for SQL_COLUMN_COUNT in SQLColAttribute
 
 3rd-Aug-2015
 2.3.4

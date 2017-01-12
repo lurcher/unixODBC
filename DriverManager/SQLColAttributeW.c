@@ -163,7 +163,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
 
     if ( column_number == 0 &&
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
-            field_identifier != SQL_DESC_COUNT )
+            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -214,7 +214,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
     }
     /*
     else if ( statement -> state == STATE_S2 &&
-            field_identifier != SQL_DESC_COUNT )
+            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
