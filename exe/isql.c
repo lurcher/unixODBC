@@ -1732,7 +1732,7 @@ static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt )
     {
         if ( hStmt )
         {
-            while ( SQLError( hEnv, hDbc, hStmt, szSqlState, &nNativeError, szError, 500, &nErrorMsg ) == SQL_SUCCESS )
+            while ( SQL_SUCCEEDED( SQLError( hEnv, hDbc, hStmt, szSqlState, &nNativeError, szError, 500, &nErrorMsg )))
             {
                 printf( "[%s]%s\n", szSqlState, szError );
             }
@@ -1740,7 +1740,7 @@ static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt )
 
         if ( hDbc )
         {
-            while ( SQLError( hEnv, hDbc, 0, szSqlState, &nNativeError, szError, 500, &nErrorMsg ) == SQL_SUCCESS )
+            while ( SQL_SUCCEEDED( SQLError( hEnv, hDbc, 0, szSqlState, &nNativeError, szError, 500, &nErrorMsg )))
             {
                 printf( "[%s]%s\n", szSqlState, szError );
             }
@@ -1748,7 +1748,7 @@ static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt )
 
         if ( hEnv )
         {
-            while ( SQLError( hEnv, 0, 0, szSqlState, &nNativeError, szError, 500, &nErrorMsg ) == SQL_SUCCESS )
+            while ( SQL_SUCCEEDED( SQLError( hEnv, 0, 0, szSqlState, &nNativeError, szError, 500, &nErrorMsg )))
             {
                 printf( "[%s]%s\n", szSqlState, szError );
             }
