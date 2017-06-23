@@ -670,6 +670,7 @@ void __post_internal_error_ex_w( EHEAD *error_handle,
         SQLWCHAR *message_text,
         int class_origin,
         int subclass_origin );
+int function_return_nodrv( int level, void *handle, int ret_code );
 int function_return_ex( int level, void * handle, int ret_code, int save_to_diag );
 void function_entry( void *handle );
 void setup_error_head( EHEAD *error_header, void *handle, int handle_type );

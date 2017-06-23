@@ -230,7 +230,7 @@ SQLRETURN SQLBrowseConnectW(
                 ERROR_08002, NULL, 
                 connection -> environment -> requested_version );
 
-        return function_return( IGNORE_THREAD, connection, SQL_ERROR );
+        return function_return_nodrv( IGNORE_THREAD, connection, SQL_ERROR );
     }
 
     /*
@@ -275,7 +275,7 @@ SQLRETURN SQLBrowseConnectW(
                         connection -> environment -> requested_version );
                 __release_conn( &con_struct );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             __generate_connection_string( &con_struct, in_str, sizeof( in_str ));
@@ -302,7 +302,7 @@ SQLRETURN SQLBrowseConnectW(
                         ERROR_IM012, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             sprintf( in_str, "DSN=%s;", dsn );
@@ -324,7 +324,7 @@ SQLRETURN SQLBrowseConnectW(
                         connection -> environment -> requested_version );
                 __release_conn( &con_struct );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             __generate_connection_string( &con_struct, in_str, sizeof( in_str ));
@@ -347,7 +347,7 @@ SQLRETURN SQLBrowseConnectW(
                     LOG_INFO,
                     "Error: connect_part_one fails" );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( !CHECK_SQLBROWSECONNECTW( connection ) &&
@@ -365,7 +365,7 @@ SQLRETURN SQLBrowseConnectW(
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
     }
     else
@@ -662,5 +662,5 @@ SQLRETURN SQLBrowseConnectW(
         ret = SQL_SUCCESS_WITH_INFO;
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return function_return_nodrv( SQL_HANDLE_DBC, connection, ret );
 }

@@ -185,7 +185,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
                 ERROR_HY010, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
     /*
@@ -211,7 +211,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
                 ERROR_HY010, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
     if ( descriptor -> connection -> unicode_driver ||
@@ -229,7 +229,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
                 ERROR_IM001, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
-        	return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+        	return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
 		}
 
     	ret = SQLSETDESCFIELDW( descriptor -> connection,
@@ -268,7 +268,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
                 ERROR_IM001, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
-        	return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+        	return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
 		}
 
 		/*

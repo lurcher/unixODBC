@@ -200,7 +200,7 @@ SQLRETURN SQLNativeSqlW(
                 ERROR_HY009, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( cb_sql_str_in < 0 &&
@@ -216,7 +216,7 @@ SQLRETURN SQLNativeSqlW(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( sz_sql_str &&
@@ -232,7 +232,7 @@ SQLRETURN SQLNativeSqlW(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( connection -> state == STATE_C2 ||
@@ -248,7 +248,7 @@ SQLRETURN SQLNativeSqlW(
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( connection -> unicode_driver ||
@@ -266,7 +266,7 @@ SQLRETURN SQLNativeSqlW(
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         ret = SQLNATIVESQLW( connection,
@@ -294,7 +294,7 @@ SQLRETURN SQLNativeSqlW(
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         as1 = (SQLCHAR*) unicode_to_ansi_alloc( sz_sql_str_in, cb_sql_str_in, connection, &clen );

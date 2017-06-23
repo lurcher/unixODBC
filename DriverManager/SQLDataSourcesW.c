@@ -143,7 +143,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 ERROR_HY010, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( buffer_length1 < 0 || buffer_length2 < 0 )
@@ -158,7 +158,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 ERROR_HY090, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( direction != SQL_FETCH_FIRST &&
@@ -176,7 +176,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 ERROR_HY103, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     /*
@@ -325,5 +325,5 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 environment -> msg );
     }
 
-    return function_return( SQL_HANDLE_ENV, environment, ret );
+    return function_return_nodrv( SQL_HANDLE_ENV, environment, ret );
 }

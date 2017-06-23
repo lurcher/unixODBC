@@ -169,7 +169,7 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     __check_for_function( connection, function_id, supported );
@@ -189,5 +189,5 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
                 connection -> msg );
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
+    return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
 }

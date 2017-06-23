@@ -168,14 +168,14 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 #if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
         if ( statement -> connection -> protection_level == 3 ) 
         {
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
         else 
         {
-            return function_return( IGNORE_THREAD, statement, SQL_ERROR );
+            return function_return_nodrv( IGNORE_THREAD, statement, SQL_ERROR );
         }
 #else 
-        return function_return( IGNORE_THREAD, statement, SQL_ERROR );
+        return function_return_nodrv( IGNORE_THREAD, statement, SQL_ERROR );
 #endif
     }
 

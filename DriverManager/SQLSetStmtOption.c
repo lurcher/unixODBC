@@ -224,7 +224,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                  ERROR_S1011, NULL,
                  statement -> connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
         else if ( statement -> state == STATE_S4 ||
                 statement -> state == STATE_S5 ||
@@ -241,7 +241,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                  ERROR_24000, NULL,
                  statement -> connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
         else if ( statement -> state == STATE_S8 ||
                 statement -> state == STATE_S9 ||
@@ -264,7 +264,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                      ERROR_S1011, NULL,
                      statement -> connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
             }
             else
             {
@@ -278,7 +278,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                      ERROR_S1010, NULL,
                      statement -> connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
             }
         }
     }
@@ -300,7 +300,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                  ERROR_S1010, NULL,
                  statement -> connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
 
@@ -317,7 +317,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 ERROR_HY017, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -337,7 +337,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 ERROR_HY024, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -455,7 +455,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*

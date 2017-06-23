@@ -253,7 +253,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 ERROR_HY090, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -286,7 +286,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 ERROR_HY010, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
 	/*
@@ -306,7 +306,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 ERROR_HY003, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
 	}
 
     if ( !CHECK_SQLBINDCOL( statement -> connection ))
@@ -321,7 +321,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     ret = SQLBINDCOL( statement -> connection ,

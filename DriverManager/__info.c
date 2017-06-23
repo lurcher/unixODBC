@@ -4853,6 +4853,17 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
     while( SQL_SUCCEEDED( ret ));
 }
 
+/* Return without collecting diag recs from the handle - to be called if the
+   DM function is returning before calling the driver function. */
+int function_return_nodrv( int level, void *handle, int ret_code) 
+{
+    if ( level != IGNORE_THREAD )
+    {
+        thread_release( level, handle );
+    }
+    return ret_code;
+}
+
 /*
  * capture function returns and check error's if necessary
  */

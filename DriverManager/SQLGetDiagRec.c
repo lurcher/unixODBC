@@ -379,7 +379,8 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
         }
         return ret;
     }
-    else if ( !__is_env( head ) && __get_connection( head ) -> state != STATE_C2 )
+    else if ( !__is_env( head ) && __get_connection( head ) -> state != STATE_C2
+        && head->sql_diag_head.error_count )
     {
         ERROR *ptr;
         SQLWCHAR *s1 = NULL, *s2 = NULL;

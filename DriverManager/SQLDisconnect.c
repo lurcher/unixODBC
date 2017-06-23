@@ -229,7 +229,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 ERROR_25000, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
     else if ( connection -> state == STATE_C2 )
     {
@@ -243,7 +243,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     /*
@@ -262,7 +262,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 ERROR_HY010, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if( __check_stmt_from_dbc( connection, STATE_S13 )) {
@@ -277,7 +277,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 ERROR_HY010, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     /*
@@ -304,7 +304,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                     connection -> msg );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
     }
     else if ( pooling_enabled && connection -> pooling_timeout > 0 ) 
     {
@@ -326,7 +326,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                     connection -> msg );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
     }
 
     /*
@@ -345,7 +345,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     ret = SQLDISCONNECT( connection,

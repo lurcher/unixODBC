@@ -390,7 +390,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         ERROR_HY009, NULL, 
                         SQL_OV_ODBC3 );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             /*
@@ -411,7 +411,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                 *output_handle = SQL_NULL_HDBC;
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             connection = __alloc_dbc();
@@ -429,7 +429,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                 *output_handle = SQL_NULL_HDBC;
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             /*
@@ -555,7 +555,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         ERROR_HY009, NULL, 
                         connection -> environment -> requested_version  );
 
-                return function_return( SQL_HANDLE_DBC, connection , SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection , SQL_ERROR );
             }
 
             if ( connection -> state == STATE_C1 ||
@@ -574,7 +574,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                 *output_handle = SQL_NULL_HSTMT;
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             statement = __alloc_stmt();
@@ -592,7 +592,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                 *output_handle = SQL_NULL_HSTMT;
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             /*
@@ -638,7 +638,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                     *output_handle = SQL_NULL_HSTMT;
 
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                    return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
             }
             else
@@ -680,7 +680,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
                     *output_handle = SQL_NULL_HSTMT;
                 
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                    return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
             }
 
@@ -1146,7 +1146,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                     ERROR_HY009, NULL, 
                     connection -> environment -> requested_version  );
 
-            return function_return( SQL_HANDLE_DBC, connection , SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection , SQL_ERROR );
         }
 
         if ( connection -> state == STATE_C1 ||
@@ -1165,7 +1165,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             *output_handle = SQL_NULL_HDESC;
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         descriptor = __alloc_desc();
@@ -1183,7 +1183,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             *output_handle = SQL_NULL_HDESC;
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         /*
@@ -1217,7 +1217,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             *output_handle = SQL_NULL_HDESC;
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( SQL_SUCCEEDED( ret ))
@@ -1269,7 +1269,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 						ERROR_HY092, NULL,
 						environment -> requested_version );
 
-			return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+			return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
 		}
 		else if ( __validate_dbc( (DMHDBC) input_handle ))
 		{
@@ -1281,7 +1281,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 					ERROR_HY092, NULL,
 					connection -> environment -> requested_version );
 	
-			return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+			return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
 		}
 		else
 		{

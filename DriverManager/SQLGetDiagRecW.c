@@ -174,12 +174,12 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
          */
 
         if ( SQL_SUCCEEDED( ret ) && sqlstate )
-            __map_error_state((char*) sqlstate, __get_version( head ));
+            __map_error_state_w(sqlstate, __get_version( head ));
 
         return ret;
     }
-    else if ( rec_number <= head -> sql_diag_head.internal_count + 
-            head -> sql_diag_head.error_count )
+    else if ( !__is_env( head ) && __get_connection( head ) -> state != STATE_C2
+        && head->sql_diag_head.error_count )
     {
         ERROR *ptr;
         rec_number -= head -> sql_diag_head.internal_count;

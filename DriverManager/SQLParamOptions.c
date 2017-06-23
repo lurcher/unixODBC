@@ -185,7 +185,7 @@ SQLRETURN SQLParamOptions(
                 ERROR_S1107, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -211,7 +211,7 @@ SQLRETURN SQLParamOptions(
                 ERROR_S1010, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( CHECK_SQLPARAMOPTIONS( statement -> connection ))
@@ -265,7 +265,7 @@ SQLRETURN SQLParamOptions(
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( log_info.log_flag )

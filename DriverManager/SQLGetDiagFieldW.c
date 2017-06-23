@@ -353,6 +353,10 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
         {
             SQLINTEGER val;
             
+            if ( rec_number > 0 )
+            {
+                return SQL_ERROR;
+            }
             val = head -> sql_diag_head.internal_count + 
                 head -> sql_diag_head.error_count;
 

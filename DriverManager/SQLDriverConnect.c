@@ -1818,5 +1818,5 @@ SQLRETURN SQLDriverConnect(
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+    return function_return_nodrv( SQL_HANDLE_DBC, connection, ret_from_connect );
 }

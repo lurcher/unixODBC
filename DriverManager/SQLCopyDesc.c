@@ -228,8 +228,8 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 ERROR_HY010, NULL,
                 src_descriptor -> connection -> environment -> requested_version );
 
-			function_return( SQL_HANDLE_DESC, target_descriptor, SQL_SUCCESS );
-        	return function_return( SQL_HANDLE_DESC, src_descriptor, SQL_ERROR );
+			function_return_nodrv( SQL_HANDLE_DESC, target_descriptor, SQL_SUCCESS );
+        	return function_return_nodrv( SQL_HANDLE_DESC, src_descriptor, SQL_ERROR );
     	}
 	}
 
@@ -252,7 +252,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 ERROR_HY010, NULL,
                 target_descriptor -> connection -> environment -> requested_version );
 
-        	return function_return( IGNORE_THREAD, src_descriptor, SQL_ERROR );
+        	return function_return_nodrv( IGNORE_THREAD, src_descriptor, SQL_ERROR );
     	}
 	}
 
@@ -279,7 +279,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( src_descriptor -> msg, 
+            sprintf( target_descriptor -> msg, 
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
@@ -287,10 +287,10 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     __LINE__, 
                     LOG_INFO, 
                     LOG_INFO, 
-                    src_descriptor -> msg );
+                    target_descriptor -> msg );
         }
 
-        return function_return( IGNORE_THREAD, src_descriptor, ret );
+        return function_return( IGNORE_THREAD, target_descriptor, ret );
     }
     else
     {
@@ -328,7 +328,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
             else
                 thread_release( SQL_HANDLE_ENV, src_descriptor -> connection -> environment );
 
-            return function_return( IGNORE_THREAD, target_descriptor, SQL_ERROR );
+            return function_return_nodrv( IGNORE_THREAD, target_descriptor, SQL_ERROR );
         }
 
         /*

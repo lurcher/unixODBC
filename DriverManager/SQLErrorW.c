@@ -141,7 +141,7 @@ static SQLRETURN extract_sql_error_w( EHEAD *head,
     {
         wide_strcpy( sqlstate, err -> sqlstate );
     }
-    if ( buffer_length < wide_strlen( err -> msg ) + 1 )
+    if ( message_text && buffer_length < wide_strlen( err -> msg ) + 1 )
     {
         ret = SQL_SUCCESS_WITH_INFO;
     }

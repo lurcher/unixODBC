@@ -235,7 +235,7 @@ SQLRETURN SQLBindParameter(
                 statement -> connection -> environment -> requested_version,
                 SQL_API_SQLBINDPARAMETER );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( cb_value_max < 0 && cb_value_max != SQL_NTS )
@@ -250,7 +250,7 @@ SQLRETURN SQLBindParameter(
                 ERROR_HY090, NULL, 
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( rgb_value == NULL &&
@@ -267,7 +267,7 @@ SQLRETURN SQLBindParameter(
                 ERROR_HY009, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( statement -> connection -> environment -> requested_version == SQL_OV_ODBC3_80 ) {
@@ -287,7 +287,7 @@ SQLRETURN SQLBindParameter(
                     ERROR_HY105, NULL,
                     statement -> connection -> environment -> requested_version );
     
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
     else {
@@ -305,7 +305,7 @@ SQLRETURN SQLBindParameter(
                     ERROR_HY105, NULL,
                     statement -> connection -> environment -> requested_version );
     
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
 
@@ -347,7 +347,7 @@ SQLRETURN SQLBindParameter(
                 ERROR_HY010, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
 	/*
@@ -366,7 +366,7 @@ SQLRETURN SQLBindParameter(
                 ERROR_HY003, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
 	}
 
     if ( CHECK_SQLBINDPARAMETER( statement -> connection ))
@@ -407,7 +407,7 @@ SQLRETURN SQLBindParameter(
                 ERROR_IM001, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( log_info.log_flag )

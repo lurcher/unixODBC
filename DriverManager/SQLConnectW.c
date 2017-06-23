@@ -223,7 +223,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     /*
@@ -241,7 +241,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                 ERROR_08002, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( name_length1 && server_name )
@@ -262,7 +262,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                         ERROR_HY090, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
         }
         else
@@ -281,7 +281,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                         ERROR_HY090, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
         }
         memcpy( dsn, server_name, sizeof( dsn[ 0 ] ) * len );
@@ -299,7 +299,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                 ERROR_IM010, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
     else
     {
@@ -335,7 +335,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                     ERROR_IM002, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
     }
 
@@ -355,7 +355,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
     {
         __disconnect_part_four( connection );       /* release unicode handles */
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( !CHECK_SQLCONNECTW( connection ) &&
@@ -373,7 +373,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( CHECK_SQLCONNECTW( connection ))
@@ -679,5 +679,5 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+    return function_return_nodrv( SQL_HANDLE_DBC, connection, ret_from_connect );
 }

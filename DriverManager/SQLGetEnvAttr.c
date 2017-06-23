@@ -251,7 +251,7 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
                 ERROR_HY092, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( log_info.log_flag )

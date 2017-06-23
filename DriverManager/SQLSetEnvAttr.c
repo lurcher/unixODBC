@@ -214,7 +214,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                         ERROR_HY024, NULL,
                         environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             environment -> connection_pooling = ptr;
@@ -238,7 +238,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                         ERROR_HY024, NULL,
                         environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             environment -> cp_match = ptr;
@@ -263,7 +263,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                         ERROR_HY024, NULL,
                         environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
             else
             {
@@ -279,7 +279,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                             ERROR_S1010, NULL,
                             environment -> requested_version );
 
-                    return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                    return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                 }
 
                 environment -> requested_version = ptr;
@@ -310,7 +310,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                         ERROR_HYC00, NULL,
                         environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
         }
         break;
@@ -329,7 +329,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
              */
             putenv( strdup( str ));
 
-            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
         }
         break;
 
@@ -351,7 +351,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                 ERROR_HY092, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( log_info.log_flag )
@@ -367,5 +367,5 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                 environment -> msg );
     }
 
-    return function_return( SQL_HANDLE_ENV, environment, SQL_SUCCESS );
+    return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_SUCCESS );
 }

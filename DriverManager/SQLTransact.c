@@ -229,7 +229,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_08003, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         /*
@@ -248,7 +248,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_HY010, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( completion_type != SQL_COMMIT &&
@@ -264,7 +264,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_HY012, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( CHECK_SQLTRANSACT( connection ))
@@ -293,7 +293,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if( SQL_SUCCEEDED(ret) )
@@ -405,7 +405,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     ERROR_HY012, NULL,
                     environment -> requested_version );
 
-            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
         }
 
         if ( environment -> state == STATE_E2 )
@@ -433,7 +433,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                                 ERROR_HY010, NULL,
                                 environment -> requested_version );
             
-                        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                     }
                 }
 
@@ -509,7 +509,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                             ERROR_IM001, NULL,
                             environment -> requested_version );
 
-                        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                     }
                 }
 

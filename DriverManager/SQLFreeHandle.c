@@ -239,7 +239,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         ERROR_HY010, NULL,
                         environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             thread_release( SQL_HANDLE_ENV, environment );
@@ -309,7 +309,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         ERROR_HY010, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
 
             environment -> connection_count --;
@@ -413,7 +413,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                           ERROR_HY010, NULL,
                           statement -> connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
             }
 
             if ( !CHECK_SQLFREEHANDLE( statement -> connection ))
@@ -430,7 +430,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                             ERROR_IM001, NULL,
                             statement -> connection -> environment -> requested_version );
 
-                    return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                    return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
                 }
                 else
                 {
@@ -550,7 +550,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 						ERROR_HY017, NULL,
 						connection -> environment -> requested_version );
 		
-				return function_return( IGNORE_THREAD, descriptor, SQL_ERROR );
+				return function_return_nodrv( IGNORE_THREAD, descriptor, SQL_ERROR );
 			}
 		
             thread_protect( SQL_HANDLE_DESC, descriptor );
@@ -567,7 +567,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
             }
             else
             {

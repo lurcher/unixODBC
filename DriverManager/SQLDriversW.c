@@ -173,7 +173,7 @@ SQLRETURN SQLDriversW(
                 ERROR_HY010, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( cb_driver_desc_max < 0 )
@@ -188,7 +188,7 @@ SQLRETURN SQLDriversW(
                 ERROR_HY090, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( cb_drvr_attr_max < 0
@@ -204,7 +204,7 @@ SQLRETURN SQLDriversW(
                 ERROR_HY090, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( fdirection != SQL_FETCH_FIRST &&
@@ -220,7 +220,7 @@ SQLRETURN SQLDriversW(
                 ERROR_HY103, NULL,
                 environment -> requested_version );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }
 
     if ( fdirection == SQL_FETCH_FIRST )
@@ -451,5 +451,5 @@ try_again:
                 environment -> msg );
     }
 
-    return function_return( SQL_HANDLE_ENV, environment, ret );
+    return function_return_nodrv( SQL_HANDLE_ENV, environment, ret );
 }

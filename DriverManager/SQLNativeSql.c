@@ -230,7 +230,7 @@ SQLRETURN SQLNativeSql(
                 ERROR_HY009, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( cb_sql_str_in < 0 &&
@@ -246,7 +246,7 @@ SQLRETURN SQLNativeSql(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( sz_sql_str &&
@@ -262,7 +262,7 @@ SQLRETURN SQLNativeSql(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( connection -> state == STATE_C2 ||
@@ -278,7 +278,7 @@ SQLRETURN SQLNativeSql(
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( connection -> unicode_driver )
@@ -297,7 +297,7 @@ SQLRETURN SQLNativeSql(
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         s1 = ansi_to_unicode_alloc( sz_sql_str_in, cb_sql_str_in, connection, NULL  );
@@ -340,7 +340,7 @@ SQLRETURN SQLNativeSql(
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         ret = SQLNATIVESQL( connection,

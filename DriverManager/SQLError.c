@@ -231,7 +231,7 @@ static SQLRETURN extract_sql_error( EHEAD *head,
 
     str = unicode_to_ansi_alloc( err -> msg, SQL_NTS, connection, NULL );
 
-    if ( buffer_length < strlen( str ) + 1 )
+    if ( message_text && buffer_length < strlen( str ) + 1 )
     {
         ret = SQL_SUCCESS_WITH_INFO;
     }

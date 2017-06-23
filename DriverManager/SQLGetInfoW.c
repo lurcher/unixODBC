@@ -210,7 +210,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
     else if ( connection -> state == STATE_C3 )
     {
@@ -224,7 +224,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                 ERROR_08003, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     if ( buffer_length < 0 )
@@ -239,7 +239,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
     switch ( info_type )
@@ -276,30 +276,12 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
       case SQL_DRIVER_HDESC:
         {
-            if ( info_value ) 
+            DMHDESC hdesc;
+            if ( info_value && __validate_desc ( hdesc = *(DMHDESC*) info_value ) )
             {
-                DMHDESC hdesc = *((DMHDESC*) info_value); 
-
                 type = 2;
 
-                if ( __validate_desc( hdesc ))
-                {
-                    ptr = (SQLPOINTER) hdesc -> driver_desc;
-                }
-                else
-                {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
-                            "Error: HY024" );
-
-                    __post_internal_error( &connection -> error,
-                            ERROR_HY024, NULL,
-                            connection -> environment -> requested_version );
-    
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
-                }
+                ptr = (SQLPOINTER) hdesc -> driver_desc;
             }
             else
             {
@@ -313,7 +295,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
         }
         break;
@@ -325,30 +307,12 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
       case SQL_DRIVER_HSTMT:
         {
-            if ( info_value ) 
+            DMHSTMT hstmt;
+            if ( info_value && __validate_stmt( hstmt = *(DMHSTMT*)info_value ) )
             {
-                DMHSTMT hstmt = *((DMHSTMT*) info_value); 
-
                 type = 2;
 
-                if ( __validate_stmt( hstmt ))
-                {
-                    ptr = (SQLPOINTER) hstmt -> driver_stmt;
-                }
-                else
-                {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
-                            "Error: HY024" );
-    
-                    __post_internal_error( &connection -> error,
-                            ERROR_HY024, NULL,
-                            connection -> environment -> requested_version );
-    
-                    return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
-                }
+                ptr = (SQLPOINTER) hstmt -> driver_stmt;
             }
             else
             {
@@ -362,7 +326,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
         }
         break;
@@ -396,7 +360,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             ret = SQLGETINFOW( connection,
@@ -435,7 +399,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
             switch( info_type )
@@ -621,5 +585,5 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
                 connection -> msg );
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return function_return_nodrv( SQL_HANDLE_DBC, connection, ret );
 }

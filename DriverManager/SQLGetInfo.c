@@ -187,19 +187,107 @@ SQLRETURN SQLGetInfoA( SQLHDBC connection_handle,
                 string_length );
 }
 
-SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
+SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
            SQLUSMALLINT info_type,
            SQLPOINTER info_value,
            SQLSMALLINT buffer_length,
-           SQLSMALLINT *string_length )
+           SQLSMALLINT *string_length,
+           int do_checks )
 {
     DMHDBC connection = (DMHDBC)connection_handle;
     SQLRETURN ret = SQL_SUCCESS;
+    SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
     int type;
 	SQLUSMALLINT sval;
     char txt[ 30 ], *cptr;
     SQLPOINTER *ptr;
 
+    if ( do_checks )
+    {
+        if ( !__validate_dbc( connection ))
+        {
+            dm_log_write( __FILE__, 
+                        __LINE__, 
+                        LOG_INFO, 
+                        LOG_INFO, 
+                        "Error: SQL_INVALID_HANDLE" );
+
+            return SQL_INVALID_HANDLE;
+        }
+
+        function_entry( connection );
+
+        if ( log_info.log_flag )
+        {
+            sprintf( connection -> msg, "\n\t\tEntry:\
+\n\t\t\tConnection = %p\
+\n\t\t\tInfo Type = %s (%d)\
+\n\t\t\tInfo Value = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tStrLen = %p",
+                    connection,
+                    __info_as_string( s1, info_type ),
+                    info_type,
+                    info_value, 
+                    (int)buffer_length,
+                    (void*)string_length );
+
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    connection -> msg );
+        }
+
+        thread_protect( SQL_HANDLE_DBC, connection );
+
+        if ( info_type != SQL_ODBC_VER && 
+                info_type != SQL_DM_VER &&
+                connection -> state == STATE_C2 )
+        {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: 08003" );
+
+            __post_internal_error( &connection -> error,
+                    ERROR_08003, NULL,
+                    connection -> environment -> requested_version );
+
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        }
+        else if ( connection -> state == STATE_C3 )
+        {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: 08003" );
+
+            __post_internal_error( &connection -> error,
+                    ERROR_08003, NULL,
+                    connection -> environment -> requested_version );
+
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        }
+
+        if ( buffer_length < 0 )
+        {
+            dm_log_write( __FILE__, 
+                    __LINE__, 
+                    LOG_INFO, 
+                    LOG_INFO, 
+                    "Error: HY090" );
+
+            __post_internal_error( &connection -> error,
+                    ERROR_HY090, NULL,
+                    connection -> environment -> requested_version );
+
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        }
+    }
+    
     switch ( info_type )
     {
       case SQL_DATA_SOURCE_NAME:
@@ -234,30 +322,12 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
 
       case SQL_DRIVER_HDESC:
         {
-            if ( info_value ) 
+            DMHDESC hdesc;
+            if ( info_value && __validate_desc ( hdesc = *(DMHDESC*) info_value ) )
             {
-                DMHDESC hdesc = *((DMHDESC*) info_value); 
-
                 type = 2;
 
-                if ( __validate_desc( hdesc ))
-                {
-                    ptr = (SQLPOINTER) hdesc -> driver_desc;
-                }
-                else
-                {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
-                            "Error: HY024" );
-    
-                    __post_internal_error( &connection -> error,
-                            ERROR_HY024, NULL,
-                            connection -> environment -> requested_version );
-
-                    return SQL_ERROR;
-                }
+                ptr = (SQLPOINTER) hdesc -> driver_desc;
             }
             else
             {
@@ -271,7 +341,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
 
-                return SQL_ERROR;
+                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
         }
         break;
@@ -283,30 +353,14 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
 
       case SQL_DRIVER_HSTMT:
         {
-            if ( info_value ) 
+            DMHSTMT hstmt;
+            if ( info_value && __validate_stmt( hstmt = *(DMHSTMT*)info_value ) )
             {
-                DMHSTMT hstmt = *((DMHSTMT*) info_value); 
-
                 type = 2;
 
-                if ( __validate_stmt( hstmt ))
-                {
-                    ptr = (SQLPOINTER) hstmt -> driver_stmt;
-                }
-                else
-                {
-                    dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
-                        "Error: HY024" );
+                ptr = (SQLPOINTER) hstmt -> driver_stmt;
 
-                    __post_internal_error( &connection -> error,
-                        ERROR_HY024, NULL,
-                        connection -> environment -> requested_version );
-
-                    return SQL_ERROR;
-                }
+                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
             else
             {
@@ -320,7 +374,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
 
-                return SQL_ERROR;
+                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
         }
         break;
@@ -356,7 +410,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return SQL_ERROR;
+                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
 
             switch( info_type )
@@ -483,7 +537,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                         ERROR_IM001, NULL,
                         connection -> environment -> requested_version );
 
-                return SQL_ERROR;
+                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
 
             ret = SQLGETINFO( connection,
@@ -494,7 +548,7 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
                     string_length );
         }
 
-        return ret;
+        return do_checks ? function_return( SQL_HANDLE_DBC, connection, ret ) : ret;
     }
 
     if ( type == 1 )
@@ -533,7 +587,17 @@ SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
             *string_length = sizeof( SQLUSMALLINT );
 	}
 
-    return ret;
+    return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, ret ) : ret;
+}
+
+SQLRETURN __SQLGetInfo( SQLHDBC connection_handle,
+           SQLUSMALLINT info_type,
+           SQLPOINTER info_value,
+           SQLSMALLINT buffer_length,
+           SQLSMALLINT *string_length )
+{
+    return SQLGetInfoInternal( connection_handle, info_type, info_value,
+        buffer_length, string_length, 0);
 }
 
 SQLRETURN SQLGetInfo( SQLHDBC connection_handle,
@@ -542,111 +606,6 @@ SQLRETURN SQLGetInfo( SQLHDBC connection_handle,
            SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length )
 {
-    DMHDBC connection = (DMHDBC)connection_handle;
-    SQLRETURN ret = SQL_SUCCESS;
-    SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
-
-    /*
-     * check connection
-     */
-
-    if ( !__validate_dbc( connection ))
-    {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
-
-        return SQL_INVALID_HANDLE;
-    }
-
-    function_entry( connection );
-
-    if ( log_info.log_flag )
-    {
-        sprintf( connection -> msg, "\n\t\tEntry:\
-\n\t\t\tConnection = %p\
-\n\t\t\tInfo Type = %s (%d)\
-\n\t\t\tInfo Value = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tStrLen = %p",
-                connection,
-                __info_as_string( s1, info_type ),
-                info_type,
-                info_value, 
-                (int)buffer_length,
-                (void*)string_length );
-
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                connection -> msg );
-    }
-
-    thread_protect( SQL_HANDLE_DBC, connection );
-
-    if ( info_type != SQL_ODBC_VER && 
-            info_type != SQL_DM_VER &&
-            connection -> state == STATE_C2 )
-    {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                "Error: 08003" );
-
-        __post_internal_error( &connection -> error,
-                ERROR_08003, NULL,
-                connection -> environment -> requested_version );
-
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
-    }
-    else if ( connection -> state == STATE_C3 )
-    {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                "Error: 08003" );
-
-        __post_internal_error( &connection -> error,
-                ERROR_08003, NULL,
-                connection -> environment -> requested_version );
-
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
-    }
-
-    if ( buffer_length < 0 )
-    {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                "Error: HY090" );
-
-        __post_internal_error( &connection -> error,
-                ERROR_HY090, NULL,
-                connection -> environment -> requested_version );
-
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
-    }
-
-	ret = __SQLGetInfo(connection_handle, info_type, info_value, buffer_length, string_length);
-
-    if ( log_info.log_flag )
-    {
-        sprintf( connection -> msg, 
-                "\n\t\tExit:[%s]",
-                    __get_return_status( ret, s1 ));
-
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                connection -> msg );
-    }
-
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return SQLGetInfoInternal( connection_handle, info_type, info_value,
+        buffer_length, string_length, 1);
 }

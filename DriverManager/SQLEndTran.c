@@ -180,7 +180,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_HY092, NULL,
                     statement -> connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
         else if ( handle_type == SQL_HANDLE_DESC ) {
             if ( !__validate_desc(( DMHDESC ) handle ))
@@ -208,7 +208,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_HY092, NULL,
                     descriptor -> connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
         }
         else {
              dm_log_write( __FILE__, 
@@ -270,7 +270,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_HY012, NULL,
                     environment -> requested_version );
 
-            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
         }
 
         if ( environment -> state == STATE_E2 )
@@ -298,7 +298,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                                 ERROR_HY010, NULL,
                                 environment -> requested_version );
             
-                        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                     }
                 }
 
@@ -372,7 +372,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                                 ERROR_IM001, NULL,
                                 environment -> requested_version );
 
-                        return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                        return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                     }
                 }
 
@@ -435,7 +435,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_08003, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         /*
@@ -454,7 +454,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_HY010, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( completion_type != SQL_COMMIT &&
@@ -470,7 +470,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_HY012, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
         if ( CHECK_SQLENDTRAN( connection ))
@@ -499,7 +499,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     ERROR_IM001, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
 	    if( SQL_SUCCEEDED(ret) )
