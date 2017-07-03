@@ -101,6 +101,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
     DMHDESC descriptor = (DMHDESC) descriptor_handle;
     SQLRETURN ret;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
+    int isStrField = 0;
 
     /*
      * check descriptor
@@ -209,6 +210,99 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
         __post_internal_error( &descriptor -> error,
                 ERROR_HY010, NULL,
+                descriptor -> connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
+
+    if ( rec_number < 0 )
+    {
+        __post_internal_error( &descriptor -> error,
+                ERROR_07009, NULL,
+                descriptor -> connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
+
+    switch ( field_identifier )
+    {
+    /* Fixed-length fields: buffer_length is ignored */
+    case SQL_DESC_ALLOC_TYPE:
+    case SQL_DESC_ARRAY_SIZE:
+    case SQL_DESC_ARRAY_STATUS_PTR:
+    case SQL_DESC_BIND_OFFSET_PTR:
+    case SQL_DESC_BIND_TYPE:
+    case SQL_DESC_COUNT:
+    case SQL_DESC_ROWS_PROCESSED_PTR:
+    case SQL_DESC_AUTO_UNIQUE_VALUE:
+    case SQL_DESC_CASE_SENSITIVE:
+    case SQL_DESC_CONCISE_TYPE:
+    case SQL_DESC_DATA_PTR:
+    case SQL_DESC_DATETIME_INTERVAL_CODE:
+    case SQL_DESC_DATETIME_INTERVAL_PRECISION:
+    case SQL_DESC_DISPLAY_SIZE:
+    case SQL_DESC_FIXED_PREC_SCALE:
+    case SQL_DESC_INDICATOR_PTR:
+    case SQL_DESC_LENGTH:
+    case SQL_DESC_NULLABLE:
+    case SQL_DESC_NUM_PREC_RADIX:
+    case SQL_DESC_OCTET_LENGTH:
+    case SQL_DESC_OCTET_LENGTH_PTR:
+    case SQL_DESC_PARAMETER_TYPE:
+    case SQL_DESC_PRECISION:
+    case SQL_DESC_ROWVER:
+    case SQL_DESC_SCALE:
+    case SQL_DESC_SEARCHABLE:
+    case SQL_DESC_TYPE:
+    case SQL_DESC_UNNAMED:
+    case SQL_DESC_UNSIGNED:
+    case SQL_DESC_UPDATABLE:
+        isStrField = 0;
+        break;
+    /* Pointer to data: buffer_length must be valid */
+    case SQL_DESC_BASE_COLUMN_NAME:
+    case SQL_DESC_BASE_TABLE_NAME:
+    case SQL_DESC_CATALOG_NAME:
+    case SQL_DESC_LABEL:
+    case SQL_DESC_LITERAL_PREFIX:
+    case SQL_DESC_LITERAL_SUFFIX:
+    case SQL_DESC_LOCAL_TYPE_NAME:
+    case SQL_DESC_NAME:
+    case SQL_DESC_SCHEMA_NAME:
+    case SQL_DESC_TABLE_NAME:
+    case SQL_DESC_TYPE_NAME:
+        isStrField = 1;
+        break;
+    default:
+        isStrField = buffer_length != SQL_IS_POINTER && buffer_length != SQL_IS_INTEGER
+            && buffer_length != SQL_IS_UINTEGER && buffer_length != SQL_IS_SMALLINT &&
+            buffer_length != SQL_IS_USMALLINT;
+    }
+    
+    if ( isStrField && buffer_length < 0 && buffer_length != SQL_NTS)
+    {
+        __post_internal_error( &descriptor -> error,
+            ERROR_HY090, NULL,
+            descriptor -> connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
+
+    if ( field_identifier == SQL_DESC_COUNT && (SQLINTEGER)value < 0 )
+    {
+        __post_internal_error( &descriptor -> error,
+                ERROR_07009, NULL,
+                descriptor -> connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
+
+    if ( field_identifier == SQL_DESC_PARAMETER_TYPE && value != SQL_PARAM_INPUT
+        && value != SQL_PARAM_OUTPUT && value != SQL_PARAM_INPUT_OUTPUT &&
+        value != SQL_PARAM_INPUT_OUTPUT_STREAM && value != SQL_PARAM_OUTPUT_STREAM )
+    {
+        __post_internal_error( &descriptor -> error,
+                ERROR_HY105, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );

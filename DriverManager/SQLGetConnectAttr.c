@@ -666,7 +666,7 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
                     connection -> driver_dbc,
                     attribute,
                     s1 ? s1 : value,
-                    buffer_length,
+                    s1 ? sizeof( SQLWCHAR ) * buffer_length : buffer_length,
                     string_length );
 
                 switch( attribute )

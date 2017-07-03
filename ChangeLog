@@ -15,6 +15,42 @@
     * isql would not display long error messages. Fixed now.
     * Fix problem calling the driver to report errors if the error is from the DM and the driver 
       has not been called
+    * SQLSetConnectAttrW crashes when attempting to set SQL_ATTR_LOGIN_TIMEOUT
+    * Buffer overflow in unicode_to_ansi_copy()
+    * SQLDriverConnect with not-found FILEDSN causes crash
+    * SQLGetDescRec with null name pointer causes crash
+    * Connection string escaping does not work
+    * SQLDriverConnect/W with very long driver name causes crash
+    * Connection string with trailing empty value causes crash
+    * Freeing explicitly allocated descriptor results in writing to freed memory
+    * Buffer overflows and missing null checks in SQLConfigDataSource, SQLInstallDriverEx, and SQLWriteFileDSN
+    * Statement enters incorrect state upon SQLExecDirectW returning SQL_NO_DATA
+    * SQLBulkOperations fails to exit async state after success
+    * SQLFreeStmt causes prepared statements in S1 or S2 to erroneously transition to S3
+    * Buffer length fixes for SQLGetDiagField
+    * SQLSetConnectAttrW and Unicode string pre-connect attributes do not work
+    * SQLGetData and SQLSetPos async states are incorrect
+    * Various string conversion and length issues in SQLColAttribute(s)
+    * Missing buffer length check in SQLColAttribute(s)W
+    * SQLGetStmtAttr state handling incorrect in S5, S6, and S7 (via SQLExtendedFetch)
+    * SQLSetPos and SQLExtendedFetch state management fixes
+    * SQLExecDirect/W erroneous transition to S1 upon error in S5
+    * Async SQLGetData and SQLExecDirect/W fails to restore state upon cancellation
+    * SQLFetchScroll cannot move cursor back into the rowset
+    * SQLSetDescField doesn't adjust the length of the buffer when converting to unicode
+    * SQLGetDescField/W and SQLSetDescField/W do not check for negative buffer lengths
+    * SQLSetStmtAttrW SQL_ATTR_APP_PARAM_DESC and SQL_ATTR_APP_ROW_DESC does not accept null
+    * SQLGetData async state reentrancy issues
+    * SQLDriversW off-by-one in enumerating driver list
+    * SQLPrimaryKeys does not pass length in characters to driver
+    * SQLGetConnectAttr with string attributes truncates to half buffer length
+    * SQLTransact with autocommit enabled erroneously changes statement state
+    * SQLDataSources/W fails to reset list position upon end
+    * SQLGetEnvAttr successfully returns unset SQL_ATTR_ODBC_VERSION
+    * Lack of SQL_HANDLE_SENV support
+    * SQLAllocEnv fails to set environment version correctly
+    * SQLMoreResults with streamed output parameters returns unexpected HY010
+    * Custom pre-connect pointer attributes are truncated to 32 bits
 
 3rd-Aug-2015
 2.3.4

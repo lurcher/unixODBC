@@ -283,6 +283,7 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                 }
 
                 environment -> requested_version = ptr;
+                environment -> version_set = 1;
             }
         }
         break;

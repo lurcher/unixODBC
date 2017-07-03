@@ -21,14 +21,14 @@ BOOL SQLWriteFileDSN(			LPCSTR	pszFileName,
 
 	if ( pszFileName[0] == '/' )
 	{
-		strcpy( szFileName, pszFileName );
+		strncpy( szFileName, sizeof(szFileName) - 5, pszFileName );
 	}
 	else
 	{	
 		char szPath[ODBC_FILENAME_MAX+1];
 		*szPath = '\0';
 		_odbcinst_FileINI( szPath );
-		sprintf( szFileName, "%s/%s", szPath, pszFileName );
+		snprintf( szFileName, sizeof(szFileName) - 5, "%s/%s", szPath, pszFileName );
 	}
 
     if ( strlen( szFileName ) < 4 || strcmp( szFileName + strlen( szFileName ) - 4, ".dsn" ))

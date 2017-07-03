@@ -32,7 +32,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 	char	b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
 
 	/* SANITY CHECKS */
-	if ( pszDriver == NULL )
+	if ( pszDriver == NULL || pszAttributes == NULL )
 	{
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
 		return FALSE;
@@ -95,7 +95,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 		if ( szDriverSetup[ 0 ] == '\0' ) 
 		{
 			char szError[ 512 ];
-			sprintf( szError, "Could not find Setup property for (%s) in system information", pszDriver );
+			sprintf( szError, "Could not find Setup property for (%.400s) in system information", pszDriver );
 			inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, szError );
         	__set_config_mode( ODBC_BOTH_DSN );
 			return FALSE;

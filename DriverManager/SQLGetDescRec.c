@@ -359,7 +359,7 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
         {
             free( s1 );
         }
-		if ( SQL_SUCCEEDED( ret ) && string_length ) 
+		if ( SQL_SUCCEEDED( ret ) && string_length && name ) 
 		{
 			*string_length = strlen((char*)name);
 		}

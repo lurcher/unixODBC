@@ -263,6 +263,14 @@ SQLRETURN SQLSetPos(
     if ( statement -> state == STATE_S11 ||
             statement -> state == STATE_S12 )
     {
+        if ( statement -> interupted_func == SQL_API_SQLEXTENDEDFETCH )
+        {
+            __post_internal_error( &statement -> error,
+                    ERROR_24000, NULL,
+                    statement -> connection -> environment -> requested_version );
+            return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
+        }
+
         if ( statement -> interupted_func != SQL_API_SQLSETPOS )
         {
             dm_log_write( __FILE__, 
@@ -305,16 +313,24 @@ SQLRETURN SQLSetPos(
         statement -> interupted_func = SQL_API_SQLSETPOS;
         if ( statement -> state != STATE_S11 &&
                 statement -> state != STATE_S12 )
+        {
+            statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
     }
-    else if ( SQL_SUCCEEDED( ret ))
+    }
+    else if ( SQL_SUCCEEDED( ret ) && (statement -> state == STATE_S11 || statement -> state == STATE_S12))
     {
+        statement -> state = statement -> interupted_state;
     }
     else if ( ret == SQL_NEED_DATA )
     {
         statement -> interupted_func = SQL_API_SQLSETPOS;
         statement -> interupted_state = statement -> state;
         statement -> state = STATE_S8;
+    }
+    else if (statement -> state == STATE_S11 || statement -> state == STATE_S12 )
+    {
+        statement -> state = statement -> interupted_state;
     }
 
     if ( log_info.log_flag )

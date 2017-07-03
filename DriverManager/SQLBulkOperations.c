@@ -238,6 +238,10 @@ SQLRETURN SQLBulkOperations(
         }
     }
 
+    if ( statement -> state != STATE_S11 && statement -> state != STATE_S12 )
+    {
+        statement -> interupted_state = statement -> state;
+    }
     /*
      * there are a lot of conditions that should be tested here
      */
@@ -285,6 +289,10 @@ SQLRETURN SQLBulkOperations(
         statement -> interupted_func = SQL_API_SQLBULKOPERATIONS;
         statement -> interupted_state = statement -> state;
         statement -> state = STATE_S8;
+    }
+    else
+    {
+        statement -> state = statement -> interupted_state;
     }
 
     if ( log_info.log_flag )

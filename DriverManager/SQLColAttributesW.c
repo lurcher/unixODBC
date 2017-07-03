@@ -322,6 +322,24 @@ SQLRETURN SQLColAttributesW( SQLHSTMT statement_handle,
         }
     }
 
+    switch ( field_identifier )
+    {
+        case SQL_COLUMN_LABEL:
+        case SQL_COLUMN_NAME:
+        case SQL_COLUMN_OWNER_NAME:
+        case SQL_COLUMN_QUALIFIER_NAME:
+        case SQL_COLUMN_TABLE_NAME:
+        case SQL_COLUMN_TYPE_NAME:
+            if ( buffer_length < 0 && buffer_length != SQL_NTS )
+            {
+                __post_internal_error( &statement -> error,
+                    ERROR_HY090, NULL,
+                    statement -> connection -> environment -> requested_version );
+
+                return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            }
+    }
+
     if ( statement -> connection -> unicode_driver || 
 			    CHECK_SQLCOLATTRIBUTESW( statement -> connection ) || 
 			    CHECK_SQLCOLATTRIBUTEW( statement -> connection ))

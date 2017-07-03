@@ -227,7 +227,7 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
                 else
                     statement -> state = STATE_S1;
             }
-            else
+            else if ( statement -> state >= STATE_S5 && statement -> state <= STATE_S7 )
             {
                 if ( statement -> prepared )
                     statement -> state = STATE_S3;

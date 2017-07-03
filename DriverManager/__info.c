@@ -738,7 +738,10 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
                 *clen = opt - dest;
             }
 	        /* Null terminate outside of iconv, so that the length returned does not include the null terminator. */
-	        dest[opt - dest] = '\0';
+            if ( obl )
+            {
+	            *opt = '\0';
+            }
             return dest;
         }
     }
@@ -761,7 +764,10 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
         *clen = i;
     }
 
-    dest[ i ] = '\0';
+    if (dest_len)
+    {
+        dest[ i < dest_len ? i : i-1 ] = '\0';
+    }
 
     return dest;
 }
@@ -5713,7 +5719,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         message = txt;
 
     strcpy((char*) msg, DM_ERROR_PREFIX );
-    strcat((char*) msg, message );
+    strncat((char*) msg, message, sizeof(msg) - sizeof(DM_ERROR_PREFIX) );
 
     error_handle -> return_code = ret;
 

@@ -480,10 +480,13 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 
     if ( ret == SQL_STILL_EXECUTING )
     {
-        statement -> interupted_func = SQL_API_SQLCOLATTRIBUTE;
+        statement -> interupted_func = SQL_API_SQLGETDATA;
         if ( statement -> state != STATE_S11 &&
                 statement -> state != STATE_S12 )
+        {
+            statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
+    }
     }
     else if ( SQL_SUCCEEDED( ret ) && unicode_switch )
     {
@@ -513,6 +516,17 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             *strlen_or_ind = ind_value;
         }
+    }
+
+    if ( ( SQL_SUCCEEDED( ret ) || ret == SQL_NO_DATA ) && statement -> state == STATE_S11 )
+    {
+        statement -> state = STATE_S6;
+    }
+    
+    if ( ret != SQL_STILL_EXECUTING
+        && (statement -> state == STATE_S11 || statement -> state == STATE_S12) )
+    {
+        statement -> state = statement -> interupted_state;
     }
 
     if ( statement -> state == STATE_S14 ) {

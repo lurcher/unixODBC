@@ -500,9 +500,15 @@ SQLRETURN SQLExecDirect( SQLHSTMT statement_handle,
 
         statement -> prepared = 0;
     }
-    else
+    else if ( statement -> state >= STATE_S2 && statement -> state <= STATE_S4 ||
+              statement -> state >= STATE_S11 && statement -> state <= STATE_S12 &&
+              statement -> interupted_state >= STATE_S2 && statement -> interupted_state <= STATE_S4)
     {
         statement -> state = STATE_S1;
+    }
+    else if ( statement -> state >= STATE_S11 && statement -> state <= STATE_S12 )
+    {
+        statement -> state = statement -> interupted_state;
     }
 
     if ( log_info.log_flag )

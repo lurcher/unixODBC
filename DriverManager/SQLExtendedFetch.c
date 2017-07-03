@@ -309,15 +309,24 @@ SQLRETURN SQLExtendedFetch(
         statement -> interupted_func = SQL_API_SQLEXTENDEDFETCH;
         if ( statement -> state != STATE_S11 &&
                 statement -> state != STATE_S12 )
+        {
+            statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
+    }
     }
     else if ( SQL_SUCCEEDED( ret ))
     {
+        statement -> eod = 0;
         statement -> state = STATE_S7;
     }
     else if ( ret == SQL_NO_DATA )
     {
+        statement -> eod = 1;
         statement -> state = STATE_S7;
+    }
+    else if (statement -> state == STATE_S11 || statement -> state == STATE_S12 )
+    {
+        statement -> state = statement -> interupted_state;
     }
 
     if ( log_info.log_flag )

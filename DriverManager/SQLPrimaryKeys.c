@@ -327,11 +327,8 @@ SQLRETURN SQLPrimaryKeys(
         }
 
         s1 = ansi_to_unicode_alloc( sz_catalog_name, cb_catalog_name, statement -> connection, &wlen );
-        cb_catalog_name = wlen;
         s2 = ansi_to_unicode_alloc( sz_schema_name, cb_schema_name, statement -> connection, &wlen );
-        cb_schema_name = wlen;
         s3 = ansi_to_unicode_alloc( sz_table_name, cb_table_name, statement -> connection, &wlen );
-        cb_table_name = wlen;
 
         ret = SQLPRIMARYKEYSW( statement -> connection ,
                 statement -> driver_stmt,

@@ -181,6 +181,15 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
         break;
 
       case SQL_ATTR_ODBC_VERSION:
+        if ( !environment -> version_set )
+        {
+            __post_internal_error( &environment -> error,
+                    ERROR_HY010, NULL,
+                    SQL_OV_ODBC3 );
+
+            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+        }
+
         if ( value )
         {
             memcpy( value, &environment -> requested_version,

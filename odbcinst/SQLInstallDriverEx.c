@@ -63,9 +63,9 @@ BOOL SQLInstallDriverEx(		LPCSTR	pszDriver,
     if ( pszPathIn )
     {
 #ifdef VMS
-        sprintf( szIniName, "%s:%s", pszPathIn, odbcinst_system_file_name( b2 ) );
+        snprintf( szIniName, sizeof(szIniName), "%s:%s", pszPathIn, odbcinst_system_file_name( b2 ) );
 #else
-        sprintf( szIniName, "%s/%s", pszPathIn, odbcinst_system_file_name( b2 ) );
+        snprintf( szIniName, sizeof(szIniName), "%s/%s", pszPathIn, odbcinst_system_file_name( b2 ) );
 #endif
     }
     else

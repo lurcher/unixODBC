@@ -220,22 +220,6 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
-    else if ( statement -> state == STATE_S13 ||
-            statement -> state == STATE_S14 ||
-            statement -> state == STATE_S15 )
-    {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
-                "Error: HY010" );
-
-        __post_internal_error( &statement -> error,
-                ERROR_HY010, NULL,
-                statement -> connection -> environment -> requested_version );
-
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
-    }
 
 #ifdef NR_PROBE
     if ( !CHECK_SQLMORERESULTS( statement -> connection ) ||

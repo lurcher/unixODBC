@@ -162,12 +162,15 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
      * check states
      */
 
-    if ( attribute == SQL_ATTR_ROW_NUMBER )
+    if ( attribute == SQL_ATTR_ROW_NUMBER || attribute == SQL_GET_BOOKMARK )
     {
         if ( statement -> state == STATE_S1 ||
                 statement -> state == STATE_S2 ||
                 statement -> state == STATE_S3 ||
-                statement -> state == STATE_S4 )
+                statement -> state == STATE_S4 ||
+                statement -> state == STATE_S5 ||
+                ( statement -> state == STATE_S6 ||
+                  statement -> state == STATE_S7 )  && statement -> eod )
         {
             dm_log_write( __FILE__, 
                     __LINE__, 

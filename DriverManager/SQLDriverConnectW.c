@@ -152,7 +152,7 @@ int got_driver = 0;    /* if we have a DRIVER or FILEDSN then ignore any DSN */
         local_str = malloc( len + 1 );
     }
 
-    unicode_to_ansi_copy( local_str, len, str, len, NULL, NULL );
+    unicode_to_ansi_copy( local_str, len+1, str, len, NULL, NULL );
 
     if ( !local_str || strlen( local_str ) == 0 ||
         ( strlen( local_str ) == 1 && *local_str == ';' ))

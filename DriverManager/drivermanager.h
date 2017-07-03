@@ -223,7 +223,7 @@ struct save_attr
     int                 attr_type;
     char                *str_attr;
     int                 str_len;
-    int                 int_attr;
+    SQLLEN              int_attr;
     struct save_attr    *next;
 };
 
@@ -275,6 +275,7 @@ typedef struct environment
     struct environment *next_class_list;/* static list of all env handles */
     char            msg[ LOG_MSG_MAX ];	/* buff to format msgs */
     int             state;              /* state of environment */
+    int             version_set;        /* whether ODBC version has been set */
     SQLINTEGER      requested_version;  /* SQL_OV_ODBC2 or SQL_OV_ODBC3 */
     int             connection_count;   /* number of hdbc of this env */
     int             sql_driver_count;   /* used for SQLDrivers */

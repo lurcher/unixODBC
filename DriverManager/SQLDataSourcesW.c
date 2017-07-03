@@ -216,6 +216,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 environment -> entry,
                 object, sizeof( object )) != INI_SUCCESS )
     {
+        environment -> entry = 0;
         ret = SQL_NO_DATA;
     }
     else

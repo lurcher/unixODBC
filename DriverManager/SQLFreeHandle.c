@@ -188,6 +188,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
     switch( handle_type )
     {
       case SQL_HANDLE_ENV:
+      case SQL_HANDLE_SENV:
         {
             DMHENV environment = (DMHENV)handle;
 
@@ -448,16 +449,6 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
             if ( SQL_SUCCEEDED( ret ))
             {
-                /*
-                 * break any association
-                 */
-
-                if ( statement -> ard ) {
-                    statement -> ard -> associated_with = NULL;
-                }
-                if ( statement -> apd ) {
-                    statement -> apd -> associated_with = NULL;
-                }
                 /*
                  * release the implicit descriptors, 
 				 * this matches the tests in SQLAllocHandle

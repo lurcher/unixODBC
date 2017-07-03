@@ -241,6 +241,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
     DMHSTMT statement = (DMHSTMT) statement_handle;
     SQLRETURN ret;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
+    int isStringAttr;
 
     /*
      * check statement
@@ -413,6 +414,42 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
         }
     }
 
+    switch( field_identifier )
+    {
+        case SQL_COLUMN_AUTO_INCREMENT:
+        case SQL_COLUMN_CASE_SENSITIVE:
+        case SQL_COLUMN_COUNT:
+        case SQL_COLUMN_DISPLAY_SIZE:
+        case SQL_COLUMN_LENGTH:
+        case SQL_COLUMN_MONEY:
+        case SQL_COLUMN_NULLABLE:
+        case SQL_COLUMN_PRECISION:
+        case SQL_COLUMN_SCALE:
+        case SQL_COLUMN_SEARCHABLE:
+        case SQL_COLUMN_TYPE:
+        case SQL_COLUMN_UNSIGNED:
+        case SQL_COLUMN_UPDATABLE:
+            isStringAttr = 0;
+            break;
+        case SQL_COLUMN_LABEL:
+        case SQL_COLUMN_NAME:
+        case SQL_COLUMN_OWNER_NAME:
+        case SQL_COLUMN_QUALIFIER_NAME:
+        case SQL_COLUMN_TABLE_NAME:
+        case SQL_COLUMN_TYPE_NAME:
+            if ( buffer_length < 0 )
+            {
+                __post_internal_error( &statement -> error,
+                    ERROR_HY090, NULL,
+                    statement -> connection -> environment -> requested_version );
+
+                return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            }
+        default:
+            isStringAttr = buffer_length >= 0;
+            break;
+    }
+
     if ( statement -> connection -> unicode_driver )
     {
         if ( !CHECK_SQLCOLATTRIBUTESW( statement -> connection ))
@@ -420,16 +457,18 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
             if ( CHECK_SQLCOLATTRIBUTEW( statement -> connection ))
             {
                 SQLWCHAR *s1 = NULL;
-
+                SQLSMALLINT unibuf_len;
                 /*
                  * map to the ODBC3 function
                  */
 
                 field_identifier = map_ca_odbc2_to_3( field_identifier );
 
-                if ( character_attribute && buffer_length > 0 )
+                if ( isStringAttr && character_attribute && buffer_length > 0 )
                 {
                     s1 = calloc( sizeof( SQLWCHAR ) * ( buffer_length + 1 ), 1);
+                    /* Do not overflow, since SQLSMALLINT can only hold -32768 <= x <= 32767 */
+                    unibuf_len = buffer_length > 16383 ? buffer_length : sizeof( SQLWCHAR ) * buffer_length;
                 }
 
                 ret = SQLCOLATTRIBUTEW( statement -> connection,
@@ -437,18 +476,14 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
                     column_number,
                     field_identifier,
                     s1 ? s1 : character_attribute,
-                    buffer_length,
+                    s1 ? unibuf_len : buffer_length,
                     string_length,
                     numeric_attribute );
 
-                if ( SQL_SUCCEEDED( ret ) && character_attribute && s1 )
+                if ( SQL_SUCCEEDED( ret ) && isStringAttr && character_attribute && buffer_length > 0 && s1 )
                 {
                     unicode_to_ansi_copy( character_attribute, buffer_length, s1, SQL_NTS, statement -> connection, NULL );
                 }
-				if ( SQL_SUCCEEDED( ret ) && string_length && character_attribute ) 
-				{
-					*string_length = strlen(character_attribute);
-				}
 
                 if ( s1 )
                 {

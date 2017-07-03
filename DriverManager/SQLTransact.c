@@ -296,7 +296,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
             return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
-        if( SQL_SUCCEEDED(ret) )
+        if( SQL_SUCCEEDED(ret) && connection -> auto_commit == SQL_AUTOCOMMIT_OFF )
         {
             SQLSMALLINT cb_value;
             SQLSMALLINT cb_value_length = sizeof(SQLSMALLINT);

@@ -570,7 +570,7 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
             connection -> txn_isolation = ( SQLLEN ) value;
             connection -> txn_isolation_set = 1;
         }
-        else
+        else if ( attribute != SQL_ATTR_LOGIN_TIMEOUT )
         {
             /*
              * save any unknown attributes untill connect
@@ -587,7 +587,7 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
             }
             else if ( string_length == SQL_NTS )
             {
-                sa -> str_attr = strdup( value );
+                sa -> str_attr = unicode_to_ansi_alloc( value, string_length, connection, NULL );
                 sa -> str_len = string_length;
             }
             else

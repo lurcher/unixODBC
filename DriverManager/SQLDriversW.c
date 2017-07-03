@@ -239,7 +239,10 @@ try_again:
                 environment -> sql_driver_count,
                 object, sizeof( object )) != INI_SUCCESS )
 	{
-        environment -> sql_driver_count = 0; 
+		/*
+		 * Set up for the next time
+		 */
+        environment -> sql_driver_count = -1; 
 		ret = SQL_NO_DATA;
 	}
 	else

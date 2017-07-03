@@ -1511,6 +1511,7 @@ void __release_desc( DMHDESC descriptor )
 {
     DMHDESC last = NULL;
     DMHDESC ptr;
+    DMHSTMT assoc_stmt;
 
     local_mutex_entry( &mutex_lists );
 #ifdef FAST_HANDLE_VALIDATE
@@ -1566,6 +1567,27 @@ void __release_desc( DMHDESC descriptor )
     }
 
     clear_error_head( &descriptor -> error );
+    /* If there are any statements still pointing to this descriptor, revert them to implicit */
+    assoc_stmt = statement_root;
+    while ( assoc_stmt )
+    {
+        DMHDESC *pDesc[] = {
+            &assoc_stmt -> ipd, &assoc_stmt -> apd, &assoc_stmt -> ird, &assoc_stmt -> ard
+        };
+        DMHDESC impDesc[] = {
+            assoc_stmt -> implicit_ipd, assoc_stmt -> implicit_apd,
+            assoc_stmt -> implicit_ird, assoc_stmt -> implicit_ard
+        };
+        int i;
+        for ( i = 0; i < 4; i++ )
+        {
+            if ( *pDesc[i] == descriptor )
+            {
+                *pDesc[i] = impDesc[i];
+            }
+        }
+        assoc_stmt = assoc_stmt -> next_class_list;
+    }
 
 #ifdef HAVE_LIBPTH
 #elif HAVE_LIBPTHREAD

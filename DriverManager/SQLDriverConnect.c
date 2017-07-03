@@ -333,10 +333,28 @@ char *tmp;
     cp = con_str -> list;
     while( cp )
     {
-        tmp = malloc( strlen( cp -> keyword ) + strlen( cp -> attribute ) + 10 );
-        if( strcasecmp( cp -> keyword, "DRIVER" ) == 0 )
+        size_t attrlen = strlen( cp -> attribute );
+        int use_esc = isspace( *(cp -> attribute ) ) || attrlen && isspace( cp->attribute[attrlen - 1] );
+        for ( tmp = cp -> attribute; *tmp; tmp++ )
         {
-            sprintf( tmp, "%s={%s};", cp -> keyword, cp -> attribute );
+            use_esc |= (*tmp == '{') || (*tmp == '}');
+            attrlen += (*tmp == '}');
+        }
+        tmp = malloc( strlen( cp -> keyword ) + attrlen + 10 );
+        if( use_esc )
+        {
+            char *tmp2 = tmp + sprintf( tmp, "%s={", cp -> keyword );
+            char *tmp3;
+            for( tmp3 = cp -> attribute; *tmp3 ; tmp3++ )
+            {
+                *tmp2++ = *tmp3;
+                if ( '}' == *tmp3++ )
+                {
+                    *tmp2++ = '}';
+                }
+            }
+            *tmp2++ = '}';
+            *tmp2++ = 0;
         }
         else
         {
@@ -364,17 +382,22 @@ int len;
 
     *keyword = *value = NULL;
 
-    ptr = *cp;
+    while ( isspace( **cp ) || **cp == ';' )
+    {
+        (*cp)++;
+    }
 
     if ( !**cp )
         return;
+
+    ptr = *cp;
 
     /* 
      * To handle the case attribute in which the attribute is of the form
      * "ATTR;" instead of "ATTR=VALUE;"
      */
 
-    while ( **cp && **cp != ';' && **cp != '=' )
+    while ( **cp && **cp != '=' )
     {
         (*cp)++;
     }
@@ -387,51 +410,48 @@ int len;
     memcpy( *keyword, ptr, len );
     (*keyword)[ len ] = '\0';
 
-    if (**cp != ';') {
 		(*cp)++;
-	}
 
-    ptr = *cp;
-
-    if ( strcasecmp( *keyword, "DRIVER" ) == 0 )
+    if ( **cp == '{' )
     {
-        if ( **cp && **cp == '{' )
+        /* escaped with '{' - all characters until next '}' not followed by '}', or
+           end of string, are part of the value */
+        int i = 0;
+        ptr = ++*cp;
+        while ( **cp && (**cp != '}' || (*cp)[1] == '}') )
         {
+            if ( **cp == '}' )
             (*cp)++;
-            ptr ++;
-            while ( **cp && **cp != '}' )
                 (*cp)++;
-
-            len = *cp - ptr;
-            *value = malloc( len + 1 );
-            memcpy( *value, ptr , len );
-            (*value)[ len ] = '\0';
-            (*cp)++;
         }
-        else
-        {
-            while ( **cp && **cp != ';' )
-                (*cp)++;
-
             len = *cp - ptr;
             *value = malloc( len + 1 );
-            memcpy( *value, ptr, len );
-            (*value)[ len ] = '\0';
+        while( ptr < *cp )
+        {
+            if ( ((*value)[i++] = *ptr++) == '}')
+            {
+                ptr++;
+        }
+        }
+        (*value)[i] = 0;
+        if ( **cp == '}' )
+        {
+                (*cp)++;
         }
     }
     else
     {
+        /* non-escaped: all characters until ';' or end of string are value */
+        ptr = *cp;
         while ( **cp && **cp != ';' )
+        {
             (*cp)++;
-
+        }
         len = *cp - ptr;
         *value = malloc( len + 1 );
         memcpy( *value, ptr, len );
-        (*value)[ len ] = '\0';
+        (*value)[ len ] = 0;
     }
-
-    if ( **cp )
-        (*cp)++;
 }
 
 struct con_pair * __get_pair( char ** cp )
@@ -1142,6 +1162,10 @@ SQLRETURN SQLDriverConnect(
 
             __parse_connection_string( &con_struct,
                     (char*)conn_str_in, len_conn_str_in );
+        }
+        else
+        {
+            save_filedsn = NULL;
         }
     }
     else

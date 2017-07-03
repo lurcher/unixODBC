@@ -273,6 +273,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
     switch( handle_type )
     {
       case SQL_HANDLE_ENV:
+      case SQL_HANDLE_SENV:
         {
             DMHENV environment;
             char pooling_string[ 128 ];
@@ -320,6 +321,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             environment -> state = STATE_E1;
             environment -> requested_version = requested_version;
+            environment -> version_set = !!requested_version;
         	environment -> sql_driver_count = -1;
 
             /*
