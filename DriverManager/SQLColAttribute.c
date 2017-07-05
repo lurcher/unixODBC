@@ -301,7 +301,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
 
     if ( column_number == 0 &&
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
-            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
+            field_identifier != SQL_DESC_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -352,7 +352,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
     }
     /* MS Driver manager passes this to driver
     else if ( statement -> state == STATE_S2 &&
-            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
+            field_identifier != SQL_DESC_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -590,7 +590,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 }
                 /*
                     BUGBUG: Windows DM returns the number of bytes for the Unicode string
-                    but only for certain ODBC-defined string fields
+                    but only for certain ODBC-defined string fields, and when truncating
                 */
                 switch ( field_identifier )
                 {
@@ -600,12 +600,16 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 case SQL_COLUMN_OWNER_NAME:
                 case SQL_COLUMN_TABLE_NAME:
                 case SQL_COLUMN_TYPE_NAME:
-              case SQL_DESC_BASE_COLUMN_NAME:
-              case SQL_DESC_BASE_TABLE_NAME:
-              case SQL_DESC_LITERAL_PREFIX:
-              case SQL_DESC_LITERAL_SUFFIX:
-              case SQL_DESC_LOCAL_TYPE_NAME:
-              case SQL_DESC_NAME:
+                case SQL_DESC_BASE_COLUMN_NAME:
+                case SQL_DESC_BASE_TABLE_NAME:
+                case SQL_DESC_LITERAL_PREFIX:
+                case SQL_DESC_LITERAL_SUFFIX:
+                case SQL_DESC_LOCAL_TYPE_NAME:
+                case SQL_DESC_NAME:
+                    if ( ret == SQL_SUCCESS && string_length )
+                    {
+                        *string_length /= sizeof( SQLWCHAR );	
+                    }
                     break;
                 default:
                     if ( string_length )

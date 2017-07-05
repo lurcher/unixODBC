@@ -156,6 +156,16 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
 
     thread_protect( SQL_HANDLE_DBC, connection );
 
+    if ( function_id == SQL_API_SQLGETFUNCTIONS ||
+         function_id == SQL_API_SQLDATASOURCES ||
+         function_id == SQL_API_SQLDRIVERS ||
+         function_id == SQL_API_SQLGETENVATTR ||
+         function_id == SQL_API_SQLSETENVATTR )
+    {
+        *supported = SQL_TRUE;
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
+    }
+
     if ( connection -> state == STATE_C3 ||
             connection -> state == STATE_C2 )
     {
@@ -163,15 +173,28 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
                 __LINE__, 
                 LOG_INFO, 
                 LOG_INFO, 
-                "Error: 08003" );
+                "Error: HY010" );
 
         __post_internal_error( &connection -> error,
-                ERROR_08003, NULL,
+                ERROR_HY010, NULL,
                 connection -> environment -> requested_version );
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
+    if ( function_id > SQL_API_SQLBULKOPERATIONS && function_id < SQL_API_SQLCOLUMNS ||
+         function_id > SQL_API_SQLALLOCHANDLESTD && function_id < SQL_API_LOADBYORDINAL ||
+         function_id > SQL_API_LOADBYORDINAL && function_id < SQL_API_ODBC3_ALL_FUNCTIONS ||
+         function_id > SQL_API_ODBC3_ALL_FUNCTIONS && function_id < SQL_API_SQLALLOCHANDLE ||
+         function_id > SQL_API_SQLFETCHSCROLL )
+    {
+        __post_internal_error( &connection -> error,
+                ERROR_HY095, NULL,
+                connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
+    }
+    
     __check_for_function( connection, function_id, supported );
 
     if ( log_info.log_flag )

@@ -220,10 +220,10 @@ SQLRETURN SQLColumns( SQLHSTMT statement_handle,
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if (( name_length1 < 0 && name_length1 != SQL_NTS ) ||
-            ( name_length2 < 0 && name_length2 != SQL_NTS ) ||
-            ( name_length3 < 0 && name_length3 != SQL_NTS ) ||
-            ( name_length4 < 0 && name_length4 != SQL_NTS ))
+    if (( catalog_name && name_length1 < 0 && name_length1 != SQL_NTS ) ||
+            ( schema_name && name_length2 < 0 && name_length2 != SQL_NTS ) ||
+            ( table_name && name_length3 < 0 && name_length3 != SQL_NTS ) ||
+            ( column_name && name_length4 < 0 && name_length4 != SQL_NTS ))
     {
         dm_log_write( __FILE__,
                 __LINE__,

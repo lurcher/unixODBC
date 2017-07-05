@@ -184,6 +184,33 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 
     if ( SQL_SUCCEEDED( ret ))
     {
+        if (ret == SQL_SUCCESS_WITH_INFO )
+        {
+            SQLULEN nRecs = 0;
+            SQLSMALLINT len;
+            SQLRETURN ret2 = statement->connection->unicode_driver && CHECK_SQLGETDIAGFIELDW( statement->connection ) ?
+                SQLGETDIAGFIELDW ( statement -> connection,  SQL_HANDLE_STMT, statement->driver_stmt, 0, SQL_DIAG_NUMBER, &nRecs, 0, &len ) :
+                SQLGETDIAGFIELD( statement -> connection, SQL_HANDLE_STMT, statement->driver_stmt, 0, SQL_DIAG_NUMBER, &nRecs, 0, &len);
+            if ( SQL_SUCCEEDED( ret2 ) && nRecs )
+            {
+                SQLSMALLINT recNo = 1;
+                while (nRecs--)
+                {
+                    SQLCHAR state[12]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
+                    ret2 = statement->connection->unicode_driver && CHECK_SQLGETDIAGRECW( statement->connection ) ?
+                        SQLGETDIAGRECW( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, (SQLWCHAR*)state, NULL, NULL, 0, NULL ) :
+                        SQLGETDIAGREC( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, state, NULL, NULL, 0, NULL ) ;
+                    if ( SQL_SUCCEEDED( ret2 ) && (statement->connection->unicode_driver ?
+                        !memcmp(state, "0\0001\000S\0000\0005\0", 10) : !memcmp(state, "01S05", 5)) )
+                    {
+                        ret = SQL_SUCCESS;
+                        break;
+                    }
+                    recNo++;
+                }
+            }
+        }
+    
         if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ||

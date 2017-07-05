@@ -91,6 +91,7 @@ SQLRETURN SQLAllocHandleStd(
         DMHENV environment = (DMHENV) *output_handle;
 
         environment -> requested_version = SQL_OV_ODBC3;
+        environment -> version_set = 1;
     }
 
     return ret;

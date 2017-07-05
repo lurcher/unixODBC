@@ -224,9 +224,6 @@ SQLRETURN SQLDescribeParam(
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
     else if (( statement -> state == STATE_S4 ||
-            statement -> state == STATE_S5 ||
-            statement -> state == STATE_S6 ||
-            statement -> state == STATE_S7 ||
             statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ||

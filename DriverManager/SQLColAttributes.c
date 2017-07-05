@@ -288,7 +288,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
 
     if ( column_number == 0 &&
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
-            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
+            field_identifier != SQL_COLUMN_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -346,7 +346,7 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
     }
     /*
     else if ( statement -> state == STATE_S2 &&
-            field_identifier != SQL_DESC_COUNT && field_identifier != SQL_COLUMN_COUNT )
+            field_identifier != SQL_DESC_COUNT )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -482,6 +482,10 @@ SQLRETURN SQLColAttributes( SQLHSTMT statement_handle,
 
                 if ( SQL_SUCCEEDED( ret ) && isStringAttr && character_attribute && buffer_length > 0 && s1 )
                 {
+                    if ( string_length && ret == SQL_SUCCESS )
+                    {
+                        *string_length /= sizeof ( SQLWCHAR );
+                    }
                     unicode_to_ansi_copy( character_attribute, buffer_length, s1, SQL_NTS, statement -> connection, NULL );
                 }
 

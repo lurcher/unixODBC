@@ -256,7 +256,7 @@ SQLRETURN SQLBindParam( SQLHSTMT statement_handle,
 	 * check valid C_TYPE
 	 */
 
-	if ( !check_target_type( value_type ))
+	if ( !check_target_type( value_type, statement -> connection -> environment -> requested_version ))
 	{
         dm_log_write( __FILE__, 
                 __LINE__, 

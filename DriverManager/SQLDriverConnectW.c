@@ -643,7 +643,7 @@ SQLRETURN SQLDriverConnectW(
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        __post_internal_error_ex_w( &connection -> error,
+                        __post_internal_error_ex_w_noprefix( &connection -> error,
                                 sqlstate,
                                 native_error,
                                 message_text,
@@ -671,7 +671,7 @@ SQLRETURN SQLDriverConnectW(
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        __post_internal_error_ex_w( &connection -> error,
+                        __post_internal_error_ex_w_noprefix( &connection -> error,
                                 sqlstate,
                                 native_error,
                                 message_text,
@@ -792,7 +792,7 @@ SQLRETURN SQLDriverConnectW(
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        __post_internal_error_ex( &connection -> error,
+                        __post_internal_error_ex_noprefix( &connection -> error,
                                 sqlstate,
                                 native_error,
                                 message_text,
@@ -819,7 +819,7 @@ SQLRETURN SQLDriverConnectW(
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        __post_internal_error_ex( &connection -> error,
+                        __post_internal_error_ex_noprefix( &connection -> error,
                                 sqlstate,
                                 native_error,
                                 message_text,

@@ -161,17 +161,17 @@ SQLRETURN SQLDriversW(
      * check that a version has been requested
      */
 
-    if ( environment -> requested_version == 0 )
+    if ( ! environment -> version_set )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
                 LOG_INFO, 
                 LOG_INFO, 
-                "Error: HY090" );
+                "Error: HY010" );
 
         __post_internal_error( &environment -> error,
                 ERROR_HY010, NULL,
-                environment -> requested_version );
+                SQL_OV_ODBC3 );
 
         return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
     }

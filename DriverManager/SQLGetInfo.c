@@ -359,8 +359,6 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
                 type = 2;
 
                 ptr = (SQLPOINTER) hstmt -> driver_stmt;
-
-                return do_checks ? function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR ) : SQL_ERROR;
             }
             else
             {

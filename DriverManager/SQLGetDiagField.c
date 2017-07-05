@@ -215,6 +215,7 @@ static int is_char_diag( int diag_identifier )
     switch( diag_identifier ) {
         case SQL_DIAG_CLASS_ORIGIN:
         case SQL_DIAG_CONNECTION_NAME:
+        case SQL_DIAG_DYNAMIC_FUNCTION:
         case SQL_DIAG_MESSAGE_TEXT:
         case SQL_DIAG_SERVER_NAME:
         case SQL_DIAG_SQLSTATE:
@@ -235,6 +236,11 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 {
     ERROR *ptr;
 
+    if ( is_char_diag( diag_identifier ) && buffer_length < 0 )
+    {
+        return SQL_ERROR;
+    }
+    
     /*
      * check the header fields first
      */
@@ -247,7 +253,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             SQLLEN val;
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0 || head -> handle_type != SQL_HANDLE_STMT )
             {
                 return SQL_ERROR;
             }
@@ -325,9 +331,21 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0 )
             {
                 return SQL_ERROR;
+            }
+            else if ( head -> handle_type != SQL_HANDLE_STMT )
+            {
+                if ( diag_info_ptr )
+                {
+                    strcpy( diag_info_ptr, "" );
+                }
+                if ( string_length_ptr )
+                {
+                    *string_length_ptr = 0;
+                }
+                return SQL_SUCCESS;
             }
             else if ( head -> header_set )
             {
@@ -403,9 +421,14 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             SQLINTEGER val;
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0  )
             {
                 return SQL_ERROR;
+            }
+            else if ( head -> handle_type != SQL_HANDLE_STMT )
+            {
+                *((SQLINTEGER*)diag_info_ptr) = 0;
+                return SQL_SUCCESS;
             }
             else if ( head -> header_set )
             {
@@ -488,7 +511,9 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
      * else check the records
      */
 
-    if ( rec_number < 1 )
+    if ( rec_number < 1 ||
+        ( diag_identifier == SQL_DIAG_COLUMN_NUMBER ||
+          diag_identifier == SQL_DIAG_ROW_NUMBER ) && head -> handle_type != SQL_HANDLE_STMT )
     {
         return SQL_ERROR;
     }
@@ -539,15 +564,15 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                 unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
 
                 if ( string_length_ptr && *string_length_ptr > 0 ) 
-            {
+                {
                     *string_length_ptr /= sizeof( SQLWCHAR );
                 }
             }
 
             if ( s1 )
-			{
+            {
                 free( s1 );
-			}
+            }
 
             if ( SQL_SUCCEEDED( ret ) && diag_identifier == SQL_DIAG_SQLSTATE )
             {

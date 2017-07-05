@@ -206,16 +206,6 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
-
-    if ( rec_number < 0 )
-    {
-        __post_internal_error( &descriptor -> error,
-                ERROR_07009, NULL,
-                descriptor -> connection -> environment -> requested_version );
-
-        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
-    }
-
     /*
      * check status of statements associated with this descriptor
      */
@@ -237,6 +227,16 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
         __post_internal_error( &descriptor -> error,
                 ERROR_HY010, NULL,
+                descriptor -> connection -> environment -> requested_version );
+
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
+
+
+    if ( rec_number < 0 )
+    {
+        __post_internal_error( &descriptor -> error,
+                ERROR_07009, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );

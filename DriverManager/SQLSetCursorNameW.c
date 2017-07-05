@@ -122,7 +122,8 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if ( !cursor_name )
+    if ( !cursor_name ||
+         (name_length < 0 && name_length != SQL_NTS ) )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

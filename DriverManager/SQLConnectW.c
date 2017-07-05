@@ -317,7 +317,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
 
     unicode_to_ansi_copy((char*) ansi_dsn, sizeof( ansi_dsn ), dsn, sizeof( ansi_dsn ), NULL, NULL );
 
-    if ( !__find_lib_name((char*) ansi_dsn, lib_name, driver_name ))
+    if ( !*ansi_dsn || !__find_lib_name((char*) ansi_dsn, lib_name, driver_name ))
     {
         /*
          * if not found look for a default

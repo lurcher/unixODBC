@@ -130,12 +130,12 @@
 
 static char const rcsid[]= "$RCSfile: SQLBindCol.c,v $ $Revision: 1.8 $";
 
-int check_target_type( int c_type ) 
+int check_target_type( int c_type, int connection_mode) 
 {
     /*
      * driver defined types
      */
-    if ( c_type >= 0x4000 && c_type <= 0x7FFF ) {
+    if ( connection_mode >= SQL_OV_ODBC3_80 && c_type >= 0x4000 && c_type <= 0x7FFF ) {
         return 1;
     }
 
@@ -294,7 +294,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
      * Its possible to call with the indicator and buffer NULL to unbind without setting the type
 	 */
 
-	if (( target_value || strlen_or_ind ) && !check_target_type( target_type ))
+	if (( target_value || strlen_or_ind ) && !check_target_type( target_type, statement -> connection -> environment -> requested_version ))
 	{
         dm_log_write( __FILE__, 
                 __LINE__, 
