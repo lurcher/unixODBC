@@ -70,7 +70,7 @@ BOOL SQLGetInstalledDrivers(	LPSTR	pszBuf,
 	iniClose( hIni );
 
 	if ( pnBufOut )
-		*pnBufOut = nBufPos-1;
+		*pnBufOut = nBufPos;
 	
 	return TRUE;
 }
