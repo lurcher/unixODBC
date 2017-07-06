@@ -5476,8 +5476,8 @@ void __post_internal_error_api( EHEAD *error_handle,
         if ( connection_mode >= SQL_OV_ODBC3 )
         {
             strcpy( sqlstate, "HY003" );
-            // Windows DM returns " Program type out of range" instead of 
-            // "Invalid application buffer type"
+            /* Windows DM returns " Program type out of range" instead of 
+               "Invalid application buffer type" */
             message = "Program type out of range";
         }
         else
