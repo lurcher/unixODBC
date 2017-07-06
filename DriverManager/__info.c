@@ -3872,13 +3872,7 @@ void __post_internal_error_ex( EHEAD *error_header,
         int class_origin,
         int subclass_origin )
 {
-    /*
-     * create a error block and add to the lists,
-     * leave space for the error prefix
-     */
-
     SQLCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    ERROR *e1, *e2;
 
     /*
      * add our prefix
@@ -3886,6 +3880,30 @@ void __post_internal_error_ex( EHEAD *error_header,
 
     strcpy((char*) msg, ERROR_PREFIX );
     strcat((char*) msg, (char*) message_text );
+    
+    __post_internal_error_ex_noprefix(
+        error_header,
+        sqlstate,
+        native_error,
+        msg,
+        class_origin,
+        subclass_origin );
+}
+
+void __post_internal_error_ex_noprefix( EHEAD *error_header,
+        SQLCHAR *sqlstate,
+        SQLINTEGER native_error,
+        SQLCHAR *msg,
+        int class_origin,
+        int subclass_origin )
+{
+    /*
+     * create a error block and add to the lists,
+     * leave space for the error prefix
+     */
+
+    ERROR *e1, *e2;
+    DMHDBC conn = __get_connection( error_header );
 
     e1 = malloc( sizeof( ERROR ));
     if (e1 == NULL)
@@ -3903,10 +3921,10 @@ void __post_internal_error_ex( EHEAD *error_header,
     e1 -> native_error = native_error;
     e2 -> native_error = native_error;
     ansi_to_unicode_copy(e1 -> sqlstate,
-                         (char*)sqlstate, SQL_NTS, __get_connection( error_header ), NULL );
+                         (char*)sqlstate, SQL_NTS, conn, NULL );
     wide_strcpy( e2 -> sqlstate, e1 -> sqlstate );
 
-    e1 -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, __get_connection( error_header ), NULL );
+    e1 -> msg = ansi_to_unicode_alloc( msg, SQL_NTS, conn, NULL );
     if ( !e1 -> msg )
     {
         free( e1 );
@@ -3945,26 +3963,26 @@ void __post_internal_error_ex( EHEAD *error_header,
 
     if ( class_origin == SUBCLASS_ODBC )
     	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ODBC 3.0",
-			      SQL_NTS, __get_connection( error_header ), NULL );
+			      SQL_NTS, conn, NULL );
     else
     	ansi_to_unicode_copy( e1 -> diag_class_origin, (char*) "ISO 9075",
-			      SQL_NTS, __get_connection( error_header ), NULL );
+			      SQL_NTS, conn, NULL );
     wide_strcpy( e2 -> diag_class_origin, e1 -> diag_class_origin );
 
     if ( subclass_origin == SUBCLASS_ODBC )
     	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ODBC 3.0",
-			      SQL_NTS, __get_connection( error_header ), NULL );
+			      SQL_NTS, conn, NULL );
     else
     	ansi_to_unicode_copy( e1 -> diag_subclass_origin, (char*) "ISO 9075",
-			      SQL_NTS, __get_connection( error_header ), NULL );
+			      SQL_NTS, conn, NULL );
     wide_strcpy( e2 -> diag_subclass_origin, e1 -> diag_subclass_origin );
 
     ansi_to_unicode_copy( e1 -> diag_connection_name, (char*) "", SQL_NTS,
-			  __get_connection( error_header ), NULL );
+			  conn, NULL );
     wide_strcpy( e2 -> diag_connection_name, e1 -> diag_connection_name );
 
-    ansi_to_unicode_copy( e1 -> diag_server_name, (char*) "", SQL_NTS,
-			  __get_connection( error_header ), NULL );
+    ansi_to_unicode_copy( e1 -> diag_server_name, conn ? conn->dsn : (char*) "", SQL_NTS,
+			  conn, NULL );
     wide_strcpy( e2 -> diag_server_name, e1 -> diag_server_name );
 
     /*
@@ -3983,14 +4001,8 @@ void __post_internal_error_ex_w( EHEAD *error_header,
         int class_origin,
         int subclass_origin )
 {
-    /*
-     * create a error block and add to the lists,
-     * leave space for the error prefix
-     */
-
     SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    ERROR *e1, *e2;
-
+    
     /*
      * add our prefix
      */
@@ -3998,6 +4010,29 @@ void __post_internal_error_ex_w( EHEAD *error_header,
     ansi_to_unicode_copy(msg, (char*) ERROR_PREFIX, SQL_NTS,
 			 __get_connection( error_header ), NULL);
     wide_strcat( msg, message_text );
+
+    __post_internal_error_ex_w_noprefix(
+        error_header,
+        sqlstate,
+        native_error,
+        msg,
+        class_origin,
+        subclass_origin );
+}
+
+void __post_internal_error_ex_w_noprefix( EHEAD *error_header,
+        SQLWCHAR *sqlstate,
+        SQLINTEGER native_error,
+        SQLWCHAR *msg,
+        int class_origin,
+        int subclass_origin )
+{
+    /*
+     * create a error block and add to the lists,
+     * leave space for the error prefix
+     */
+
+    ERROR *e1, *e2;
 
     e1 = malloc( sizeof( ERROR ));
     if ( !e1 )
@@ -5375,7 +5410,7 @@ void __post_internal_error_api( EHEAD *error_handle,
 
       case ERROR_08003:
         strcpy( sqlstate, "08003" );
-        message = "Connnection does not exist";
+        message = "Connection not open";
         break;
 
       case ERROR_24000:
@@ -5439,10 +5474,17 @@ void __post_internal_error_api( EHEAD *error_handle,
 
       case ERROR_HY003:
         if ( connection_mode >= SQL_OV_ODBC3 )
+        {
             strcpy( sqlstate, "HY003" );
+            // Windows DM returns " Program type out of range" instead of 
+            // "Invalid application buffer type"
+            message = "Program type out of range";
+        }
         else
+        {
             strcpy( sqlstate, "S1003" );
-        message = "Invalid application buffer type";
+            message = "Invalid application buffer type";
+        }
         break;
 
       case ERROR_HY004:
@@ -5530,6 +5572,14 @@ void __post_internal_error_api( EHEAD *error_handle,
         message = "Invalid attribute/option identifier";
         break;
 
+      case ERROR_HY095:
+        if ( connection_mode >= SQL_OV_ODBC3 )
+            strcpy( sqlstate, "HY095" );
+        else
+            strcpy( sqlstate, "S1095" );
+        message = "Function type out of range";
+        break;
+        
       case ERROR_HY097:
         if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY097" );

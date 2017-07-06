@@ -175,9 +175,9 @@ SQLRETURN SQLTablePrivilegesW(
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if (( cb_catalog_name < 0 && cb_catalog_name != SQL_NTS ) ||
-            ( cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
-            ( cb_table_name < 0 && cb_table_name != SQL_NTS ))
+    if (( sz_catalog_name && cb_catalog_name < 0 && cb_catalog_name != SQL_NTS ) ||
+            ( sz_schema_name && cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
+            ( sz_table_name && cb_table_name < 0 && cb_table_name != SQL_NTS ))
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

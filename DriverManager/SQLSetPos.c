@@ -225,7 +225,8 @@ SQLRETURN SQLSetPos(
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( statement -> state == STATE_S4 )
+    if ( statement -> state == STATE_S4 || statement -> state == STATE_S5 ||
+         (foption != SQL_ADD && statement -> state == STATE_S7 && statement -> eod ))
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

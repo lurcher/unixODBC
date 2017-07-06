@@ -238,7 +238,19 @@ SQLRETURN SQLBindParameter(
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( cb_value_max < 0 && cb_value_max != SQL_NTS )
+    if ( ((f_c_type == SQL_C_CHAR || f_c_type == SQL_C_BINARY || f_c_type == SQL_C_WCHAR) ||
+            (f_c_type == SQL_C_DEFAULT &&
+                (f_sql_type == SQL_DEFAULT || 
+                 f_sql_type == SQL_CHAR ||
+                 f_sql_type == SQL_BINARY  ||
+                 f_sql_type == SQL_LONGVARCHAR  ||
+                 f_sql_type == SQL_LONGVARBINARY  ||
+                 f_sql_type == SQL_VARBINARY ||
+                 f_sql_type == SQL_VARCHAR ||
+                 f_sql_type == SQL_WCHAR ||
+                 f_sql_type == SQL_WLONGVARCHAR ||
+                 f_sql_type == SQL_WVARCHAR)))
+         && cb_value_max < 0 && cb_value_max != SQL_NTS )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -354,7 +366,7 @@ SQLRETURN SQLBindParameter(
 	 * check valid C_TYPE
 	 */
 
-	if ( !check_target_type( f_c_type ))
+	if ( !check_target_type( f_c_type, statement -> connection -> environment -> requested_version ))
 	{
         dm_log_write( __FILE__, 
                 __LINE__, 

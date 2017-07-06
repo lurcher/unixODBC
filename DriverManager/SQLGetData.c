@@ -299,7 +299,9 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
     else if ( statement -> state == STATE_S4 ||
-            statement -> state == STATE_S5 )
+            statement -> state == STATE_S5 ||
+            ( statement -> state == STATE_S6 || statement -> state == STATE_S7 )
+            && statement -> eod )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -387,7 +389,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 	 * check valid C_TYPE
 	 */
 
-	if ( !check_target_type( target_type ))
+	if ( !check_target_type( target_type, statement -> connection -> environment -> requested_version ))
 	{
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -486,7 +488,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
-    }
+        }
     }
     else if ( SQL_SUCCEEDED( ret ) && unicode_switch )
     {
@@ -516,11 +518,6 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             *strlen_or_ind = ind_value;
         }
-    }
-
-    if ( ( SQL_SUCCEEDED( ret ) || ret == SQL_NO_DATA ) && statement -> state == STATE_S11 )
-    {
-        statement -> state = STATE_S6;
     }
     
     if ( ret != SQL_STILL_EXECUTING

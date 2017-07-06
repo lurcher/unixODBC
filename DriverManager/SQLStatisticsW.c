@@ -211,8 +211,8 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( reserved != SQL_INDEX_UNIQUE &&
-            reserved != SQL_INDEX_ALL )
+    if ( unique != SQL_INDEX_UNIQUE &&
+            unique != SQL_INDEX_ALL )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

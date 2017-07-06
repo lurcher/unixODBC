@@ -110,6 +110,7 @@ static int is_char_diag( int diag_identifier )
     switch( diag_identifier ) {
         case SQL_DIAG_CLASS_ORIGIN:
         case SQL_DIAG_CONNECTION_NAME:
+        case SQL_DIAG_DYNAMIC_FUNCTION:
         case SQL_DIAG_MESSAGE_TEXT:
         case SQL_DIAG_SERVER_NAME:
         case SQL_DIAG_SQLSTATE:
@@ -130,6 +131,11 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 {
     ERROR *ptr;
 
+    if ( is_char_diag( diag_identifier ) && buffer_length < 0 )
+    {
+        return SQL_ERROR;
+    }
+
     /*
      * check the header fields first
      */
@@ -142,7 +148,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             SQLINTEGER val;
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0 || head -> handle_type != SQL_HANDLE_STMT )
             {
                 return SQL_ERROR;
             }
@@ -220,9 +226,21 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
         {
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0 )
             {
                 return SQL_ERROR;
+            }
+            else if ( head -> handle_type != SQL_HANDLE_STMT )
+            {
+                if ( diag_info_ptr )
+                {
+                    wcscpy( diag_info_ptr, L"" );
+                }
+                if ( string_length_ptr )
+                {
+                    *string_length_ptr = 0;
+                }
+                return SQL_SUCCESS;
             }
             else if ( head -> header_set )
             {
@@ -297,9 +315,14 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             SQLINTEGER val;
             SQLRETURN ret;
 
-            if ( head -> handle_type != SQL_HANDLE_STMT )
+            if ( rec_number > 0  )
             {
                 return SQL_ERROR;
+            }
+            else if ( head -> handle_type != SQL_HANDLE_STMT )
+            {
+                *((SQLINTEGER*)diag_info_ptr) = 0;
+                return SQL_SUCCESS;
             }
             else if ( head -> header_set )
             {
@@ -382,7 +405,9 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
      * else check the records
      */
 
-    if ( rec_number < 1 )
+    if ( rec_number < 1 ||
+        ( diag_identifier == SQL_DIAG_COLUMN_NUMBER ||
+          diag_identifier == SQL_DIAG_ROW_NUMBER ) && head -> handle_type != SQL_HANDLE_STMT )
     {
         return SQL_ERROR;
     }

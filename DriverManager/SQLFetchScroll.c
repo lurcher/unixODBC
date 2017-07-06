@@ -170,7 +170,9 @@ SQLRETURN SQLFetchScroll( SQLHSTMT statement_handle,
             fetch_orientation != SQL_FETCH_LAST &&
             fetch_orientation != SQL_FETCH_ABSOLUTE &&
             fetch_orientation != SQL_FETCH_RELATIVE &&
-            fetch_orientation != SQL_FETCH_BOOKMARK )
+            fetch_orientation != SQL_FETCH_BOOKMARK ||
+          (fetch_orientation == SQL_FETCH_BOOKMARK
+           && statement -> bookmarks_on == SQL_UB_OFF) )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

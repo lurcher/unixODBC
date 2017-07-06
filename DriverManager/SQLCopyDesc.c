@@ -257,12 +257,13 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 	}
 
     /*
-     * if both descriptors are from the same connection the we can just
+     * if both descriptors are from the same driver then we can just
      * pass it on
      */
 
-    if ( src_descriptor -> connection == 
-            target_descriptor -> connection && 
+    if ( (src_descriptor -> connection == target_descriptor -> connection ||
+          !strcmp(src_descriptor -> connection -> dl_name,
+                  target_descriptor -> connection -> dl_name) ) && 
             CHECK_SQLCOPYDESC( src_descriptor -> connection ))
     {
         SQLRETURN ret;

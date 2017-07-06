@@ -203,7 +203,8 @@ SQLRETURN SQLFetch( SQLHSTMT statement_handle )
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( statement -> state == STATE_S8 ||
+    if (    statement -> state == STATE_S7 ||
+            statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ||
             statement -> state == STATE_S13 ||

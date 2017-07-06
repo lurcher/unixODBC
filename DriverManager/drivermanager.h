@@ -622,6 +622,7 @@ typedef enum error_id
     ERROR_HY024,
     ERROR_HY090,
     ERROR_HY092,
+    ERROR_HY095,
     ERROR_HY097,
     ERROR_HY098,
     ERROR_HY099,
@@ -665,7 +666,19 @@ void __post_internal_error_ex( EHEAD *error_handle,
         SQLCHAR *message_text,
         int class_origin,
         int subclass_origin );
+void __post_internal_error_ex_noprefix( EHEAD *error_handle,
+        SQLCHAR *sqlstate,
+        SQLINTEGER native_error,
+        SQLCHAR *message_text,
+        int class_origin,
+        int subclass_origin );
 void __post_internal_error_ex_w( EHEAD *error_handle,
+        SQLWCHAR *sqlstate,
+        SQLINTEGER native_error,
+        SQLWCHAR *message_text,
+        int class_origin,
+        int subclass_origin );
+void __post_internal_error_ex_w_noprefix( EHEAD *error_handle,
         SQLWCHAR *sqlstate,
         SQLINTEGER native_error,
         SQLWCHAR *message_text,
@@ -825,7 +838,7 @@ SQLINTEGER map_ca_odbc2_to_3( SQLINTEGER field_identifier );
  * check the type passed to SQLBindCol is a valid C_TYPE
  */
 
-int check_target_type( int c_type );
+int check_target_type( int c_type, int connection_mode);
 
 /*
  * entry exit functions in drivers

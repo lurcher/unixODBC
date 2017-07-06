@@ -618,7 +618,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
         /*
          * there is nothing to report a error on
          */
-        return SQL_ERROR;
+        return SQL_INVALID_HANDLE;
     }
 }
 

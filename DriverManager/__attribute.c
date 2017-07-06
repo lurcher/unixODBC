@@ -1452,6 +1452,14 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
                 return SQL_ERROR;
             }
             break;
+        
+        case SQL_ATTR_TXN_ISOLATION:
+            if ( ival != SQL_TXN_READ_UNCOMMITTED && ival != SQL_TXN_READ_COMMITTED
+                && ival != SQL_TXN_REPEATABLE_READ && ival != SQL_TXN_SERIALIZABLE )
+            {
+                return SQL_ERROR;
+            }
+            break;
 
         /*
          * include statement attributes as well
@@ -1614,6 +1622,9 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
                 return SQL_ERROR;
             }
             break;
+
+        case SQL_ROWSET_SIZE:
+            return ival > 0 ? SQL_SUCCESS : SQL_ERROR;
 
         default:
             return SQL_SUCCESS;

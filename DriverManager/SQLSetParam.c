@@ -137,6 +137,64 @@
 
 static char const rcsid[]= "$RCSfile: SQLSetParam.c,v $ $Revision: 1.7 $";
 
+int check_value_type( int c_type, int connection_mode)
+{
+    /*
+ *      * driver defined types
+ *           */
+    if ( connection_mode >= SQL_OV_ODBC3_80 && c_type >= 0x4000 && c_type <= 0x7FFF ) {
+        return 1;
+    }
+
+        switch( c_type ) {
+                case SQL_C_CHAR:
+                case SQL_C_LONG:
+                case SQL_C_SHORT:
+                case SQL_C_FLOAT:
+                case SQL_C_NUMERIC:
+                case SQL_C_DEFAULT:
+                case SQL_C_DATE:
+                case SQL_C_TIME:
+                case SQL_C_TIMESTAMP:
+                case SQL_C_TYPE_DATE:
+                case SQL_C_TYPE_TIME:
+                case SQL_C_TYPE_TIMESTAMP:
+                case SQL_C_INTERVAL_YEAR:
+                case SQL_C_INTERVAL_MONTH:
+                case SQL_C_INTERVAL_DAY:
+                case SQL_C_INTERVAL_HOUR:
+                case SQL_C_INTERVAL_MINUTE:
+                case SQL_C_INTERVAL_SECOND:
+                case SQL_C_INTERVAL_YEAR_TO_MONTH:
+                case SQL_C_INTERVAL_DAY_TO_HOUR:
+                case SQL_C_INTERVAL_DAY_TO_MINUTE:
+                case SQL_C_INTERVAL_DAY_TO_SECOND:
+                case SQL_C_INTERVAL_HOUR_TO_MINUTE:
+                case SQL_C_INTERVAL_HOUR_TO_SECOND:
+                case SQL_C_INTERVAL_MINUTE_TO_SECOND:
+                case SQL_C_BINARY:
+                case SQL_C_BIT:
+                case SQL_C_SBIGINT:
+                case SQL_C_UBIGINT:
+                case SQL_C_TINYINT:
+                case SQL_C_SLONG:
+                case SQL_C_SSHORT:
+                case SQL_C_STINYINT:
+                case SQL_C_ULONG:
+                case SQL_C_USHORT:
+                case SQL_C_UTINYINT:
+                case SQL_C_GUID:
+                case SQL_C_WCHAR:
+                case SQL_ARD_TYPE:
+                case SQL_C_DOUBLE:
+                /* case SQL_C_XML: still trying to find what value this is */
+                        return 1;
+
+                default:
+                        return 0;
+        }
+}
+
 SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
            SQLUSMALLINT parameter_number,
            SQLSMALLINT value_type,
@@ -214,7 +272,7 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( value_type == 0 )
+    if (!check_value_type( value_type, statement -> connection -> environment -> requested_version ))
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
@@ -224,6 +282,22 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
         __post_internal_error_api( &statement -> error,
                 ERROR_HY003, NULL,
+                statement -> connection -> environment -> requested_version,
+                SQL_API_SQLSETPARAM );
+
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
+    }
+
+    if ( parameter_value == NULL && strlen_or_ind == NULL && value_type != SQL_PARAM_OUTPUT )
+    {
+        dm_log_write( __FILE__, 
+                __LINE__, 
+                LOG_INFO, 
+                LOG_INFO, 
+                "Error: HY009" );
+
+        __post_internal_error_api( &statement -> error,
+                ERROR_HY009, NULL,
                 statement -> connection -> environment -> requested_version,
                 SQL_API_SQLSETPARAM );
 

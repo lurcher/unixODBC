@@ -244,7 +244,7 @@ SQLRETURN SQLDrivers(
      * check that a version has been requested
      */
 
-    if ( environment -> requested_version == 0 )
+    if ( ! environment -> version_set )
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

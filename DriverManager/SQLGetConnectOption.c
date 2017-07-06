@@ -255,6 +255,8 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
         {
           case SQL_ACCESS_MODE:
           case SQL_AUTOCOMMIT:
+          case SQL_LOGIN_TIMEOUT:
+          case SQL_ODBC_CURSORS:
             break;
 
           default:

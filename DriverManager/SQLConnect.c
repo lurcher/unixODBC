@@ -3964,7 +3964,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
         connection -> password_length = name_length3;
     }
 
-    if ( !__find_lib_name( dsn, lib_name, driver_name ))
+    if ( !*dsn || !__find_lib_name( dsn, lib_name, driver_name ))
     {
         /*
          * if not found look for a default

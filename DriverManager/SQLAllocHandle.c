@@ -449,9 +449,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             connection -> cursors = SQL_CUR_DEFAULT;
             connection -> login_timeout = SQL_LOGIN_TIMEOUT_DEFAULT;
             connection -> login_timeout_set = 0;
-            connection -> auto_commit = 0;
-            connection -> auto_commit_set = 0;
-            connection -> auto_commit = 0;
+            connection -> auto_commit = SQL_AUTOCOMMIT_ON;
             connection -> auto_commit_set = 0;
             connection -> async_enable = 0;
             connection -> async_enable_set = 0;
@@ -1287,7 +1285,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 		}
 		else
 		{
-			return SQL_ERROR;
+			return SQL_INVALID_HANDLE;
 		}
 		break;
     }

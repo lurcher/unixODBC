@@ -202,10 +202,10 @@ SQLRETURN SQLProcedureColumns(
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if (( cb_catalog_name < 0 && cb_catalog_name != SQL_NTS ) ||
-            ( cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
-            ( cb_proc_name < 0 && cb_proc_name != SQL_NTS ) ||
-            ( cb_column_name < 0 && cb_column_name != SQL_NTS ))
+    if (( sz_catalog_name && cb_catalog_name < 0 && cb_catalog_name != SQL_NTS ) ||
+            ( sz_schema_name && cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
+            ( sz_proc_name && cb_proc_name < 0 && cb_proc_name != SQL_NTS ) ||
+            ( sz_column_name && cb_column_name < 0 && cb_column_name != SQL_NTS ))
     {
         dm_log_write( __FILE__, 
                 __LINE__, 
