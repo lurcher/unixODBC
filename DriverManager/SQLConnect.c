@@ -3412,6 +3412,7 @@ restart:;
         connection -> state = ptr -> connection.state;
         connection -> dl_handle = ptr -> connection.dl_handle;
         connection -> functions = ptr -> connection.functions;
+        connection -> unicode_driver = ptr -> connection.unicode_driver;
         connection -> driver_env = ptr -> connection.driver_env;
         connection -> driver_dbc = ptr -> connection.driver_dbc;
         connection -> driver_version = ptr -> connection.driver_version;
