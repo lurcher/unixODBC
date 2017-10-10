@@ -689,13 +689,13 @@ char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection, i
         len = wide_strlen( str ) + 1;
     }
 
-    aptr = malloc( len + 1 );
+    aptr = malloc(( len * 4 ) + 1 );       /* There may be UTF8 */
     if ( !aptr )
     {
         return NULL;
     }
 
-    return unicode_to_ansi_copy( aptr, len, str, len, connection, clen );
+    return unicode_to_ansi_copy( aptr, len * 4, str, len, connection, clen );
 }
 
 /*
@@ -3880,7 +3880,7 @@ void __post_internal_error_ex( EHEAD *error_header,
 
     strcpy((char*) msg, ERROR_PREFIX );
     strcat((char*) msg, (char*) message_text );
-    
+
     __post_internal_error_ex_noprefix(
         error_header,
         sqlstate,
@@ -4002,7 +4002,7 @@ void __post_internal_error_ex_w( EHEAD *error_header,
         int subclass_origin )
 {
     SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    
+
     /*
      * add our prefix
      */
@@ -4202,6 +4202,8 @@ static void extract_diag_error( int htype,
     rec_number = 1;
     do
     {
+        len = 0;
+
         ret = SQLGETDIAGREC( connection,
                 head -> handle_type,
                 handle,
@@ -4465,6 +4467,8 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
 
     do
     {
+        len = 0;
+
         ret = SQLERROR( connection,
                 henv, 
                 hdbc,
@@ -4575,6 +4579,8 @@ static void extract_diag_error_w( int htype,
     rec_number = 1;
     do
     {
+        len = 0;
+
         ret = SQLGETDIAGRECW( connection,
                 head -> handle_type,
                 handle,
@@ -4810,6 +4816,8 @@ static void extract_sql_error_w( DRV_SQLHANDLE henv,
 
     do
     {
+        len = 0;
+
         ret = SQLERRORW( connection,
                 henv, 
                 hdbc,
@@ -5483,7 +5491,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         else
         {
             strcpy( sqlstate, "S1003" );
-            message = "Invalid application buffer type";
+        message = "Invalid application buffer type";
         }
         break;
 
