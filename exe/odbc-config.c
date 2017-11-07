@@ -98,16 +98,16 @@ static void cInc( void )
     printf( "#ifndef SIZEOF_LONG_INT\n #define SIZEOF_LONG_INT %d\n#endif\n", SIZEOF_LONG_INT );
 #endif
 
-#ifdef ALLREADY_HAVE_WINDOWS_TYPE
-    printf( "#ifndef ALLREADY_HAVE_WINDOWS_TYPE\n #define ALLREADY_HAVE_WINDOWS_TYPE\n#endif\n" );
+#ifdef ALREADY_HAVE_WINDOWS_TYPE
+    printf( "#ifndef ALREADY_HAVE_WINDOWS_TYPE\n #define ALREADY_HAVE_WINDOWS_TYPE\n#endif\n" );
 #endif
 
 #ifdef DONT_TD_VOID
     printf( "#ifndef DONT_TD_VOID\n #define DONT_TD_VOID\n#endif\n" );
 #endif
 
-#ifdef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING
-    printf( "#ifndef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING\n #define DO_YOU_KNOW_WHAT_YOUR_ARE_DOING\n#endif\n" );
+#ifdef DO_YOU_KNOW_WHAT_YOU_ARE_DOING
+    printf( "#ifndef DO_YOU_KNOW_WHAT_YOU_ARE_DOING\n #define DO_YOU_KNOW_WHAT_YOU_ARE_DOING\n#endif\n" );
 #endif
 
 #ifdef BUILD_LEGACY_64_BIT_MODE
@@ -157,16 +157,16 @@ static void cflags( void )
     printf( "-DSIZEOF_LONG_INT=%d ", SIZEOF_LONG_INT );
 #endif
 
-#ifdef ALLREADY_HAVE_WINDOWS_TYPE
-    printf( "-DALLREADY_HAVE_WINDOWS_TYPE " );
+#ifdef ALREADY_HAVE_WINDOWS_TYPE
+    printf( "-DALREADY_HAVE_WINDOWS_TYPE " );
 #endif
 
 #ifdef DONT_TD_VOID
     printf( "-DDONT_TD_VOID " );
 #endif
 
-#ifdef DO_YOU_KNOW_WHAT_YOUR_ARE_DOING
-    printf( "-DDO_YOU_KNOW_WHAT_YOUR_ARE_DOING " );
+#ifdef DO_YOU_KNOW_WHAT_YOU_ARE_DOING
+    printf( "-DDO_YOU_KNOW_WHAT_YOU_ARE_DOING " );
 #endif
 
 #ifdef BUILD_LEGACY_64_BIT_MODE

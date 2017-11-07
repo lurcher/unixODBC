@@ -7,10 +7,10 @@
  * binary compatability between drivers developed under different
  * packages).
  *
- * You can include this file directly but it is almost always
- * included indirectly, by including.. for example sqlext.h
+ * You can include this file directly, but it is almost always
+ * included indirectly, by including, for example sqlext.h
  *
- * This include makes no effort to be usefull on any platforms other
+ * This include makes no effort to be useful on any platforms other
  * than Linux (with some exceptions for UNIX in general).
  *
  * !!!DO NOT CONTAMINATE THIS FILE WITH NON-Linux CODE!!!
@@ -27,7 +27,7 @@
 #endif
 
 /*
- * if thi sis set, then use a 4 byte unicode definition, insteead of the 2 bye that MS use
+ * if this is set, then use a 4 byte unicode definition, instead of the 2 byte definition that MS use
  */
 
 #ifdef SQL_WCHART_CONVERT  
@@ -59,7 +59,7 @@ extern "C" {
 /****************************
  * These make up for having no windows.h
  ***************************/
-#ifndef ALLREADY_HAVE_WINDOWS_TYPE
+#ifndef ALREADY_HAVE_WINDOWS_TYPE
 
 #define FAR
 #define CALLBACK
@@ -78,7 +78,7 @@ typedef char				CHAR;
 /* 
  * NOTE: The Microsoft unicode define is only for apps that want to use TCHARs and 
  *  be able to compile for both unicode and non-unicode with the same source.
- *  This is not recommanded for linux applications and is not supported
+ *  This is not recommended for linux applications and is not supported
  * 	by the standard linux string header files.
  */
 #ifdef SQL_WCHART_CONVERT
@@ -132,12 +132,12 @@ typedef double          SQLFLOAT;
 #endif
 
 /*
- * can't use a long it fails on 64 platforms
+ * can't use a long; it fails on 64 platforms
  */
 
 /*
  * Hopefully by now it should be safe to assume most drivers know about SQLLEN now
- * and the defaukt is now sizeof( SQLLEN ) = 8 on 64 bit platforms
+ * and the default is now sizeof( SQLLEN ) = 8 on 64 bit platforms
  * 
  */
 
@@ -241,7 +241,7 @@ typedef void *          	    HSTMT;
 /****************************
  * more basic data types to augment what windows.h provides
  ***************************/
-#ifndef ALLREADY_HAVE_WINDOWS_TYPE
+#ifndef ALREADY_HAVE_WINDOWS_TYPE
 
 typedef unsigned char           UCHAR;
 typedef signed char             SCHAR;
@@ -426,7 +426,7 @@ typedef struct tagSQL_NUMERIC_STRUCT
 
 #if (ODBCVER >= 0x0350)
 #ifdef GUID_DEFINED
-#ifndef ALLREADY_HAVE_WINDOWS_TYPE
+#ifndef ALREADY_HAVE_WINDOWS_TYPE
 typedef GUID	SQLGUID;
 #else
 typedef struct  tagSQLGUID
