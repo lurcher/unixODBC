@@ -674,6 +674,11 @@ static void display_result_set( SQLHDBC hDbc, SQLHSTMT hStmt )
                 if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
                 fprintf( stderr, "[ISQL]INFO: SQLMoreResults returned SQL_SUCCESS_WITH_INFO\n" );
             }
+            else if ( ret == SQL_ERROR )
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+                fprintf( stderr, "[ISQL]ERROR: SQLMoreResults returned SQL_ERROR\n" );
+            }
         }
         mr = 1;
         strcpy ((char*) szSepLine, "" ) ;
@@ -720,7 +725,7 @@ static void display_result_set( SQLHDBC hDbc, SQLHSTMT hStmt )
         else if ( cDelimiter == 0 )
             WriteFooterNormal( hStmt, szSepLine, nRows );
     }
-    while ( has_moreresults && SQL_SUCCEEDED( ret = SQLMoreResults( hStmt )));
+    while ( has_moreresults && ( ret = SQLMoreResults( hStmt )) != SQL_NO_DATA );
 
     free( szSepLine );
 }
@@ -1068,6 +1073,11 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
                 if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
                 fprintf( stderr, "[ISQL]INFO: SQLMoreResults returned SQL_SUCCESS_WITH_INFO\n" );
             }
+            else if ( ret == SQL_ERROR )
+            {
+                if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+                fprintf( stderr, "[ISQL]ERROR: SQLMoreResults returned SQL_ERROR\n" );
+            }
         }
         mr = 1;
         strcpy ((char*) szSepLine, "" ) ;
@@ -1116,7 +1126,7 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
         else if ( cDelimiter == 0 )
             WriteFooterNormal( hStmt, szSepLine, nRows );
     }
-    while ( has_moreresults && SQL_SUCCEEDED( ret = SQLMoreResults( hStmt )));
+    while ( has_moreresults && ( ret = SQLMoreResults( hStmt )) != SQL_NO_DATA );
 
     /****************************
      * CLEANUP
