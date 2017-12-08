@@ -51,6 +51,66 @@
     * SQLAllocEnv fails to set environment version correctly
     * SQLMoreResults with streamed output parameters returns unexpected HY010
     * Custom pre-connect pointer attributes are truncated to 32 bits
+    * 08003 message should be "Connection not open"
+    * SQL_ATTR_ACCESS_MODE set using SQLSetConnectOption/W before connecting does not persist after disconnecting
+    * SQL_ATTR_AUTOCOMMIT incorrect default value before connecting
+    * SQL_AUTOCOMMIT set using SQLSetConnectOption/W before connecting does not persist after disconnecting
+    * SQLAllocHandle/SQLFreeHandle with invalid handle type should return SQL_INVALID_HANDLE
+    * SQLAllocHandleStd not setting ODBC version correctly
+    * SQLBindParameter does not ignore BufferLength for DAE parameters
+    * SQLBindParameter does not ignore BufferLength for fixed-length parameters
+    * SQLBindParameter returns "Invalid application buffer type" instead of " Program type out of range"
+    * SQLCancel with 01S05 returned from driver should result in SQL_SUCCESS, not SQL_SUCCESS_WITH_INFO 
+      (see https://msdn.microsoft.com/en-us/library/aa392708(v=vs.85).aspx )
+    * SQLColAttribute/SQLColAttributes should return number of bytes needed for Unicode string when truncating
+    * SQLColumnPrivileges/W differing error message precedence from Windows DM and order in ODBC spec
+    * SQLColumns/W extraneous checks on null string's length
+    * SQLCopyDesc does not copy descriptors across connections correctly
+    * SQLDescribeParam extraneous checks for state
+    * SQLDriverConnect/W adds extraneous DM prefix to diagnostic messages
+    * SQLDriversW before ODBC version set returns incorrect SQLSTATE
+    * SQLFetch in state S7 does not return error from DM
+    * SQLFetchScroll missing check for SQL_FETCH_BOOKMARK
+    * SQLForeignKeys/W missing check for null table names
+    * SQLGetConnectAttr/W erroneously retrieves attributes with no default (SQL_ATTR_PACKET_SIZE, SQL_ATTR_QUIET_MODE)
+    * SQLGetConnectAttr/W fails to get some set attributes before connecting
+    * SQLGetConnectAttr/W fails to retrieve set attributes with no connection
+    * SQLGetConnectAttrW returns incorrect value for SQL_ATTR_TRACE
+    * SQLGetConnectOption/W cannot retrieve SQL_ODBC_CURSORS before connection
+    * SQLGetConnectOption/W fails to retrieve SQL_LOGIN_TIMEOUT before connecting
+    * SQLGetConnectOption/W fails to retrieve SQL_ATTR_ACCESS_MODE set with SQLSetConnectOption/W
+    * SQLGetData and SQLSetPos async states are incorrect
+    * SQLGetData missing check for cursor end indication; SQLSetCursorName/W fails to clear previous diagnostic records
+    * SQLGetDiagField/W does not check record number for SQL_DIAG_ROW_COUNT and SQL_DIAG_DYNAMIC_FUNCTION_CODE
+    * SQLGetDiagField/W missing check for negative buffer length for string fields
+    * SQLGetDiagField/W inconsistent handling of statement-only diagnostic fields
+    * SQLGetInstalledDrivers off-by-one length
+    * SQLGetStmtOption various state handling issues
+    * SQLSetConnectAttr/W SQL_ATTR_CURRENT_CATALOG extraneous check with error 24000
+    * SQLSetConnectAttr/W does not prevent attempts to set ODBC 3.x statement attributes
+    * SQLSetConnectAttr/W with null string attributes causes crash
+    * SQLSetConnectOption passes SQL_ATTR_TRACEFILE to the driver
+    * SQLSetConnectOption/W or SQLSetConnectAttr/W missing validity checks for SQL_ATTR_TXN_ISOLATION
+    * SQLSetConnectOption/W setting SQL_ATTR_TRACEFILE to null results in different error
+    * SQLSetCursorName/W missing checks for negative name length
+    * SQLSetDescField/W missing check for negative SQL_DESC_COUNT
+    * SQLSetParam missing various error checks for invalid data types and buffer 
+    * SQLSetPos does not check for state S5
+    * SQLSetPos missing checks in state S7
+    * SQLSetScrollOptions various state handling issues
+    * SQLSetStmtOption/W missing check for positive rowset sizes
+    * SQLSpecialColumns/W error precedence differs from Windows DM
+    * SQLSpecialColumns/W incorrect check for SQL_NTS string lengths
+    * SQLStatisticsW uniqueness parameter missing validation
+    * SQLTablePrivileges/W extraneous checks on null string's length
+    * Various issues with SQLGetFunctions
+    * Various string conversion and length issues in SQLColAttribute; missing buffer length check in SQLColAttributeW
+    * As above, but for SQLColAttributes and SQLColAttributesW; incorrect check for SQL_COLUMN_COUNT
+    * Setting SQL_ATTR_TRACEFILE to null value results in different error
+    * check_target_type allows driver-specific C data types for ODBC < 3.8
+    * fix empty SQL_DIAG_SERVER_NAME field in DM-supplied diag recs
+    * fix differing behaviour for an empty string DSN in SQLConnect/W
+    * Alter isql to return errors from SQLMoreResults
 
 3rd-Aug-2015
 2.3.4
