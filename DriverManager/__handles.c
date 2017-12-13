@@ -743,6 +743,12 @@ void __release_dbc( DMHDBC connection )
 
     clear_error_head( &connection -> error );
 
+    /*
+     * shutdown unicode
+     */
+
+    unicode_shutdown( connection );
+
 #ifdef HAVE_LIBPTH
 #elif HAVE_LIBPTHREAD
     pthread_mutex_destroy( &connection -> mutex );
