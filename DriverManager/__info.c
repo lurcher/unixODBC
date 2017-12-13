@@ -492,6 +492,12 @@ int unicode_setup( DMHDBC connection )
     union { long l; char c[sizeof (long)]; } u;
     int be;
 
+    if ( connection -> iconv_cd_uc_to_ascii != (iconv_t)(-1) &&
+         connection -> iconv_cd_ascii_to_uc != (iconv_t)(-1))
+    {
+        return 1;
+    }
+
     /*
      * is this a bigendian machine ?
      */

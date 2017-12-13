@@ -621,6 +621,10 @@ DMHDBC __alloc_dbc( void )
         connection -> protection_level = TS_LEVEL3;
 #endif
 
+#ifdef HAVE_ICONV
+        connection -> iconv_cd_uc_to_ascii = (iconv_t)(-1);
+        connection -> iconv_cd_ascii_to_uc = (iconv_t)(-1);
+#endif
     }
 
     local_mutex_exit( &mutex_lists );
