@@ -2673,12 +2673,6 @@ void __disconnect_part_four( DMHDBC connection )
     }
 
     /*
-     * shutdown unicode
-     */
-
-    unicode_shutdown( connection );
-
-    /*
      * free some memory
      */
 
@@ -2907,12 +2901,6 @@ static void close_pooled_connection( CPOOL *ptr )
             ptr -> connection.dl_handle = NULL;
         }
 
-    	/*
-     	 * shutdown unicode
-     	 */
-
-    	unicode_shutdown( &ptr -> connection );
-
         /*
          * free some memory
          */
@@ -2963,12 +2951,6 @@ static void close_pooled_connection( CPOOL *ptr )
             }
             ptr -> connection.dl_handle = NULL;
         }
-
-    	/*
-     	 * shutdown unicode
-     	 */
-
-    	unicode_shutdown( &ptr -> connection );
 
         /*
          * free some memory
