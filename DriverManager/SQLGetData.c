@@ -488,7 +488,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
-        }
+    }
     }
     else if ( SQL_SUCCEEDED( ret ) && unicode_switch )
     {
@@ -519,7 +519,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
             *strlen_or_ind = ind_value;
         }
     }
-    
+
     if ( ret != SQL_STILL_EXECUTING
         && (statement -> state == STATE_S11 || statement -> state == STATE_S12) )
     {

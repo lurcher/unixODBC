@@ -194,7 +194,7 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
-    
+
     __check_for_function( connection, function_id, supported );
 
     if ( log_info.log_flag )

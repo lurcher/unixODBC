@@ -564,15 +564,15 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                 unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
 
                 if ( string_length_ptr && *string_length_ptr > 0 ) 
-                {
+            {
                     *string_length_ptr /= sizeof( SQLWCHAR );
                 }
             }
 
             if ( s1 )
-            {
+			{
                 free( s1 );
-            }
+			}
 
             if ( SQL_SUCCEEDED( ret ) && diag_identifier == SQL_DIAG_SQLSTATE )
             {

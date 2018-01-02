@@ -63,9 +63,14 @@
 
 #define HAVE_LONG_DOUBLE
 
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
+#endif
 #include <string.h>
 #include <ctype.h>
+#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
 #include "uodbc_extras.h"
 
 /* varargs declarations: */
@@ -344,7 +349,11 @@ static int dopr (char *buffer, size_t maxlen, const char *format, va_list args)
 	break;
       case 'p':
 	strvalue = (char*) va_arg (args, void *);
+#ifdef HAVE_PTRDIFF_T
+	fmtint (buffer, &currlen, maxlen, (ptrdiff_t) strvalue, 16, min, max, flags);
+#else
 	fmtint (buffer, &currlen, maxlen, (long) strvalue, 16, min, max, flags);
+#endif
 	break;
       case 'n':
 	if (cflags == DP_C_SHORT) 

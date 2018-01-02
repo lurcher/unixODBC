@@ -1,4 +1,5 @@
-2.3.5pre
+2-Jan-2018
+2.3.5
 
     * Add configure option --enable-setlibversion set mark the libs with VERS_3.52
       Linux only, so any driver built with the libs will work with closed source 
@@ -111,6 +112,7 @@
     * fix empty SQL_DIAG_SERVER_NAME field in DM-supplied diag recs
     * fix differing behaviour for an empty string DSN in SQLConnect/W
     * Alter isql to return errors from SQLMoreResults
+    * Handle case of building on mingw-w64
 
 3rd-Aug-2015
 2.3.4

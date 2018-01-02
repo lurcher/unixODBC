@@ -595,7 +595,11 @@ SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
 
     if ( attribute == SQL_ATTR_METADATA_ID )
     {
+#ifdef HAVE_PTRDIFF_T
+        statement -> metadata_id = (ptrdiff_t) value;
+#else
         statement -> metadata_id = (SQLINTEGER) value;
+#endif
     }
 
     if ( attribute == SQL_ATTR_IMP_ROW_DESC || 

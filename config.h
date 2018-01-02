@@ -189,6 +189,9 @@
 /* Define if libtool can extract symbol lists from object files. */
 #define HAVE_PRELOADED_SYMBOLS 1
 
+/* Define to 1 if the system has the type `ptrdiff_t'. */
+#define HAVE_PTRDIFF_T 1
+
 /* Define to 1 if you have the `putenv' function. */
 #define HAVE_PUTENV 1
 
@@ -233,6 +236,9 @@
 
 /* Define to 1 if you have the <stdarg.h> header file. */
 #define HAVE_STDARG_H 1
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#define HAVE_STDDEF_H 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -345,7 +351,7 @@
 /* #undef LTDL_DLOPEN_DEPLIBS */
 
 /* Define to the system default library search path. */
-#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/lib/digilent/adept:/usr/lib64/digilent/adept:/usr/lib/x86_64-linux-gnu/libfakeroot:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/mesa-egl:/usr/lib/nvidia-304:/usr/lib32/nvidia-304:/lib32:/usr/lib32:/libx32:/usr/libx32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib"
+#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/lib/digilent/adept:/usr/lib64/digilent/adept:/usr/lib/x86_64-linux-gnu/libfakeroot:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/mesa-egl:/usr/lib/nvidia-304:/usr/lib32/nvidia-304:/usr/lib/x86_64-linux-gnu/mir/clientplatform/mesa:/lib32:/usr/lib32:/libx32:/usr/libx32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib:/usr/local/easysoft/isam/lib:/usr/local/easysoft/oob/client"
 
 /* The archive extension */
 #define LT_LIBEXT "a"
@@ -385,7 +391,7 @@
 #define PACKAGE_NAME "unixODBC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "unixODBC 2.3.5-pre"
+#define PACKAGE_STRING "unixODBC 2.3.5"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "unixODBC"
@@ -394,7 +400,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.3.5-pre"
+#define PACKAGE_VERSION "2.3.5"
 
 /* Platform is 64 bit */
 #define PLATFORM64 /**/
@@ -429,7 +435,7 @@
 #define STRICT_ODBC_ERROR /**/
 
 /* System file path */
-#define SYSTEM_FILE_PATH "/etc"
+#define SYSTEM_FILE_PATH "/usr/local/etc"
 
 /* Lib path */
 #define SYSTEM_LIB_PATH "/usr/local/lib"
@@ -450,7 +456,7 @@
 #define UNIXODBC_SOURCE /**/
 
 /* Version number of package */
-#define VERSION "2.3.5-pre"
+#define VERSION "2.3.5"
 
 /* Work with IBM drivers that use 32 bit handles on 64 bit platforms */
 /* #undef WITH_HANDLE_REDIRECT */

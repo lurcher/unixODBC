@@ -600,12 +600,12 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 case SQL_COLUMN_OWNER_NAME:
                 case SQL_COLUMN_TABLE_NAME:
                 case SQL_COLUMN_TYPE_NAME:
-                case SQL_DESC_BASE_COLUMN_NAME:
-                case SQL_DESC_BASE_TABLE_NAME:
-                case SQL_DESC_LITERAL_PREFIX:
-                case SQL_DESC_LITERAL_SUFFIX:
-                case SQL_DESC_LOCAL_TYPE_NAME:
-                case SQL_DESC_NAME:
+              case SQL_DESC_BASE_COLUMN_NAME:
+              case SQL_DESC_BASE_TABLE_NAME:
+              case SQL_DESC_LITERAL_PREFIX:
+              case SQL_DESC_LITERAL_SUFFIX:
+              case SQL_DESC_LOCAL_TYPE_NAME:
+              case SQL_DESC_NAME:
                     if ( ret == SQL_SUCCESS && string_length )
                     {
                         *string_length /= sizeof( SQLWCHAR );	
