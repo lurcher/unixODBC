@@ -288,7 +288,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
-    if ( field_identifier == SQL_DESC_COUNT && (SQLINTEGER)value < 0 )
+    if ( field_identifier == SQL_DESC_COUNT && (intptr_t)value < 0 )
     {
         __post_internal_error( &descriptor -> error,
                 ERROR_07009, NULL,
@@ -297,9 +297,9 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
-    if ( field_identifier == SQL_DESC_PARAMETER_TYPE && value != SQL_PARAM_INPUT
-        && value != SQL_PARAM_OUTPUT && value != SQL_PARAM_INPUT_OUTPUT &&
-        value != SQL_PARAM_INPUT_OUTPUT_STREAM && value != SQL_PARAM_OUTPUT_STREAM )
+    if ( field_identifier == SQL_DESC_PARAMETER_TYPE && (intptr_t)value != SQL_PARAM_INPUT
+        && (intptr_t)value != SQL_PARAM_OUTPUT && (intptr_t)value != SQL_PARAM_INPUT_OUTPUT &&
+        (intptr_t)value != SQL_PARAM_INPUT_OUTPUT_STREAM && (intptr_t)value != SQL_PARAM_OUTPUT_STREAM )
     {
         __post_internal_error( &descriptor -> error,
                 ERROR_HY105, NULL,

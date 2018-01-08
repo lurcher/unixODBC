@@ -21,7 +21,7 @@ BOOL SQLWriteFileDSN(			LPCSTR	pszFileName,
 
 	if ( pszFileName[0] == '/' )
 	{
-		strncpy( szFileName, sizeof(szFileName) - 5, pszFileName );
+		strncpy( szFileName, pszFileName, sizeof(szFileName) - 5 );
 	}
 	else
 	{	

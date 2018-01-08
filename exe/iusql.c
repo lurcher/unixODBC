@@ -413,7 +413,6 @@ static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNa
             if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
             fprintf( stderr, "[ISQL]ERROR: Could not SQLExecDirect\n" );
             SQLFreeStmt( hStmt, SQL_DROP );
-            free(szSepLine);
             return 0;
         }
     }

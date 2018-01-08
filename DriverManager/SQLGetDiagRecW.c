@@ -98,6 +98,8 @@
 
 static char const rcsid[]= "$RCSfile: SQLGetDiagRecW.c,v $";
 
+extern int __is_env( EHEAD * head );        /* in SQLGetDiagRec.c */
+
 static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
         SQLWCHAR *sqlstate,
         SQLINTEGER rec_number,
