@@ -234,7 +234,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             {
                 if ( diag_info_ptr )
                 {
-                    wcscpy( diag_info_ptr, L"" );
+                    *((SQLWCHAR*)diag_info_ptr) = 0;
                 }
                 if ( string_length_ptr )
                 {
