@@ -14,14 +14,14 @@ odbcinst_LDADD = \
 odbcinst_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
-    $(LTDLDEPS)
+	$(LTDLDEPS)
 
 odbcinst_SOURCES = odbcinst.c 
 
 isql_LDADD = \
 	../DriverManager/libodbc.la \
 	../extras/libodbcextraslc.la \
- 	$(READLINE)
+	$(READLINE)
 
 isql_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -32,7 +32,7 @@ iusql_LDADD = \
 	../DriverManager/libodbc.la \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
- 	$(READLINE)
+	$(READLINE)
 
 iusql_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
@@ -48,7 +48,7 @@ odbc_config_SOURCES = odbc-config.c
 
 slencheck_LDADD = \
 	../DriverManager/libodbc.la \
- 	$(READLINE)
+	$(READLINE)
 
 slencheck_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -58,3 +58,10 @@ slencheck_SOURCES = slencheck.c
 
 dltest_DEPENDENCIES = $(LTDLDEPS)
 dltest_LDADD = $(LIBLTDL)
+
+all-am:
+	@sed -i -e "s![@]ODBC_ULEN[@]!`$(CURDIR)/odbc_config$(EXEEXT) --ulen`!" \
+		-e "s![@]ODBC_CFLAGS[@]!`$(CURDIR)/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
+		$(top_builddir)/DriverManager/odbc.pc
+
+

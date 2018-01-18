@@ -1,6 +1,7 @@
 2.3.6pre
 
     * Fix order of arguments in SQLWriteFileDSN.c, fix unwanted free() in iusql.c
+    * Add pkg-config files
 
 2-Jan-2018
 2.3.5

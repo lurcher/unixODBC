@@ -1,11 +1,17 @@
 ACLOCAL_AMFLAGS=-I m4 
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = \
+	cur/odbccr.pc \
+	DriverManager/odbc.pc \
+	odbcinst/odbcinst.pc
+
 SUBDIRS = \
 	extras \
 	log \
 	lst \
 	ini \
-    libltdl \
+	libltdl \
 	odbcinst \
 	DriverManager \
 	exe \
@@ -14,7 +20,7 @@ SUBDIRS = \
 	Drivers \
 	include \
 	doc \
-    man \
+	man \
 	samples 
 
 EXTRA_DIST = \
@@ -35,11 +41,11 @@ EXTRA_DIST = \
 	Interix/configure \
 	Interix/config.guess \
 	Interix/libtool \
-    m4 \
-    configure.ac \
-    Makefile.svn
+	m4 \
+	configure.ac \
+	Makefile.svn
 
-install-data-am:
+install-data-am: install-pkgconfigDATA
 	-touch $(DESTDIR)${sysconfdir}/odbcinst.ini
 	-touch $(DESTDIR)${sysconfdir}/odbc.ini
 	-mkdir -p $(DESTDIR)${sysconfdir}/ODBCDataSources

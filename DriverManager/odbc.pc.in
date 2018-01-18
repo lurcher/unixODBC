@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
+
+odbcversion=3
+longodbcversion=3.52
+odbcini=@SYSTEM_FILE_PATH@/odbc.ini
+odbcinstini=@SYSTEM_FILE_PATH@/odbcinst.ini
+ulen=@ODBC_ULEN@
+
+Name: unixODBC
+Description: unixODBC is an Open Source ODBC sub-system.
+URL: http://unixodbc.org
+Version: @PACKAGE_VERSION@
+Cflags: @ODBC_CFLAGS@ -I${includedir}
+Libs: -L${libdir} -lodbc
