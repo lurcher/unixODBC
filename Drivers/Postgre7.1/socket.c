@@ -100,7 +100,7 @@ SOCK_connect_to_ip(SocketClass *self, unsigned short port, char *hostname)
 {
 struct hostent *host;
 struct sockaddr_in sadr;
-unsigned long iaddr;
+struct in_addr iaddr;
 
 	if (self->socket != -1) {
 		self->errornumber = SOCKET_ALREADY_CONNECTED;
@@ -113,8 +113,8 @@ unsigned long iaddr;
 	/*	If it is a valid IP address, use it.
 		Otherwise use hostname lookup. 
 	*/
-	iaddr = inet_addr(hostname);
-	if (iaddr == INADDR_NONE) {
+	iaddr.s_addr = inet_addr(hostname);
+	if (iaddr.s_addr == INADDR_NONE) {
 		host = gethostbyname(hostname);
 		if (host == NULL) {
 			self->errornumber = SOCKET_HOST_NOT_FOUND;
