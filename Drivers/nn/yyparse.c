@@ -2206,7 +2206,7 @@ static int	add_ins_value( yystmt_t* pstmt, node_t node, int idx)
 {
 	if( !idx )
 	{
-		MEM_FREE(pstmt->ins_values)
+		MEM_FREE(pstmt->ins_values);
 		pstmt->ins_values = (node_t*)MEM_ALLOC( FILTER_CHUNK_SIZE * sizeof(node_t));
 	}
 	else if( ! idx%FILTER_CHUNK_SIZE )
