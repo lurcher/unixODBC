@@ -25,6 +25,7 @@
 # define	YYERRCODE	256
 
 #include	<stdio.h>
+#include	<ctype.h>
 
 static int	getcmpopidxbyname(char* name)
 {
