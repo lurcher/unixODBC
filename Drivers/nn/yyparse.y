@@ -36,7 +36,7 @@ static	char	sccsid[]
 # define yylex()		nnsql_yylex(&yylval, pyyenv)
 #endif
 
-#define yyparse(x)		nnsql_yyparse	(pyyenv)
+#define yyparse(x)		nnsql_yyparse	(yyenv_t* pyyenv)
 #define yyerror(msg)		nnsql_yyerror (pyyenv, msg)
 #define SETYYERROR(env, code)	{ env->pstmt->errcode = code; \
 				  env->pstmt->errpos = env->errpos;}
