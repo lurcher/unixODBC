@@ -21,6 +21,7 @@
 #  include	<stdlib.h>
 #  include	<errno.h>
 #  include	<sys/types.h>
+#  include	<string.h>
 
 #  define	MEM_ALLOC(size) (malloc((size_t)(size)))
 #  define	MEM_FREE(ptr)	{if(ptr) free(ptr);}
