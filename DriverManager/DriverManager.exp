@@ -153,6 +153,8 @@ SQLTablesW
 SQLTablesA
 SQLTransact
 ODBCSharedTraceFlag
+dm_log_write
+__post_internal_error
 uodbc_open_stats
 uodbc_close_stats
 uodbc_get_stats
