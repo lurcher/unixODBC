@@ -851,7 +851,7 @@ SQLRETURN SQLDriverConnect(
 			!__get_attribute_value( &con_struct, "FILEDSN" ))
 		{
 			int ret;
-			SQLCHAR returned_dsn[ 128 ], *prefix, *target;
+			SQLCHAR returned_dsn[ 1025 ], *prefix, *target;
 
 			/*
 			 * try and call GUI to obtain a DSN
