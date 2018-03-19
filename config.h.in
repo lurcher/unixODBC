@@ -371,6 +371,9 @@
 /* Define to the shared library suffix, say, ".dylib". */
 #undef LT_SHARED_EXT
 
+/* Define to the shared archive member specification, say "(shr.o)". */
+#undef LT_SHARED_LIB_MEMBER
+
 /* Define if you need semundo union */
 #undef NEED_SEMUNDO_UNION
 

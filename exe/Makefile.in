@@ -85,8 +85,8 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/mkinstalldirs $(top_srcdir)/depcomp COPYING \
 	README
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/argz.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltdl.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltargz.m4 $(top_srcdir)/m4/ltdl.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
@@ -187,7 +187,6 @@ ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
-ARGZ_H = @ARGZ_H@
 AS = @AS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -248,9 +247,11 @@ LTDLDEPS = @LTDLDEPS@
 LTDLINCL = @LTDLINCL@
 LTDLOPEN = @LTDLOPEN@
 LTLIBOBJS = @LTLIBOBJS@
+LT_ARGZ_H = @LT_ARGZ_H@
 LT_CONFIG_H = @LT_CONFIG_H@
 LT_DLLOADERS = @LT_DLLOADERS@
 LT_DLPREOPEN = @LT_DLPREOPEN@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -356,13 +357,13 @@ odbcinst_LDADD = \
 odbcinst_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
-    $(LTDLDEPS)
+	$(LTDLDEPS)
 
 odbcinst_SOURCES = odbcinst.c 
 isql_LDADD = \
 	../DriverManager/libodbc.la \
 	../extras/libodbcextraslc.la \
- 	$(READLINE)
+	$(READLINE)
 
 isql_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -372,7 +373,7 @@ iusql_LDADD = \
 	../DriverManager/libodbc.la \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
- 	$(READLINE)
+	$(READLINE)
 
 iusql_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
@@ -385,7 +386,7 @@ dltest_SOURCES = dltest.c
 odbc_config_SOURCES = odbc-config.c
 slencheck_LDADD = \
 	../DriverManager/libodbc.la \
- 	$(READLINE)
+	$(READLINE)
 
 slencheck_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -746,6 +747,11 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
+
+all-am:
+	@sed -i -e "s![@]ODBC_ULEN[@]!`$(CURDIR)/odbc_config$(EXEEXT) --ulen`!" \
+		-e "s![@]ODBC_CFLAGS[@]!`$(CURDIR)/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
+		$(top_builddir)/DriverManager/odbc.pc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

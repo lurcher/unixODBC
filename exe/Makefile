@@ -85,8 +85,8 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/mkinstalldirs $(top_srcdir)/depcomp COPYING \
 	README
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/argz.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltdl.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltargz.m4 $(top_srcdir)/m4/ltdl.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
@@ -182,16 +182,15 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing aclocal-1.14
+ACLOCAL = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing aclocal-1.14
 ALLOCA = 
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-ARGZ_H = 
 AS = as
-AUTOCONF = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing autoconf
-AUTOHEADER = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing autoheader
-AUTOMAKE = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing automake-1.14
+AUTOCONF = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing autoconf
+AUTOHEADER = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing autoheader
+AUTOMAKE = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing automake-1.14
 AWK = gawk
 BIN_PREFIX = /usr/local/bin
 CC = gcc
@@ -238,7 +237,7 @@ LIBADD_SHL_LOAD =
 LIBICONV = 
 LIBLTDL = -lltdl
 LIBOBJS = 
-LIBS = -ldl  -lpthread
+LIBS =  -lpthread
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIB_PREFIX = /usr/local/lib
 LIB_VERSION = 2:0:0
@@ -248,10 +247,12 @@ LTDLDEPS =
 LTDLINCL = 
 LTDLOPEN = libltdl
 LTLIBOBJS = 
+LT_ARGZ_H = 
 LT_CONFIG_H = config.h
 LT_DLLOADERS =  libltdl/dlopen.la
 LT_DLPREOPEN = -dlpreopen libltdl/dlopen.la 
-MAKEINFO = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing makeinfo
+LT_SYS_LIBRARY_PATH = 
+MAKEINFO = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
@@ -263,10 +264,10 @@ OTOOL64 =
 PACKAGE = unixODBC
 PACKAGE_BUGREPORT = nick@unixodbc.org
 PACKAGE_NAME = unixODBC
-PACKAGE_STRING = unixODBC 2.3.5-pre
+PACKAGE_STRING = unixODBC 2.3.6
 PACKAGE_TARNAME = unixODBC
 PACKAGE_URL = 
-PACKAGE_VERSION = 2.3.5-pre
+PACKAGE_VERSION = 2.3.6
 PATH_SEPARATOR = :
 PREFIX = /usr/local
 PTH_CFLAGS = 
@@ -280,15 +281,15 @@ SET_MAKE =
 SHELL = /bin/bash
 SHLIBEXT = .so
 STRIP = strip
-SYSTEM_FILE_PATH = /etc
+SYSTEM_FILE_PATH = /usr/local/etc
 SYSTEM_LIB_PATH = /usr/local/lib
-VERSION = 2.3.5-pre
+VERSION = 2.3.6
 YACC = bison -y
 YFLAGS = 
-abs_builddir = /home/nick/unixodbc-git/unixODBC/exe
-abs_srcdir = /home/nick/unixodbc-git/unixODBC/exe
-abs_top_builddir = /home/nick/unixodbc-git/unixODBC
-abs_top_srcdir = /home/nick/unixodbc-git/unixODBC
+abs_builddir = /home/nick/unixodbc-git1/unixODBC/exe
+abs_srcdir = /home/nick/unixodbc-git1/unixODBC/exe
+abs_top_builddir = /home/nick/unixodbc-git1/unixODBC
+abs_top_srcdir = /home/nick/unixodbc-git1/unixODBC
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
@@ -317,7 +318,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/nick/unixodbc-git/unixODBC/install-sh
+install_sh = ${SHELL} /home/nick/unixodbc-git1/unixODBC/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -338,7 +339,7 @@ sharedstatedir = ${prefix}/com
 srcdir = .
 subdirs =  libltdl
 sys_symbol_underscore = no
-sysconfdir = /etc
+sysconfdir = ${prefix}/etc
 target_alias = 
 top_build_prefix = ../
 top_builddir = ..
@@ -356,13 +357,13 @@ odbcinst_LDADD = \
 odbcinst_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
-    $(LTDLDEPS)
+	$(LTDLDEPS)
 
 odbcinst_SOURCES = odbcinst.c 
 isql_LDADD = \
 	../DriverManager/libodbc.la \
 	../extras/libodbcextraslc.la \
- 	$(READLINE)
+	$(READLINE)
 
 isql_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -372,7 +373,7 @@ iusql_LDADD = \
 	../DriverManager/libodbc.la \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
- 	$(READLINE)
+	$(READLINE)
 
 iusql_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
@@ -385,7 +386,7 @@ dltest_SOURCES = dltest.c
 odbc_config_SOURCES = odbc-config.c
 slencheck_LDADD = \
 	../DriverManager/libodbc.la \
- 	$(READLINE)
+	$(READLINE)
 
 slencheck_DEPENDENCIES = \
 	../DriverManager/libodbc.la
@@ -746,6 +747,11 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
+
+all-am:
+	@sed -i -e "s![@]ODBC_ULEN[@]!`$(CURDIR)/odbc_config$(EXEEXT) --ulen`!" \
+		-e "s![@]ODBC_CFLAGS[@]!`$(CURDIR)/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
+		$(top_builddir)/DriverManager/odbc.pc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

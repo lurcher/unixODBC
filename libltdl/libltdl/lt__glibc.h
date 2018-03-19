@@ -1,6 +1,6 @@
 /* lt__glibc.h -- support for non glibc environments
 
-   Copyright (C) 2004, 2006-2007, 2011-2013 Free Software Foundation,
+   Copyright (C) 2004, 2006-2007, 2011-2015 Free Software Foundation,
    Inc.
    Written by Gary V. Vaughan, 2004
 
@@ -53,7 +53,10 @@ or obtained by writing to the Free Software Foundation, Inc.,
 #  define argz_next		lt__argz_next
 #  undef  argz_stringify
 #  define argz_stringify	lt__argz_stringify
-#endif
+
+#  include <lt__argz.h>
+
+#else
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,6 +67,8 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif /*!defined HAVE_ARGZ_H || !defined HAVE_WORKING_ARGZ*/
 
 # define slist_concat	lt__slist_concat
 # define slist_cons	lt__slist_cons

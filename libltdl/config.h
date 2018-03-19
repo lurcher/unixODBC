@@ -120,7 +120,7 @@
 /* #undef LTDL_DLOPEN_DEPLIBS */
 
 /* Define to the system default library search path. */
-#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/lib/digilent/adept:/usr/lib64/digilent/adept:/usr/lib/x86_64-linux-gnu/libfakeroot:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/mesa-egl:/usr/lib/nvidia-304:/usr/lib32/nvidia-304:/lib32:/usr/lib32:/libx32:/usr/libx32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib"
+#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/lib/digilent/adept:/usr/lib64/digilent/adept:/usr/lib/x86_64-linux-gnu/libfakeroot:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/mesa-egl:/usr/lib/nvidia-340:/usr/lib32/nvidia-340:/usr/lib/x86_64-linux-gnu/mir/clientplatform/mesa:/lib32:/usr/lib32:/libx32:/usr/libx32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib:/usr/local/easysoft/isam/lib:/usr/local/easysoft/oob/client"
 
 /* The archive extension */
 #define LT_LIBEXT "a"
@@ -140,6 +140,9 @@
 
 /* Define to the shared library suffix, say, ".dylib". */
 /* #undef LT_SHARED_EXT */
+
+/* Define to the shared archive member specification, say "(shr.o)". */
+/* #undef LT_SHARED_LIB_MEMBER */
 
 /* Define if dlsym() requires a leading underscore in symbol names. */
 /* #undef NEED_USCORE */

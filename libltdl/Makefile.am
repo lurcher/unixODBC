@@ -1,6 +1,6 @@
 ## ltdl.mk -- includable Makefile snippet
 ##
-##   Copyright (C) 2003-2005, 2007, 2011-2013 Free Software Foundation,
+##   Copyright (C) 2003-2005, 2007, 2011-2015 Free Software Foundation,
 ##   Inc.
 ##   Written by Gary V. Vaughan, 2003
 ##
@@ -46,7 +46,7 @@ MOSTLYCLEANFILES =
 # (not as a sub-package!) using 'nostdinc':
 AM_CPPFLAGS	       += -DLT_CONFIG_H='<$(LT_CONFIG_H)>' \
 			  -DLTDL -I. -I$(srcdir) -Ilibltdl \
-			  -I$(srcdir)/libltdl -I$(srcdir)/libltdl
+			  -I$(srcdir)/libltdl
 AM_LDFLAGS	       += -no-undefined
 LTDL_VERSION_INFO	= -version-info 10:1:3
 
@@ -144,16 +144,16 @@ EXTRA_DIST	       += COPYING.LIB \
 ## Gnulib Makefile.am snippets ##
 ## --------------------------- ##
 
-BUILT_SOURCES	+= $(ARGZ_H)
-EXTRA_DIST	+= argz_.h \
-		   argz.c
+BUILT_SOURCES	+= libltdl/$(LT_ARGZ_H)
+EXTRA_DIST	+= libltdl/lt__argz_.h \
+		   lt__argz.c
 
 # We need the following in order to create an <argz.h> when the system
 # doesn't have one that works with the given compiler.
-all-local $(lib_OBJECTS): $(ARGZ_H)
-argz.h: argz_.h
-	$(AM_V_at)$(mkinstalldirs) . 
-	$(AM_V_GEN)cp $(srcdir)/argz_.h $@-t
+all-local $(lib_OBJECTS): $(LT_ARGZ_H)
+libltdl/lt__argz.h: libltdl/lt__argz_.h
+	$(AM_V_at)$(mkinstalldirs) . libltdl
+	$(AM_V_GEN)cp $(srcdir)/libltdl/lt__argz_.h $@-t
 	$(AM_V_at)mv $@-t $@
-MOSTLYCLEANFILES += argz.h \
-		    argz.h-t
+MOSTLYCLEANFILES += libltdl/lt__argz.h \
+		    libltdl/lt__argz.h-t

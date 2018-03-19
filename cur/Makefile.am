@@ -10,7 +10,7 @@ EXTRA_DIST = \
 libodbccr_la_LDFLAGS = \
 	-no-undefined \
 	-version-info @LIB_VERSION@ \
-	-export-symbols @srcdir@/cur.exp -export-dynamic 
+	-export-symbols @srcdir@/cur.exp -export-dynamic ../DriverManager/libodbc.la
 
 libodbccr_la_SOURCES = \
     SQLAllocHandle.c \

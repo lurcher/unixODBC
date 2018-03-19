@@ -80,11 +80,11 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
 subdir = DriverManager
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/mkinstalldirs $(top_srcdir)/depcomp ChangeLog \
-	TODO
+	$(top_srcdir)/mkinstalldirs $(srcdir)/odbc.pc.in \
+	$(top_srcdir)/depcomp ChangeLog TODO
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/argz.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltdl.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltargz.m4 $(top_srcdir)/m4/ltdl.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
@@ -93,7 +93,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h \
 	$(top_builddir)/unixodbc_conf.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = odbc.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -236,16 +236,15 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing aclocal-1.14
+ACLOCAL = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing aclocal-1.14
 ALLOCA = 
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-ARGZ_H = 
 AS = as
-AUTOCONF = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing autoconf
-AUTOHEADER = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing autoheader
-AUTOMAKE = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing automake-1.14
+AUTOCONF = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing autoconf
+AUTOHEADER = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing autoheader
+AUTOMAKE = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing automake-1.14
 AWK = gawk
 BIN_PREFIX = /usr/local/bin
 CC = gcc
@@ -292,7 +291,7 @@ LIBADD_SHL_LOAD =
 LIBICONV = 
 LIBLTDL = -lltdl
 LIBOBJS = 
-LIBS = -ldl  -lpthread
+LIBS =  -lpthread
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIB_PREFIX = /usr/local/lib
 LIB_VERSION = 2:0:0
@@ -302,10 +301,12 @@ LTDLDEPS =
 LTDLINCL = 
 LTDLOPEN = libltdl
 LTLIBOBJS = 
+LT_ARGZ_H = 
 LT_CONFIG_H = config.h
 LT_DLLOADERS =  libltdl/dlopen.la
 LT_DLPREOPEN = -dlpreopen libltdl/dlopen.la 
-MAKEINFO = ${SHELL} /home/nick/unixodbc-git/unixODBC/missing makeinfo
+LT_SYS_LIBRARY_PATH = 
+MAKEINFO = ${SHELL} /home/nick/unixodbc-git1/unixODBC/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
@@ -317,10 +318,10 @@ OTOOL64 =
 PACKAGE = unixODBC
 PACKAGE_BUGREPORT = nick@unixodbc.org
 PACKAGE_NAME = unixODBC
-PACKAGE_STRING = unixODBC 2.3.5-pre
+PACKAGE_STRING = unixODBC 2.3.6
 PACKAGE_TARNAME = unixODBC
 PACKAGE_URL = 
-PACKAGE_VERSION = 2.3.5-pre
+PACKAGE_VERSION = 2.3.6
 PATH_SEPARATOR = :
 PREFIX = /usr/local
 PTH_CFLAGS = 
@@ -334,15 +335,15 @@ SET_MAKE =
 SHELL = /bin/bash
 SHLIBEXT = .so
 STRIP = strip
-SYSTEM_FILE_PATH = /etc
+SYSTEM_FILE_PATH = /usr/local/etc
 SYSTEM_LIB_PATH = /usr/local/lib
-VERSION = 2.3.5-pre
+VERSION = 2.3.6
 YACC = bison -y
 YFLAGS = 
-abs_builddir = /home/nick/unixodbc-git/unixODBC/DriverManager
-abs_srcdir = /home/nick/unixodbc-git/unixODBC/DriverManager
-abs_top_builddir = /home/nick/unixodbc-git/unixODBC
-abs_top_srcdir = /home/nick/unixodbc-git/unixODBC
+abs_builddir = /home/nick/unixodbc-git1/unixODBC/DriverManager
+abs_srcdir = /home/nick/unixodbc-git1/unixODBC/DriverManager
+abs_top_builddir = /home/nick/unixodbc-git1/unixODBC
+abs_top_srcdir = /home/nick/unixodbc-git1/unixODBC
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
@@ -371,7 +372,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/nick/unixodbc-git/unixODBC/install-sh
+install_sh = ${SHELL} /home/nick/unixodbc-git1/unixODBC/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -392,7 +393,7 @@ sharedstatedir = ${prefix}/com
 srcdir = .
 subdirs =  libltdl
 sys_symbol_underscore = no
-sysconfdir = /etc
+sysconfdir = ${prefix}/etc
 target_alias = 
 top_build_prefix = ../
 top_builddir = ..
@@ -585,6 +586,8 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+odbc.pc: $(top_builddir)/config.status $(srcdir)/odbc.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
