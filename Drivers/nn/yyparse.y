@@ -17,7 +17,11 @@
 static	char	sccsid[]
 	= "@(#)SQL parser for NNSQL(NetNews SQL), Copyright(c) 1995, 1996 by Ke Jin";
 
+#include <stdint.h>
+#include <stdlib.h>
+
 #include	<config.h>
+#include    <nnconfig.h>
 
 #include	<nncol.h>
 #include	<yyenv.h>
@@ -340,10 +344,10 @@ where_clause
 	| kwd_where search_condition
 	  {
 		yystmt_t*	pstmt;
-		long		offset;
+		uintptr_t		offset;
 
 		pstmt = pyyenv->pstmt;
-		offset = (long)($2);
+		offset = (uintptr_t)($2);
 
 		pstmt->srchtree = pstmt->node_buf + offset;
 		srchtree_reloc (	pstmt->node_buf, pstmt->srchtreenum);
@@ -895,7 +899,7 @@ static	void*	add_node(yystmt_t* pstmt, node_t* node)
 		srchtree[i].right= EMPTY_PTR;
 	}
 
-	return (void*)((long)(pstmt->srchtreenum - 1));
+	return (void*)((uintptr_t)(pstmt->srchtreenum - 1));
 }
 
 static	void	srchtree_reloc(node_t* buf, int num)
@@ -911,7 +915,7 @@ static	void	srchtree_reloc(node_t* buf, int num)
  */
 {
 	int	i;
-	long offset;
+	uintptr_t offset;
 	node_t* ptr = buf;
 
 	for(i=0; ptr && i<num; ptr++, i++)
@@ -920,7 +924,7 @@ static	void	srchtree_reloc(node_t* buf, int num)
 			ptr->left = 0;
 		else
 		{
-			offset = (long)(ptr->left);
+			offset = (uintptr_t)(ptr->left);
 			ptr->left = buf + offset;
 		}
 
@@ -928,7 +932,7 @@ static	void	srchtree_reloc(node_t* buf, int num)
 			ptr->right= 0;
 		else
 		{
-			offset = (long)(ptr->right);
+			offset = (uintptr_t)(ptr->right);
 			ptr->right= buf+ offset;
 		}
 	}
