@@ -1,7 +1,9 @@
+2.3.7pre
+
 19-March-2018
 2.3.6
 
-    * Fix order of arguments in SQLWriteFileDSN.c, fix unwanted free() in iusql.c
+    * Fix order of arguments in SQLWriteFileDSN.c, fix unwanted free() in iusql.c (CVE-2018-7485)
     * Add pkg-config files
 
 2-Jan-2018
@@ -23,7 +25,7 @@
     * Fix problem calling the driver to report errors if the error is from the DM and the driver 
       has not been called
     * SQLSetConnectAttrW crashes when attempting to set SQL_ATTR_LOGIN_TIMEOUT
-    * Buffer overflow in unicode_to_ansi_copy()
+    * Buffer overflow in unicode_to_ansi_copy() (CVE-2018-7409)
     * SQLDriverConnect with not-found FILEDSN causes crash
     * SQLGetDescRec with null name pointer causes crash
     * Connection string escaping does not work
