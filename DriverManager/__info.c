@@ -4183,7 +4183,7 @@ void clear_error_head( EHEAD *error_header )
  * get the error values from the handle
  */
 
-static void extract_diag_error( int htype,
+void extract_diag_error( int htype,
                             DRV_SQLHANDLE handle,
                             DMHDBC connection,
                             EHEAD *head,
@@ -4449,7 +4449,7 @@ static void extract_diag_error( int htype,
     while( SQL_SUCCEEDED( ret ));
 }
 
-static void extract_sql_error( DRV_SQLHANDLE henv,
+void extract_sql_error( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
@@ -4560,7 +4560,7 @@ static void extract_sql_error( DRV_SQLHANDLE henv,
     while( SQL_SUCCEEDED( ret ));
 }
 
-static void extract_diag_error_w( int htype,
+void extract_diag_error_w( int htype,
                             DRV_SQLHANDLE handle,
                             DMHDBC connection,
                             EHEAD *head,
@@ -4804,7 +4804,7 @@ static void extract_diag_error_w( int htype,
     while( SQL_SUCCEEDED( ret ));
 }
 
-static void extract_sql_error_w( DRV_SQLHANDLE henv,
+void extract_sql_error_w( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
@@ -5419,7 +5419,7 @@ void __post_internal_error_api( EHEAD *error_handle,
 
       case ERROR_08002:
         strcpy( sqlstate, "08002" );
-        message = "Connection name in use";
+        message = "Connection in use";
         break;
 
       case ERROR_08003:
@@ -5691,7 +5691,7 @@ void __post_internal_error_api( EHEAD *error_handle,
 
       case ERROR_IM002:
         strcpy( sqlstate, "IM002" );
-        message = "Data source name not found, and no default driver specified";
+        message = "Data source name not found and no default driver specified";
         subclass = SUBCLASS_ODBC;
         class = SUBCLASS_ODBC;
         break;

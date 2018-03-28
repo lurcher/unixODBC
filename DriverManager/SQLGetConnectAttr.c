@@ -368,6 +368,37 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
                                 *string_length = sizeof(SQLLEN);
                             }
                         }
+                        else if(sa -> str_len >= SQL_IS_SMALLINT && sa -> str_len <= SQL_IS_POINTER)
+                        {
+                            SQLLEN length = 0;
+                            switch (sa -> str_len)
+                            {
+                            case SQL_IS_SMALLINT:
+                                *(SQLSMALLINT*)value = sa->int_attr;
+                                length = sizeof(SQLSMALLINT);
+                                break;
+                            case SQL_IS_USMALLINT:
+                                *(SQLUSMALLINT*)value = sa->int_attr;
+                                length = sizeof(SQLUSMALLINT);
+                                break;
+                            case SQL_IS_INTEGER:
+                                *(SQLINTEGER*)value = sa->int_attr;
+                                length = sizeof(SQLINTEGER);
+                                break;
+                            case SQL_IS_UINTEGER:
+                                *(SQLUINTEGER*)value = sa->int_attr;
+                                length = sizeof(SQLUINTEGER);
+                                break;
+                            case SQL_IS_POINTER:
+                                *(SQLPOINTER**)value = sa->int_attr;
+                                length = sizeof(SQLPOINTER);
+                                break;
+                            }
+                            if(string_length)
+                            {
+                                *string_length = length;
+                            }
+                        }
                         else
                         {
                             memcpy(value, &sa->int_attr, buffer_length);
