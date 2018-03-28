@@ -62,8 +62,8 @@ dltest_LDADD = $(LIBLTDL)
 all-am:
 	@sed "s![@]ODBC_ULEN[@]!`$(CURDIR)/odbc_config$(EXEEXT) --ulen`!" \
 	  $(top_builddir)/DriverManager/odbc.pc > $(CURDIR)/odbc.pc.tmp
-	@mv $(CURDIR)/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
+	@mv -f $(CURDIR)/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
 	@sed "s![@]ODBC_CFLAGS[@]!`$(CURDIR)/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
 	  $(top_builddir)/DriverManager/odbc.pc > $(CURDIR)/odbc.pc.tmp
-	@mv $(CURDIR)/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
+	@mv -f $(CURDIR)/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
 
