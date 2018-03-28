@@ -315,6 +315,12 @@ typedef struct	tODBCINSTPROPERTY
 } ODBCINSTPROPERTY, *HODBCINSTPROPERTY;
 
 /*
+ * Plugin name
+ */
+
+#define ODBCINSTPLUGIN          "odbcinstQ5"
+
+/*
  * Conversion routines for wide interface
  */
 

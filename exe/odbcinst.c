@@ -99,7 +99,7 @@ int CreateDataSource( char *pszDataSourceName )
     ODBCINSTWND odbcinstwnd;
 
     odbcinstwnd.hWnd = 0;
-    strcpy( odbcinstwnd.szUI, "odbcinstQ4" );
+    strcpy( odbcinstwnd.szUI, ODBCINSTPLUGIN );
 
     if ( SQLCreateDataSource( (HWND)&(odbcinstwnd), ( (pszDataSourceName && *pszDataSourceName) ? pszDataSourceName : 0 ) ) == FALSE )
         return 1;
@@ -130,7 +130,7 @@ int ManageDataSources()
     ODBCINSTWND odbcinstwnd;
 
     odbcinstwnd.hWnd = 0;
-    strcpy( odbcinstwnd.szUI, "odbcinstQ4" );
+    strcpy( odbcinstwnd.szUI, ODBCINSTPLUGIN );
 
     if ( SQLManageDataSources( (HWND)&(odbcinstwnd) ) == FALSE )
         return 1;

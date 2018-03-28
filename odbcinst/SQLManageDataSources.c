@@ -58,7 +58,7 @@ char *_getUIPluginName( char *pszName, char *pszUI )
     }
 
     /* default to qt4 */
-    strcpy( pszName, "libodbcinstQ4" );
+    strcpy( pszName, ODBCINSTPLUGIN );
 
     return pszName;
 }
