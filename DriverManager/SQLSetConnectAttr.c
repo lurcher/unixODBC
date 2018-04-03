@@ -248,7 +248,8 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                         LOG_INFO, 
                         LOG_INFO, 
                         "Error: HY024" );
-        
+
+                function_entry( connection );
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
@@ -317,7 +318,8 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                             LOG_INFO, 
                             LOG_INFO, 
                             "Error: HY024" );
-            
+
+                    function_entry( connection );
                     __post_internal_error( &connection -> error,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
@@ -348,7 +350,8 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                         LOG_INFO, 
                         LOG_INFO, 
                         "Error: HY024" );
-        
+
+                function_entry( connection );
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
@@ -496,8 +499,8 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
         /* ODBC 3.x statement attributes are not settable at the connection level */
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
-      	case SQL_ATTR_CURSOR_SCROLLABLE:
-      	case SQL_ATTR_CURSOR_SENSITIVITY:
+        case SQL_ATTR_CURSOR_SCROLLABLE:
+        case SQL_ATTR_CURSOR_SENSITIVITY:
         case SQL_ATTR_ENABLE_AUTO_IPD:
         case SQL_ATTR_FETCH_BOOKMARK_PTR:
         case SQL_ATTR_IMP_PARAM_DESC:
@@ -667,9 +670,9 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 }
                 else
                 {
-                sa -> str_attr = strdup( value );
-                sa -> str_len = string_length;
-            }
+                    sa -> str_attr = strdup( value );
+                    sa -> str_len = string_length;
+                }
             }
             else
             {

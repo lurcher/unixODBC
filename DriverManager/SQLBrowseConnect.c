@@ -207,10 +207,11 @@ SQLRETURN SQLBrowseConnect(
     char *driver, *dsn;
     char lib_name[ INI_MAX_PROPERTY_VALUE + 1 ];
     char driver_name[ INI_MAX_PROPERTY_VALUE + 1 ];
-    char in_str[ BUFFER_LEN ];
+    char in_str_buf[ BUFFER_LEN ];
+    char *in_str;
+    SQLSMALLINT in_str_len;
     SQLRETURN ret;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ], s2[ 100 + LOG_MESSAGE_LEN];
-	SQLWCHAR *uc_in_str;
     int warnings = 0;
 
     /*
@@ -333,7 +334,6 @@ SQLRETURN SQLBrowseConnect(
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
-            __generate_connection_string( &con_struct, in_str, sizeof( in_str ));
             strcpy( connection -> dsn, "" );
         }
         else
@@ -360,8 +360,6 @@ SQLRETURN SQLBrowseConnect(
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
-            __generate_connection_string( &con_struct, in_str, sizeof( in_str ));
-
             /*
              * look up the dsn in the ini file
              */
@@ -385,6 +383,7 @@ SQLRETURN SQLBrowseConnect(
             strcpy( connection -> dsn, dsn );
         }
 
+        __generate_connection_string( &con_struct, in_str_buf, sizeof( in_str_buf ));
         __release_conn( &con_struct );
 
         /*
@@ -404,7 +403,8 @@ SQLRETURN SQLBrowseConnect(
             return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
 
-        if ( !CHECK_SQLBROWSECONNECT( connection ))
+        if ( !CHECK_SQLBROWSECONNECTW( connection ) &&
+            !CHECK_SQLBROWSECONNECT( connection ))
         {
             dm_log_write( __FILE__, 
                         __LINE__, 
@@ -420,18 +420,13 @@ SQLRETURN SQLBrowseConnect(
 
             return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
+        in_str = in_str_buf;
+        in_str_len = strlen(in_str);
     }
     else
     {
-        if ( len_conn_str_in == SQL_NTS )
-        {
-            strcpy( in_str, (char*)conn_str_in );
-        }
-        else
-        {
-            memcpy( in_str, conn_str_in, len_conn_str_in );
-            in_str[ len_conn_str_in ] = '\0';
-        }
+        in_str = conn_str_in;
+        in_str_len = len_conn_str_in == SQL_NTS ? strlen(in_str) : len_conn_str_in;
     }
 
     if (CHECK_SQLBROWSECONNECT( connection ))
@@ -439,7 +434,7 @@ SQLRETURN SQLBrowseConnect(
         ret = SQLBROWSECONNECT( connection,
             connection -> driver_dbc,
             in_str,
-            strlen( in_str ),
+            in_str_len,
             conn_str_out,
             conn_str_out_max,
             ptr_conn_str_out );
@@ -449,22 +444,29 @@ SQLRETURN SQLBrowseConnect(
     else if (CHECK_SQLBROWSECONNECTW( connection ))
     {
         int wlen;
+	    SQLWCHAR *uc_in_str = ansi_to_unicode_alloc((SQLCHAR*)in_str,SQL_NTS,connection, &wlen);
+        SQLWCHAR *uc_out_str = conn_str_out ? malloc( (conn_str_out_max + 1) * sizeof(SQLWCHAR) ) : 0;
 
-        uc_in_str = ansi_to_unicode_alloc((SQLCHAR*)in_str,SQL_NTS,connection, &wlen);
-        
         ret = SQLBROWSECONNECTW( connection,
             connection -> driver_dbc,
             uc_in_str,
             wlen,
-            conn_str_out,
+            uc_out_str,
             conn_str_out_max,
             ptr_conn_str_out );
         
         if(uc_in_str)
-             free(uc_in_str);
+            free(uc_in_str);
 
-        connection->unicode_driver = 1;
+        if(uc_out_str)
+        {
+            unicode_to_ansi_copy((char*) conn_str_out, conn_str_out_max, uc_out_str, SQL_NTS, connection, NULL );
+            if (*ptr_conn_str_out < conn_str_out_max)
+                *ptr_conn_str_out = strlen(conn_str_out);
+            free(uc_out_str);
+        }
         
+        connection->unicode_driver = 1;
     }
     else
     {
@@ -479,83 +481,108 @@ SQLRETURN SQLBrowseConnect(
         __post_internal_error( &connection -> error,
                                ERROR_IM001, NULL,
                                connection -> environment -> requested_version );
-          return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     } 
 
     if ( !SQL_SUCCEEDED( ret ) || ret == SQL_NEED_DATA )
     {
-        SQLCHAR sqlstate[ 6 ];
-        SQLINTEGER native_error;
-        SQLSMALLINT ind;
-        SQLCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
-        SQLRETURN eret;
-
         /*
          * get the error from the driver before
-         * looseing the connection
+         * losing the connection
          */
-        if ( CHECK_SQLERROR( connection ))
+        if ( connection -> unicode_driver )
         {
-            do
+            if ( CHECK_SQLGETDIAGFIELDW( connection ) &&
+                    CHECK_SQLGETDIAGRECW( connection ))
             {
-                eret = SQLERROR( connection,
-                    SQL_NULL_HENV,
+                extract_diag_error_w( SQL_HANDLE_DBC,
                         connection -> driver_dbc,
-                        SQL_NULL_HSTMT,
-                        sqlstate,
-                        &native_error,
-                        message_text,
-                        sizeof( message_text ),
-                        &ind );
-
-
-                if ( SQL_SUCCEEDED( eret ))
-                {
-                    __post_internal_error_ex( &connection -> error,
-                            sqlstate,
-                            native_error,
-                            message_text,
-                            SUBCLASS_ODBC, SUBCLASS_ODBC );
-
-                    sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                            sqlstate, message_text );
-
-                    dm_log_write_diag( connection -> msg );
-                }
+                        connection,
+                        &connection -> error,
+                        ret,
+                        1 );
             }
-            while( SQL_SUCCEEDED( eret ));
+            else if ( CHECK_SQLERRORW( connection )) 
+            {
+                extract_sql_error_w( SQL_NULL_HENV, 
+                        connection -> driver_dbc, 
+                        SQL_NULL_HSTMT, 
+                        connection,
+                        &connection -> error, 
+                        ret );
+            }
+            else if ( CHECK_SQLGETDIAGFIELD( connection ) &&
+                    CHECK_SQLGETDIAGREC( connection ))
+            {
+                extract_diag_error( SQL_HANDLE_DBC,
+                        connection -> driver_dbc,
+                        connection,
+                        &connection -> error,
+                        ret,
+                        1 );
+            }
+            else if ( CHECK_SQLERROR( connection )) 
+            {
+                extract_sql_error( SQL_NULL_HENV, 
+                        connection -> driver_dbc, 
+                        SQL_NULL_HSTMT, 
+                        connection,
+                        &connection -> error, 
+                        ret );
+            }
+            else 
+            {
+                __post_internal_error( &connection -> error,
+                    ERROR_HY000, "Driver returned SQL_ERROR or SQL_SUCCESS_WITH_INFO but no error reporting API found",
+                    connection -> environment -> requested_version );
+            }
         }
-        else if ( CHECK_SQLGETDIAGREC( connection ))
+        else
         {
-            int rec = 1;
-
-            do
+            if ( CHECK_SQLGETDIAGFIELD( connection ) &&
+                    CHECK_SQLGETDIAGREC( connection ))
             {
-                eret = SQLGETDIAGREC( connection,
-                        SQL_HANDLE_DBC,
+                extract_diag_error( SQL_HANDLE_DBC,
                         connection -> driver_dbc,
-                        rec ++,
-                        sqlstate,
-                        &native_error,
-                        message_text,
-                        sizeof( message_text ),
-                        &ind );
-
-                if ( SQL_SUCCEEDED( eret ))
-                {
-                    __post_internal_error_ex( &connection -> error,
-                            sqlstate,
-                            native_error,
-                            message_text,
-                            SUBCLASS_ODBC, SUBCLASS_ODBC );
-
-                    sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                            sqlstate, message_text );
-
-                    dm_log_write_diag( connection -> msg );
-                }
+                        connection,
+                        &connection -> error,
+                        ret,
+                        1 );
             }
-            while( SQL_SUCCEEDED( eret ));
+            else if ( CHECK_SQLERROR( connection )) 
+            {
+                extract_sql_error( SQL_NULL_HENV, 
+                        connection -> driver_dbc, 
+                        SQL_NULL_HSTMT, 
+                        connection,
+                        &connection -> error, 
+                        ret );
+            }
+            else if ( CHECK_SQLGETDIAGFIELDW( connection ) &&
+                    CHECK_SQLGETDIAGRECW( connection ))
+            {
+                extract_diag_error_w( SQL_HANDLE_DBC,
+                        connection -> driver_dbc,
+                        connection,
+                        &connection -> error,
+                        ret,
+                        1 );
+            }
+            else if ( CHECK_SQLERRORW( connection )) 
+            {
+                extract_sql_error_w( SQL_NULL_HENV, 
+                        connection -> driver_dbc, 
+                        SQL_NULL_HSTMT, 
+                        connection,
+                        &connection -> error, 
+                        ret );
+            }
+            else 
+            {
+                __post_internal_error( &connection -> error,
+                    ERROR_HY000, "Driver returned SQL_ERROR or SQL_SUCCESS_WITH_INFO but no error reporting API found",
+                    connection -> environment -> requested_version );
+            }
         }
 
     	if ( ret != SQL_NEED_DATA ) 
@@ -619,8 +646,6 @@ SQLRETURN SQLBrowseConnect(
                 LOG_INFO, 
                 connection -> msg );
     }
-
-    connection -> unicode_driver = 0;
 
     if ( warnings && ret == SQL_SUCCESS )
     {

@@ -287,16 +287,16 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                         if (sa -> str_len == SQL_NTS || sa -> str_len > 0)
                         {
                             SQLLEN realLen = sa->str_attr ? strlen(sa->str_attr) : 0;
-                            if(value && sa->str_attr)
+                            if(value && sa->str_attr && buffer_length)
                             {
-                                strncpy(value, sa->str_attr, buffer_length - 1);
+                                ansi_to_unicode_copy( value, sa->str_attr, buffer_length/sizeof(SQLWCHAR), connection, NULL );
                                 ((SQLCHAR*)value)[buffer_length - 1] = 0;
                             }
                             if(string_length)
                             {
-                                *string_length = realLen;
+                                *string_length = realLen * sizeof(SQLWCHAR);
                             }
-                            if(realLen > buffer_length - 1)
+                            if(realLen * sizeof(SQLWCHAR) > buffer_length - 1)
                             {
                                 __post_internal_error( &connection -> error,
                                 ERROR_01004, NULL,
@@ -310,6 +310,37 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                             if(string_length)
                             {
                                 *string_length = sizeof(SQLLEN);
+                            }
+                        }
+                        else if(sa -> str_len >= SQL_IS_SMALLINT && sa -> str_len <= SQL_IS_POINTER)
+                        {
+                            SQLLEN length = 0;
+                            switch (sa -> str_len)
+                            {
+                            case SQL_IS_SMALLINT:
+                                *(SQLSMALLINT*)value = sa->int_attr;
+                                length = sizeof(SQLSMALLINT);
+                                break;
+                            case SQL_IS_USMALLINT:
+                                *(SQLUSMALLINT*)value = sa->int_attr;
+                                length = sizeof(SQLUSMALLINT);
+                                break;
+                            case SQL_IS_INTEGER:
+                                *(SQLINTEGER*)value = sa->int_attr;
+                                length = sizeof(SQLINTEGER);
+                                break;
+                            case SQL_IS_UINTEGER:
+                                *(SQLUINTEGER*)value = sa->int_attr;
+                                length = sizeof(SQLUINTEGER);
+                                break;
+                            case SQL_IS_POINTER:
+                                *(SQLPOINTER**)value = sa->int_attr;
+                                length = sizeof(SQLPOINTER);
+                                break;
+                            }
+                            if(string_length)
+                            {
+                                *string_length = length;
                             }
                         }
                         else
