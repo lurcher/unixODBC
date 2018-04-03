@@ -81,3 +81,84 @@ BOOL _SQLDriverConnectPrompt(
 
     return FALSE;
 }
+
+BOOL _SQLDriverConnectPromptW( 
+	HWND hwnd, 
+	SQLWCHAR *dsn, 
+	SQLSMALLINT len_dsn )
+{
+    HODBCINSTWND  hODBCInstWnd = (HODBCINSTWND)hwnd;
+    char          szName[FILENAME_MAX];
+    char          szNameAndExtension[FILENAME_MAX];
+    char          szPathAndName[FILENAME_MAX];
+    void *        hDLL;
+    BOOL          (*pODBCDriverConnectPromptW)(HWND, SQLWCHAR *, SQLSMALLINT );
+
+    /* initialize libtool */
+    if ( lt_dlinit() )
+    {
+        return FALSE;
+    }
+
+    /* get plugin name */
+
+	if ( hODBCInstWnd ) 
+	{
+    	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, hODBCInstWnd->szUI ) );
+	}
+	else 
+	{
+    	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, NULL ) );
+	}
+
+    /* lets try loading the plugin using an implicit path */
+    hDLL = lt_dlopen( szNameAndExtension );
+    if ( hDLL )
+    {
+        /* change the name, as it avoids it finding it in the calling lib */
+        pODBCDriverConnectPromptW = (BOOL (*)( HWND, SQLWCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPromptW" );
+        if ( pODBCDriverConnectPromptW ) 
+		{
+			if ( hODBCInstWnd ) 
+			{
+            	return pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+			}
+			else 
+			{
+            	return pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
+			}
+		}
+		else 
+		{
+			return FALSE;
+		}
+    }
+    else
+    {
+        /* try with explicit path */
+        _prependUIPluginPath( szPathAndName, szNameAndExtension );
+        hDLL = lt_dlopen( szPathAndName );
+        if ( hDLL )
+        {
+            /* change the name, as it avoids linker finding it in the calling lib */
+        	pODBCDriverConnectPromptW = (BOOL (*)(HWND, SQLWCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPromptW" );
+        	if ( pODBCDriverConnectPromptW ) 
+			{
+				if ( hODBCInstWnd ) 
+				{
+            		return pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+				}
+				else 
+				{
+            		return pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
+				}
+			}
+			else 
+			{
+				return FALSE;
+			}
+        }
+    }
+
+    return FALSE;
+}

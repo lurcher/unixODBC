@@ -203,6 +203,11 @@ BOOL _SQLDriverConnectPrompt(
 	SQLCHAR *dsn, 
 	SQLSMALLINT len_dsn );
 
+BOOL _SQLDriverConnectPromptW( 
+	HWND hwnd, 
+	SQLWCHAR *dsn, 
+	SQLSMALLINT len_dsn );
+
 void __set_config_mode( int mode );
 int __get_config_mode( void );
 

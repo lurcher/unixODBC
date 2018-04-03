@@ -409,19 +409,21 @@ SQLRETURN SQLDriverConnectW(
 			!__get_attribute_value( &con_struct, "FILEDSN" ))
 		{
 			int ret;
-			SQLCHAR returned_dsn[ 1025 ], *prefix, *target;
+			SQLWCHAR returned_wdsn[ 1025 ];
+			SQLCHAR *prefix, *target, returned_dsn[ 1025 ];
 
 			/*
 			 * try and call GUI to obtain a DSN
 			 */
 
-			ret = _SQLDriverConnectPrompt( hwnd, returned_dsn, sizeof( returned_dsn ));
-			if ( !ret || returned_dsn[ 0 ] == '\0' ) 
+			ret = _SQLDriverConnectPromptW( hwnd, returned_wdsn, sizeof( returned_wdsn ));
+			if ( !ret || returned_wdsn[ 0 ] == 0 ) 
 			{
         		__append_pair( &con_struct, "DSN", "DEFAULT" );
 			}
 			else 
 			{
+                unicode_to_ansi_copy( returned_dsn, sizeof( returned_dsn ), returned_wdsn, SQL_NTS, connection, NULL );
 				prefix = returned_dsn;
 				target = (SQLCHAR*)strchr( (char*)returned_dsn, '=' );
 				if ( target ) 
