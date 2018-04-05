@@ -463,7 +463,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text ),
+                            sizeof( message_text )/sizeof(SQLWCHAR),
                             &ind );
 
 
@@ -501,7 +501,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text ),
+                            sizeof( message_text )/sizeof(SQLWCHAR),
                             &ind );
 
 

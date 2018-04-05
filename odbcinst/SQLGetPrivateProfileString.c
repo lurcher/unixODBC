@@ -429,6 +429,10 @@ int SQLGetPrivateProfileString( LPCSTR  pszSection,
 
             return ret;
         }
+        else if ( !*pszFileName )
+        {
+            return 0; /* Asking for empty filename returns nothing, not even default */
+        }
     }
 
     /*****************************************************

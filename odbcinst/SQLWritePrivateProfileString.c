@@ -54,8 +54,8 @@ BOOL SQLWritePrivateProfileString(
 		strcpy( szFileName, pszFileName );
 	}
 	else
-	{	
-		if ( _odbcinst_ConfigModeINI( szFileName ) == FALSE )
+	{
+		if ( !*pszFileName || _odbcinst_ConfigModeINI( szFileName ) == FALSE )
 		{
         	inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_REQUEST_FAILED, "" );
 			return FALSE;
