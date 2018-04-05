@@ -3,6 +3,7 @@
     * Fix for pkg-config file update on no linux platforms
     * Add W entry for GUI work
     * Various fixes for SQLBrowseConnect/W, SQLGetConnectAttr/W,and SQLSetConnectAttr/W
+    * Fix buffer overflows in SQLConnect/W and refine behaviour of SQLGet/WritePrivateProfileString
 
 19-March-2018
 2.3.6
