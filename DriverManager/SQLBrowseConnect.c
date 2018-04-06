@@ -587,9 +587,18 @@ SQLRETURN SQLBrowseConnect(
 
     	if ( ret != SQL_NEED_DATA ) 
 		{
-        	__disconnect_part_one( connection );
-            __disconnect_part_four( connection );       /* release unicode handles */
-        	connection -> state = STATE_C2;
+            /* If an error occurred during SQLBrowseConnect, we need to keep the
+               connection in the same state (C2 or C3). This allows the application
+               to either try the SQLBrowseConnect again, or disconnect an active
+               browse session with SQLDisconnect. Otherwise the driver may continue
+               to have an active connection while the DM thinks it does not,
+               causing more errors later on. */
+            if ( connection -> state == STATE_C2 )
+            {
+                /* only disconnect and unload if we never started browsing */
+                __disconnect_part_one( connection );
+                __disconnect_part_four( connection );  /* release unicode handles - also sets state to C2 */
+            }
 		}
 		else 
 		{
