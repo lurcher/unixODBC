@@ -77,7 +77,7 @@ int ODBCINSTGetProperties( HODBCINSTPROPERTY hLastProperty )
 	memcpy( hLastProperty->aPromptData, aColumnSeperators, sizeof( aColumnSeperators ) ); 
 	strncpy( hLastProperty->szName, "ColumnSeperator", INI_MAX_PROPERTY_NAME );
 	strncpy( hLastProperty->szValue, "|", INI_MAX_PROPERTY_VALUE );
-	hLastProperty->pszHelp				= strdup( "Column seperator character used in table files.\nCAN NOT EXIST IN COLUMN VALUES." );
+	hLastProperty->pszHelp				= strdup( "Column seperator character used in table files.\nCANNOT EXIST IN COLUMN VALUES." );
 
 	return 1;
 }
