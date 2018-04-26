@@ -166,11 +166,30 @@ int uodbc_open_stats(
     {
         return -1;
     }
+
+#ifdef STATS_FTOK_NAME
+
+    if ( strcmp( STATS_FTOK_NAME, "odbc.ini" ) == 0 ) {
+        if (!_odbcinst_SystemINI(odbcini, FALSE))
+        {
+            snprintf(errmsg, sizeof(errmsg), "Failed to find system odbc.ini");
+            return -1;
+        }
+    }
+    else {
+        strcpy( odbcini, STATS_FTOK_NAME );
+    }
+
+#else
+
     if (!_odbcinst_SystemINI(odbcini, FALSE))
     {
         snprintf(errmsg, sizeof(errmsg), "Failed to find system odbc.ini");
         return -1;
     }
+
+#endif
+
     memset(&lh, '\0', sizeof(lh));
     memcpy(lh.id, UODBC_STATS_ID, 5);
     lh.shm_id = -1;

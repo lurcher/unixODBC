@@ -430,6 +430,9 @@
 	STACK_DIRECTION = 0 => direction of growth unknown */
 #undef STACK_DIRECTION
 
+/* Filename to use for ftok */
+#undef STATS_FTOK_NAME
+
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 

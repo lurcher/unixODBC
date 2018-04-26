@@ -5,6 +5,8 @@
     * Various fixes for SQLBrowseConnect/W, SQLGetConnectAttr/W,and SQLSetConnectAttr/W
     * Fix buffer overflows in SQLConnect/W and refine behaviour of SQLGet/WritePrivateProfileString
     * SQLBrowseConnect/W allow disconnecting a started browse session after error
+    * Add --with-stats-ftok-name configure option to allow the selection of a file name
+      used to generate the IPC id when collecting stats. Default is the system odbc.ini file
 
 19-March-2018
 2.3.6

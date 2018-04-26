@@ -101,6 +101,19 @@ AC_ARG_ENABLE( stats,
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-stats) ;;
     esac],[stats=false])
 
+stats_ftok_name="odbc.ini"
+
+AC_ARG_WITH(stats_ftok_name,
+    [  --with-stats-ftok-name=filename  Filename to get IPC ID for stats gathering  [default=odbc.ini]],
+       stats_ftok_name="$withval"
+    )
+
+STATS_FTOK_NAME="$stats_ftok_name"
+
+AC_SUBST(STATS_FTOK_NAME)
+
+AC_DEFINE_UNQUOTED([STATS_FTOK_NAME],"$STATS_FTOK_NAME",[Filename to use for ftok])
+
 AC_ARG_ENABLE( setlibversion,
 [  --enable-setlibversion  build with VERS set in libraries [default=no]],
 [ case "${enableval}" in
