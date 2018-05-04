@@ -12,8 +12,8 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 **/
-#ifndef _CONFIG_H
-#define _CONFIG_H
+#ifndef _NNCONFIG_H
+#define _NNCONFIG_H
 
 # if	!defined(WINDOWS) && !defined(WIN32_SYSTEM)
 #  define	_UNIX_
