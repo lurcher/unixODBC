@@ -209,7 +209,7 @@ struct log_structure
     int     log_flag;
     int     pid_logging;            /* the log path specifies a directory, and a */
                                     /* log file per pid is created */
-
+    int     ref_count;              /* number of times dm_log_open()'d without dm_log_close() */
 };
 
 extern struct log_structure log_info;

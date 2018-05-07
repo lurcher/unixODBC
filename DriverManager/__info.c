@@ -474,7 +474,7 @@
 
 static char const rcsid[]= "$RCSfile: __info.c,v $ $Revision: 1.50 $";
 
-struct log_structure log_info = { NULL, NULL, 0 };
+struct log_structure log_info = { NULL, NULL, 0, 0 };
 
 SQLINTEGER ODBCSharedTraceFlag = 0;
 
@@ -5815,6 +5815,7 @@ void  dm_log_open( char *program_name,
      */
 
     log_info.pid_logging = pid_logging;
+    log_info.ref_count++;
 }
 
 void dm_log_write( char *function_name, int line, int type, int severity,
@@ -5954,9 +5955,16 @@ void dm_log_write_diag( char *message )
 
 void dm_log_close( void )
 {
-    free( log_info.program_name );
-    free( log_info.log_file_name );
-    log_info.program_name = NULL;
-    log_info.log_file_name = NULL;
-    log_info.log_flag = 0;
+    if ( !log_info.ref_count )
+        return;
+
+    log_info.ref_count--;
+    if ( !log_info.ref_count )
+    {
+        free( log_info.program_name );
+        free( log_info.log_file_name );
+        log_info.program_name = NULL;
+        log_info.log_file_name = NULL;
+        log_info.log_flag = 0;
+    }
 }
