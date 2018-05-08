@@ -19,7 +19,7 @@
 /**********************************************
  * STATIC LOOKUP VALUES
  **********************************************/
-static const char *aColumnSeperators[] =
+static const char *aColumnSeparatorss[] =
 {
 	"|",
     ",",
@@ -73,11 +73,11 @@ int ODBCINSTGetProperties( HODBCINSTPROPERTY hLastProperty )
 	hLastProperty->pNext 				= (HODBCINSTPROPERTY)calloc( 1, sizeof(ODBCINSTPROPERTY) );
 	hLastProperty 						= hLastProperty->pNext;
 	hLastProperty->nPromptType			= ODBCINST_PROMPTTYPE_COMBOBOX;
-	hLastProperty->aPromptData          = malloc( sizeof( aColumnSeperators ) );
-	memcpy( hLastProperty->aPromptData, aColumnSeperators, sizeof( aColumnSeperators ) ); 
-	strncpy( hLastProperty->szName, "ColumnSeperator", INI_MAX_PROPERTY_NAME );
+	hLastProperty->aPromptData          = malloc( sizeof( aColumnSeparatorss ) );
+	memcpy( hLastProperty->aPromptData, aColumnSeparatorss, sizeof( aColumnSeparatorss ) ); 
+	strncpy( hLastProperty->szName, "ColumnSeparators", INI_MAX_PROPERTY_NAME );
 	strncpy( hLastProperty->szValue, "|", INI_MAX_PROPERTY_VALUE );
-	hLastProperty->pszHelp				= strdup( "Column seperator character used in table files.\nCANNOT EXIST IN COLUMN VALUES." );
+	hLastProperty->pszHelp				= strdup( "Column separator character used in table files.\nCANNOT EXIST IN COLUMN VALUES." );
 
 	return 1;
 }
