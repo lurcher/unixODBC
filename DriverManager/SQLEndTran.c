@@ -335,7 +335,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                                     ERROR_25S01, NULL,
                                     environment -> requested_version );
 
-                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR, DEFER_R0 );
                         }
                     }
                     else if ( CHECK_SQLTRANSACT( connection ))
@@ -357,7 +357,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                                     ERROR_25S01, NULL,
                                     environment -> requested_version );
 
-                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR, DEFER_R0 );
                         }
                     }
                     else
@@ -391,7 +391,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                 LOG_INFO, 
                 environment -> msg );
 
-        return function_return( SQL_HANDLE_ENV, environment, SQL_SUCCESS );
+        return function_return( SQL_HANDLE_ENV, environment, SQL_SUCCESS, DEFER_R0 );
     }
     else if ( handle_type == SQL_HANDLE_DBC )
     {
@@ -569,7 +569,7 @@ SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
                     connection -> msg );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, ret );
+        return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R0 );
     }
     else
     {

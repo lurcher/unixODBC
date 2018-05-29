@@ -236,7 +236,7 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
-        
+
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
             else 
@@ -660,5 +660,5 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
         connection -> bookmarks_on = (SQLUINTEGER) value;
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R3 );
 }

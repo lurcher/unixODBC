@@ -315,7 +315,7 @@ SQLRETURN SQLSetScrollOptions(
                 LOG_INFO, 
                 "Error: SQLGetInfo fails" );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
         if ( f_concurrency == SQL_CONCUR_READ_ONLY &&
@@ -331,7 +331,7 @@ SQLRETURN SQLSetScrollOptions(
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         else if ( f_concurrency == SQL_CONCUR_LOCK &&
                 !( ivp & SQL_CA2_LOCK_CONCURRENCY ))
@@ -346,7 +346,7 @@ SQLRETURN SQLSetScrollOptions(
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         else if ( f_concurrency == SQL_CONCUR_ROWVER &&
                 !( ivp & SQL_CA2_OPT_ROWVER_CONCURRENCY ))
@@ -361,7 +361,7 @@ SQLRETURN SQLSetScrollOptions(
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         if ( f_concurrency == SQL_CONCUR_VALUES &&
                 !( ivp & SQL_CA2_OPT_VALUES_CONCURRENCY ))
@@ -376,7 +376,7 @@ SQLRETURN SQLSetScrollOptions(
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         if ( f_concurrency != SQL_CONCUR_READ_ONLY &&
             f_concurrency != SQL_CONCUR_LOCK &&
@@ -393,7 +393,7 @@ SQLRETURN SQLSetScrollOptions(
                     ERROR_S1108, NULL,
                     statement -> connection -> environment -> requested_version );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
         if(CHECK_SQLSETSTMTATTR( statement -> connection ))
@@ -421,7 +421,7 @@ SQLRETURN SQLSetScrollOptions(
                 LOG_INFO, 
                 "Error: SQLSetStmtAttr fails" );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
 
@@ -460,7 +460,7 @@ SQLRETURN SQLSetScrollOptions(
                         ERROR_S1107, NULL,
                         statement -> connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
             }
             break;
         }
@@ -490,7 +490,7 @@ SQLRETURN SQLSetScrollOptions(
                 LOG_INFO, 
                 "Error: SQLSetStmtAttr fails" );
             
-            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+            return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
         if ( crow_keyset > 0 )
@@ -520,7 +520,7 @@ SQLRETURN SQLSetScrollOptions(
                     LOG_INFO, 
                     "Error: SQLSetStmtAttr fails" );
                 
-                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
             }
         }
         if(CHECK_SQLSETSTMTATTR( statement -> connection ))
@@ -568,5 +568,5 @@ SQLRETURN SQLSetScrollOptions(
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }

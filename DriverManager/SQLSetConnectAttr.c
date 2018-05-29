@@ -875,5 +875,5 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
         connection -> bookmarks_on = (SQLLEN) value;
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R3 );
 }

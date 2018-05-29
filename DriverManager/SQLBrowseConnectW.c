@@ -576,7 +576,7 @@ SQLRETURN SQLBrowseConnectW(
 
         if( ret == SQL_SUCCESS_WITH_INFO )
         {
-            function_return_ex( IGNORE_THREAD, connection, ret, TRUE );
+            function_return_ex( IGNORE_THREAD, connection, ret, TRUE, DEFER_R0 );
         }
 
         if ( !__connect_part_two( connection ))
@@ -598,7 +598,7 @@ SQLRETURN SQLBrowseConnectW(
                         connection -> msg );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
     }
 

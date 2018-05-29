@@ -208,14 +208,14 @@ SQLRETURN SQLCancelHandle( SQLSMALLINT HandleType, SQLHANDLE Handle )
 #if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
                 if ( statement -> connection -> protection_level == 3 ) 
                 {
-                    return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR );
+                    return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R0 );
                 }
                 else 
                 {
-                    return function_return( IGNORE_THREAD, statement, ret );
+                    return function_return( IGNORE_THREAD, statement, ret, DEFER_R0 );
                 }
 #else
-                return function_return( IGNORE_THREAD, statement, ret );
+                return function_return( IGNORE_THREAD, statement, ret, DEFER_R0 );
 #endif
             }
             break;
@@ -291,7 +291,7 @@ SQLRETURN SQLCancelHandle( SQLSMALLINT HandleType, SQLHANDLE Handle )
                             connection -> msg );
                 }
 
-                return function_return( IGNORE_THREAD, connection, ret );
+                return function_return( IGNORE_THREAD, connection, ret, DEFER_R0 );
             }
             break;
 

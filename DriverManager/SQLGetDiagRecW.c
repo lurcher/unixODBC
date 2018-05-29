@@ -100,6 +100,91 @@ static char const rcsid[]= "$RCSfile: SQLGetDiagRecW.c,v $";
 
 extern int __is_env( EHEAD * head );        /* in SQLGetDiagRec.c */
 
+SQLRETURN extract_parent_handle_rec( DRV_SQLHANDLE handle,
+        int         handle_type,
+        SQLSMALLINT rec_number,
+        SQLWCHAR    *sqlstate,
+        SQLINTEGER  *native,
+        SQLWCHAR    *message_text,
+        SQLSMALLINT buffer_length,
+        SQLSMALLINT *text_length_ptr )
+{
+    dm_log_write( __FILE__,
+            __LINE__,
+            LOG_INFO,
+            LOG_INFO,
+            "Error: SQL_INVALID_HANDLE" );
+
+    if ( handle_type != SQL_HANDLE_ENV )
+    {
+#ifdef WITH_HANDLE_REDIRECT
+        {
+            DMHDBC *parent_handle_dbc;
+            DMHSTMT *parent_handle_stmt;
+            DMHDESC *parent_handle_desc;
+
+            switch ( handle_type )
+            {
+                case SQL_HANDLE_DBC:
+                    {
+                        parent_handle_dbc = find_parent_handle( handle, handle_type );
+                    }
+                    break;
+
+                case SQL_HANDLE_STMT:
+                    {
+                        parent_handle_stmt = find_parent_handle( handle, handle_type );
+                        parent_handle_dbc = parent_handle_stmt->connection;
+                    }
+                    break;
+
+                case SQL_HANDLE_DESC:
+                    {
+                        parent_handle_desc = find_parent_handle( handle, handle_type );
+                        parent_handle_dbc = parent_handle_desc->connection;
+                    }
+                    break;
+
+                default:
+                    {
+                        return SQL_INVALID_HANDLE;
+                    }
+            }
+
+            if ( parent_handle_dbc )
+            {
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
+                        "Info: found parent handle" );
+
+                if ( CHECK_SQLGETDIAGRECW( parent_handle_dbc ))
+                {
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
+                            "Info: calling redirected driver function" );
+
+                    return SQLGETDIAGRECW( parent_handle_dbc,
+                            handle_type,
+                            handle,
+                            rec_number,
+                            sqlstate,
+                            native,
+                            message_text,
+                            buffer_length,
+                            text_length_ptr );
+                }
+            }
+        }
+#endif
+    }
+
+    return SQL_INVALID_HANDLE;
+}
+
 static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
         SQLWCHAR *sqlstate,
         SQLINTEGER rec_number,
@@ -343,489 +428,180 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
     SQLCHAR s2[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s3[ 100 + LOG_MESSAGE_LEN ];
 
+    DMHENV environment = ( DMHENV ) handle;
+    DMHDBC connection = NULL;
+    DMHSTMT statement = NULL;
+    DMHDESC descriptor = NULL;
+
+    EHEAD  *herror;
+    char *handle_msg;
+    const char *handle_type_ptr;
+
     if ( rec_number < 1 )
     {
         return SQL_ERROR;
     }
 
-    if ( handle_type == SQL_HANDLE_ENV )
+    switch ( handle_type )
     {
-        DMHENV environment = ( DMHENV ) handle;
+        case SQL_HANDLE_ENV:
+            {
+                if ( !__validate_env( environment ))
+                {
+                    return extract_parent_handle_rec( environment, handle_type, rec_number, sqlstate, native, message_text, buffer_length, text_length_ptr );
+                }
 
-        if ( !__validate_env( environment ))
-        {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
+                herror = &environment->error;
+                handle_msg = environment->msg;
+                handle_type_ptr = "Environment";
+            }
+            break;
+        case SQL_HANDLE_DBC:
+            {
+                connection = ( DMHDBC ) handle;
 
-            return SQL_INVALID_HANDLE;
-        }
+                if ( !__validate_dbc( connection ))
+                {
+                    return extract_parent_handle_rec( connection, handle_type, rec_number, sqlstate, native, message_text, buffer_length, text_length_ptr);
+                }
 
-        thread_protect( SQL_HANDLE_ENV, environment );
+                herror = &connection->error;
+                handle_msg = connection->msg;
+                handle_type_ptr = "Connection";
+            }
+            break;
 
-        if ( log_info.log_flag )
-        {
-            sprintf( environment -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tEnvironment = %p\
+        case SQL_HANDLE_STMT:
+            {
+                statement = ( DMHSTMT ) handle;
+
+                if ( !__validate_stmt( statement ))
+                {
+                   return extract_parent_handle_rec( statement, handle_type, rec_number, sqlstate, native, message_text, buffer_length, text_length_ptr );
+                }
+
+                connection = statement->connection;
+                herror = &statement->error;
+                handle_msg = statement->msg;
+                handle_type_ptr = "Statement";
+            }
+            break;
+
+        case SQL_HANDLE_DESC:
+            {
+                descriptor = ( DMHDESC ) handle;
+
+                if ( !__validate_desc( descriptor ))
+                {
+                   return extract_parent_handle_rec( descriptor, handle_type, rec_number, sqlstate, native, message_text, buffer_length, text_length_ptr );
+                }
+
+                connection = descriptor->connection;
+                herror = &descriptor->error;
+                handle_msg = descriptor->msg;
+                handle_type_ptr = "Descriptor";
+            }
+            break;
+
+        default:
+            {
+                return SQL_NO_DATA;
+            }
+    }
+
+    thread_protect( handle_type, handle );
+
+    if ( log_info.log_flag )
+    {
+        sprintf( handle_msg,
+            "\n\t\tEntry:\
+\n\t\t\t%s = %p\
 \n\t\t\tRec Number = %d\
 \n\t\t\tSQLState = %p\
 \n\t\t\tNative = %p\
 \n\t\t\tMessage Text = %p\
 \n\t\t\tBuffer Length = %d\
 \n\t\t\tText Len Ptr = %p",
-                    environment,
-                    rec_number,
-                    sqlstate,
-                    native,
-                    message_text,
-                    buffer_length,
-                    text_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        ret = extract_sql_error_rec_w( &environment -> error,
-                sqlstate,
+                handle_type_ptr,
+                handle,
                 rec_number,
+                sqlstate,
                 native,
                 message_text,
                 buffer_length,
                 text_length_ptr );
 
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                char *ts1, *ts2;
-
-                sprintf( environment -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, NULL, NULL  )),
-                        __iptr_as_string( s0, native ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, NULL, NULL  )));
-
-		if ( ts1 ) {
-                	free( ts1 );
-		}
-		if ( ts2 ) {
-                	free( ts2 );
-		}
-            }
-            else
-            {
-                sprintf( environment -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        thread_release( SQL_HANDLE_ENV, environment );
-
-        return ret;
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
     }
-    else if ( handle_type == SQL_HANDLE_DBC )
+
+    /*
+     * Do diag extraction here if defer flag is set.
+     * Clean the flag after extraction.
+     */
+    if ( connection && herror->defer_extract )
     {
-        DMHDBC connection = ( DMHDBC ) handle;
+        extract_error_from_driver( herror, connection, herror->ret_code_deferred, 0 );
 
-        if ( !__validate_dbc( connection ))
-        {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
-
-#ifdef WITH_HANDLE_REDIRECT
-		{
-			DMHDBC parent_connection;
-
-			parent_connection = find_parent_handle( connection, SQL_HANDLE_DBC );
-
-			if ( parent_connection ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
-                    	"Info: found parent handle" );
-
-				if ( CHECK_SQLGETDIAGRECW( parent_connection ))
-				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
-                   		 	"Info: calling redirected driver function" );
-
-					return SQLGETDIAGRECW( parent_connection, 
-							handle_type,
-							connection, 
-        					rec_number,
-        					sqlstate,
-        					native,
-        					message_text,
-        					buffer_length,
-        					text_length_ptr );
-				}
-			}
-		}
-#endif
-            return SQL_INVALID_HANDLE;
-        }
-
-        thread_protect( SQL_HANDLE_DBC, connection );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( connection -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tConnection = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    connection,
-                    rec_number,
-                    sqlstate,
-                    native,
-                    message_text,
-                    buffer_length,
-                    text_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        ret = extract_sql_error_rec_w( &connection -> error,
-                sqlstate,
-                rec_number,
-                native,
-                message_text,
-                buffer_length,
-                text_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                char *ts1, *ts2;
-
-                sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL  )),
-                        __iptr_as_string( s0, native ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            	text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL  )));
-
-		if ( ts1 ) {
-                	free( ts1 );
-		}
-		if ( ts2 ) {
-                	free( ts2 );
-		}
-            }
-            else
-            {
-                sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        thread_release( SQL_HANDLE_DBC, connection );
-
-        return ret;
+        herror->defer_extract = 0;
+        herror->ret_code_deferred = 0;
     }
-    else if ( handle_type == SQL_HANDLE_STMT )
+
+    ret = extract_sql_error_rec_w( herror,
+            sqlstate,
+            rec_number,
+            native,
+            message_text,
+            buffer_length,
+            text_length_ptr );
+
+    if ( log_info.log_flag )
     {
-        DMHSTMT statement = ( DMHSTMT ) handle;
-
-        if ( !__validate_stmt( statement ))
+        if ( SQL_SUCCEEDED( ret ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
+            char *ts1, *ts2;
 
-#ifdef WITH_HANDLE_REDIRECT
-		{
-			DMHSTMT parent_statement;
-
-			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
-
-			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
-                    	"Info: found parent handle" );
-
-				if ( CHECK_SQLGETDIAGRECW( parent_statement -> connection ))
-				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
-                   		 	"Info: calling redirected driver function" );
-
-					return SQLGETDIAGRECW( parent_statement -> connection, 
-							handle_type,
-							statement,
-        					rec_number,
-        					sqlstate,
-        					native,
-        					message_text,
-        					buffer_length,
-        					text_length_ptr );
-				}
-			}
-		}
-#endif
-            return SQL_INVALID_HANDLE;
-        }
-
-        thread_protect( SQL_HANDLE_STMT, statement );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( statement -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tStatement = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    statement,
-                    rec_number,
-                    sqlstate,
-                    native,
-                    message_text,
-                    buffer_length,
-                    text_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
-        }
-
-        ret = extract_sql_error_rec_w( &statement -> error,
-                sqlstate,
-                rec_number,
-                native,
-                message_text,
-                buffer_length,
-                text_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                char *ts1, *ts2;
-
-                sprintf( statement -> msg, 
-                    "\n\t\tExit:[%s]\
+            sprintf( handle_msg,
+                "\n\t\tExit:[%s]\
 \n\t\t\tSQLState = %s\
 \n\t\t\tNative = %s\
 \n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, statement -> connection, NULL  )),
-                        __iptr_as_string( s0, native ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, statement -> connection, NULL  )));
+                    __get_return_status( ret, s2 ),
+                    __sdata_as_string( s3, SQL_CHAR,
+                                      NULL, ts1 = unicode_to_ansi_alloc(sqlstate, SQL_NTS, connection, NULL )),
+                    __iptr_as_string( s0, native ),
+                    __sdata_as_string( s1, SQL_CHAR,
+                                      text_length_ptr, ts2 = unicode_to_ansi_alloc(message_text, SQL_NTS, connection, NULL )));
 
-		if ( ts1 ) {
-                	free( ts1 );
-		}
-		if ( ts2 ) {
-                	free( ts2 );
-		}
-            }
-            else
+            if ( ts1 )
             {
-                sprintf( statement -> msg, 
+                free( ts1 );
+            }
+            if ( ts2 )
+            {
+                free( ts2 );
+            }
+        }
+        else
+        {
+            sprintf( handle_msg,
                     "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
+                    __get_return_status( ret, s2 ));
         }
 
-        thread_release( SQL_HANDLE_STMT, statement );
-
-        return ret;
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
     }
-    else if ( handle_type == SQL_HANDLE_DESC )
-    {
-        DMHDESC descriptor = ( DMHDESC ) handle;
 
-        if ( !__validate_desc( descriptor ))
-        {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
+    thread_release( handle_type, handle );
 
-#ifdef WITH_HANDLE_REDIRECT
-		{
-			DMHDESC parent_desc;
+    return ret;
 
-			parent_desc = find_parent_handle( descriptor, SQL_HANDLE_DESC );
-
-			if ( parent_desc ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
-                    	"Info: found parent handle" );
-
-				if ( CHECK_SQLGETDIAGRECW( parent_desc -> connection ))
-				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
-                   		 	"Info: calling redirected driver function" );
-
-					return SQLGETDIAGRECW( parent_desc -> connection, 
-							handle_type,
-							descriptor,
-        					rec_number,
-        					sqlstate,
-        					native,
-        					message_text,
-        					buffer_length,
-        					text_length_ptr );
-				}
-			}
-		}
-#endif
-            return SQL_INVALID_HANDLE;
-        }
-
-        thread_protect( SQL_HANDLE_DESC, descriptor );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( descriptor -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tDescriptor = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    descriptor,
-                    rec_number,
-                    sqlstate,
-                    native,
-                    message_text,
-                    buffer_length,
-                    text_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    descriptor -> msg );
-        }
-
-        ret = extract_sql_error_rec_w( &descriptor -> error,
-                sqlstate,
-                rec_number,
-                native,
-                message_text,
-                buffer_length,
-                text_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                char *ts1, *ts2;
-
-                sprintf( descriptor -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        __sdata_as_string( s3, SQL_CHAR,
-				NULL, ts1 = unicode_to_ansi_alloc( sqlstate, SQL_NTS, descriptor -> connection, NULL  )),
-                        __iptr_as_string( s0, native ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length_ptr, ts2 = unicode_to_ansi_alloc( message_text, SQL_NTS, descriptor -> connection, NULL  )));
-
-		if ( ts1 ) {
-                	free( ts1 );
-		}
-		if ( ts2 ) {
-                	free( ts2 );
-		}
-            }
-            else
-            {
-                sprintf( descriptor -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    descriptor -> msg );
-        }
-
-        thread_release( SQL_HANDLE_DESC, descriptor );
-
-        return ret;
-    }
-    return SQL_NO_DATA;
 }
 

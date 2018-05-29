@@ -291,7 +291,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     target_descriptor -> msg );
         }
 
-        return function_return( IGNORE_THREAD, target_descriptor, ret );
+        return function_return( IGNORE_THREAD, target_descriptor, ret, DEFER_R3 );
     }
     else
     {
@@ -519,6 +519,6 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
         else
             thread_release( SQL_HANDLE_ENV, src_descriptor -> connection -> environment );
 
-        return function_return( IGNORE_THREAD, target_descriptor, ret );
+        return function_return( IGNORE_THREAD, target_descriptor, ret, DEFER_R3 );
     }
 }

@@ -844,6 +844,6 @@ SQLRETURN SQLGetConnectAttr( SQLHDBC connection_handle,
         }
 
 
-        return function_return( SQL_HANDLE_DBC, connection, ret );
+        return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R3 );
     }
 }

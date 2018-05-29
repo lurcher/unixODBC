@@ -493,7 +493,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         connection -> msg );
             }
 
-            return function_return( IGNORE_THREAD, connection, ret ); 
+            return function_return( IGNORE_THREAD, connection, ret, DEFER_R0 );
         }
         break;
 
@@ -587,7 +587,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         ERROR_HY010, NULL,
                         descriptor -> connection -> environment -> requested_version );
 
-                return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+                return function_return( SQL_HANDLE_DESC, descriptor, SQL_ERROR, DEFER_R0 );
             }
 
             thread_release( SQL_HANDLE_DESC, descriptor );
@@ -610,7 +610,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                                UODBC_STATS_TYPE_HDESC, (void *)-1);
 #endif
 
-            return function_return( IGNORE_THREAD, connection, SQL_SUCCESS ); 
+            return function_return( IGNORE_THREAD, connection, SQL_SUCCESS, DEFER_R0 );
         }
         break;
 

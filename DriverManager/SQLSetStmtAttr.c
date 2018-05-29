@@ -455,7 +455,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 			statement -> msg );
     			}
 			
-    			return function_return( SQL_HANDLE_STMT, statement, ret ); 
+    			return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 			}
 			
 			/*
@@ -477,7 +477,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 		statement -> msg );
     		}
 		
-    		return function_return( SQL_HANDLE_STMT, statement, ret ); 
+    		return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 		}
 
         if ( !__validate_desc( desc ))
@@ -597,7 +597,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 			statement -> msg );
     			}
 			
-    			return function_return( SQL_HANDLE_STMT, statement, ret ); 
+    			return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 			}
 			
 			/*
@@ -619,7 +619,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 		statement -> msg );
     		}
 		
-    		return function_return( SQL_HANDLE_STMT, statement, ret ); 
+    		return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 		}
 
         if ( !__validate_desc( desc ))
@@ -931,5 +931,5 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret ); 
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }

@@ -306,7 +306,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
              * for each statement belonging to this connection set its state 
              * relative to the commit or rollback behavior
              */
-            
+
 			if ( connection -> cbs_found == 0 ) 
 			{
             	/* release thread so we can get the info */
@@ -363,7 +363,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     connection -> msg );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, ret );
+        return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R0 );
     }
     else if ( environment_handle != SQL_NULL_HENV )
     {
@@ -472,7 +472,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
                             thread_release( SQL_HANDLE_ENV, environment );
 
-                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR, DEFER_R0 );
                         }
                     }
                     else if ( CHECK_SQLENDTRAN( connection ))
@@ -494,7 +494,7 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                                     ERROR_25S01, NULL,
                                     environment -> requested_version );
 
-                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR, DEFER_R0 );
                         }
                     }
                     else

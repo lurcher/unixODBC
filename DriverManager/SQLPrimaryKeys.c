@@ -387,7 +387,7 @@ SQLRETURN SQLPrimaryKeys(
 
         if ( ret == SQL_SUCCESS_WITH_INFO )
         {
-            function_return_ex( IGNORE_THREAD, statement, ret, TRUE );
+            function_return_ex( IGNORE_THREAD, statement, ret, TRUE, DEFER_R1 );
         }
 
         SQLNUMRESULTCOLS( statement -> connection,
@@ -423,5 +423,5 @@ SQLRETURN SQLPrimaryKeys(
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R1 );
 }

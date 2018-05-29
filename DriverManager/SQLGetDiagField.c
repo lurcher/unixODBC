@@ -564,15 +564,15 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                 unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
 
                 if ( string_length_ptr && *string_length_ptr > 0 ) 
-            {
+                {
                     *string_length_ptr /= sizeof( SQLWCHAR );
                 }
             }
 
             if ( s1 )
-			{
+            {
                 free( s1 );
-			}
+            }
 
             if ( SQL_SUCCEEDED( ret ) && diag_identifier == SQL_DIAG_SQLSTATE )
             {
@@ -851,248 +851,151 @@ SQLRETURN SQLGetDiagField( SQLSMALLINT handle_type,
     SQLRETURN ret;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
 
-    if ( handle_type == SQL_HANDLE_ENV )
+    DMHENV environment = ( DMHENV ) handle;
+    DMHDBC connection = NULL;
+    DMHSTMT statement = NULL;
+    DMHDESC descriptor = NULL;
+
+    EHEAD *herror;
+    char *handle_msg;
+    const char *handle_type_ptr;
+
+    switch ( handle_type )
     {
-        DMHENV environment = ( DMHENV ) handle;
+        case SQL_HANDLE_ENV:
+            {
+                if ( !__validate_env( environment ))
+                {
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
+                            "Error: SQL_INVALID_HANDLE" );
 
-        if ( !__validate_env( environment ))
-        {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
+                    return SQL_INVALID_HANDLE;
+                }
 
-            return SQL_INVALID_HANDLE;
-        }
+                herror = &environment->error;
+                handle_msg = environment->msg;
+                handle_type_ptr = "Environment";
+            }
+            break;
 
-        thread_protect( SQL_HANDLE_ENV, environment );
+        case SQL_HANDLE_DBC:
+            {
+                connection = ( DMHDBC ) handle;
 
-        if ( log_info.log_flag )
-        {
-            sprintf( environment -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tEnvironment = %p\
+                if ( !__validate_dbc( connection ))
+                {
+                    return SQL_INVALID_HANDLE;
+                }
+
+                herror = &connection->error;
+                handle_msg = connection->msg;
+                handle_type_ptr = "Connection";
+            }
+            break;
+
+        case SQL_HANDLE_STMT:
+            {
+                statement = ( DMHSTMT ) handle;
+
+                if ( !__validate_stmt( statement ))
+                {
+                    return SQL_INVALID_HANDLE;
+                }
+
+                connection = statement->connection;
+                herror = &statement->error;
+                handle_msg = statement->msg;
+                handle_type_ptr = "Statement";
+            }
+            break;
+
+        case SQL_HANDLE_DESC:
+            {
+                descriptor = ( DMHDESC ) handle;
+
+                if ( !__validate_desc( descriptor ))
+                {
+                    return SQL_INVALID_HANDLE;
+                }
+
+                connection = descriptor->connection;
+                herror = &descriptor->error;
+                handle_msg = descriptor->msg;
+                handle_type_ptr = "Descriptor";
+            }
+            break;
+
+        default:
+            {
+                return SQL_NO_DATA;
+            }
+    }
+
+    thread_protect( handle_type, handle );
+
+    if ( log_info.log_flag )
+    {
+        sprintf( handle_msg,
+            "\n\t\tEntry:\
+\n\t\t\t%s = %p\
 \n\t\t\tRec Number = %d\
 \n\t\t\tDiag Ident = %d\
 \n\t\t\tDiag Info Ptr = %p\
 \n\t\t\tBuffer Length = %d\
 \n\t\t\tString Len Ptr = %p",
-                    environment,
-                    rec_number,
-                    diag_identifier,
-                    diag_info_ptr,
-                    buffer_length,
-                    string_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        ret = extract_sql_error_field( &environment -> error,
+                handle_type_ptr,
+                handle,
                 rec_number,
                 diag_identifier,
                 diag_info_ptr,
                 buffer_length,
                 string_length_ptr );
 
-        if ( log_info.log_flag )
-        {
-            sprintf( environment -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s1 ));
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        thread_release( SQL_HANDLE_ENV, environment );
-
-        return ret;
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
     }
-    else if ( handle_type == SQL_HANDLE_DBC )
+
+    /*
+     * Do diag extraction here if defer flag is set.
+     * Clean the flag after extraction.
+     */
+    if ( connection && herror->defer_extract )
     {
-        DMHDBC connection = ( DMHDBC ) handle;
+        extract_error_from_driver( herror, connection, herror->ret_code_deferred, 0 );
 
-        if ( !__validate_dbc( connection ))
-        {
-            return SQL_INVALID_HANDLE;
-        }
-
-        thread_protect( SQL_HANDLE_DBC, connection );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( connection -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tConnection = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tDiag Ident = %d\
-\n\t\t\tDiag Info Ptr = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tString Len Ptr = %p",
-                    connection,
-                    rec_number,
-                    diag_identifier,
-                    diag_info_ptr,
-                    buffer_length,
-                    string_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        ret = extract_sql_error_field( &connection -> error,
-                rec_number,
-                diag_identifier,
-                diag_info_ptr,
-                buffer_length,
-                string_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s1 ));
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        thread_release( SQL_HANDLE_DBC, connection );
-
-        return ret;
+        herror->defer_extract = 0;
+        herror->ret_code_deferred = 0;
     }
-    else if ( handle_type == SQL_HANDLE_STMT )
+
+    ret = extract_sql_error_field( herror,
+            rec_number,
+            diag_identifier,
+            diag_info_ptr,
+            buffer_length,
+            string_length_ptr );
+
+    if ( log_info.log_flag )
     {
-        DMHSTMT statement = ( DMHSTMT ) handle;
+        sprintf( handle_msg,
+                "\n\t\tExit:[%s]",
+                __get_return_status( ret, s1 ));
 
-        if ( !__validate_stmt( statement ))
-        {
-            return SQL_INVALID_HANDLE;
-        }
-
-        thread_protect( SQL_HANDLE_STMT, statement );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( statement -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tStatement = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tDiag Ident = %d\
-\n\t\t\tDiag Info Ptr = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tString Len Ptr = %p",
-                    statement,
-                    rec_number,
-                    diag_identifier,
-                    diag_info_ptr,
-                    buffer_length,
-                    string_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
-        }
-
-        ret = extract_sql_error_field( &statement -> error,
-                rec_number,
-                diag_identifier,
-                diag_info_ptr,
-                buffer_length,
-                string_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( statement -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s1 ));
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
-        }
-
-        thread_release( SQL_HANDLE_STMT, statement );
-
-        return ret;
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
     }
-    else if ( handle_type == SQL_HANDLE_DESC )
-    {
-        DMHDESC descriptor = ( DMHDESC ) handle;
 
-        if ( !__validate_desc( descriptor ))
-        {
-            return SQL_INVALID_HANDLE;
-        }
+    thread_release( handle_type, handle );
 
-        thread_protect( SQL_HANDLE_DESC, descriptor );
+    return ret;
 
-        if ( log_info.log_flag )
-        {
-            sprintf( descriptor -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tDescriptor = %p\
-\n\t\t\tRec Number = %d\
-\n\t\t\tDiag Ident = %d\
-\n\t\t\tDiag Info Ptr = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tString Len Ptr = %p",
-                    descriptor,
-                    rec_number,
-                    diag_identifier,
-                    diag_info_ptr,
-                    buffer_length,
-                    string_length_ptr );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    descriptor -> msg );
-        }
-
-        ret = extract_sql_error_field( &descriptor -> error,
-                rec_number,
-                diag_identifier,
-                diag_info_ptr,
-                buffer_length,
-                string_length_ptr );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( descriptor -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s1 ));
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    descriptor -> msg );
-        }
-
-        thread_release( SQL_HANDLE_DESC, descriptor );
-
-        return ret;
-    }
-    return SQL_NO_DATA;
 }
 

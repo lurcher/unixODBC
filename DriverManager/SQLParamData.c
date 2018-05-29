@@ -270,7 +270,7 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
 
             if ( ret == SQL_SUCCESS_WITH_INFO )
             {
-                function_return_ex( IGNORE_THREAD, statement, ret, TRUE );
+                function_return_ex( IGNORE_THREAD, statement, ret, TRUE, DEFER_R0 );
             }
 
             local_ret = SQLNUMRESULTCOLS( statement -> connection,
@@ -365,5 +365,5 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R0 );
 }

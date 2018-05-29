@@ -10,6 +10,7 @@ SYMBOL_VECTOR = (SQLAllocConnect=PROCEDURE,-
 		 SQLBrowseConnect=PROCEDURE,-
 		 SQLBulkOperations=PROCEDURE,-
 		 SQLCancel=PROCEDURE,-
+		 SQLCancelHandle=PROCEDURE,-
 		 SQLCloseCursor=PROCEDURE,-
 		 SQLColAttribute=PROCEDURE,-
 		 SQLColAttributes=PROCEDURE,-

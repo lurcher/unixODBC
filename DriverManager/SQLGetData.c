@@ -488,7 +488,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
         {
             statement -> interupted_state = statement -> state;
             statement -> state = STATE_S11;
-    }
+        }
     }
     else if ( SQL_SUCCEEDED( ret ) && unicode_switch )
     {
@@ -548,5 +548,5 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }

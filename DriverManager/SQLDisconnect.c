@@ -359,7 +359,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
         if ( ret == SQL_SUCCESS_WITH_INFO )
 	    {
-	        function_return_ex( IGNORE_THREAD, connection, ret, TRUE );
+	        function_return_ex( IGNORE_THREAD, connection, ret, TRUE, DEFER_R0 );
         }
         
         /*
@@ -382,5 +382,5 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
                 connection -> msg );
     }
 
-    return function_return( SQL_HANDLE_DBC, connection, ret );
+    return function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R0 );
 }

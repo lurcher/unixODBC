@@ -358,9 +358,9 @@ SQLRETURN SQLGetDescFieldW( SQLHDESC descriptor_handle,
         }
 
         if ( isStrField && buffer_length > 0 && value )
-            {
-                as1 = malloc( buffer_length + 1 );
-            }
+        {
+            as1 = malloc( buffer_length + 1 );
+        }
 
         ret = SQLGETDESCFIELD( descriptor -> connection,
                 descriptor -> driver_desc,
@@ -373,9 +373,9 @@ SQLRETURN SQLGetDescFieldW( SQLHDESC descriptor_handle,
         if ( isStrField && SQL_SUCCEEDED( ret ) && value )
         {
             if ( as1 && buffer_length > 0)
-                {
-                    ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, descriptor -> connection, NULL );
-                }
+            {
+                ansi_to_unicode_copy( value, (char*) as1, SQL_NTS, descriptor -> connection, NULL );
+            }
         }
 
         if ( as1 )
@@ -397,5 +397,5 @@ SQLRETURN SQLGetDescFieldW( SQLHDESC descriptor_handle,
                 descriptor -> msg );
     }
 
-    return function_return( SQL_HANDLE_DESC, descriptor, ret );
+    return function_return( SQL_HANDLE_DESC, descriptor, ret, DEFER_R3 );
 }
