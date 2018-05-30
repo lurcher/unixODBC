@@ -368,5 +368,5 @@ SQLRETURN SQLGetDescRecW( SQLHDESC descriptor_handle,
                 descriptor -> msg );
     }
 
-    return function_return( SQL_HANDLE_DESC, descriptor, ret );
+    return function_return( SQL_HANDLE_DESC, descriptor, ret, DEFER_R3 );
 }

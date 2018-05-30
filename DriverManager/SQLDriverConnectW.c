@@ -307,7 +307,7 @@ SQLRETURN SQLDriverConnectW(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( driver_completion == SQL_DRIVER_PROMPT &&
@@ -323,7 +323,7 @@ SQLRETURN SQLDriverConnectW(
                 ERROR_HY092, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( driver_completion != SQL_DRIVER_PROMPT &&
@@ -341,7 +341,7 @@ SQLRETURN SQLDriverConnectW(
                 ERROR_HY110, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     /*
@@ -360,7 +360,7 @@ SQLRETURN SQLDriverConnectW(
                 ERROR_08002, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     /*
@@ -506,7 +506,7 @@ SQLRETURN SQLDriverConnectW(
                     connection -> environment -> requested_version );
             __release_conn( &con_struct );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         if ( strlen( dsn ) > SQL_MAX_DSN_LENGTH )
@@ -521,7 +521,7 @@ SQLRETURN SQLDriverConnectW(
                     ERROR_IM012, NULL,
                     connection -> environment -> requested_version );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         /*
@@ -541,7 +541,7 @@ SQLRETURN SQLDriverConnectW(
                     connection -> environment -> requested_version );
             __release_conn( &con_struct );
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         strcpy( connection -> dsn, dsn );
@@ -571,7 +571,7 @@ SQLRETURN SQLDriverConnectW(
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
         __disconnect_part_four( connection );       /* release unicode handles */
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( !CHECK_SQLDRIVERCONNECTW( connection ) &&
@@ -589,7 +589,7 @@ SQLRETURN SQLDriverConnectW(
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( CHECK_SQLDRIVERCONNECTW( connection ))
@@ -703,7 +703,7 @@ SQLRETURN SQLDriverConnectW(
                         LOG_INFO,
                         connection -> msg );
 
-                return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+                return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
             }
         }
         connection -> unicode_driver = 1;
@@ -850,7 +850,7 @@ SQLRETURN SQLDriverConnectW(
                         LOG_INFO,
                         connection -> msg );
 
-                return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+                return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
             }
         }
         connection -> unicode_driver = 0;
@@ -884,7 +884,7 @@ SQLRETURN SQLDriverConnectW(
         __disconnect_part_one( connection );
         __disconnect_part_four( connection );       /* release unicode handles */
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( log_info.log_flag )

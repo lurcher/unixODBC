@@ -410,7 +410,7 @@ int len;
     memcpy( *keyword, ptr, len );
     (*keyword)[ len ] = '\0';
 
-		(*cp)++;
+    (*cp)++;
 
     if ( **cp == '{' )
     {
@@ -421,22 +421,22 @@ int len;
         while ( **cp && (**cp != '}' || (*cp)[1] == '}') )
         {
             if ( **cp == '}' )
-            (*cp)++;
                 (*cp)++;
+            (*cp)++;
         }
-            len = *cp - ptr;
-            *value = malloc( len + 1 );
+        len = *cp - ptr;
+        *value = malloc( len + 1 );
         while( ptr < *cp )
         {
             if ( ((*value)[i++] = *ptr++) == '}')
             {
                 ptr++;
-        }
+            }
         }
         (*value)[i] = 0;
         if ( **cp == '}' )
         {
-                (*cp)++;
+            (*cp)++;
         }
     }
     else
@@ -765,7 +765,7 @@ SQLRETURN SQLDriverConnect(
                 ERROR_HY090, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( driver_completion == SQL_DRIVER_PROMPT &&
@@ -781,7 +781,7 @@ SQLRETURN SQLDriverConnect(
                 ERROR_HY092, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( driver_completion != SQL_DRIVER_PROMPT &&
@@ -799,7 +799,7 @@ SQLRETURN SQLDriverConnect(
                 ERROR_HY110, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     /*
@@ -818,7 +818,7 @@ SQLRETURN SQLDriverConnect(
                 ERROR_08002, NULL,
                 connection -> environment -> requested_version );
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     /*
@@ -954,7 +954,7 @@ SQLRETURN SQLDriverConnect(
 
         __release_conn( &con_struct );
 
-        return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+        return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
     }
 
     /*
@@ -1067,7 +1067,7 @@ SQLRETURN SQLDriverConnect(
                                     free( save_filedsn );
                                 }
                         
-                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
                             }
 
 							if ( strlen((char*) conn_str_in ) > 0 )
@@ -1123,7 +1123,7 @@ SQLRETURN SQLDriverConnect(
                                     free( save_filedsn );
                                 }
                         
-                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+                                return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
                             }
 
 							if ( strlen((char*) conn_str_in ) > 0 )
@@ -1200,7 +1200,7 @@ SQLRETURN SQLDriverConnect(
                 free( save_filedsn );
             }
                         
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         strcpy( driver_name, driver );
@@ -1251,7 +1251,7 @@ SQLRETURN SQLDriverConnect(
                 free( save_filedsn );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         if ( strlen( dsn ) > SQL_MAX_DSN_LENGTH )
@@ -1272,7 +1272,7 @@ SQLRETURN SQLDriverConnect(
                 free( save_filedsn );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         /*
@@ -1297,7 +1297,7 @@ SQLRETURN SQLDriverConnect(
                 free( save_filedsn );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+            return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
         strcpy( connection -> dsn, dsn );
@@ -1333,7 +1333,7 @@ SQLRETURN SQLDriverConnect(
 
         __disconnect_part_four( connection );       /* release unicode handles */
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( !CHECK_SQLDRIVERCONNECT( connection ) &&
@@ -1355,7 +1355,7 @@ SQLRETURN SQLDriverConnect(
             free( save_filedsn );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( CHECK_SQLDRIVERCONNECT( connection ))
@@ -1485,7 +1485,7 @@ SQLRETURN SQLDriverConnect(
                 free( save_filedsn );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
         }
 		connection -> unicode_driver = 0;
     }
@@ -1650,7 +1650,7 @@ SQLRETURN SQLDriverConnect(
                 free( s1 );
             }
 
-            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
         }
         else
         {
@@ -1700,7 +1700,7 @@ SQLRETURN SQLDriverConnect(
             free( save_filedsn );
         }
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( log_info.log_flag )

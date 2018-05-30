@@ -358,5 +358,5 @@ SQLRETURN SQLTablePrivilegesW(
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R1 );
 }

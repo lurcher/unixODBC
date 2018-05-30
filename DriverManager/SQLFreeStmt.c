@@ -243,7 +243,7 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
          * call SQLFreeHandle();
          */
         thread_release( SQL_HANDLE_STMT, statement );
-        return function_return( IGNORE_THREAD, statement, __SQLFreeHandle( SQL_HANDLE_STMT, statement_handle ));
+        return function_return( IGNORE_THREAD, statement, __SQLFreeHandle( SQL_HANDLE_STMT, statement_handle), DEFER_R3);
 
       case SQL_RESET_PARAMS:
       case SQL_UNBIND:
@@ -269,5 +269,5 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }

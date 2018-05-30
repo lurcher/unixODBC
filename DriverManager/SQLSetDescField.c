@@ -340,18 +340,18 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
       SQLWCHAR *s1 = NULL;
 
         if (isStrField)
-      {
-        s1 = ansi_to_unicode_alloc( value, buffer_length, descriptor -> connection, NULL );
+        {
+            s1 = ansi_to_unicode_alloc( value, buffer_length, descriptor -> connection, NULL );
             if (SQL_NTS != buffer_length)
             {
                 buffer_length *= sizeof(SQLWCHAR);
             }
-      }
-      else
-      {
-              s1 = value;
-      }
-      ret = SQLSETDESCFIELDW( descriptor -> connection,
+        }
+        else
+        {
+            s1 = value;
+        }
+        ret = SQLSETDESCFIELDW( descriptor -> connection,
                 descriptor -> driver_desc,
                 rec_number, 
                 field_identifier,
@@ -359,10 +359,10 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
                 buffer_length );
        
         if (isStrField)
-       {
-        if (s1)
-          free(s1); 
-       }
+        {
+            if (s1)
+              free(s1);
+        }
     }
     else 
 	{
@@ -392,5 +392,5 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
                 descriptor -> msg );
     }
 
-    return function_return( SQL_HANDLE_DESC, descriptor, ret );
+    return function_return( SQL_HANDLE_DESC, descriptor, ret, DEFER_R3 );
 }

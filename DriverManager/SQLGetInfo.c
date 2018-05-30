@@ -546,7 +546,7 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
                     string_length );
         }
 
-        return do_checks ? function_return( SQL_HANDLE_DBC, connection, ret ) : ret;
+        return do_checks ? function_return( SQL_HANDLE_DBC, connection, ret, DEFER_R3 ) : ret;
     }
 
     if ( type == 1 )

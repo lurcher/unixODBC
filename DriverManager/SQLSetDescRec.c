@@ -201,5 +201,5 @@ SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
             string_length,
             indicator );
 
-    return function_return( SQL_HANDLE_DESC, descriptor, ret );
+    return function_return( SQL_HANDLE_DESC, descriptor, ret, DEFER_R3 );
 }

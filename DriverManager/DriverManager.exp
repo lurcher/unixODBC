@@ -11,6 +11,7 @@ SQLBrowseConnectW
 SQLBrowseConnectA
 SQLBulkOperations
 SQLCancel
+SQLCancelHandle
 SQLCloseCursor
 SQLColAttribute
 SQLColAttributeW

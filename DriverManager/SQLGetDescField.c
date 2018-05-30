@@ -271,16 +271,16 @@ SQLRETURN SQLGetDescField( SQLHDESC descriptor_handle,
     }
 
     if ( rec_number < 0 )
-        {
-            __post_internal_error( &descriptor -> error,
+    {
+        __post_internal_error( &descriptor -> error,
                 ERROR_07009, NULL,
-                    descriptor -> connection -> environment -> requested_version );
+                descriptor -> connection -> environment -> requested_version );
 
-            return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
-        }
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
+    }
 
     switch ( field_identifier )
-        {
+    {
     /* Fixed-length fields: buffer_length is ignored */
     case SQL_DESC_ALLOC_TYPE:
     case SQL_DESC_ARRAY_SIZE:
@@ -315,17 +315,17 @@ SQLRETURN SQLGetDescField( SQLHDESC descriptor_handle,
         isStrField = 0;
         break;
     /* Pointer to data: buffer_length must be valid */
-          case SQL_DESC_BASE_COLUMN_NAME:
-          case SQL_DESC_BASE_TABLE_NAME:
-          case SQL_DESC_CATALOG_NAME:
-          case SQL_DESC_LABEL:
-          case SQL_DESC_LITERAL_PREFIX:
-          case SQL_DESC_LITERAL_SUFFIX:
-          case SQL_DESC_LOCAL_TYPE_NAME:
-          case SQL_DESC_NAME:
-          case SQL_DESC_SCHEMA_NAME:
-          case SQL_DESC_TABLE_NAME:
-          case SQL_DESC_TYPE_NAME:
+    case SQL_DESC_BASE_COLUMN_NAME:
+    case SQL_DESC_BASE_TABLE_NAME:
+    case SQL_DESC_CATALOG_NAME:
+    case SQL_DESC_LABEL:
+    case SQL_DESC_LITERAL_PREFIX:
+    case SQL_DESC_LITERAL_SUFFIX:
+    case SQL_DESC_LOCAL_TYPE_NAME:
+    case SQL_DESC_NAME:
+    case SQL_DESC_SCHEMA_NAME:
+    case SQL_DESC_TABLE_NAME:
+    case SQL_DESC_TYPE_NAME:
         isStrField = 1;
         break;
     default:
@@ -335,13 +335,13 @@ SQLRETURN SQLGetDescField( SQLHDESC descriptor_handle,
     }
     
     if ( isStrField && buffer_length < 0 )
-            {
+    {
         __post_internal_error( &descriptor -> error,
             ERROR_HY090, NULL,
             descriptor -> connection -> environment -> requested_version );
 
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
-            }
+    }
 
     if ( descriptor -> connection -> unicode_driver )
     {
@@ -427,5 +427,5 @@ SQLRETURN SQLGetDescField( SQLHDESC descriptor_handle,
                 descriptor -> msg );
     }
 
-    return function_return( SQL_HANDLE_DESC, descriptor, ret );
+    return function_return( SQL_HANDLE_DESC, descriptor, ret, DEFER_R3 );
 }

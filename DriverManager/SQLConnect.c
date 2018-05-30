@@ -4125,7 +4125,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
                     LOG_INFO,
                     connection -> msg );
 
-            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
         }
 
 	connection -> unicode_driver = 0;
@@ -4276,7 +4276,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
                     LOG_INFO,
                     connection -> msg );
 
-            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect );
+            return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
         }
 
         connection -> unicode_driver = 1;
@@ -4316,7 +4316,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
 
         connection -> state = STATE_C3;
 
-        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR );
+        return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
     if ( log_info.log_flag )

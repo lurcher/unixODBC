@@ -347,5 +347,5 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }

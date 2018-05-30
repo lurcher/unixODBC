@@ -187,7 +187,7 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
                     ERROR_HY010, NULL,
                     SQL_OV_ODBC3 );
 
-            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR );
+            return function_return( SQL_HANDLE_ENV, environment, SQL_ERROR, DEFER_R0 );
         }
 
         if ( value )
@@ -276,5 +276,5 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
                 environment -> msg );
     }
 
-    return function_return( SQL_HANDLE_ENV, environment, SQL_SUCCESS );
+    return function_return( SQL_HANDLE_ENV, environment, SQL_SUCCESS, DEFER_R0 );
 }

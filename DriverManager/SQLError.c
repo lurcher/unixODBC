@@ -314,259 +314,172 @@ SQLRETURN SQLError( SQLHENV environment_handle,
     SQLCHAR s0[ 32 ], s1[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s2[ 100 + LOG_MESSAGE_LEN ];
 
+    DMHENV  environment = NULL;
+    DMHDBC  connection = NULL;
+    DMHSTMT statement = NULL;
+    void *active_handle = NULL;
+
+    EHEAD *herror;
+    char *handle_msg;
+
+    int handle_type;
+    const char *handle_type_ptr;
+
     if ( statement_handle )
     {
-        DMHSTMT statement = ( DMHSTMT ) statement_handle;
+        statement = ( DMHSTMT ) statement_handle;
 
         if ( !__validate_stmt( statement ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
         }
 
-        thread_protect( SQL_HANDLE_STMT, statement );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( statement -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tStatement = %p\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    statement,
-                    sqlstate,
-                    native_error,
-                    message_text,
-                    buffer_length,
-                    text_length );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
-        }
-
-        ret = extract_sql_error( &statement -> error,
-                sqlstate,
-                native_error,
-                message_text,
-                buffer_length,
-                text_length,
-                statement -> connection );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                sprintf( statement -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        sqlstate,
-                        __iptr_as_string( s0, native_error ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, message_text ));
-            }
-            else
-            {
-                sprintf( statement -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    statement -> msg );
-        }
-
-        thread_release( SQL_HANDLE_STMT, statement );
-
-        return ret;
+        connection = statement->connection;
+        active_handle = statement;
+        handle_type = SQL_HANDLE_STMT;
+        herror = &statement->error;
+        handle_msg = statement->msg;
+        handle_type_ptr = "Statement";
     }
-    else if ( connection_handle )
+    else if (connection_handle)
     {
-        DMHDBC connection = ( DMHDBC ) connection_handle;
+        connection =  ( DMHDBC ) connection_handle;
 
         if ( !__validate_dbc( connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
         }
 
-        thread_protect( SQL_HANDLE_DBC, connection );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( connection -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tConnection = %p\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    connection,
-                    sqlstate,
-                    native_error,
-                    message_text,
-                    buffer_length,
-                    text_length );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        ret = extract_sql_error( &connection -> error,
-                sqlstate,
-                native_error,
-                message_text,
-                buffer_length,
-                text_length,
-                connection );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        sqlstate,
-                        __iptr_as_string( s0, native_error ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, message_text ));
-            }
-            else
-            {
-                sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        thread_release( SQL_HANDLE_DBC, connection );
+        active_handle = connection;
+        handle_type = SQL_HANDLE_DBC;
+        herror = &connection->error;
+        handle_msg = connection->msg;
+        handle_type_ptr = "Connection";
     }
     else if ( environment_handle )
     {
-        DMHENV environment = ( DMHENV ) environment_handle;
+        environment = ( DMHENV ) environment_handle;
 
         if ( !__validate_env( environment ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
         }
 
-        thread_protect( SQL_HANDLE_ENV, environment );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( environment -> msg, 
-                "\n\t\tEntry:\
-\n\t\t\tEnvironment = %p\
-\n\t\t\tSQLState = %p\
-\n\t\t\tNative = %p\
-\n\t\t\tMessage Text = %p\
-\n\t\t\tBuffer Length = %d\
-\n\t\t\tText Len Ptr = %p",
-                    environment,
-                    sqlstate,
-                    native_error,
-                    message_text,
-                    buffer_length,
-                    text_length );
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        ret = extract_sql_error( &environment -> error,
-                sqlstate,
-                native_error,
-                message_text,
-                buffer_length,
-                text_length,
-                NULL );
-
-        if ( log_info.log_flag )
-        {
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                sprintf( environment -> msg, 
-                    "\n\t\tExit:[%s]\
-\n\t\t\tSQLState = %s\
-\n\t\t\tNative = %s\
-\n\t\t\tMessage Text = %s",
-                        __get_return_status( ret, s2 ),
-                        sqlstate,
-                        __iptr_as_string( s0, native_error ),
-                        __sdata_as_string( s1, SQL_CHAR, 
-                            text_length, message_text ));
-            }
-            else
-            {
-                sprintf( environment -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( ret, s2 ));
-            }
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    environment -> msg );
-        }
-
-        thread_release( SQL_HANDLE_ENV, environment );
+        active_handle = environment;
+        handle_type = SQL_HANDLE_ENV;
+        herror = &environment->error;
+        handle_msg = environment->msg;
+        handle_type_ptr = "Environment";
     }
     else
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    "Error: SQL_INVALID_HANDLE" );
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
     }
 
+    thread_protect( handle_type, active_handle );
+
+    if ( log_info.log_flag )
+    {
+        sprintf( handle_msg,
+            "\n\t\tEntry:\
+\n\t\t\t%s = %p\
+\n\t\t\tSQLState = %p\
+\n\t\t\tNative = %p\
+\n\t\t\tMessage Text = %p\
+\n\t\t\tBuffer Length = %d\
+\n\t\t\tText Len Ptr = %p",
+                handle_type_ptr,
+                active_handle,
+                sqlstate,
+                native_error,
+                message_text,
+                buffer_length,
+                text_length );
+
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
+    }
+
+    /*
+     * Do diag extraction here if defer flag is set.
+     * Clean the flag after extraction.
+     * The defer flag will not be set for DMHENV in function_return_ex.
+     */
+    if ( connection && herror->defer_extract )
+    {
+        extract_error_from_driver( herror, connection, herror->ret_code_deferred, 0 );
+
+        herror->defer_extract = 0;
+        herror->ret_code_deferred = 0;
+    }
+
+    ret = extract_sql_error( herror,
+            sqlstate,
+            native_error,
+            message_text,
+            buffer_length,
+            text_length,
+            connection );
+
+    if ( log_info.log_flag )
+    {
+        if ( SQL_SUCCEEDED( ret ))
+        {
+            sprintf( handle_msg,
+                "\n\t\tExit:[%s]\
+\n\t\t\tSQLState = %s\
+\n\t\t\tNative = %s\
+\n\t\t\tMessage Text = %s",
+                        __get_return_status( ret, s2 ),
+                        sqlstate,
+                        __iptr_as_string( s0, native_error ),
+                        __sdata_as_string( s1, SQL_CHAR,
+                            text_length, message_text ));
+        }
+        else
+        {
+            sprintf( handle_msg,
+                "\n\t\tExit:[%s]",
+                __get_return_status( ret, s2 ));
+        }
+
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                handle_msg );
+    }
+
+    thread_release( handle_type, active_handle );
+
     return ret;
+
 }
 

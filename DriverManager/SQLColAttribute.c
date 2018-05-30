@@ -567,8 +567,8 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
 
             SQLSMALLINT unibuf_len;
             if ( isStringAttr && character_attribute && buffer_length > 0 )
-                {
-                    s1 = calloc( sizeof( SQLWCHAR ) * ( buffer_length + 1 ), 1);
+            {
+                s1 = calloc( sizeof( SQLWCHAR ) * ( buffer_length + 1 ), 1);
                 /* Do not overflow, since SQLSMALLINT can only hold -32768 <= x <= 32767 */
                 unibuf_len = buffer_length > 16383 ? buffer_length : sizeof( SQLWCHAR ) * buffer_length;
             }
@@ -585,7 +585,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
             if ( SQL_SUCCEEDED( ret ) && isStringAttr && buffer_length > 0 )
             {
                 if ( character_attribute && s1 )
-            {
+                {
                     unicode_to_ansi_copy( character_attribute, buffer_length, s1, SQL_NTS, statement -> connection, NULL );
                 }
                 /*
@@ -600,12 +600,12 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 case SQL_COLUMN_OWNER_NAME:
                 case SQL_COLUMN_TABLE_NAME:
                 case SQL_COLUMN_TYPE_NAME:
-              case SQL_DESC_BASE_COLUMN_NAME:
-              case SQL_DESC_BASE_TABLE_NAME:
-              case SQL_DESC_LITERAL_PREFIX:
-              case SQL_DESC_LITERAL_SUFFIX:
-              case SQL_DESC_LOCAL_TYPE_NAME:
-              case SQL_DESC_NAME:
+                case SQL_DESC_BASE_COLUMN_NAME:
+                case SQL_DESC_BASE_TABLE_NAME:
+                case SQL_DESC_LITERAL_PREFIX:
+                case SQL_DESC_LITERAL_SUFFIX:
+                case SQL_DESC_LOCAL_TYPE_NAME:
+                case SQL_DESC_NAME:
                     if ( ret == SQL_SUCCESS && string_length )
                     {
                         *string_length /= sizeof( SQLWCHAR );	
@@ -613,9 +613,9 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                     break;
                 default:
                     if ( string_length )
-				{
-					*string_length /= sizeof( SQLWCHAR );	
-				}
+                    {
+                        *string_length /= sizeof( SQLWCHAR );	
+                    }
                 }
             }
 
@@ -712,5 +712,5 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 statement -> msg );
     }
 
-    return function_return( SQL_HANDLE_STMT, statement, ret );
+    return function_return( SQL_HANDLE_STMT, statement, ret, DEFER_R3 );
 }
