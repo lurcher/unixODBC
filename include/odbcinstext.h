@@ -337,6 +337,7 @@ void _single_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len );
 SQLWCHAR* _multi_string_alloc_and_expand( LPCSTR in );
 SQLWCHAR* _single_string_alloc_and_expand( LPCSTR in );
 void _single_copy_from_wide( SQLCHAR *out, LPCWSTR in, int len );
+int _multi_string_length( LPCSTR in );
 
 /*
  * To support finding UI plugin

@@ -180,6 +180,22 @@ void _multi_string_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
     *out++ = 0;
 }
 
+int _multi_string_length( LPCSTR in )
+{
+    LPCSTR ch;
+
+    if ( !in )
+        return 0;
+
+    for ( ch = in ; !(*ch == 0 && *(ch + 1) == 0) ; ch ++ );
+
+    /* The convention seems to be to exclude the very last '\0' character from
+     * the count, so that is what we do here.
+     */
+    return ch - in + 1;
+}
+
+
 /*! 
  * \brief   Invokes a UI (a wizard) to walk User through creating a DSN.
  * 
