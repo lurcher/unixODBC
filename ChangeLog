@@ -9,6 +9,7 @@
       used to generate the IPC id when collecting stats. Default is the system odbc.ini file
     * Improve diag record handling with the behavior of Windows DM and export SQLCancelHandle
     * bug fix when SQLGetPrivateProfileString() is called to get a list of sections or a list of keys
+    * Connection pooling: Fix liveness check for Unicode drivers
 
 19-March-2018
 2.3.6
