@@ -3030,6 +3030,7 @@ restart:;
 
     for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
     {
+        SQLRETURN ret;
 	has_checked = 0;
 
         if ( ptr -> in_use )
@@ -3141,93 +3142,62 @@ restart:;
             continue;
         }
 
-
         /*
          * ok so far, is it still alive ?
          */
 
-        if ( CHECK_SQLGETCONNECTATTR(( &ptr -> connection )))
+        if ( CHECK_SQLGETCONNECTATTR(( &ptr -> connection )) &&
+                 SQL_SUCCEEDED( ret = SQLGETCONNECTATTR(( &ptr -> connection ),
+                     ptr -> connection.driver_dbc,
+                     SQL_ATTR_CONNECTION_DEAD,
+                     &dead,
+                     0,
+                     0 ) ) ||
+             CHECK_SQLGETCONNECTATTRW(( &ptr -> connection )) &&
+                 SQL_SUCCEEDED( ret = SQLGETCONNECTATTRW(( &ptr -> connection ),
+                     ptr -> connection.driver_dbc,
+                     SQL_ATTR_CONNECTION_DEAD,
+                     &dead,
+                     0,
+                     0 ) ) ||
+             CHECK_SQLGETCONNECTOPTION(( &ptr -> connection )) &&
+                 SQL_SUCCEEDED( ret = SQLGETCONNECTOPTION(( &ptr->connection ),
+                     ptr -> connection.driver_dbc,
+                     SQL_ATTR_CONNECTION_DEAD,
+                     &dead ) ) ||
+             CHECK_SQLGETCONNECTOPTIONW(( &ptr -> connection )) &&
+                 SQL_SUCCEEDED( ret = SQLGETCONNECTOPTIONW(( &ptr->connection ),
+                     ptr -> connection.driver_dbc,
+                     SQL_ATTR_CONNECTION_DEAD,
+                     &dead ) )
+           )
         {
-            SQLRETURN ret;
-
-            ret = SQLGETCONNECTATTR(( &ptr -> connection ),
-                ptr -> connection.driver_dbc,
-                SQL_ATTR_CONNECTION_DEAD,
-                &dead,
-                0,
-                0 );
-
             /*
              * if it failed assume that it's because it doesn't support
              * it, but it's ok
              */
-
-            if ( SQL_SUCCEEDED( ret ))
+            if ( dead == SQL_CD_TRUE )
             {
-                if ( dead == SQL_CD_TRUE )
+                /*
+                 * disconnect and remove
+                 */
+
+                close_pooled_connection( ptr );
+
+                if ( prev )
                 {
-                    /*
-                     * disconnect and remove
-                     */
-
-                    close_pooled_connection( ptr );
-
-                    if ( prev )
-                    {
-                        prev -> next = ptr -> next;
-                        free( ptr );
-                        goto restart;
-                    }
-                    else
-                    {
-                        pool_head = ptr -> next;
-                        free( ptr );
-                        goto restart;
-                    }
+                    prev -> next = ptr -> next;
+                    free( ptr );
+                    goto restart;
                 }
-                has_checked = 1;
-            }
-        }
-
-        if ( !has_checked && CHECK_SQLGETCONNECTOPTION(( &ptr -> connection )))
-        {
-            SQLRETURN ret;
-
-            ret = SQLGETCONNECTOPTION(( &ptr->connection ),
-                        ptr -> connection.driver_dbc,
-                        SQL_ATTR_CONNECTION_DEAD,
-                        &dead );
-            
-            /*
-             * if it failed assume that it's because it doesn't support
-             * it, but it's ok
-             */
-
-            if ( SQL_SUCCEEDED( ret ))
-            {
-                if ( dead == SQL_CD_TRUE )
+                else
                 {
-                    /*
-                     * disconnect and remove
-                     */
-
-                    close_pooled_connection( ptr );
-
-                    if ( prev )
-                    {
-                        prev -> next = ptr -> next;
-                        free( ptr );
-                        goto restart;
-                    }
-                    else
-                    {
-                        pool_head = ptr -> next;
-                        free( ptr );
-                        goto restart;
-                    }
+                    pool_head = ptr -> next;
+                    free( ptr );
+                    goto restart;
                 }
-                has_checked = 1;
             }
+            has_checked = 1;
         }
 
         /*
@@ -3373,7 +3343,7 @@ restart:;
         if ( !has_checked )
         {
             /*
-             * We can't knwo for sure if the connection is still valid ...
+             * We can't know for sure if the connection is still valid ...
              */
         }
 
