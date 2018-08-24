@@ -19,6 +19,9 @@
     #include <readline/readline.h>
     #include <readline/history.h>
 #endif
+#ifdef HAVE_EDITLINE
+    #include <editline/readline.h>
+#endif
 
 #ifdef HAVE_SETLOCALE
     #ifdef HAVE_LOCALE_H
@@ -199,7 +202,7 @@ int main( int argc, char *argv[] )
     do
     {
         if ( !bBatch )
-#ifndef HAVE_READLINE
+#if !defined(HAVE_EDITLINE) && !defined(HAVE_READLINE)
             printf( "SQL> " );
 #else
         {

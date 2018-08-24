@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([unixODBC], [2.3.7], nick@unixodbc.org, [unixODBC])
+AC_INIT([unixODBC], [2.3.8pre], nick@unixodbc.org, [unixODBC])
 AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
@@ -42,7 +42,15 @@ AC_ARG_ENABLE( readline,
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-readline) ;;
     esac],[readline=true])
 
-AC_ARG_ENABLE( inicaching, 
+AC_ARG_ENABLE( editline,
+[  --enable-editline       build with editline  support [default=no]],
+[ case "${enableval}" in
+    yes) editline=true ;;
+    no) editline=false ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-editline) ;;
+    esac],[editline=false])
+
+AC_ARG_ENABLE( inicaching,
 [  --enable-inicaching     build with ini file caching  support [default=yes]],
 [ case "${enableval}" in
     yes) inicaching=true ;;
@@ -234,6 +242,32 @@ AC_CHECK_LIB(crypt, crypt, [ AC_DEFINE([HAVE_LIBCRYPT], [], [Add -lcrypt to lib 
 AC_SUBST(LIBADD_CRYPT)
 AC_CHECK_LIB(m, pow, [ LIBADD_POW="-lm" ], )
 AC_SUBST(LIBADD_POW)
+
+have_editline="no"
+
+if test "x$editline" = "xtrue"; then
+  AC_CHECK_LIB_NOC(edit, readline,
+  [
+      READLINE=-ledit
+      have_editline="yes"
+  ],
+  [
+      dnl try with -lcurses
+      AC_CHECK_LIB_NOC(edit, readline,
+      [
+          READLINE="-ledit -lcurses"
+          have_editline="yes"
+      ],
+      [
+      ],
+      -lcurses )
+  ])
+
+  if test "x$have_editline" = "xyes"; then
+      AC_CHECK_HEADERS(editline/readline.h, [AC_DEFINE([HAVE_EDITLINE], [1], [Add editline support])])
+      readline=false
+  fi
+fi
 
 have_readline="no"
 

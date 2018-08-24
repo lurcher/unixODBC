@@ -17,6 +17,9 @@
     #include <readline/readline.h>
     #include <readline/history.h>
 #endif
+#ifdef HAVE_EDITLINE
+    #include <editline/readline.h>
+#endif
 
 #ifdef HAVE_SETLOCALE
     #ifdef HAVE_LOCALE_H
@@ -74,7 +77,7 @@ int main( int argc, char *argv[] )
     int     line_buffer_size = 9000;
     int     bufpos,linen;
     char    prompt[24];
-#ifdef HAVE_READLINE
+#if defined(HAVE_EDITLINE) || defined(HAVE_READLINE)
     char    *rlhistory; /* readline history path */
 
     rlhistory = strdup(getenv("HOME"));
@@ -253,7 +256,7 @@ int main( int argc, char *argv[] )
 
         if ( !bBatch )
         {
-#ifdef HAVE_READLINE
+#if defined(HAVE_EDITLINE) || defined(HAVE_READLINE)
             line=readline( prompt );
             if ( !line )        /* EOF - ctrl D */
             {
@@ -497,7 +500,7 @@ int main( int argc, char *argv[] )
      * DISCONNECT
      ***************************/
 
-#ifdef HAVE_READLINE
+#if defined(HAVE_EDITLINE) || defined(HAVE_READLINE)
     write_history(rlhistory);
 #endif
 
