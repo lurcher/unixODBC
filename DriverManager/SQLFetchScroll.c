@@ -164,13 +164,13 @@ SQLRETURN SQLFetchScroll( SQLHSTMT statement_handle,
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if ( fetch_orientation != SQL_FETCH_NEXT &&
+    if (( fetch_orientation != SQL_FETCH_NEXT &&
             fetch_orientation != SQL_FETCH_PRIOR &&
             fetch_orientation != SQL_FETCH_FIRST &&
             fetch_orientation != SQL_FETCH_LAST &&
             fetch_orientation != SQL_FETCH_ABSOLUTE &&
             fetch_orientation != SQL_FETCH_RELATIVE &&
-            fetch_orientation != SQL_FETCH_BOOKMARK ||
+            fetch_orientation != SQL_FETCH_BOOKMARK ) ||
           (fetch_orientation == SQL_FETCH_BOOKMARK
            && statement -> bookmarks_on == SQL_UB_OFF) )
     {

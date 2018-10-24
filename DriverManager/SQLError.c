@@ -184,7 +184,7 @@
 
 static char const rcsid[]= "$RCSfile: SQLError.c,v $ $Revision: 1.11 $";
 
-static SQLRETURN extract_sql_error( EHEAD *head,
+static SQLRETURN local_extract_sql_error( EHEAD *head,
         SQLCHAR *sqlstate,
         SQLINTEGER *native_error,
         SQLCHAR *message_text,
@@ -440,7 +440,7 @@ SQLRETURN SQLError( SQLHENV environment_handle,
         herror->ret_code_deferred = 0;
     }
 
-    ret = extract_sql_error( herror,
+    ret = local_extract_sql_error( herror,
             sqlstate,
             native_error,
             message_text,

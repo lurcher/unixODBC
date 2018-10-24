@@ -512,7 +512,7 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
             struct save_attr *sa = calloc( 1, sizeof( struct save_attr ));
 
             sa -> attr_type = option;
-            sa -> int_attr = ( SQLINTEGER ) value;
+            sa -> intptr_attr = value;
             sa -> next = connection -> save_attr;
             connection -> save_attr = sa;
         }

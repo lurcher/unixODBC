@@ -512,8 +512,8 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
      */
 
     if ( rec_number < 1 ||
-        ( diag_identifier == SQL_DIAG_COLUMN_NUMBER ||
-          diag_identifier == SQL_DIAG_ROW_NUMBER ) && head -> handle_type != SQL_HANDLE_STMT )
+        (( diag_identifier == SQL_DIAG_COLUMN_NUMBER ||
+          diag_identifier == SQL_DIAG_ROW_NUMBER ) && head -> handle_type != SQL_HANDLE_STMT ))
     {
         return SQL_ERROR;
     }

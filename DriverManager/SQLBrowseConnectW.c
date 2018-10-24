@@ -406,7 +406,7 @@ SQLRETURN SQLBrowseConnectW(
     }
     else if (CHECK_SQLBROWSECONNECT( connection ))
     {
-        SQLCHAR *an_in_str = unicode_to_ansi_alloc( in_str, SQL_NTS, connection, 0 );
+        SQLCHAR *an_in_str = (SQLCHAR*) unicode_to_ansi_alloc( in_str, SQL_NTS, connection, 0 );
         SQLCHAR *ob = conn_str_out ? malloc( (conn_str_out_max + 1) * sizeof(SQLWCHAR) ) : 0;
         SQLINTEGER len;
 
@@ -421,7 +421,16 @@ SQLRETURN SQLBrowseConnectW(
         *ptr_conn_str_out = len;
         if(ob)
         {
-            ansi_to_unicode_copy(conn_str_out, ob, conn_str_out_max, connection, ptr_conn_str_out );
+            if ( ptr_conn_str_out ) {
+                int wptr;
+
+                ansi_to_unicode_copy(conn_str_out, (char*)ob, conn_str_out_max, connection, &wptr );
+
+                *ptr_conn_str_out = (SQLSMALLINT) wptr;
+            }
+            else {
+                ansi_to_unicode_copy(conn_str_out, (char*)ob, conn_str_out_max, connection, NULL );
+            }
             free(ob);
         }
         free(an_in_str);

@@ -182,10 +182,10 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
     }
 
-    if ( function_id > SQL_API_SQLBULKOPERATIONS && function_id < SQL_API_SQLCOLUMNS ||
-         function_id > SQL_API_SQLALLOCHANDLESTD && function_id < SQL_API_LOADBYORDINAL ||
-         function_id > SQL_API_LOADBYORDINAL && function_id < SQL_API_ODBC3_ALL_FUNCTIONS ||
-         function_id > SQL_API_ODBC3_ALL_FUNCTIONS && function_id < SQL_API_SQLALLOCHANDLE ||
+    if (( function_id > SQL_API_SQLBULKOPERATIONS && function_id < SQL_API_SQLCOLUMNS ) ||
+         ( function_id > SQL_API_SQLALLOCHANDLESTD && function_id < SQL_API_LOADBYORDINAL ) ||
+         ( function_id > SQL_API_LOADBYORDINAL && function_id < SQL_API_ODBC3_ALL_FUNCTIONS ) ||
+         ( function_id > SQL_API_ODBC3_ALL_FUNCTIONS && function_id < SQL_API_SQLALLOCHANDLE ) ||
          function_id > SQL_API_SQLFETCHSCROLL )
     {
         __post_internal_error( &connection -> error,

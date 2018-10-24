@@ -231,8 +231,8 @@ SQLRETURN SQLSpecialColumns( SQLHSTMT statement_handle,
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( name_length1 < 0 && name_length1 != SQL_NTS ||
-         name_length2 < 0 && name_length2 != SQL_NTS )
+    if (( name_length1 < 0 && name_length1 != SQL_NTS ) ||
+         ( name_length2 < 0 && name_length2 != SQL_NTS ))
     {
         __post_internal_error( &statement -> error,
                 ERROR_HY090, NULL,

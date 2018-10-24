@@ -4600,7 +4600,9 @@ void extract_diag_error_w( int htype,
         if ( SQL_SUCCEEDED( ret ))
         {
             ERROR *e = malloc( sizeof( ERROR ));
+#ifndef STRICT_ODBC_ERROR
             SQLWCHAR *tmp;
+#endif
 
             /* 
              * make sure we are truncated in the right place
@@ -4836,7 +4838,9 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
 
         if ( SQL_SUCCEEDED( ret ))
         {
+#ifndef STRICT_ODBC_ERROR
             SQLWCHAR *tmp;
+#endif
 
             /*
              * add to the lists, SQLError list first

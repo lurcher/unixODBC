@@ -1844,7 +1844,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 SQLSETCONNECTATTR(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
-                            sa -> int_attr,
+                            sa -> intptr_attr,
                             sa -> str_len );
             }
             else if (CHECK_SQLSETCONNECTOPTION(connection))
@@ -1852,7 +1852,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 SQLSETCONNECTOPTION(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
-                            sa -> int_attr );
+                            sa -> intptr_attr );
             }
         }
         
@@ -2978,20 +2978,15 @@ static void close_pooled_connection( CPOOL *ptr )
 
 void __strip_from_pool( DMHENV env )
 {
-    time_t current_time;
-    SQLINTEGER dead;
-    CPOOL *ptr, *prev;
-    int has_checked = 0;
+    CPOOL *ptr;
 
     mutex_pool_entry();
-
-    current_time = time( NULL );
 
     /*
      * look in the list of connections for one that matches
      */
 
-    for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
+    for( ptr = pool_head; ptr; ptr = ptr -> next )
     {
         if ( ptr -> connection.environment == env ) {
 
@@ -3146,30 +3141,30 @@ restart:;
          * ok so far, is it still alive ?
          */
 
-        if ( CHECK_SQLGETCONNECTATTR(( &ptr -> connection )) &&
+        if ((CHECK_SQLGETCONNECTATTR(( &ptr -> connection )) &&
                  SQL_SUCCEEDED( ret = SQLGETCONNECTATTR(( &ptr -> connection ),
                      ptr -> connection.driver_dbc,
                      SQL_ATTR_CONNECTION_DEAD,
                      &dead,
                      0,
-                     0 ) ) ||
-             CHECK_SQLGETCONNECTATTRW(( &ptr -> connection )) &&
+                     0 ))) ||
+            (CHECK_SQLGETCONNECTATTRW(( &ptr -> connection )) &&
                  SQL_SUCCEEDED( ret = SQLGETCONNECTATTRW(( &ptr -> connection ),
                      ptr -> connection.driver_dbc,
                      SQL_ATTR_CONNECTION_DEAD,
                      &dead,
                      0,
-                     0 ) ) ||
-             CHECK_SQLGETCONNECTOPTION(( &ptr -> connection )) &&
+                     0 ))) ||
+            (CHECK_SQLGETCONNECTOPTION(( &ptr -> connection )) &&
                  SQL_SUCCEEDED( ret = SQLGETCONNECTOPTION(( &ptr->connection ),
                      ptr -> connection.driver_dbc,
                      SQL_ATTR_CONNECTION_DEAD,
-                     &dead ) ) ||
-             CHECK_SQLGETCONNECTOPTIONW(( &ptr -> connection )) &&
+                     &dead ))) ||
+            (CHECK_SQLGETCONNECTOPTIONW(( &ptr -> connection )) &&
                  SQL_SUCCEEDED( ret = SQLGETCONNECTOPTIONW(( &ptr->connection ),
                      ptr -> connection.driver_dbc,
                      SQL_ATTR_CONNECTION_DEAD,
-                     &dead ) )
+                     &dead )))
            )
         {
             /*
@@ -4110,9 +4105,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
 
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
-            int lret;
-                
-            lret = SQLSETCONNECTATTR( connection,
+            SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_ANSI_APP,
                     SQL_AA_FALSE,

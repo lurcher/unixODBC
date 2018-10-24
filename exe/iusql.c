@@ -35,18 +35,13 @@ static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNa
 static int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable );
 
 static void WriteHeaderHTMLTable( SQLHSTMT hStmt );
-static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR	*szSepLine );
 static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter );
 static void WriteBodyHTMLTable( SQLHSTMT hStmt );
 static SQLLEN WriteBodyNormal( SQLHSTMT hStmt );
 static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter );
 static void WriteFooterHTMLTable( SQLHSTMT hStmt );
-static void WriteFooterNormal( SQLHSTMT hStmt, SQLCHAR	*szSepLine, SQLLEN nRows );
 
 static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt );
-static int get_args(char *string, char **args, int maxarg);
-static void free_args(char **args, int maxarg);
-static void output_help(void);
 
 
 int     bVerbose                    = 0;

@@ -334,7 +334,7 @@ char *tmp;
     while( cp )
     {
         size_t attrlen = strlen( cp -> attribute );
-        int use_esc = isspace( *(cp -> attribute ) ) || attrlen && isspace( cp->attribute[attrlen - 1] );
+        int use_esc = isspace( *(cp -> attribute ) ) || ( attrlen && isspace( cp->attribute[attrlen - 1] ));
         for ( tmp = cp -> attribute; *tmp; tmp++ )
         {
             use_esc |= (*tmp == '{') || (*tmp == '}');
@@ -1500,9 +1500,7 @@ SQLRETURN SQLDriverConnect(
 
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
-            int lret;
-                
-            lret = SQLSETCONNECTATTR( connection,
+            SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_ANSI_APP,
                     SQL_AA_FALSE,

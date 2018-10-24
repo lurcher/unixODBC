@@ -69,13 +69,13 @@ int main( int argc, char **argv )
     }
 
     if ( argc == 2 ) {
-        ret = SQLConnect( hdbc, argv[ 1 ], SQL_NTS, NULL, 0, NULL, 0 );
+        ret = SQLConnect( hdbc, (SQLCHAR*) argv[ 1 ], SQL_NTS, NULL, 0, NULL, 0 );
     }
     else if ( argc == 3 ) {
-        ret = SQLConnect( hdbc, argv[ 1 ], SQL_NTS, argv[ 2 ], SQL_NTS, NULL, 0 );
+        ret = SQLConnect( hdbc, (SQLCHAR*) argv[ 1 ], SQL_NTS, (SQLCHAR*) argv[ 2 ], SQL_NTS, NULL, 0 );
     }
     else {
-        ret = SQLConnect( hdbc, argv[ 1 ], SQL_NTS, argv[ 2 ], SQL_NTS, argv[ 3 ], SQL_NTS );
+        ret = SQLConnect( hdbc, (SQLCHAR*) argv[ 1 ], SQL_NTS, (SQLCHAR*) argv[ 2 ], SQL_NTS, (SQLCHAR*) argv[ 3 ], SQL_NTS );
     }
 
     if ( !SQL_SUCCEEDED( ret )) {

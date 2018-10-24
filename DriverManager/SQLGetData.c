@@ -300,8 +300,8 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
     }
     else if ( statement -> state == STATE_S4 ||
             statement -> state == STATE_S5 ||
-            ( statement -> state == STATE_S6 || statement -> state == STATE_S7 )
-            && statement -> eod )
+            (( statement -> state == STATE_S6 || statement -> state == STATE_S7 )
+            && statement -> eod ))
     {
         dm_log_write( __FILE__, 
                 __LINE__, 

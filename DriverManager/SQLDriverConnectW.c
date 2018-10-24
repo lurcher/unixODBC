@@ -423,7 +423,7 @@ SQLRETURN SQLDriverConnectW(
 			}
 			else 
 			{
-                unicode_to_ansi_copy( returned_dsn, sizeof( returned_dsn ), returned_wdsn, SQL_NTS, connection, NULL );
+                unicode_to_ansi_copy((char*) returned_dsn, sizeof( returned_dsn ), returned_wdsn, SQL_NTS, connection, NULL );
 				prefix = returned_dsn;
 				target = (SQLCHAR*)strchr( (char*)returned_dsn, '=' );
 				if ( target ) 
@@ -596,9 +596,7 @@ SQLRETURN SQLDriverConnectW(
     {
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
-            int lret;
-                
-            lret = SQLSETCONNECTATTR( connection,
+            SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_ANSI_APP,
                     SQL_AA_FALSE,

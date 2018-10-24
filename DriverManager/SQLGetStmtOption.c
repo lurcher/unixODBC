@@ -170,9 +170,9 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
 
     if ( option == SQL_ROW_NUMBER || option == SQL_GET_BOOKMARK )
     {
-        if ( statement -> state >= STATE_S1 && statement -> state <= STATE_S5 ||
-                ( statement -> state == STATE_S6 ||
-                  statement -> state == STATE_S7 )  && statement -> eod )
+        if (( statement -> state >= STATE_S1 && statement -> state <= STATE_S5 ) ||
+                (( statement -> state == STATE_S6 ||
+                  statement -> state == STATE_S7 ) && statement -> eod ))
         {
             dm_log_write( __FILE__, 
                     __LINE__, 

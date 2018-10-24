@@ -235,7 +235,7 @@ struct save_attr
     int                 attr_type;
     char                *str_attr;
     int                 str_len;
-    SQLLEN              int_attr;
+    intptr_t            intptr_attr;
     struct save_attr    *next;
 };
 
@@ -845,6 +845,33 @@ int __append_pair( struct con_struct *con_str, char *kword, char *value );
 void __handle_attr_extensions_cs( DMHDBC connection, struct con_struct *con_str );
 void __strip_from_pool( DMHENV env );
 
+void extract_diag_error_w( int htype,
+                            DRV_SQLHANDLE handle,
+                            DMHDBC connection,
+                            EHEAD *head,
+                            int return_code,
+                            int save_to_diag );
+
+void extract_diag_error( int htype,
+                            DRV_SQLHANDLE handle,
+                            DMHDBC connection,
+                            EHEAD *head,
+                            int return_code,
+                            int save_to_diag );
+
+void extract_sql_error_w( DRV_SQLHANDLE henv,
+                            DRV_SQLHANDLE hdbc,
+                            DRV_SQLHANDLE hstmt,
+                            DMHDBC connection,
+                            EHEAD *head, 
+                            int return_code );
+
+void extract_sql_error( DRV_SQLHANDLE henv,
+                            DRV_SQLHANDLE hdbc,
+                            DRV_SQLHANDLE hstmt,
+                            DMHDBC connection,
+                            EHEAD *head, 
+                            int return_code );
 /*
  * the following two are part of a effort to get a particular unicode driver working
  */

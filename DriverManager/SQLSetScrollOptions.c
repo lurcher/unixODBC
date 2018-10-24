@@ -208,10 +208,10 @@ SQLRETURN SQLSetScrollOptions(
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-    if ( crow_keyset != SQL_SCROLL_FORWARD_ONLY &&
+    if (( crow_keyset != SQL_SCROLL_FORWARD_ONLY &&
             crow_keyset != SQL_SCROLL_STATIC &&
             crow_keyset != SQL_SCROLL_KEYSET_DRIVEN &&
-            crow_keyset != SQL_SCROLL_DYNAMIC  ||
+            crow_keyset != SQL_SCROLL_DYNAMIC ) ||
             !crow_rowset)
     {
         dm_log_write( __FILE__, 

@@ -425,7 +425,7 @@ SQLRETURN SQLBrowseConnect(
     }
     else
     {
-        in_str = conn_str_in;
+        in_str = (char*)conn_str_in;
         in_str_len = len_conn_str_in == SQL_NTS ? strlen(in_str) : len_conn_str_in;
     }
 
@@ -462,7 +462,7 @@ SQLRETURN SQLBrowseConnect(
         {
             unicode_to_ansi_copy((char*) conn_str_out, conn_str_out_max, uc_out_str, SQL_NTS, connection, NULL );
             if (*ptr_conn_str_out < conn_str_out_max)
-                *ptr_conn_str_out = strlen(conn_str_out);
+                *ptr_conn_str_out = strlen((char*)conn_str_out);
             free(uc_out_str);
         }
         

@@ -676,7 +676,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
             }
             else
             {
-                sa -> int_attr = ( SQLLEN ) value;
+                sa -> intptr_attr = (intptr_t) value;
                 sa -> str_len = string_length;
             }
             sa -> next = connection -> save_attr;

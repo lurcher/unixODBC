@@ -173,7 +173,7 @@ SQLRETURN extract_parent_handle_err( int handle_type,
  * unicode mapping function
  */
 
-static SQLRETURN extract_sql_error_w( EHEAD *head,
+static SQLRETURN local_extract_sql_error_w( EHEAD *head,
         SQLWCHAR *sqlstate,
         SQLINTEGER *native_error,
         SQLWCHAR *message_text,
@@ -391,7 +391,7 @@ SQLRETURN SQLErrorW( SQLHENV environment_handle,
         herror->ret_code_deferred = 0;
     }
 
-    ret = extract_sql_error_w( herror,
+    ret = local_extract_sql_error_w( herror,
             sqlstate,
             native_error,
             message_text,
