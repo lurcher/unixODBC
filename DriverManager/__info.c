@@ -1217,21 +1217,13 @@ char * __data_as_string( SQLCHAR *s, SQLINTEGER type,
 
 /*
  * display a pointer to a int
- *
- * may generate a "warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type " build warning though
  */
 
 char * __iptr_as_string( SQLCHAR *s, SQLINTEGER *ptr )
 {
     if ( ptr )
     {
-        if (sizeof(SQLINTEGER) == sizeof(int))
-        {
-            sprintf((char*) s, "%p -> %d (%d bits)", (void*)ptr, (int)*ptr, (int)sizeof( SQLINTEGER ) * 8 );
-        }
-        else {
-            sprintf((char*) s, "%p -> %ld (%d bits)", (void*)ptr, (SQLINTEGER)*ptr, (int)sizeof( SQLINTEGER ) * 8 );
-        }
+        sprintf((char*) s, "%p -> %ld (%d bits)", (void*)ptr, (long)*ptr, (int)sizeof( SQLINTEGER ) * 8 );
     }
     else
     {
@@ -1245,14 +1237,7 @@ char * __ptr_as_string( SQLCHAR *s, SQLLEN *ptr )
 {
     if ( ptr )
     {
-        if (sizeof(SQLLEN) == sizeof(int))
-        {
-            sprintf((char*) s, "%p -> %d (%d bits)", (void*)ptr, (int)*ptr, (int)sizeof( SQLLEN ) * 8 );
-        }
-        else 
-        {
-            sprintf((char*) s, "%p -> %d (%d bits)", (void*)ptr, (SQLLEN)*ptr, (int)sizeof( SQLLEN ) * 8 );
-        }
+        sprintf((char*) s, "%p -> %ld (%d bits)", (void*)ptr, (long)*ptr, (int)sizeof( SQLLEN ) * 8 );
     }
     else
     {
