@@ -366,7 +366,7 @@ try_again:
 
             if ( !found ) 
             {
-                sprintf( szIniName, "%s/%s", odbcinst_system_file_path( b1 ), odbcinst_system_file_name( b2 ));
+                sprintf( szIniName, "%s/%s", odbcinst_user_file_path( b1 ), odbcinst_user_file_name( b2 ));
 
                 memset( buffer, '\0', sizeof( buffer ));
     #ifdef __OS2__
