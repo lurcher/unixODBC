@@ -77,6 +77,34 @@ The specified data source is user-specific. Has any effect only with the -s
 .SH "RETURN VALUES"
 This command returns zero on success and non-zero value on failure.
 
+.SH EXAMPLES
+
+.IP "List drivers defined in odbcinst.ini:"
+
+.nf
+$ odbcinst -q -d
+.fi
+
+Lists both Unicode and ANSI drivers.
+
+.IP "List file DSNs from /etc/odbc.ini and $HOME/.odbc.ini:"
+
+.nf
+$ odbcinst -q -s
+.fi
+
+Lists both Unicode and ANSI datasources.
+
+To show only user DSNs append \fB-h\fR. For only system DSNs append \fB-l\fR. The error
+\fI"SQLGetPrivateProfileString failed with ."\fR will be emitted if there are
+no DSNs defined and/or the \fB[ODBC Data Sources]\fR section is missing.
+
+.IP "Print file paths and version information:"
+
+.nf
+$ odbcinst -j
+.fi
+
 .SH FILES
 
 .I /etc/odbinst.ini
@@ -101,8 +129,11 @@ for more details.
 .RE
 
 .SH "SEE ALSO"
+.BR unixODBC (7),
 .BR odbcinst.ini (5),
 .BR odbc.ini (5)
+
+.R "The \fIunixODBC\fB Administrator Manual (HTML)"
 
 .SH AUTHORS
 The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
