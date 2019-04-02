@@ -8,12 +8,73 @@
 is text configuration file for the system wide ODBC data sources (i. e. database
 connections).
 .B $HOME/.odbc.ini
-contains the configuration for user-specific data sources.
+contains the configuration for user-specific data sources. Both paths may be overridden
+by \fIunixODBC\fR build options, see \fBodbcinst -j\fR for the definitive paths
+on your system.
+
+.SH NOTES
+
+.SS "Templates"
+
+Where possible, install ODBC DSNs using the \fBodbcinst\fR utility from a
+template .ini file. Many drivers supply templates.
+
+.SS "FILE FORMAT"
+
+\fBodbc.ini\fR follows the pesudo-standard \fIini file\fB syntax convention of
+one or more \fB[section headings]\fR, each followed by zero or more \fBkey =
+value\fR attributes.
+
+.IP "\fB[ODBC Data Sources]\fR section" 4
+
+The required section \fB[ODBC Data Sources]\fR lists each data source name
+(\fIDSN\fR) as a key. The associated values serve as comments. Each entry
+must be matched by an ini file \fB[section]\fR describing the data source.
+
+.IP "\fB[\fIdsn\fR]\fR sections" 4
+
+Each data source is identified by a \fB[section header]\fR, which is the DSN
+name used by applications. Each DSN definition section may contain values for
+the keys:
+
+.RS 4
+.IP "\(bu Driver (\fBREQUIRED\fR)" 8
+Name of the ODBC driver to use for this DSN. The name must exactly match
+the \fB[section name]\fR of the driver definition in \fBodbcinst.ini\fR
+as listed by \fBodbcinst -q -d\fR.
+
+.IP "\(bu Description" 8
+
+Human-readable data source description.
+
+.IP "\(bu Database" 8
+
+Database name or identifier. Meaning is driver-specific. May specify a file
+path, unix socket path, identifier relative to a server name, etc.
+
+.IP "\(bu Servername" 8
+
+Server name. Meaning is driver specific, but generally specifies a DNS name, IP
+network address, or driver-specific discovery identifier.
+
+.RE
+For a full list of supported parameters see the HTML-format "Administrator
+Manual" shipped with \fIunixODBC\fR, the documentation for your driver, and any
+datasource templates supplied by your driver.
+
+.SH EXAMPLES
+
+An example \fBodbc.init\fR is shown in the "Administrator Manual" shipped
+with \fIunixODBC\fR.
 
 .SH "SEE ALSO"
+.BR unixODBC (7),
 .BR odbcinst (1),
 .BR isql (1),
+.BR iusql (1),
 .BR odbcinst.ini (5)
+
+.R "The \fIunixODBC\fB Administrator Manual (HTML)"
 
 .SH AUTHORS
 The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
