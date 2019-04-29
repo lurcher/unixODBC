@@ -2495,7 +2495,7 @@ static void release_env( DMHDBC connection )
              * remove the entry
              */
 
-            if ( env_lib_prev )
+            if ( env_lib_prev && env_lib_list )
             {
                 env_lib_prev -> next = env_lib_list -> next;
             }
