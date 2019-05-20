@@ -4,6 +4,8 @@
     * SQLDriversW was ignoring user config
     * SQLDataSources Fix termination character
     * Fix for pooling seg fault
+    * Make calling SQLSetStmtAttrW call the W function in the driver is its there
+    * Try and fix race condition clearing system odbc.ini file
 
 10-Aug-2018
 2.3.7

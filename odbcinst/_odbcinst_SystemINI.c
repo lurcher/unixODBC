@@ -11,6 +11,8 @@
 #include <config.h>
 #include <odbcinstext.h>
 
+#include <errno.h>
+
 /*
  * Add the historic ODBCINI value, mainly for applix.
  */
@@ -166,15 +168,27 @@ BOOL _odbcinst_SystemINI( char *pszFileName, BOOL bVerify )
 	char			b1[ ODBC_FILENAME_MAX + 1 ];
 
     sprintf( pszFileName, "%s/odbc.ini", odbcinst_system_file_path( b1 ));
-	
+
 	if ( bVerify )
 	{
         /* try opening for read */
 		hFile = uo_fopen( pszFileName, "r" );
 		if ( hFile )
+        {
 			uo_fclose( hFile );
+        }
 		else
         {
+            if ( ( !hFile ) &&
+                ( errno != ENFILE ) && ( errno != EMFILE ) &&
+                ( errno != ENOMEM ) && ( errno != EACCES ) && 
+                ( errno != EFBIG ) && ( errno != EINTR ) &&
+                ( errno != ENOSPC ) && ( errno != EOVERFLOW ) &&
+                ( errno != EWOULDBLOCK ))
+            {
+                return FALSE;
+            }
+
             /* does not exist so try creating it */
             hFile = uo_fopen( pszFileName, "w" );
             if ( hFile )
