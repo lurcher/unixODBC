@@ -692,7 +692,7 @@ char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection, i
 
     if ( len == SQL_NTS )
     {
-        len = wide_strlen( str ) + 1;
+        len = wide_strlen( str );
     }
 
     aptr = malloc(( len * 4 ) + 1 );       /* There may be UTF8 */
