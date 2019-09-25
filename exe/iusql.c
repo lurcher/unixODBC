@@ -91,6 +91,7 @@ int main( int argc, char *argv[] )
     char    *szSQL;
     char    *pEscapeChar;
     int     buffer_size = 9000;
+    int     len;
 
     szDSN = NULL;
     szUID = NULL;
@@ -247,6 +248,24 @@ int main( int argc, char *argv[] )
         /* strip away escape chars */
         while ( (pEscapeChar=(char*)strchr(szSQL, '\n')) != NULL || (pEscapeChar=(char*)strchr(szSQL, '\r')) != NULL )
             *pEscapeChar = ' ';
+
+        len = strlen( szSQL );
+
+        /* remove trailing spaces */
+
+        while( len > 0 ) 
+        {
+            len --;
+
+            if ( szSQL[ len ] == ' ' ) 
+            {
+                szSQL[ len ] = '\0';
+            }
+            else 
+            {
+                break;
+            }
+        }
 
         if ( szSQL[1] != '\0' )
         {
