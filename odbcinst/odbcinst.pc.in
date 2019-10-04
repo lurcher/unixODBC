@@ -3,9 +3,10 @@ exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
 
-Name: unixODBC
-Description: unixODBC is an Open Source ODBC sub-system.
+Name: odbcinst (@PACKAGE_NAME@)
+Description: unixODBC Configuration Library
 URL: http://unixodbc.org
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
 Libs: -L${libdir} -lodbcinst
+Libs.private: @LIBLTDL@ @LIBS@
