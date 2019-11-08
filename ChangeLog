@@ -7,6 +7,7 @@
     * Make calling SQLSetStmtAttrW call the W function in the driver is its there
     * Try and fix race condition clearing system odbc.ini file
     * Remove trailing space from isql/iusql SQL
+    * When setting connection attributes set before connect also check if the W entry poins can be used
 
 10-Aug-2018
 2.3.7
