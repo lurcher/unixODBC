@@ -4942,47 +4942,25 @@ void extract_error_from_driver( EHEAD * error_handle,
         hstmt_drv = handle_diag_extract;
     }
 
-    if ( hdbc->unicode_driver )
+    /* If we have the W functions may as well use them */
+
+    if ( CHECK_SQLGETDIAGFIELDW( hdbc ) &&
+        CHECK_SQLGETDIAGRECW( hdbc ))
     {
-        if ( CHECK_SQLGETDIAGFIELDW( hdbc ) &&
-            CHECK_SQLGETDIAGRECW( hdbc ))
-        {
-            extractdiagfunc = extract_diag_error_w;
-        }
-        else if ( CHECK_SQLERRORW( hdbc ))
-        {
-            extracterrorfunc = extract_sql_error_w;
-        }
-        else if ( CHECK_SQLGETDIAGFIELD( hdbc ) &&
-                 CHECK_SQLGETDIAGREC( hdbc ))
-        {
-            extractdiagfunc = extract_diag_error;
-        }
-        else if ( CHECK_SQLERROR( hdbc ))
-        {
-            extracterrorfunc = extract_sql_error;
-        }
+        extractdiagfunc = extract_diag_error_w;
     }
-    else
+    else if ( CHECK_SQLERRORW( hdbc ))
     {
-        if ( CHECK_SQLGETDIAGFIELD( hdbc ) &&
-            CHECK_SQLGETDIAGREC( hdbc ))
-        {
-            extractdiagfunc = extract_diag_error;
-        }
-        else if ( CHECK_SQLERROR( hdbc ))
-        {
-            extracterrorfunc = extract_sql_error;
-        }
-        else if ( CHECK_SQLGETDIAGFIELDW( hdbc ) &&
-                 CHECK_SQLGETDIAGRECW( hdbc ))
-        {
-            extractdiagfunc = extract_diag_error_w;
-        }
-        else if ( CHECK_SQLERRORW( hdbc ))
-        {
-            extracterrorfunc = extract_sql_error_w;
-        }
+        extracterrorfunc = extract_sql_error_w;
+    }
+    else if ( CHECK_SQLGETDIAGFIELD( hdbc ) &&
+             CHECK_SQLGETDIAGREC( hdbc ))
+    {
+        extractdiagfunc = extract_diag_error;
+    }
+    else if ( CHECK_SQLERROR( hdbc ))
+    {
+        extracterrorfunc = extract_sql_error;
     }
 
     if ( extractdiagfunc )
@@ -5009,7 +4987,6 @@ void extract_error_from_driver( EHEAD * error_handle,
             ERROR_HY000, "Driver returned SQL_ERROR or SQL_SUCCESS_WITH_INFO but no error reporting API found",
             hdbc->environment->requested_version );
     }
-
 }
 
 
