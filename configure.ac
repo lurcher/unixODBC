@@ -236,12 +236,12 @@ AC_DEFINE_UNQUOTED([UNICODE_ENCODING],"$ICONV_UNICODE_ENCODING",[Encoding to use
 AC_DEFINE_UNQUOTED([ASCII_ENCODING],"$ICONV_CHAR_ENCODING",[Encoding to use for CHAR])
 
 AC_ARG_ENABLE( iconvperdriver, 
-[  --enable-iconvperdriver build with iconv support per driver [default=yes]],
+[  --enable-iconvperdriver build with iconv support per driver [default=no]],
 [ case "${enableval}" in
     yes) iconvperdriver=true ;;
     no) iconvperdriver=false ;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-iconvperdriver) ;;
-    esac],[iconvperdriver=true])
+    esac],[iconvperdriver=false])
 
 AC_MSG_CHECKING( Are we using per driver iconv )
 if test "x$iconvperdriver" = "xtrue"; then
