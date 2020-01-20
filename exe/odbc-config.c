@@ -119,11 +119,11 @@ static void cInc( void )
 #endif
 
 #ifdef ASCII_ENCODING
-    printf( "#ifndef ASCII_ENCODING\n #define ASCII_ENCODING %s\n#endif\n", ASCII_ENCODING );
+    printf( "#ifndef ASCII_ENCODING\n #define ASCII_ENCODING \"%s\"\n#endif\n", ASCII_ENCODING );
 #endif
 
 #ifdef UNICODE_ENCODING
-    printf( "#ifndef UNICODE_ENCODING\n #define UNICODE_ENCODING %s\n#endif\n", UNICODE_ENCODING );
+    printf( "#ifndef UNICODE_ENCODING\n #define UNICODE_ENCODING \"%s\"\n#endif\n", UNICODE_ENCODING );
 #endif
 
 #ifdef ENABLE_DRIVER_ICONV
