@@ -483,6 +483,26 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             *output_handle = (SQLHANDLE) connection;
 
+#ifndef ENABLE_DRIVER_ICONV
+
+            /*
+             * initialize unicode
+             */
+
+            if ( !unicode_setup( connection ))
+            {
+                char txt[ 256 ];
+
+                sprintf( txt, "Can't initiate unicode conversion" );
+
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
+                        txt );
+            }
+#endif
+
             if ( log_info.log_flag )
             {
                 sprintf( environment -> msg, 

@@ -8,10 +8,12 @@ longodbcversion=3.52
 odbcini=@SYSTEM_FILE_PATH@/odbc.ini
 odbcinstini=@SYSTEM_FILE_PATH@/odbcinst.ini
 ulen=@ODBC_ULEN@
+build_cflags=@ODBC_CFLAGS@
 
-Name: unixODBC
-Description: unixODBC is an Open Source ODBC sub-system.
+Name: odbc (@PACKAGE_NAME@)
+Description: unixODBC Driver Manager library
 URL: http://unixodbc.org
 Version: @PACKAGE_VERSION@
-Cflags: @ODBC_CFLAGS@ -I${includedir}
+Cflags: -I${includedir}
 Libs: -L${libdir} -lodbc
+Libs.private: @LIBLTDL@ @LIBS@

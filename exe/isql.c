@@ -368,6 +368,20 @@ int main( int argc, char *argv[] )
             len ++;
         }
 
+        /* remove trailing spaces */
+
+        while( len > 0 ) 
+        {
+            if ( line[ len - 1 ] == ' ' ) 
+            {
+                len --;
+            }
+            else 
+            {
+                break;
+            }
+        }
+
         /*
          * is it a comment? 
          */

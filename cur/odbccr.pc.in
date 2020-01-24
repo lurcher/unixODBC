@@ -3,9 +3,10 @@ exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
 
-Name: unixODBC
-Description: unixODBC is an Open Source ODBC sub-system.
+Name: odbccr (@PACKAGE_NAME@)
+Description: unixODBC Cursor Library
 URL: http://unixodbc.org
 Version: @PACKAGE_VERSION@
+Requires: odbc
 Cflags: -I${includedir}
 Libs: -L${libdir} -lodbccr

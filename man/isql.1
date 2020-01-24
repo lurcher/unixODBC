@@ -1,4 +1,4 @@
-\" vim:language en_US.UTF-8:
+\" vim:fileencoding=utf-8:
 .TH isql 1 "Tue 25 Jun 2013" "version 2.3.6" "UnixODBC manual pages"
 
 .SH NAME
@@ -14,7 +14,8 @@ or interactively. It has some interesting options such as an option to generate
 output wrapped in an HTML table.
 
 .B iusql
-is the same tool with built-in Unicode support.
+is the same tool with built-in Unicode support. Some datasources only work with
+\fBiusql\fR.
 
 .SH ARGUMENTS
 
@@ -23,11 +24,19 @@ The Data Source Name, which should be used to make connection to the database.
 The data source is looked for in the /etc/odbc.ini and $HOME/.odbc.ini files in
 that order, with the latter overwriting the former.
 
+A bare name is looked up in the above files. If the DSN name begins with a
+semicolon then it's treated as a connection string instead. The connection
+string may contain a DSN name and/or other semicolon-separated parameters.
+
 .IP \fBUSER\fR
 Specifies the database user/role under which the connection should be made.
 
+Overrides any \fBUID\fR specified in the DSN.
+
 .IP \fBPASSWORD\fR
 Password for the specified \fBUSER\fR.
+
+Overrides any \fBPassword\fR specified in the DSN.
 
 .SH OPTIONS
 
@@ -98,14 +107,77 @@ List all help options.
 .RE
 
 .SH EXAMPLES
+
+.IP "A bare DSN name:"
+
 .nf
-$ isql WebDB MyID MyPWD -w -b < My.sql
+$ iusql WebDB MyID MyPWD -w -b < My.sql
 .fi
 
 Connects to the WebDB as user MyID with password MyPWD, then execute the
 commands in the My.sql file and returns the results wrapped in HTML table.
 Each line in My.sql must contain exactly 1 SQL command, except for the last
 line, which must be blank (unless the \fB-n\fR option is specified).
+
+.IP "A DSN name in a connection string:"
+
+Note the leading semicolon on the connection string:
+
+.nf
+$ iusql ";DSN=WebDB" MyID MyPWD -w -b < My.sql
+.fi
+
+Options in the DSN may be overridden in the connection string:
+
+.nf
+$ iusql ";DSN=WebDB;Driver=PostgreSQL ODBC;UID=MyID;PASSWORD=secret;Debug=1;CommLog=1" -v
+.fi
+
+.IP "A string DSN:"
+
+A string DSN may be provided in its entirety, with no file DSN reference at
+all:
+
+.nf
+$ iusql ";Driver=PostgreSQL Unicode;UID=MyID;PASSWORD=secret" -v
+.fi
+
+.SH TROUBLESHOOTING
+
+.IP "Cryptic error messages"
+
+Re-run \fBiusql\fR or \fBisql\fR with the \fB-v\fR flag to get more detail
+from errors, and/or enable \fBTrace\fR mode in \fBodbcinst.ini\fR.
+
+.IP "Missing driver definition"
+
+Check that the driver name specified by the \fBDriver\fR entry in  the
+\fBodbc.ini\fR data-source definition is present in \fBodbcinst.ini\fR and
+exactly matches the odbcinst \fI[section name]\fR.
+
+.IP "Unloadable or incompatible driver"
+
+If the driver is properly specified for the datasource it's possible that
+the driver may not be loadable. Check for mixups between Unicode and ANSI
+drivers. Verify the driver paths in the \fBodbcinst.ini\fR section name.
+
+.IP "Unicode datasources with ANSI clients"
+
+Some datasources are Unicode-only and only work with \fBiusql\fR. If \fBisql\fR
+reports
+.nf
+  [IM002][unixODBC][Driver Manager]Data source name not found and no default driver specified
+  [ISQL]ERROR: Could not SQLConnect
+.fi
+but the datasource is listed by
+.nf
+  odbcinst -q -d
+.fi
+and the driver it uses is listed by
+.nf
+  odbcinst -q -d
+.fi
+then try \fBiusql\fR.
 
 .SH FILES
 
@@ -124,8 +196,11 @@ for details.
 .RE
 
 .SH SEE ALSO
+.BR unixODBC (7),
 .BR odbcinst (1),
 .BR odbc.ini (5)
+
+.R "The \fIunixODBC\fB Administrator Manual (HTML)"
 
 .SH AUTHORS
 

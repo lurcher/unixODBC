@@ -19,11 +19,13 @@
 char *szSyntax =
 "\n" \
 "**********************************************\n" \
-"* unixODBC - isql                            *\n" \
+"* unixODBC - isql and iusql                  *\n" \
 "**********************************************\n" \
 "* Syntax                                     *\n" \
 "*                                            *\n" \
 "*      isql DSN [UID [PWD]] [options]        *\n" \
+"*                                            *\n" \
+"*      iusql DSN [UID [PWD]] [options]       *\n" \
 "*                                            *\n" \
 "* Options                                    *\n" \
 "*                                            *\n" \
@@ -53,12 +55,16 @@ char *szSyntax =
 "*                                            *\n" \
 "* Examples                                   *\n" \
 "*                                            *\n" \
-"*      isql WebDB MyID MyPWD -w < My.sql     *\n" \
+"*      iusql -v WebDB MyID MyPWD -w < My.sql *\n" \
 "*                                            *\n" \
 "*      Each line in My.sql must contain      *\n" \
 "*      exactly 1 SQL command except for the  *\n" \
 "*      last line which must be blank (unless *\n" \
 "*      -n option specified).                 *\n" \
+"*                                            *\n" \
+"* Datasources, drivers, etc:                 *\n" \
+"*                                            *\n" \
+"*      See \"man 1 isql\"                    *\n" \
 "*                                            *\n" \
 "* Please visit;                              *\n" \
 "*                                            *\n" \
@@ -72,11 +78,13 @@ char *szSyntax =
 char *szSyntax =
 "\n" \
 "**********************************************\n" \
-"* unixODBC - isql                            *\n" \
+"* unixODBC - isql and iusql                  *\n" \
 "**********************************************\n" \
 "* Syntax                                     *\n" \
 "*                                            *\n" \
 "*      isql DSN [UID [PWD]] [options]        *\n" \
+"*                                            *\n" \
+"*      iusql DSN [UID [PWD]] [options]       *\n" \
 "*                                            *\n" \
 "* Options                                    *\n" \
 "*                                            *\n" \
@@ -91,7 +99,6 @@ char *szSyntax =
 "* -v         verbose.                        *\n" \
 "* -q         wrap char fields in dquotes     *\n" \
 "* --version  version                         *\n" \
-"* --version  version                         *\n" \
 "*                                            *\n" \
 "* Commands                                   *\n" \
 "*                                            *\n" \
@@ -101,11 +108,15 @@ char *szSyntax =
 "*                                            *\n" \
 "* Examples                                   *\n" \
 "*                                            *\n" \
-"*      isql WebDB MyID MyPWD -w < My.sql     *\n" \
+"*      iusql -v WebDB MyID MyPWD -w < My.sql *\n" \
 "*                                            *\n" \
 "*      Each line in My.sql must contain      *\n" \
 "*      exactly 1 SQL command except for the  *\n" \
 "*      last line which must be blank.        *\n" \
+"*                                            *\n" \
+"* Datasources, drivers, etc:                 *\n" \
+"*                                            *\n" \
+"*      See \"man 1 isql\"                    *\n" \
 "*                                            *\n" \
 "* Please visit;                              *\n" \
 "*                                            *\n" \

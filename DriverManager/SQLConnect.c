@@ -1080,6 +1080,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     fake_unicode = atoi( fake_string );
 
+#ifdef ENABLE_DRIVER_ICONV
 #ifdef HAVE_ICONV
     SQLGetPrivateProfileString( driver_name, "IconvEncoding", DEFAULT_ICONV_ENCODING,
 				connection->unicode_string, sizeof( connection->unicode_string ), 
@@ -1108,6 +1109,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
         *warnings = TRUE;
     }
+#endif
 
     /*
      * initialize libtool
@@ -1834,6 +1836,21 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                             sa -> attr_type,
                             sa -> str_attr );
             }
+            else if (CHECK_SQLSETCONNECTATTRW( connection ))
+            {
+                SQLSETCONNECTATTRW(connection,
+                            connection -> driver_dbc,
+                            sa -> attr_type,
+                            sa -> str_attr,
+                            sa -> str_len );
+            }
+            else if (CHECK_SQLSETCONNECTOPTIONW(connection))
+            {
+                SQLSETCONNECTOPTIONW(connection,
+                            connection -> driver_dbc,
+                            sa -> attr_type,
+                            sa -> str_attr );
+            }
 
             free( sa -> str_attr );
         }
@@ -1850,6 +1867,21 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
             else if (CHECK_SQLSETCONNECTOPTION(connection))
             {
                 SQLSETCONNECTOPTION(connection,
+                            connection -> driver_dbc,
+                            sa -> attr_type,
+                            sa -> intptr_attr );
+            }
+            else if (CHECK_SQLSETCONNECTATTRW( connection ))
+            {
+                SQLSETCONNECTATTRW(connection,
+                            connection -> driver_dbc,
+                            sa -> attr_type,
+                            sa -> intptr_attr,
+                            sa -> str_len );
+            }
+            else if (CHECK_SQLSETCONNECTOPTIONW(connection))
+            {
+                SQLSETCONNECTOPTIONW(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
                             sa -> intptr_attr );
@@ -2495,7 +2527,7 @@ static void release_env( DMHDBC connection )
              * remove the entry
              */
 
-            if ( env_lib_prev )
+            if ( env_lib_prev && env_lib_list )
             {
                 env_lib_prev -> next = env_lib_list -> next;
             }

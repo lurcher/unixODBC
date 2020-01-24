@@ -289,7 +289,7 @@ SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,
                 if ( buffer_length2 <= strlen( property ))
                 {
                     memcpy( description, s1, buffer_length2 * 2 );
-                    description[ buffer_length1 - 1 ] = 0;
+                    description[ buffer_length2 - 1 ] = 0;
                 }
                 else
                 {

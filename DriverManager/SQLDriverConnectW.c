@@ -709,20 +709,21 @@ SQLRETURN SQLDriverConnectW(
     else
     {
         char *in_str, *out_str;
-        int len;
+        int in_len, len;
 
         if ( conn_str_in )
         {
             if ( len_conn_str_in == SQL_NTS )
             {
-                len = wide_strlen( conn_str_in ) + sizeof( SQLWCHAR );
+                len = wide_strlen( conn_str_in );
             }
             else
             {
-                len = len_conn_str_in + sizeof( SQLWCHAR );
+                len = len_conn_str_in;
             }
-            in_str = malloc( len );
-            unicode_to_ansi_copy( in_str, len, conn_str_in, len, connection, NULL );
+            in_len = len + 1;
+            in_str = malloc( in_len );
+            unicode_to_ansi_copy( in_str, in_len, conn_str_in, len, connection, NULL );
         }
         else
         {

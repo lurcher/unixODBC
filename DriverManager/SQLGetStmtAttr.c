@@ -443,9 +443,9 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
             ( CHECK_SQLGETSTMTATTRW( statement -> connection ) || 
             CHECK_SQLGETSTMTATTR( statement -> connection )))
     {
-        if ( CHECK_SQLGETSTMTATTRW( statement -> connection ))
+        if ( CHECK_SQLGETSTMTATTR( statement -> connection ))
         {
-            ret = SQLGETSTMTATTRW( statement -> connection,
+            ret = SQLGETSTMTATTR( statement -> connection,
                 statement -> driver_stmt,
                 attribute,
                 value,
@@ -454,7 +454,7 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
         }
         else
         {
-            ret = SQLGETSTMTATTR( statement -> connection,
+            ret = SQLGETSTMTATTRW( statement -> connection,
                 statement -> driver_stmt,
                 attribute,
                 value,

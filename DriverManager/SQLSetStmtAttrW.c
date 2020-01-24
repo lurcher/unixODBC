@@ -679,7 +679,7 @@ SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
     }
     else 
     {
-    	if ( statement -> connection -> unicode_driver )
+        if ( CHECK_SQLSETSTMTATTRW( statement -> connection ))
 		{
         	ret = SQLSETSTMTATTRW( statement -> connection,
                 statement -> driver_stmt,

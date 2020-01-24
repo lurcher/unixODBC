@@ -113,6 +113,22 @@ static void cInc( void )
 #ifdef BUILD_LEGACY_64_BIT_MODE
     printf( "#ifndef BUILD_LEGACY_64_BIT_MODE\n #define BUILD_LEGACY_64_BIT_MODE\n#endif\n" );
 #endif
+
+#ifdef HAVE_ICONV
+    printf( "#ifndef HAVE_ICONV\n #define HAVE_ICONV\n#endif\n" );
+#endif
+
+#ifdef ASCII_ENCODING
+    printf( "#ifndef ASCII_ENCODING\n #define ASCII_ENCODING \"%s\"\n#endif\n", ASCII_ENCODING );
+#endif
+
+#ifdef UNICODE_ENCODING
+    printf( "#ifndef UNICODE_ENCODING\n #define UNICODE_ENCODING \"%s\"\n#endif\n", UNICODE_ENCODING );
+#endif
+
+#ifdef ENABLE_DRIVER_ICONV
+    printf( "#ifndef ENABLE_DRIVER_ICONV\n #define ENABLE_DRIVER_ICONV\n#endif\n" );
+#endif
 }
 
 static void cflags( void )
