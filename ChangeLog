@@ -10,6 +10,7 @@
     * When setting connection attributes set before connect also check if the W entry poins can be used
     * Try calling the W error functions first if available in the driver
     * Add iconvperdriver configure option to allow calling unicode_setup in SQLAllocHandle
+    * iconv handles was being lost when reusing pooled connection
 
 10-Aug-2018
 2.3.7

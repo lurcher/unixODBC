@@ -3041,7 +3041,7 @@ int search_for_pool( DMHDBC connection,
            SQLSMALLINT connect_string_length )
 {
     time_t current_time;
-    SQLINTEGER dead;
+    SQLLEN dead;
     CPOOL *ptr, *prev;
     int has_checked = 0;
 
@@ -3058,7 +3058,7 @@ restart:;
     for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
     {
         SQLRETURN ret;
-	has_checked = 0;
+	    has_checked = 0;
 
         if ( ptr -> in_use )
         {
@@ -3429,6 +3429,11 @@ restart:;
         connection -> dont_dlclose = ptr -> connection.dont_dlclose;
         connection -> bookmarks_on = ptr -> connection.bookmarks_on;
 
+#ifdef HAVE_ICONV
+    	connection -> iconv_cd_uc_to_ascii = ptr -> connection.iconv_cd_uc_to_ascii;
+    	connection -> iconv_cd_ascii_to_uc = ptr -> connection.iconv_cd_ascii_to_uc;
+#endif
+
         /*
          * copy current environment into the pooled connection
          */
@@ -3546,8 +3551,8 @@ void return_to_pool( DMHDBC connection )
 #ifdef HAVE_ICONV
     	ptr -> connection.iconv_cd_uc_to_ascii = connection -> iconv_cd_uc_to_ascii;
     	ptr -> connection.iconv_cd_ascii_to_uc = connection -> iconv_cd_ascii_to_uc;
-	connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
-	connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
+	    connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
+	    connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
 #endif
 
         if ( connection -> server_length < 0 )
