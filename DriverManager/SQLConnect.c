@@ -3041,7 +3041,7 @@ int search_for_pool( DMHDBC connection,
            SQLSMALLINT connect_string_length )
 {
     time_t current_time;
-    SQLLEN dead;
+    SQLUINTEGER dead;
     CPOOL *ptr, *prev;
     int has_checked = 0;
 
