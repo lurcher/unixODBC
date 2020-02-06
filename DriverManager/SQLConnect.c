@@ -3473,6 +3473,10 @@ void return_to_pool( DMHDBC connection )
     {
         ptr -> in_use = 0;
         ptr -> expiry_time = current_time + ptr -> timeout;
+#ifdef HAVE_ICONV
+	    connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
+	    connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
+#endif
     }
     else
     {
