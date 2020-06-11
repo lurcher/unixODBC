@@ -11,6 +11,7 @@
     * Try calling the W error functions first if available in the driver
     * Add iconvperdriver configure option to allow calling unicode_setup in SQLAllocHandle
     * iconv handles was being lost when reusing pooled connection
+    * Catch null copy in iniPropertyInsert
 
 10-Aug-2018
 2.3.7
