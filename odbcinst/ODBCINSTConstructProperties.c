@@ -244,6 +244,8 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
 	/* APPEND OTHERS */
 	pODBCINSTGetProperties( hLastProperty );
 
+    lt_dlclose( hDLL );
+
 	return ODBCINST_SUCCESS;
 }
 

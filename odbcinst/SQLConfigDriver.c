@@ -24,7 +24,6 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
 								LPWSTR	pszMsgW,
 								int 	*iswide )
 {
-	BOOL	nReturn;
 	void 	*hDLL;
 	BOOL	(*pConfigDriver)( HWND, WORD, LPCSTR, LPCSTR, LPCSTR, WORD, WORD *	);
 	BOOL	(*pConfigDriverW)( HWND, WORD, LPCWSTR, LPCWSTR, LPCWSTR, WORD, WORD *	);
@@ -36,7 +35,6 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
 	*iswide = 0;
 
 	/* SANITY CHECKS */
-    nReturn = FALSE;
 	if ( pszDriver == NULL )
 	{
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_INVALID_NAME, "" );
@@ -109,14 +107,17 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
 			pConfigDriverW = (BOOL (*)(HWND, WORD, LPCWSTR, LPCWSTR, LPCWSTR, WORD, WORD * )) lt_dlsym( hDLL, "ConfigDriverW" );
 /*			if ( lt_dlerror() == NULL ) */
             if ( pConfigDriver )
-				nReturn = pConfigDriver( hWnd, nRequest, pszDriver, pszArgs, pszMsg, nMsgMax, pnMsgOut);
+				pConfigDriver( hWnd, nRequest, pszDriver, pszArgs, pszMsg, nMsgMax, pnMsgOut);
 			else if ( pConfigDriverW )
 			{
-				nReturn = pConfigDriverW( hWnd, nRequest, pszDriverW, pszArgsW, pszMsgW, nMsgMax, pnMsgOut);
+				pConfigDriverW( hWnd, nRequest, pszDriverW, pszArgsW, pszMsgW, nMsgMax, pnMsgOut);
 				*iswide = 1;
 			}
 			else
+            {
 				inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
+            }
+            lt_dlclose( hDLL );
 		}
 		else
 			inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
