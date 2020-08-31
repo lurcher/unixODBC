@@ -1,4 +1,5 @@
-2.3.8pre
+30-Aug-2020
+2.3.8
 
     * Add configure support for editline
     * SQLDriversW was ignoring user config
@@ -12,6 +13,7 @@
     * Add iconvperdriver configure option to allow calling unicode_setup in SQLAllocHandle
     * iconv handles was being lost when reusing pooled connection
     * Catch null copy in iniPropertyInsert
+    * Fix a few leaks 
 
 10-Aug-2018
 2.3.7

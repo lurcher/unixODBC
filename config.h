@@ -21,6 +21,9 @@
 /* Lib directory */
 #define DEFLIB_PATH "/usr/local/lib"
 
+/* Using perdriver iconv */
+/* #undef ENABLE_DRIVER_ICONV */
+
 /* Using ini cacheing */
 #define ENABLE_INI_CACHING /**/
 
@@ -98,6 +101,12 @@
 
 /* Define if you have the _dyld_func_lookup function. */
 /* #undef HAVE_DYLD */
+
+/* Add editline support */
+/* #undef HAVE_EDITLINE */
+
+/* Define to 1 if you have the <editline/readline.h> header file. */
+/* #undef HAVE_EDITLINE_READLINE_H */
 
 /* Define to 1 if you have the `endpwent' function. */
 #define HAVE_ENDPWENT 1
@@ -202,10 +211,10 @@
 #define HAVE_READDIR 1
 
 /* Add readline support */
-#define HAVE_READLINE 1
+/* #undef HAVE_READLINE */
 
 /* Define to 1 if you have the <readline/history.h> header file. */
-#define HAVE_READLINE_HISTORY_H 1
+/* #undef HAVE_READLINE_HISTORY_H */
 
 /* Use the scandir lib */
 /* #undef HAVE_SCANDIR */
@@ -351,7 +360,7 @@
 /* #undef LTDL_DLOPEN_DEPLIBS */
 
 /* Define to the system default library search path. */
-#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/lib/digilent/adept:/usr/lib64/digilent/adept:/usr/lib/x86_64-linux-gnu/libfakeroot:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu/mesa-egl:/usr/lib/nvidia-340:/usr/lib32/nvidia-340:/usr/lib/x86_64-linux-gnu/mir/clientplatform/mesa:/lib32:/usr/lib32:/libx32:/usr/libx32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib:/usr/local/easysoft/isam/lib:/usr/local/easysoft/oob/client"
+#define LT_DLSEARCH_PATH "/lib:/usr/lib:/usr/local/cuda-10.2/targets/x86_64-linux/lib:/usr/lib/x86_64-linux-gnu/libfakeroot:/usr/local/lib/i386-linux-gnu:/lib/i386-linux-gnu:/usr/lib/i386-linux-gnu:/usr/local/lib/i686-linux-gnu:/lib/i686-linux-gnu:/usr/lib/i686-linux-gnu:/usr/local/lib:/usr/local/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/lib32:/usr/lib32:/usr/local/easysoft/lib:/usr/local/easysoft/unixODBC/lib:/usr/local/easysoft/sybase:/usr/local/easysoft/oob/client:/usr/local/easysoft/oracle"
 
 /* The archive extension */
 #define LT_LIBEXT "a"
@@ -394,7 +403,7 @@
 #define PACKAGE_NAME "unixODBC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "unixODBC 2.3.6"
+#define PACKAGE_STRING "unixODBC 2.3.8"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "unixODBC"
@@ -403,7 +412,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.3.6"
+#define PACKAGE_VERSION "2.3.8"
 
 /* Platform is 64 bit */
 #define PLATFORM64 /**/
@@ -430,6 +439,9 @@
 	STACK_DIRECTION < 0 => grows toward lower addresses
 	STACK_DIRECTION = 0 => direction of growth unknown */
 /* #undef STACK_DIRECTION */
+
+/* Filename to use for ftok */
+#define STATS_FTOK_NAME "odbc.ini"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -459,7 +471,7 @@
 #define UNIXODBC_SOURCE /**/
 
 /* Version number of package */
-#define VERSION "2.3.6"
+#define VERSION "2.3.8"
 
 /* Work with IBM drivers that use 32 bit handles on 64 bit platforms */
 /* #undef WITH_HANDLE_REDIRECT */

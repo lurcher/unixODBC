@@ -187,7 +187,7 @@ static int _check_ini_cache( int *ret,
 
         if ( pRetBuffer )
         {
-            if ( ini_cache -> value )
+            if ( ini_cache -> value ) {
                 if ( nRetBuffer < strlen( ini_cache -> value )) {
                     strncpy( pRetBuffer, ini_cache -> value, nRetBuffer );
                     pRetBuffer[ nRetBuffer - 1 ] = '\0';
@@ -195,6 +195,7 @@ static int _check_ini_cache( int *ret,
                 else {
                     strcpy( pRetBuffer, ini_cache -> value );
                 }
+            }
 
             *ret = ini_cache -> ret_value;
             return 1;
@@ -251,7 +252,7 @@ static void _save_ini_cache( int ret,
 
 static void _clear_ini_cache( void ) 
 {
-    struct ini_cache *ini_cache = ini_cache_head, *prev = NULL;
+    struct ini_cache *ini_cache = ini_cache_head;
 
     while (( ini_cache = ini_cache_head ) != NULL  )
     {

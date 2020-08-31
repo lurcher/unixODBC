@@ -20,6 +20,9 @@
 /* Lib directory */
 #undef DEFLIB_PATH
 
+/* Using perdriver iconv */
+#undef ENABLE_DRIVER_ICONV
+
 /* Using ini cacheing */
 #undef ENABLE_INI_CACHING
 
@@ -97,6 +100,12 @@
 
 /* Define if you have the _dyld_func_lookup function. */
 #undef HAVE_DYLD
+
+/* Add editline support */
+#undef HAVE_EDITLINE
+
+/* Define to 1 if you have the <editline/readline.h> header file. */
+#undef HAVE_EDITLINE_READLINE_H
 
 /* Define to 1 if you have the `endpwent' function. */
 #undef HAVE_ENDPWENT
