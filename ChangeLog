@@ -5,10 +5,10 @@
     * SQLDriversW was ignoring user config
     * SQLDataSources Fix termination character
     * Fix for pooling seg fault
-    * Make calling SQLSetStmtAttrW call the W function in the driver is its there
+    * Make calling SQLSetStmtAttrW call the W function in the driver if its there
     * Try and fix race condition clearing system odbc.ini file
     * Remove trailing space from isql/iusql SQL
-    * When setting connection attributes set before connect also check if the W entry poins can be used
+    * When setting connection attributes set before connect also check if the W entry points can be used
     * Try calling the W error functions first if available in the driver
     * Add iconvperdriver configure option to allow calling unicode_setup in SQLAllocHandle
     * iconv handles was being lost when reusing pooled connection
