@@ -219,7 +219,7 @@ int inst_logPushMsg(
         int nCode, 
         char *pszMessage );
 
-int inst_logPeekMsg( long nMsg, /*HLOGMSG*/ void *phMsg );
+int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg );
 int inst_logClear();
 
 

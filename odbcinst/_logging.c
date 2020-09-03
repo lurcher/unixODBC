@@ -173,7 +173,7 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
  * 
  * \return  int
  */
-int inst_logPeekMsg( long nMsg, void *phMsg )
+int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg )
 {
     int ret = LOG_NO_DATA;
 
