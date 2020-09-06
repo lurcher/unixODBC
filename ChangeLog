@@ -1,6 +1,5 @@
-2.3.9pre
+2.3.9
 
-    * Remove reference to internal structure
     # Remove "#define UNIXODBC_SOURCE" from unixodbc_conf.h
 
 30-Aug-2020
