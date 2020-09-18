@@ -1342,7 +1342,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
          * get value that has been pushed up by the initial connection to this driver
          */
 
-        connection -> driver_act_ver = connection -> environment -> driver_act_ver;
+        connection -> driver_act_ver = env_lib_list -> driver_act_ver;
     }
     else
     {
@@ -1415,7 +1415,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
          * push up to environment to be reused
          */
 
-        connection -> environment -> driver_act_ver = connection -> driver_act_ver;
+        env_lib_list -> driver_act_ver = connection -> driver_act_ver;
 
         env_lib_list -> env_handle = connection -> driver_env;
 

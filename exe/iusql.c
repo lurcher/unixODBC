@@ -45,6 +45,7 @@ static int DumpODBCLog( SQLHENV hEnv, SQLHDBC hDbc, SQLHSTMT hStmt );
 
 
 int     bVerbose                    = 0;
+int     nUserWidth                  = 0;
 SQLHENV hEnv                        = 0;
 SQLHDBC hDbc                        = 0;
 int     buseED                      = 0;
@@ -125,6 +126,9 @@ int main( int argc, char *argv[] )
                     break;
                 case 's':
                     buffer_size = atoi( &(argv[nArg][2]) );
+                    break;
+                case 'm':
+                    nUserWidth = atoi( &(argv[nArg][2]) );
                     break;
                 case 'w':
                     bHTMLTable = 1;
@@ -285,6 +289,42 @@ int main( int argc, char *argv[] )
     CloseDatabase( hEnv, hDbc );
 
     exit( 0 );
+}
+
+/****************************
+ * OptimalDisplayWidth
+ ***************************/
+static SQLUINTEGER
+OptimalDisplayWidth( SQLHSTMT hStmt, SQLINTEGER nCol, int nUserWidth )
+{
+    SQLUINTEGER nLabelWidth                     = 10;
+    SQLULEN nDataWidth                      = 10;
+    SQLUINTEGER nOptimalDisplayWidth            = 10;
+    SQLCHAR     szColumnName[MAX_DATA_WIDTH+1]; 
+
+    *szColumnName = '\0';
+
+    SQLColAttribute( hStmt, nCol, SQL_DESC_DISPLAY_SIZE, NULL, 0, NULL, (SQLLEN*)&nDataWidth );
+    SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, sizeof(szColumnName), NULL, NULL );
+    nLabelWidth = strlen((char*) szColumnName );
+
+    /*
+     * catch sqlserver var(max) types
+     */
+
+    if ( nDataWidth == 0 ) {
+        nDataWidth = MAX_DATA_WIDTH;
+    }
+
+    nOptimalDisplayWidth = max( nLabelWidth, nDataWidth );
+
+    if ( nUserWidth > 0 )
+        nOptimalDisplayWidth = min( nOptimalDisplayWidth, nUserWidth );
+
+    if ( nOptimalDisplayWidth > MAX_DATA_WIDTH )
+        nOptimalDisplayWidth = MAX_DATA_WIDTH;
+
+    return nOptimalDisplayWidth;
 }
 
 /****************************
@@ -780,10 +820,10 @@ void UWriteHeaderNormal( SQLHSTMT hStmt, SQLTCHAR *szSepLine )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLULEN         nMaxLength                      = 10;
     SQLTCHAR            szColumn[MAX_DATA_WIDTH+20];    
     SQLTCHAR            szColumnName[MAX_DATA_WIDTH+1]; 
     SQLTCHAR            szHdrLine[32001];   
+    SQLUINTEGER     nOptimalDisplayWidth            = 10;
 
     szColumn[ 0 ]       = 0;    
     szColumnName[ 0 ]   = 0;    
@@ -794,20 +834,20 @@ void UWriteHeaderNormal( SQLHSTMT hStmt, SQLTCHAR *szSepLine )
 
     for ( nCol = 1; nCol <= nColumns; nCol++ )
     {
-        SQLColAttribute( hStmt, nCol, SQL_DESC_DISPLAY_SIZE, NULL, 0, NULL, (SQLLEN*)&nMaxLength );
+        nOptimalDisplayWidth = OptimalDisplayWidth( hStmt, nCol, nUserWidth );
         SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, sizeof(szColumnName), NULL, NULL );
-        if ( nMaxLength > MAX_DATA_WIDTH ) nMaxLength = MAX_DATA_WIDTH;
+        if ( nOptimalDisplayWidth > MAX_DATA_WIDTH ) nOptimalDisplayWidth = MAX_DATA_WIDTH;
 
         uc_to_ascii( szColumnName );
 
         /* SEP */
         memset( szColumn, '\0', sizeof(szColumn) );
-        memset( szColumn, '-', max( nMaxLength, strlen((char*)szColumnName) ) + 1 );
+        memset( szColumn, '-', max( nOptimalDisplayWidth, strlen((char*)szColumnName) ) + 1 );
         strcat((char*) szSepLine, "+" );
         strcat((char*) szSepLine,(char*) szColumn );
 
         /* HDR */
-        sprintf((char*) szColumn, "| %-*s", (int)max( nMaxLength, strlen((char*)szColumnName) ), (char*)szColumnName );
+        sprintf((char*) szColumn, "| %-*s", (int)max( nOptimalDisplayWidth, strlen((char*)szColumnName) ), (char*)szColumnName );
         strcat((char*) szHdrLine,(char*) szColumn );
     }
     strcat((char*) szSepLine, "+\n" );
@@ -826,10 +866,10 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
     SQLTCHAR        szColumn[MAX_DATA_WIDTH+20];
     SQLTCHAR        szColumnValue[MAX_DATA_WIDTH+1];
     SQLTCHAR        szColumnName[MAX_DATA_WIDTH+1]; 
-    SQLULEN         nMaxLength                      = 10;
     SQLRETURN       nReturn                         = 0;
     SQLRETURN       ret;
     SQLLEN          nRows                           = 0;
+    SQLUINTEGER     nOptimalDisplayWidth            = 10;
 
     szColumn[ 0 ]       = 0;
     szColumnValue[ 0 ]  = 0;
@@ -845,21 +885,21 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
         for ( nCol = 1; nCol <= nColumns; nCol++ )
         {
             SQLColAttribute( hStmt, nCol, SQL_DESC_LABEL, szColumnName, sizeof(szColumnName), NULL, NULL );
-            SQLColAttribute( hStmt, nCol, SQL_DESC_DISPLAY_SIZE, NULL, 0, NULL, (SQLLEN*)&nMaxLength );
+            nOptimalDisplayWidth = OptimalDisplayWidth( hStmt, nCol, nUserWidth );
 
             uc_to_ascii( szColumnName );
 
-            if ( nMaxLength > MAX_DATA_WIDTH ) nMaxLength = MAX_DATA_WIDTH;
+            if ( nOptimalDisplayWidth > MAX_DATA_WIDTH ) nOptimalDisplayWidth = MAX_DATA_WIDTH;
             nReturn = SQLGetData( hStmt, nCol, SQL_C_WCHAR, (SQLPOINTER)szColumnValue, sizeof(szColumnValue), &nIndicator );
             szColumnValue[MAX_DATA_WIDTH] = '\0';
             uc_to_ascii( szColumnValue );
 
             if ( nReturn == SQL_SUCCESS && nIndicator != SQL_NULL_DATA )
             {
-                if ( strlen((char*)szColumnValue) < max( nMaxLength, strlen((char*)szColumnName )))
+                if ( strlen((char*)szColumnValue) < max( nOptimalDisplayWidth, strlen((char*)szColumnName )))
                 {
                     int i;
-                    size_t maxlen=max( nMaxLength, strlen((char*)szColumnName ));
+                    size_t maxlen=max( nOptimalDisplayWidth, strlen((char*)szColumnName ));
                     strcpy((char*) szColumn, "| " );
                     strcat((char*) szColumn, (char*) szColumnValue );
 
@@ -881,7 +921,7 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
             }
             else
             {
-                sprintf((char*)  szColumn, "| %-*s", (int)max( nMaxLength, strlen((char*) szColumnName) ), "" );
+                sprintf((char*)  szColumn, "| %-*s", (int)max( nOptimalDisplayWidth, strlen((char*) szColumnName) ), "" );
             }
             fputs((char*)  szColumn, stdout );
         }
