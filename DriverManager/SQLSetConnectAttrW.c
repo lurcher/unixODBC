@@ -583,17 +583,19 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
         else if ( attribute != SQL_ATTR_LOGIN_TIMEOUT )
         {
             /*
-             * save any unknown attributes untill connect
+             * save any unknown attributes until connect
              */
 
-            struct save_attr *sa = calloc( 1, sizeof( struct save_attr ));
+            struct save_attr sa, *sap;
 
-            sa -> attr_type = attribute;
+            memset( &sa, 0, sizeof ( sa ));
+
+            sa.attr_type = attribute;
             if ( string_length > 0 )
             {
-                sa -> str_attr = malloc( string_length );
-                memcpy( sa -> str_attr, value, string_length );
-                sa -> str_len = string_length;
+                sa.str_attr = malloc( string_length );
+                memcpy( sa.str_attr, value, string_length );
+                sa.str_len = string_length;
             }
             else if ( string_length == SQL_NTS )
             {
@@ -606,17 +608,40 @@ SQLRETURN SQLSetConnectAttrW( SQLHDBC connection_handle,
                 }
                 else
                 {
-                    sa -> str_attr = unicode_to_ansi_alloc( value, string_length, connection, NULL );
-                    sa -> str_len = string_length;
+                    sa.str_attr = unicode_to_ansi_alloc( value, string_length, connection, NULL );
+                    sa.str_len = string_length;
                 }
             }
             else
             {
-                sa -> intptr_attr = (intptr_t) value;
-                sa -> str_len = string_length;
+                sa.intptr_attr = (intptr_t) value;
+                sa.str_len = string_length;
             }
-            sa -> next = connection -> save_attr;
-            connection -> save_attr = sa;
+            
+            sap = connection -> save_attr;
+            
+            while ( sap )
+            {
+                if ( sap -> attr_type == attribute )
+                {
+                    free ( sap -> str_attr );
+                    break;
+                }
+                sap = sap -> next;
+            }
+            
+            if ( sap ) /* replace existing attribute */
+            {
+                *sap = sa;
+            }
+            else
+            {
+                sap = malloc( sizeof( struct save_attr ));
+                *sap = sa;
+
+                sap -> next = connection -> save_attr;
+                connection -> save_attr = sap;
+            }
         }
 
         sprintf( connection -> msg, 

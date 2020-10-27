@@ -760,6 +760,18 @@ void __release_dbc( DMHDBC connection )
     mutex_destroy( &connection -> mutex );
 #endif
 
+    if ( connection -> save_attr )
+    {
+        struct save_attr *sa = connection -> save_attr;
+        while ( sa )
+        {
+            struct save_attr *nsa = sa -> next;
+            free( sa -> str_attr );
+            free( sa );
+            sa = nsa;
+        }
+    }
+
     /*
      * clear just to make sure
      */
