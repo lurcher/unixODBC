@@ -1549,7 +1549,7 @@ SQLRETURN SQLDriverConnect(
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text ),
+                            sizeof( message_text ) / sizeof( SQLWCHAR ),
                             &ind );
 
 
@@ -1590,7 +1590,7 @@ SQLRETURN SQLDriverConnect(
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text ),
+                            sizeof( message_text ) / sizeof( SQLWCHAR ),
                             &ind );
 
 
