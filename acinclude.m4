@@ -172,12 +172,12 @@ dnl #   command line options
 AC_MSG_CHECKING(for GNU Pth)
 _AC_PTH_VERBOSE([])
 AC_ARG_WITH(pth,dnl
-[  --with-pth[=ARG]        Build with GNU Pth Library  (default=]ifelse([$2],,yes,$2)[)],dnl
+[AS_HELP_STRING([--with-pth[=ARG]], [Build with GNU Pth Library (default=]ifelse([$2],,yes,$2)[)])],dnl
 ,dnl
 with_pth="ifelse([$2],,yes,$2)"
 )dnl
 AC_ARG_WITH(pth-test,dnl
-[  --with-pth-test         Perform GNU Pth Sanity Test (default=]ifelse([$3],,yes,$3)[)],dnl
+[AS_HELP_STRING([--with-pth-test], [Perform GNU Pth Sanity Test (default=]ifelse([$3],,yes,$3)[)])],dnl
 ,dnl
 with_pth_test="ifelse([$3],,yes,$3)"
 )dnl
@@ -527,7 +527,7 @@ AC_DEFUN([AM_ICONV],
   dnl those with the standalone portable GNU libiconv installed).
 
   AC_ARG_WITH([libiconv-prefix],
-[  --with-libiconv-prefix=DIR  search for libiconv in DIR/include and DIR/lib], [
+[AS_HELP_STRING([--with-libiconv-prefix=DIR], [search for libiconv in DIR/include and DIR/lib])], [
     for dir in `echo "$withval" | tr : ' '`; do
       if test -d $dir/include; then CPPFLAGS="$CPPFLAGS -I$dir/include"; fi
       if test -d $dir/lib; then LDFLAGS="$LDFLAGS -L$dir/lib"; fi
