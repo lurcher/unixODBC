@@ -70,8 +70,8 @@ AC_ARG_ENABLE( drivers,
 
 dnl Check if we want to build the driver config
 
-AC_ARG_ENABLE( driverc, 
-[  --enable-driver-conf    build included driver config libs [default=no]],
+AC_ARG_ENABLE( driver-config,
+[  --enable-driver-config    build included driver config libs [default=no]],
 [ case "${enableval}" in
     yes) driverc=true ;;
     no) driverc=false ;;
