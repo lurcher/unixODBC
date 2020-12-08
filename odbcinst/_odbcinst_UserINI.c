@@ -60,9 +60,20 @@ BOOL _odbcinst_UserINI( char *pszFileName, BOOL bVerify )
 #endif
     struct passwd   *pPasswd                    = NULL;
     char            *pHomeDir                   = NULL;
+#ifdef HAVE_GETPWUID_R
+    char            buf[ 1024 ];
+    struct passwd   pwent;
+    struct passwd   *pwentp;
+#endif
 
     pHomeDir    = "/home";                              
-#ifdef HAVE_GETPWUID
+#ifdef HAVE_GETPWUID_R
+    pwentp = NULL;
+    getpwuid_r( nUserID, &pwent, buf, sizeof( buf ), &pwentp );
+    if ( pwentp == &pwent ) {
+        pPasswd = &pwent;
+    }
+#elif HAVE_GETPWUID
     pPasswd     = (struct passwd *)getpwuid(nUserID);   
 #endif
 
