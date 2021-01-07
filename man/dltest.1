@@ -1,52 +1,35 @@
-.TH dltest 1 "Thu 13 Feb 2014" "version 2.3.10" "UnixODBC manual pages"
+.TH dltest 1 "Thu 07 Jan 2021" "version 2.3.10" "unixODBC manual pages"
+
 .SH NAME
-dltest \- A simple library symbol test
+dltest - A simple library symbol test program
 
 .SH SYNOPSIS
 .B dltest
-.R [
+[
 .I library symbol
-.R ]
+]
 
 .SH DESCRIPTION
-.B dltest
-is simple test of occurence of the
-.I symbol
-in the
-.IR library .
-The
-.I library
-must be a full (with path) file name of the shared object, in which the search for
-.I symbol
-should be performed.
+\fBdltest\fR is a simple program that determines whether a \fIsymbol\fR
+appears in a (shared object) \fIlibrary\fR.
 
-Without any parameters, dltest print short help message.
+The name of the \fIlibrary\fR must be prefixed by a full system path.
+
+If no parameters are provided, \fBdltest\fR prints a short help message.
 
 .SH EXAMPLES
-To determine if the symbol
-.B printf
-is found in the
-.IR libc-2\.18\.so :
+To determine if the symbol \fBprintf\fR is found in \fIlibc-2\.18\.so\fR, run:
 
 .RS
 $ dltest /usr/lib/libc-2.18.so printf
 .RE
 
 .SH AUTHORS
-The authors of unixODBC are
-.MT pharvey@codebydesign.com
-Peter Harvey
-.ME
-and
-.MT nick@lurcher.org
-Nick Gorham
-.ME .
-For the full list of contributors see the
-.I AUTHORS
-file.
+The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
+Nick Gorham <\fInick@lurcher.org\fR>.
+
+For a full list of contributors, refer to the \fIAUTHORS\fR file.
 
 .SH COPYRIGHT
 unixODBC is licensed under the GNU Lesser General Public License. For details
-about the license, see the
-.I COPYING
-file.
+about the license, see the \fICOPYING\fR file.
