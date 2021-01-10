@@ -1,37 +1,39 @@
-.TH odbc.ini 5 "Thu 27 Jun 2013" "version 2.3.10" "unixODBC manual pages"
+.TH odbc.ini 5 "Sun 10 Jan 2021" "version 2.3.10" "unixODBC manual pages"
 
 .SH NAME
-/etc/odbc.ini, $HOME/.odbc.ini - unixODBC data sources configuration
+/etc/odbc.ini, $HOME/.odbc.ini - unixODBC data source configuration files
 
 .SH DESCRIPTION
 .B /etc/odbc.ini
-is text configuration file for the system wide ODBC data sources (i. e. database
-connections).
+is a system-wide configuration file for ODBC Data Source Names (DSNs).
+
 .B $HOME/.odbc.ini
-contains the configuration for user-specific data sources. Both paths may be overridden
-by \fIunixODBC\fR build options, see \fBodbcinst -j\fR for the definitive paths
-on your system.
+is a user-specific configuration file for ODBC Data Source Names (DSNs).
+
+Paths to both configuration files can be overridden by \fIunixODBC\fR build
+options. Call \fBodbcinst \-j\fR to determine the default configuration file
+paths on your system.
 
 .SH NOTES
 
 .SS "Templates"
 
-Where possible, install ODBC DSNs using the \fBodbcinst\fR utility from a
-template .ini file. Many drivers supply templates.
+Many ODBC drivers come with .ini file templates. Using \fBodbcinst\fR to install
+these templates is recommended.
 
 .SS "FILE FORMAT"
 
-\fBodbc.ini\fR follows the pesudo-standard \fIini file\fB syntax convention of
+\fBodbc.ini\fR follows the pesudo-standard \fIini file\fR syntax convention of
 one or more \fB[section headings]\fR, each followed by zero or more \fBkey =
 value\fR attributes.
 
 .IP "\fB[ODBC Data Sources]\fR section" 4
 
-The required section \fB[ODBC Data Sources]\fR lists each data source name
-(\fIDSN\fR) as a key. The associated values serve as comments. Each entry
-must be matched by an ini file \fB[section]\fR describing the data source.
+This mandatory section lists each data source name (\fIDSN\fR) as a key.
+The associated values serve as comments. Each entry must be matched by an
+ini file \fB[section]\fR describing the data source.
 
-.IP "\fB[\fIdsn\fR]\fR sections" 4
+.IP "Data Source Name \fB[section]\fR" 4
 
 Each data source is identified by a \fB[section header]\fR, which is the DSN
 name used by applications. Each DSN definition section may contain values for
@@ -39,32 +41,29 @@ the keys:
 
 .RS 4
 .IP "\(bu Driver (\fBREQUIRED\fR)" 8
-Name of the ODBC driver to use for this DSN. The name must exactly match
-the \fB[section name]\fR of the driver definition in \fBodbcinst.ini\fR
-as listed by \fBodbcinst -q -d\fR.
+The name of the ODBC driver to use for the DSN. The name must exactly match
+the \fB[section name]\fR of the driver definition stored in \fBodbcinst.ini\fR
+(and listed by \fBodbcinst \-q \-d\fR).
 
 .IP "\(bu Description" 8
-
 Human-readable data source description.
 
 .IP "\(bu Database" 8
-
-Database name or identifier. Meaning is driver-specific. May specify a file
-path, unix socket path, identifier relative to a server name, etc.
+Database name or identifier. The meaning is driver-specific and can specify a
+file path, Unix socket path, an identifier relative to a server name, etc.
 
 .IP "\(bu Servername" 8
-
-Server name. Meaning is driver specific, but generally specifies a DNS name, IP
-network address, or driver-specific discovery identifier.
+Server name. The meaning is driver-specific but generally specifies a DNS name, IP
+network address or driver-specific discovery identifier.
 
 .RE
-For a full list of supported parameters see the HTML-format "Administrator
-Manual" shipped with \fIunixODBC\fR, the documentation for your driver, and any
-datasource templates supplied by your driver.
+For a full list of supported parameters, refer to the HTML-formatted "Administrator
+Manual" shipped with \fIunixODBC\fR, the documentation for your ODBC driver and any
+data-source templates supplied by your driver.
 
 .SH EXAMPLES
 
-An example \fBodbc.init\fR is shown in the "Administrator Manual" shipped
+An example \fBodbc.ini\fR configuration file is shown in the "Administrator Manual" shipped
 with \fIunixODBC\fR.
 
 .SH "SEE ALSO"
@@ -74,13 +73,14 @@ with \fIunixODBC\fR.
 .BR iusql (1),
 .BR odbcinst.ini (5)
 
-.R "The \fIunixODBC\fB Administrator Manual (HTML)"
+"The \fIunixODBC\fB Administrator Manual (HTML)\fR"
 
 .SH AUTHORS
 The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
-Nick Gorham <\fInick@lurcher.org\fR>. For the full list of contributors see the
-AUTHORS file.
+Nick Gorham <\fInick@lurcher.org\fR>.
+
+For a full list of contributors, refer to the \fIAUTHORS\fR file.
 
 .SH COPYRIGHT
 unixODBC is licensed under the GNU Lesser General Public License. For details
-about the license, see the COPYING file.
+about the license, see the \fICOPYING\fR file.
