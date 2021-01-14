@@ -1,95 +1,97 @@
-\" vim:fileencoding=utf-8:
-.TH isql 1 "Tue 25 Jun 2013" "version 2.3.10" "UnixODBC manual pages"
+.TH isql 1 "Thu 14 Jan 2021" "version 2.3.10" "unixODBC manual pages"
 
 .SH NAME
-isql, iusql \- unixODBC command-line interactive SQL tool
+isql, iusql - unixODBC interactive SQL command-line tools
 
 .SH SYNOPSIS
 \fBisql\fR \fIDSN\fR [\fIUSER\fR [\fIPASSWORD\fR]] [\fIoptions\fR] 
 
 .SH DESCRIPTION
-.B isql
-is a command line tool which allows the user to execute SQL in batch
-or interactively. It has some interesting options such as an option to generate
+\fBisql\fR and \fBiusql\fR are command-line tools allowing users to execute SQL
+interactively or in batches.
+
+The tools provide several useful features, including an option to generate
 output wrapped in an HTML table.
 
-.B iusql
-is the same tool with built-in Unicode support. Some datasources only work with
-\fBiusql\fR.
+\fBiusql\fR is the same as \fBisql\fR but includes built-in Unicode support.
+Some data sources only work with \fBiusql\fR.
 
 .SH ARGUMENTS
 
 .IP \fBDSN\fR
-The Data Source Name, which should be used to make connection to the database.
-The data source is looked for in the /etc/odbc.ini and $HOME/.odbc.ini files in
-that order, with the latter overwriting the former.
+The Data Source Name (DSN) used to connect to the SQL database. unixODBC looks
+for the specified DSN in /etc/odbc.ini and $HOME/.odbc.ini, with the latter
+taking precedence.
 
-A bare name is looked up in the above files. If the DSN name begins with a
-semicolon then it's treated as a connection string instead. The connection
-string may contain a DSN name and/or other semicolon-separated parameters.
+When searching the configuration files, unixODBC looks for a bare name. If the
+DSN begins with a semicolon, it is treated as a connection string. The connection
+string can contain a DSN and/or other semicolon-separated parameters.
 
 .IP \fBUSER\fR
-Specifies the database user/role under which the connection should be made.
+Specifies the database user or role under which the connection should be made.
 
-Overrides any \fBUID\fR specified in the DSN.
+This parameter overrides any \fBUID\fR specified in the data source
+configuration files.
 
 .IP \fBPASSWORD\fR
-Password for the specified \fBUSER\fR.
+Password required to access the database for the specified \fBUSER\fR.
 
-Overrides any \fBPassword\fR specified in the DSN.
+This parameter overrides any \fBPASSWORD\fR specified in the data source
+configuration files.
 
 .SH OPTIONS
 
-.IP \fB-b\fR
-Run isql in non-interactive batch mode. In this mode, the isql processes its
+.IP \fB\-b\fR
+Run 'isql' in non-interactive batch mode. In this mode, 'isql' processes from
 standard input, expecting one SQL command per line.
 
-.IP \fB-d\fIDELIMITER\fR
-Delimits columns with \fIdelimiter\fR.
+.IP \fB\-d\fIDELIMITER\fR
+Delimit columns with the specified \fIdelimiter\fR.
 
-.IP \fB-x\fIHEX\fR
-Delimits columns with \fIHEX\fR, which is a hexadecimal code of the delimiting
-character in the format 0xNN - i.e. 0x09 for the TAB character.
+.IP \fB\-x\fIHEX\fR
+Delimit columns with the character represented in hexadecimal by \fIHEX\fR. The
+hexadecimal code must be in the format 0xNN (e.g. 0x09 for the TAB character).
 
-.IP \fB-w\fR
-Format the result as HTML table.
+.IP \fB\-w\fR
+Format the result as an HTML table.
 
-.IP \fB-c\fR
-Output the names of the columns on the first row. Has any effect only with the
-\fB-d\fR or \fB-x\fR options.
+.IP \fB\-c\fR
+Output the names of the columns on the first row. This option can only be used
+with the \fB\-d\fR or \fB\-x\fR options.
 
-.IP \fB-m\fINUM\fR
+.IP \fB\-m\fINUM\fR
 Limit the column display width to \fINUM\fR characters.
 
-.IP \fB-l\fILOCALE\fR
-Sets locale to \fILOCALE\fR.
+.IP \fB\-l\fILOCALE\fR
+Set the character locale to \fILOCALE\fR.
 
-.IP \fB-q\fR
+.IP \fB\-q\fR
 Wrap the character fields in double quotes.
 
-.IP \fB-3\fR
-Use the ODBC 3 calls.
+.IP \fB\-3\fR
+Use calls from ODBC version 3.
 
-.IP \fB-n\fR
-Use the new line processing. (multiple lines of SQL, terminated with command GO).
+.IP \fB\-n\fR
+Process multiple lines of SQL, terminated with the GO command.
 
-.IP \fB-e\fR
-Use the SQLExecDirect instead of Prepare.
+.IP \fB\-e\fR
+Use SQLExecDirect instead of Prepare.
 
-.IP \fB-k\fR
+.IP \fB\-k\fR
 Use SQLDriverConnect.
 
-.IP \fB-v\fR
-Turn on the verbose mode, where the errors are fully described. Useful for debugging.
+.IP \fB\-v\fR
+Enable verbose mode, fully describing all errors. This option is useful for debugging.
 
-.IP \fB--version\fR
-Prints the program version and exits.
+.IP \fB\-\-version\fR
+Display the program version.
 
-.IP \fB-L\fINUM\fR
-Alter the maximum number of characters displayed from a character field to \fINUM\fR characters. Default is 300.
+.IP \fB\-L\fINUM\fR
+Set the maximum number of characters displayed from a character field to \fINUM\fR.
+The default value is 300 characters.
 
 .SH COMMANDS
-This section briefly describes some isql runtime commands.
+This section briefly describes some \fBisql\fR and \fBiusql\fR run-time commands.
 
 .B help
 .RS
@@ -108,74 +110,70 @@ List all help options.
 
 .SH EXAMPLES
 
-.IP "A bare DSN name:"
+.IP "A bare DSN:"
 
 .nf
-$ iusql WebDB MyID MyPWD -w -b < My.sql
+$ iusql WebDB MyID MyPWD \-w \-b < My.sql
 .fi
 
-Connects to the WebDB as user MyID with password MyPWD, then execute the
-commands in the My.sql file and returns the results wrapped in HTML table.
-Each line in My.sql must contain exactly 1 SQL command, except for the last
-line, which must be blank (unless the \fB-n\fR option is specified).
+Connects to the WebDB DSN as user MyID with password MyPWD, then executes the
+commands in the My.sql file and returns the results wrapped in an HTML table.
 
-.IP "A DSN name in a connection string:"
+Each line in My.sql must only contain one SQL command, except for the last
+line, which must be blank (unless the \fB\-n\fR option is specified).
 
-Note the leading semicolon on the connection string:
+.IP "A DSN in a connection string:"
+
+Note the leading semicolon on the connection string.
 
 .nf
-$ iusql ";DSN=WebDB" MyID MyPWD -w -b < My.sql
+$ iusql ";DSN=WebDB" MyID MyPWD \-w \-b < My.sql
 .fi
 
 Options in the DSN may be overridden in the connection string:
 
 .nf
-$ iusql ";DSN=WebDB;Driver=PostgreSQL ODBC;UID=MyID;PASSWORD=secret;Debug=1;CommLog=1" -v
+$ iusql ";DSN=WebDB;Driver=PostgreSQL ODBC;UID=MyID;PASSWORD=secret;Debug=1;CommLog=1" \-v
 .fi
 
 .IP "A string DSN:"
 
-A string DSN may be provided in its entirety, with no file DSN reference at
-all:
+A string DSN may be provided in its entirety, with no file DSN reference at all:
 
 .nf
-$ iusql ";Driver=PostgreSQL Unicode;UID=MyID;PASSWORD=secret" -v
+$ iusql ";Driver=PostgreSQL Unicode;UID=MyID;PASSWORD=secret" \-v
 .fi
 
 .SH TROUBLESHOOTING
 
 .IP "Cryptic error messages"
 
-Re-run \fBiusql\fR or \fBisql\fR with the \fB-v\fR flag to get more detail
+Re-run \fBisql\fR or \fBiusql\fR with the \fB\-v\fR flag to get more information
 from errors, and/or enable \fBTrace\fR mode in \fBodbcinst.ini\fR.
 
 .IP "Missing driver definition"
 
-Check that the driver name specified by the \fBDriver\fR entry in  the
+Check that the driver name specified by the \fBDriver\fR entry in the
 \fBodbc.ini\fR data-source definition is present in \fBodbcinst.ini\fR and
-exactly matches the odbcinst \fI[section name]\fR.
+exactly matches the odbcinst.ini \fI[section name]\fR.
 
 .IP "Unloadable or incompatible driver"
 
-If the driver is properly specified for the datasource it's possible that
-the driver may not be loadable. Check for mixups between Unicode and ANSI
-drivers. Verify the driver paths in the \fBodbcinst.ini\fR section name.
+If the ODBC driver is properly specified for the data source, it is possible
+that the driver is not loadable. Check for mix-ups between Unicode and ANSI
+drivers, and verify the driver paths in the odbcinst.ini \fI[section name]\fR.
 
-.IP "Unicode datasources with ANSI clients"
+.IP "Unicode data sources with ANSI clients"
 
-Some datasources are Unicode-only and only work with \fBiusql\fR. If \fBisql\fR
-reports
+Some data sources are Unicode-only and require the use of \fBiusql\fR.
+If \fBisql\fR reports
 .nf
   [IM002][unixODBC][Driver Manager]Data source name not found and no default driver specified
   [ISQL]ERROR: Could not SQLConnect
 .fi
-but the datasource is listed by
+but the data source and driver required are listed by
 .nf
-  odbcinst -q -d
-.fi
-and the driver it uses is listed by
-.nf
-  odbcinst -q -d
+  odbcinst \-q \-d
 .fi
 then try \fBiusql\fR.
 
@@ -183,16 +181,18 @@ then try \fBiusql\fR.
 
 .I /etc/odbc.ini
 .RS
-System-wide DSN definitions. See
+Configuration file containing system-wide Data Source Name (DSN)
+definitions. See
 .BR odbc.ini (5)
-for details.
+for more information.
 .RE
 
 .I $HOME/.odbc.ini
 .RS
-User-specific DSN definitions. See
+Configuration file containing user-specific Data Source Name (DSN)
+definitions. See
 .BR odbc.ini (5)
-for details.
+for more information.
 .RE
 
 .SH SEE ALSO
@@ -200,15 +200,14 @@ for details.
 .BR odbcinst (1),
 .BR odbc.ini (5)
 
-.R "The \fIunixODBC\fB Administrator Manual (HTML)"
+"The \fIunixODBC\fB Administrator Manual (HTML)\fR"
 
 .SH AUTHORS
-
 The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
-Nick Gorham <\fInick@lurcher.org\fR>. For the full list of contributors see the
-AUTHORS file.
+Nick Gorham <\fInick@lurcher.org\fR>.
+
+For a full list of contributors, refer to the \fIAUTHORS\fR file.
 
 .SH COPYRIGHT
-
 unixODBC is licensed under the GNU Lesser General Public License. For details
-about the license, see the COPYING file.
+about the license, see the \fICOPYING\fR file.
