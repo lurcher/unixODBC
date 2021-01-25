@@ -99,7 +99,7 @@ StatementClass *self = (StatementClass *) hstmt;
 		return SQL_ERROR;
 
 	default:
-		SC_set_error(self, STMT_INTERNAL_ERROR, "An Internal Error has occured -- Unknown statement status.");
+		SC_set_error(self, STMT_INTERNAL_ERROR, "An Internal Error has occurred -- Unknown statement status.");
 		SC_log_error(func, "", self);
 		return SQL_ERROR;
 	}
