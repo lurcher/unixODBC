@@ -80,6 +80,9 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
      */
 
     lt_dlinit();
+#ifdef MODULEDIR
+    lt_dlsetsearchpath(MODULEDIR);
+#endif
 
 #ifdef PLATFORM64
 	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup64", "" ) == INI_SUCCESS || 

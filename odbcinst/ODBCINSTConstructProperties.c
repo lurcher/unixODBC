@@ -165,6 +165,9 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
      */
 
     lt_dlinit();
+#ifdef MODULEDIR
+    lt_dlsetsearchpath(MODULEDIR);
+#endif
 
 	/* TRY GET FUNC FROM DRIVER SETUP */
 	if ( !(hDLL = lt_dlopen( szDriverSetup ))  )

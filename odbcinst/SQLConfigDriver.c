@@ -84,6 +84,9 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
      */
 
     lt_dlinit();
+#ifdef MODULEDIR
+    lt_dlsetsearchpath(MODULEDIR);
+#endif
 
 	/* process request */
 	switch ( nRequest )
