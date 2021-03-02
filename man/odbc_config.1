@@ -1,7 +1,7 @@
-.TH odbc_config 1 "Thu 13 Feb 2014" "version 2.3.10" "UnixODBC manual pages"
+.TH odbc_config 1 "Thu 07 Jan 2021" "version 2.3.10" "unixODBC manual pages"
 
 .SH NAME
-odbc_config \- get compile options for compiling unixODBC client
+odbc_config - Generates compiler information intended for use when developing a unixODBC client
 
 .SH SYNOPSIS
 .SY odbc_config
@@ -23,34 +23,34 @@ odbc_config \- get compile options for compiling unixODBC client
 .YS
 
 .SH DESCRIPTION
-.B odbc_config
-provides built-in options, specified at build time of the unixODBC suite, which
-are useful for building unixODBC clients and similar programs.
+\fBodbc_config\fR provides information about how unixODBC was compiled for your
+system and architecture. The information generated is useful for building unixODBC
+clients and similar programs.
 
 .SH OPTIONS
 .B
 .IP \-\-prefix
-Prefix for architecture-independent file tree.
+Prefix for architecture-independent files.
 
 .B
 .IP \-\-exec-prefix
-Prefix for architecture-dependent file tree.
+Prefix for architecture-dependent files.
 
 .B
 .IP \-\-include-prefix
-Directory with C header files for unixODBC.
+Directory containing C header files for unixODBC.
 
 .B
 .IP \-\-lib-prefix
-Directory with object code (.so) libraries.
+Directory containing unixODBC shared libraries.
 
 .B
 .IP \-\-bin-prefix
-Location of user executables.
+Directory containing unixODBC utilities.
 
 .B
 .IP \-\-version
-unixODBC version.
+Current version of unixODBC.
 
 .B
 .IP \-\-libs
@@ -58,63 +58,51 @@ Compiler flags for linking dynamic libraries.
 
 .B
 .IP \-\-static-libs
-Absolute file name of static unixODBC library.
+Absolute file name of the unixODBC static library (libodbc.a).
 
 .B
 .IP \-\-libtool-libs
-Absolute file name of libtool unixODBC library.
+Absolute file name of the unixODBC libtool library (libodbc.la).
 
 .B
 .IP \-\-cflags
-Compiler flags to find include files and critical compiler flags and defines used
-when compiling the libodbc library.
+Outputs compiler flags to find header files, as well as critical compiler
+flags and defines used when compiling the libodbc library.
 
 .B
 .IP \-\-odbcversion
-Version of the ODBC specification used by the unixODBC.
+Version of the ODBC specification used by unixODBC.
 
 .B
 .IP \-\-odbcini
-Absolute file name of the system-wide DSN configuration file
-.IR odbc.ini .
+Absolute file name of the system-wide DSN configuration file \fIodbc.ini\fR.
 
 .B
 .IP \-\-odbcinstini
-Absolute file name of the driver configuration file
-.IR odbcinst.ini .
+Absolute file name of the unixODBC driver configuration file \fIodbcinst.ini\fR.
 
 .B
 .IP \-\-header
-Definitions of used C preprocessor constants. It is suitable to be piped into
-C header file.
+Definitions of C preprocessor constants used by unixODBC. Generated output can
+be piped into a C header file.
 
 .B
 .IP \-\-ulen
-Compiler flag for defining
-.IR SIZEOF_SQLULEN .
+Compiler flag that defines \fISIZEOF_SQLULEN\fR.
 
 .SH SEE ALSO
 .BR unixODBC (7),
 .BR odbcinst.ini (5),
 .BR odbc.ini (5)
 
-.R "The \fIunixODBC\fB Administrator Manual (HTML)"
+"The \fIunixODBC\fB Administrator Manual (HTML)\fR"
 
 .SH AUTHORS
-The authors of unixODBC are
-.MT pharvey@codebydesign.com
-Peter Harvey
-.ME
-and
-.MT nick@lurcher.org
-Nick Gorham
-.ME .
-For the full list of contributors see the
-.I AUTHORS
-file.
+The authors of unixODBC are Peter Harvey <\fIpharvey@codebydesign.com\fR> and
+Nick Gorham <\fInick@lurcher.org\fR>.
+
+For a full list of contributors, refer to the \fIAUTHORS\fR file.
 
 .SH COPYRIGHT
 unixODBC is licensed under the GNU Lesser General Public License. For details
-about the license, see the
-.I COPYING
-file.
+about the license, see the \fICOPYING\fR file.
