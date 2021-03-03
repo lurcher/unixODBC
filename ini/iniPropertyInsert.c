@@ -32,7 +32,12 @@ int iniPropertyInsert( HINI hIni, char *pszProperty, char *pszValue )
 	/* CREATE PROPERTY STRUCT */
 	hProperty = (HINIPROPERTY)malloc( sizeof(INIPROPERTY) );
 	strncpy( hProperty->szName, pszProperty, INI_MAX_PROPERTY_NAME );
-	strncpy( hProperty->szValue, pszValue, INI_MAX_PROPERTY_VALUE );
+    if ( pszValue ) {
+	    strncpy( hProperty->szValue, pszValue, INI_MAX_PROPERTY_VALUE );
+    }
+    else {
+	    strcpy( hProperty->szValue, "" );
+    }
 	hProperty->pNext = NULL;
     iniAllTrim( hProperty->szName );
     iniAllTrim( hProperty->szValue );

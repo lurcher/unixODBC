@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([unixODBC], [2.3.8pre], nick@unixodbc.org, [unixODBC])
+AC_INIT([unixODBC], [2.3.10pre], nick@unixodbc.org, [unixODBC])
 AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
@@ -19,7 +19,7 @@ AC_DISABLE_STATIC
 dnl Check if we want to worry about threads
 
 AC_ARG_ENABLE( threads, 
-[  --enable-threads        build with thread support [default=yes]],
+[AS_HELP_STRING([--enable-threads], [build with thread support [default=yes]])],
 [ case "${enableval}" in
     yes) thread=true ;;
     no) thread=false ;;
@@ -27,7 +27,7 @@ AC_ARG_ENABLE( threads,
     esac],[thread=true])
 
 AC_ARG_ENABLE( gnuthreads, 
-[  --enable-gnuthreads     build with gnu threads support [default=no]],
+[AS_HELP_STRING([--enable-gnuthreads], [build with GNU threads support [default=no]])],
 [ case "${enableval}" in
     yes) gnuthread=true ;;
     no) gnuthread=false ;;
@@ -35,7 +35,7 @@ AC_ARG_ENABLE( gnuthreads,
     esac],[gnuthread=false])
 
 AC_ARG_ENABLE( readline, 
-[  --enable-readline       build with readline  support [default=yes]],
+[AS_HELP_STRING([--enable-readline], [build with readline support [default=yes]])],
 [ case "${enableval}" in
     yes) readline=true ;;
     no) readline=false ;;
@@ -43,7 +43,7 @@ AC_ARG_ENABLE( readline,
     esac],[readline=true])
 
 AC_ARG_ENABLE( editline,
-[  --enable-editline       build with editline  support [default=no]],
+[AS_HELP_STRING([--enable-editline], [build with editline support [default=no]])],
 [ case "${enableval}" in
     yes) editline=true ;;
     no) editline=false ;;
@@ -51,7 +51,7 @@ AC_ARG_ENABLE( editline,
     esac],[editline=false])
 
 AC_ARG_ENABLE( inicaching,
-[  --enable-inicaching     build with ini file caching  support [default=yes]],
+[AS_HELP_STRING([--enable-inicaching], [build with ini file caching support [default=yes]])],
 [ case "${enableval}" in
     yes) inicaching=true ;;
     no) inicaching=false ;;
@@ -61,7 +61,7 @@ AC_ARG_ENABLE( inicaching,
 dnl Check if we want to build the drivers
 
 AC_ARG_ENABLE( drivers, 
-[  --enable-drivers        build included drivers [default=no]],
+[AS_HELP_STRING([--enable-drivers], [build included drivers [default=no]])],
 [ case "${enableval}" in
     yes) drivers=true ;;
     no) drivers=false ;;
@@ -70,8 +70,8 @@ AC_ARG_ENABLE( drivers,
 
 dnl Check if we want to build the driver config
 
-AC_ARG_ENABLE( driverc, 
-[  --enable-driver-conf    build included driver config libs [default=no]],
+AC_ARG_ENABLE( driver-config,
+[AS_HELP_STRING([--enable-driver-config], [build included driver config libs [default=no]])],
 [ case "${enableval}" in
     yes) driverc=true ;;
     no) driverc=false ;;
@@ -79,7 +79,7 @@ AC_ARG_ENABLE( driverc,
     esac],[driverc=false])
 
 AC_ARG_ENABLE( fastvalidate, 
-[  --enable-fastvalidate   use relaxed handle checking in the DM [default=no]],
+[AS_HELP_STRING([--enable-fastvalidate], [use relaxed handle checking in the DM [default=no]])],
 [ case "${enableval}" in
     yes) fastvalidate=true ;;
     no) fastvalidate=false ;;
@@ -87,7 +87,7 @@ AC_ARG_ENABLE( fastvalidate,
     esac],[fastvalidate=false])
 
 AC_ARG_ENABLE( iconv, 
-[  --enable-iconv          build with iconv support [default=yes]],
+[AS_HELP_STRING([--enable-iconv], [build with iconv support [default=yes]])],
 [ case "${enableval}" in
     yes) iconv=true ;;
     no) iconv=false ;;
@@ -99,7 +99,7 @@ dnl Check for sys/sem.h
 AC_CHECK_HEADERS(sys/sem.h, semh=true, semh=false)
 
 AC_ARG_ENABLE( stats,
-[  --enable-stats          build with statistic gathering support [default=no]],
+[AS_HELP_STRING([--enable-stats], [build with statistic-gathering support [default=no]])],
 [ case "${enableval}" in
     yes) if test "x$semh" = "xfalse"; then
            AC_MSG_ERROR(stats enabled but required header was not found)
@@ -112,9 +112,9 @@ AC_ARG_ENABLE( stats,
 stats_ftok_name="odbc.ini"
 
 AC_ARG_WITH(stats_ftok_name,
-    [  --with-stats-ftok-name=filename  Filename to get IPC ID for stats gathering  [default=odbc.ini]],
-       stats_ftok_name="$withval"
-    )
+[AS_HELP_STRING([--with-stats-ftok-name=filename],
+    [Filename to get IPC ID for stats gathering  [default=odbc.ini]])],
+[stats_ftok_name="$withval"])
 
 STATS_FTOK_NAME="$stats_ftok_name"
 
@@ -123,7 +123,7 @@ AC_SUBST(STATS_FTOK_NAME)
 AC_DEFINE_UNQUOTED([STATS_FTOK_NAME],"$STATS_FTOK_NAME",[Filename to use for ftok])
 
 AC_ARG_ENABLE( setlibversion,
-[  --enable-setlibversion  build with VERS set in libraries [default=no]],
+[AS_HELP_STRING([--enable-setlibversion], [build with VERS set in libraries [default=no]])],
 [ case "${enableval}" in
     yes) setlibversion=true ;;
     no) setlibversion=false ;;
@@ -131,7 +131,7 @@ AC_ARG_ENABLE( setlibversion,
     esac],[setlibversion=false])
 
 AC_ARG_ENABLE( handlemap, 
-[  --enable-handlemap      driver manager can map driver handles called back from broken drivers [default=no]],
+[AS_HELP_STRING([--enable-handlemap], [driver manager can map driver handles called back from broken drivers [default=no]])],
 [ case "${enableval}" in
     yes) handlemap=true ;;
     no) handlemap=false ;;
@@ -139,7 +139,7 @@ AC_ARG_ENABLE( handlemap,
     esac],[handlemap=false])
 
 AC_ARG_ENABLE( stricterror, 
-[  --enable-stricterror    error conform to the MS spec, the unixODBC prefix is removed for driver errors [default=yes]],
+[AS_HELP_STRING([--enable-stricterror], [error conform to the MS spec, the unixODBC prefix is removed for driver errors [default=yes]])],
 [ case "${enableval}" in
     yes) stricterror=true ;;
     no) stricterror=false ;;
@@ -147,7 +147,7 @@ AC_ARG_ENABLE( stricterror,
     esac],[stricterror=true])
 
 AC_ARG_ENABLE( gui, 
-[  --enable-gui            only included for backwards compatibility, gui now in its own project, see ChangeLog],
+[AS_HELP_STRING([--enable-gui], [only included for backwards compatibility, gui now in its own project, see ChangeLog])],
 [ case "${enableval}" in
     *) ;;
     esac])
@@ -203,18 +203,16 @@ AM_ICONV
 
 iconv_char_enc="auto-search"
 AC_ARG_WITH(iconv_char_enc,
-    [  --with-iconv-char-enc=enc   Encoding to use as ASCII [default=auto-search] ],
-       iconv_char_enc="$withval"
-    )
+[AS_HELP_STRING([--with-iconv-char-enc=enc], [Encoding to use as ASCII [default=auto-search]])],
+[iconv_char_enc="$withval"])
 
 ICONV_CHAR_ENCODING="$iconv_char_enc"
 
 iconv_ucode_enc="auto-search"
 
 AC_ARG_WITH(iconv_ucode_enc,
-    [  --with-iconv-ucode-enc=enc  Encoding to use as UNICODE [default=auto-search] ],
-       iconv_ucode_enc="$withval"
-    )
+[AS_HELP_STRING([--with-iconv-ucode-enc=enc], [Encoding to use as UNICODE [default=auto-search]])],
+[iconv_ucode_enc="$withval"])
 
 ICONV_CHAR_ENCODING=""
 ICONV_UNICODE_ENCODING=""
@@ -361,7 +359,7 @@ AC_CHECK_LONG_LONG
 AC_CHECK_SIZEOF([long int])
 AC_CHECK_TYPES([ptrdiff_t])
 
-AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid nl_langinfo )
+AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo )
 
 AM_LANGINFO_CODESET
 
@@ -503,14 +501,12 @@ AC_DEFINE([COLLECT_STATS], [], [Use a semaphore to allow ODBCConfig to display r
 fi
 
 AC_ARG_WITH(msql-lib,
-    [  --with-msql-lib=DIR     where the root of MiniSQL libs are installed ],
-       msql_libraries="$withval"
-    )
+[AS_HELP_STRING([--with-msql-lib=DIR], [where the root of MiniSQL libs are installed])],
+[msql_libraries="$withval"])
 
 AC_ARG_WITH(msql-include,
-    [  --with-msql-include=DIR where the MiniSQL headers are installed ],
-       msql_headers="$withval"
-    )
+[AS_HELP_STRING([--with-msql-include=DIR where the MiniSQL headers are installed])],
+[msql_headers="$withval"])
 
 AC_SUBST(msql_libraries)
 AC_SUBST(msql_headers)

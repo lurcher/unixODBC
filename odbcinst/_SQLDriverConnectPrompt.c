@@ -12,6 +12,7 @@ BOOL _SQLDriverConnectPrompt(
     char          szPathAndName[FILENAME_MAX];
     void *        hDLL;
     BOOL          (*pODBCDriverConnectPrompt)(HWND, SQLCHAR *, SQLSMALLINT );
+    BOOL          ret;
 
     /* initialize libtool */
     if ( lt_dlinit() )
@@ -40,17 +41,21 @@ BOOL _SQLDriverConnectPrompt(
 		{
 			if ( hODBCInstWnd ) 
 			{
-            	return pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+            	ret = pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 			}
 			else 
 			{
-            	return pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
+            	ret = pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
 			}
 		}
 		else 
 		{
-			return FALSE;
+			ret = FALSE;
 		}
+
+        lt_dlclose( hDLL );
+
+        return ret;
     }
     else
     {
@@ -65,17 +70,20 @@ BOOL _SQLDriverConnectPrompt(
 			{
 				if ( hODBCInstWnd ) 
 				{
-            		return pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+            		ret = pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 				}
 				else 
 				{
-            		return pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
+            		ret = pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
 				}
 			}
 			else 
 			{
-				return FALSE;
+				ret = FALSE;
 			}
+
+            lt_dlclose( hDLL );
+            return ret;
         }
     }
 
@@ -93,6 +101,7 @@ BOOL _SQLDriverConnectPromptW(
     char          szPathAndName[FILENAME_MAX];
     void *        hDLL;
     BOOL          (*pODBCDriverConnectPromptW)(HWND, SQLWCHAR *, SQLSMALLINT );
+    BOOL          ret;
 
     /* initialize libtool */
     if ( lt_dlinit() )
@@ -121,17 +130,21 @@ BOOL _SQLDriverConnectPromptW(
 		{
 			if ( hODBCInstWnd ) 
 			{
-            	return pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+            	ret = pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 			}
 			else 
 			{
-            	return pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
+            	ret = pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
 			}
 		}
 		else 
 		{
-			return FALSE;
+			ret = FALSE;
 		}
+
+        lt_dlclose( hDLL );
+
+        return ret;
     }
     else
     {
@@ -146,17 +159,21 @@ BOOL _SQLDriverConnectPromptW(
 			{
 				if ( hODBCInstWnd ) 
 				{
-            		return pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
+            		ret = pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 				}
 				else 
 				{
-            		return pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
+            		ret = pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
 				}
 			}
 			else 
 			{
-				return FALSE;
+				ret = FALSE;
 			}
+
+            lt_dlclose( hDLL );
+
+            return ret;
         }
     }
 

@@ -1342,7 +1342,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
          * get value that has been pushed up by the initial connection to this driver
          */
 
-        connection -> driver_act_ver = connection -> environment -> driver_act_ver;
+        connection -> driver_act_ver = env_lib_list -> driver_act_ver;
     }
     else
     {
@@ -1415,7 +1415,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
          * push up to environment to be reused
          */
 
-        connection -> environment -> driver_act_ver = connection -> driver_act_ver;
+        env_lib_list -> driver_act_ver = connection -> driver_act_ver;
 
         env_lib_list -> env_handle = connection -> driver_env;
 
@@ -1813,83 +1813,83 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     DO_ATTR( connection, quite_mode, SQL_ATTR_QUIET_MODE, SQL_QUIET_MODE );
     DO_ATTR( connection, txn_isolation, SQL_ATTR_TXN_ISOLATION, SQL_TXN_ISOLATION );
 
-    while ( connection -> save_attr )
+    if ( connection -> save_attr )
     {
         struct save_attr *sa;
 
         sa = connection -> save_attr;
 
-        if ( sa -> str_attr )
+        while ( sa )
         {
-            if (CHECK_SQLSETCONNECTATTR( connection ))
+            if ( sa -> str_attr )
             {
-                SQLSETCONNECTATTR(connection,
+                if (CHECK_SQLSETCONNECTATTR( connection ))
+                {
+                    SQLSETCONNECTATTR(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
                             sa -> str_attr,
                             sa -> str_len );
-            }
-            else if (CHECK_SQLSETCONNECTOPTION(connection))
-            {
-                SQLSETCONNECTOPTION(connection,
+                }
+                else if (CHECK_SQLSETCONNECTOPTION(connection))
+                {
+                    SQLSETCONNECTOPTION(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
                             sa -> str_attr );
-            }
-            else if (CHECK_SQLSETCONNECTATTRW( connection ))
-            {
-                SQLSETCONNECTATTRW(connection,
-                            connection -> driver_dbc,
-                            sa -> attr_type,
-                            sa -> str_attr,
-                            sa -> str_len );
-            }
-            else if (CHECK_SQLSETCONNECTOPTIONW(connection))
-            {
-                SQLSETCONNECTOPTIONW(connection,
-                            connection -> driver_dbc,
-                            sa -> attr_type,
-                            sa -> str_attr );
-            }
+                }
+                else if (CHECK_SQLSETCONNECTATTRW( connection ))
+                {
+                    SQLSETCONNECTATTRW(connection,
+                                connection -> driver_dbc,
+                                sa -> attr_type,
+                                sa -> str_attr,
+                                sa -> str_len );
+                }
+                else if (CHECK_SQLSETCONNECTOPTIONW(connection))
+                {
+                    SQLSETCONNECTOPTIONW(connection,
+                                connection -> driver_dbc,
+                                sa -> attr_type,
+                                sa -> str_attr );
+                }
 
-            free( sa -> str_attr );
-        }
-        else
-        {
-            if (CHECK_SQLSETCONNECTATTR( connection ))
+            }
+            else
             {
-                SQLSETCONNECTATTR(connection,
+                if (CHECK_SQLSETCONNECTATTR( connection ))
+                {
+                    SQLSETCONNECTATTR(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
                             sa -> intptr_attr,
                             sa -> str_len );
-            }
-            else if (CHECK_SQLSETCONNECTOPTION(connection))
-            {
-                SQLSETCONNECTOPTION(connection,
+                }
+                else if (CHECK_SQLSETCONNECTOPTION(connection))
+                {
+                    SQLSETCONNECTOPTION(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
                             sa -> intptr_attr );
+                }
+                else if (CHECK_SQLSETCONNECTATTRW( connection ))
+                {
+                    SQLSETCONNECTATTRW(connection,
+                                connection -> driver_dbc,
+                                sa -> attr_type,
+                                sa -> intptr_attr,
+                                sa -> str_len );
+                }
+                else if (CHECK_SQLSETCONNECTOPTIONW(connection))
+                {
+                    SQLSETCONNECTOPTIONW(connection,
+                                connection -> driver_dbc,
+                                sa -> attr_type,
+                                sa -> intptr_attr );
+                }
             }
-            else if (CHECK_SQLSETCONNECTATTRW( connection ))
-            {
-                SQLSETCONNECTATTRW(connection,
-                            connection -> driver_dbc,
-                            sa -> attr_type,
-                            sa -> intptr_attr,
-                            sa -> str_len );
-            }
-            else if (CHECK_SQLSETCONNECTOPTIONW(connection))
-            {
-                SQLSETCONNECTOPTIONW(connection,
-                            connection -> driver_dbc,
-                            sa -> attr_type,
-                            sa -> intptr_attr );
-            }
+            sa = sa -> next;
         }
-        
-        connection -> save_attr = sa -> next;
-        free( sa );
     }
 
     /*
@@ -3041,7 +3041,7 @@ int search_for_pool( DMHDBC connection,
            SQLSMALLINT connect_string_length )
 {
     time_t current_time;
-    SQLINTEGER dead;
+    SQLUINTEGER dead;
     CPOOL *ptr, *prev;
     int has_checked = 0;
 
@@ -3058,7 +3058,7 @@ restart:;
     for( ptr = pool_head, prev = NULL; ptr; prev = ptr, ptr = ptr -> next )
     {
         SQLRETURN ret;
-	has_checked = 0;
+	    has_checked = 0;
 
         if ( ptr -> in_use )
         {
@@ -3429,6 +3429,11 @@ restart:;
         connection -> dont_dlclose = ptr -> connection.dont_dlclose;
         connection -> bookmarks_on = ptr -> connection.bookmarks_on;
 
+#ifdef HAVE_ICONV
+    	connection -> iconv_cd_uc_to_ascii = ptr -> connection.iconv_cd_uc_to_ascii;
+    	connection -> iconv_cd_ascii_to_uc = ptr -> connection.iconv_cd_ascii_to_uc;
+#endif
+
         /*
          * copy current environment into the pooled connection
          */
@@ -3468,6 +3473,10 @@ void return_to_pool( DMHDBC connection )
     {
         ptr -> in_use = 0;
         ptr -> expiry_time = current_time + ptr -> timeout;
+#ifdef HAVE_ICONV
+	    connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
+	    connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
+#endif
     }
     else
     {
@@ -3546,8 +3555,8 @@ void return_to_pool( DMHDBC connection )
 #ifdef HAVE_ICONV
     	ptr -> connection.iconv_cd_uc_to_ascii = connection -> iconv_cd_uc_to_ascii;
     	ptr -> connection.iconv_cd_ascii_to_uc = connection -> iconv_cd_ascii_to_uc;
-	connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
-	connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
+	    connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
+	    connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
 #endif
 
         if ( connection -> server_length < 0 )

@@ -1,15 +1,29 @@
-2.3.8pre
+11-Jan-2021
+2.3.10pre
+
+    * Add connection pooling via wide connection functions
+
+06-Sep-2020
+2.3.9
+
+    * Remove "#define UNIXODBC_SOURCE" from unixodbc_conf.h
+
+30-Aug-2020
+2.3.8
 
     * Add configure support for editline
     * SQLDriversW was ignoring user config
     * SQLDataSources Fix termination character
     * Fix for pooling seg fault
-    * Make calling SQLSetStmtAttrW call the W function in the driver is its there
+    * Make calling SQLSetStmtAttrW call the W function in the driver if its there
     * Try and fix race condition clearing system odbc.ini file
     * Remove trailing space from isql/iusql SQL
-    * When setting connection attributes set before connect also check if the W entry poins can be used
+    * When setting connection attributes set before connect also check if the W entry points can be used
     * Try calling the W error functions first if available in the driver
     * Add iconvperdriver configure option to allow calling unicode_setup in SQLAllocHandle
+    * iconv handles was being lost when reusing pooled connection
+    * Catch null copy in iniPropertyInsert
+    * Fix a few leaks 
 
 10-Aug-2018
 2.3.7

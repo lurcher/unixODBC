@@ -242,10 +242,19 @@ BOOL SQLCreateDataSource( HWND hWnd, LPCSTR pszDS )
     {
         /* change the name, as it avoids it finding it in the calling lib */
         pSQLCreateDataSource = (BOOL (*)(HWND, LPCSTR))lt_dlsym( hDLL, "ODBCCreateDataSource" );
-        if ( pSQLCreateDataSource )
-            return pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), pszDS );
+
+        if ( pSQLCreateDataSource ) {
+            BOOL ret;
+
+            ret = pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), pszDS );
+
+            lt_dlclose( hDLL );
+            return ret;
+        }
         else
             inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, (char*)lt_dlerror() );
+
+        lt_dlclose( hDLL );
     }
     else
     {
@@ -256,10 +265,18 @@ BOOL SQLCreateDataSource( HWND hWnd, LPCSTR pszDS )
         {
             /* change the name, as it avoids linker finding it in the calling lib */
             pSQLCreateDataSource = (BOOL (*)(HWND,LPCSTR))lt_dlsym( hDLL, "ODBCCreateDataSource" );
-            if ( pSQLCreateDataSource )
-                return pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), pszDS );
+            if ( pSQLCreateDataSource ) {
+                BOOL ret;
+
+                ret = pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), pszDS );
+
+                lt_dlclose( hDLL );
+                return ret;
+            }
             else
                 inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, (char*)lt_dlerror() );
+
+            lt_dlclose( hDLL );
         }
     }
 
@@ -308,10 +325,18 @@ BOOL INSTAPI SQLCreateDataSourceW( HWND hwndParent, LPCWSTR lpszDSN )
     {
         /* change the name, as it avoids it finding it in the calling lib */
         pSQLCreateDataSource = (BOOL (*)(HWND, LPCWSTR))lt_dlsym( hDLL, "ODBCCreateDataSourceW" );
-        if ( pSQLCreateDataSource )
-            return pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), lpszDSN );
+        if ( pSQLCreateDataSource ) {
+            BOOL ret;
+
+            ret = pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), lpszDSN );
+
+            lt_dlclose( hDLL );
+            return ret;
+        }
         else
             inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, (char*)lt_dlerror() );
+
+        lt_dlclose( hDLL );
     }
     else
     {
@@ -322,10 +347,18 @@ BOOL INSTAPI SQLCreateDataSourceW( HWND hwndParent, LPCWSTR lpszDSN )
         {
             /* change the name, as it avoids linker finding it in the calling lib */
             pSQLCreateDataSource = (BOOL (*)(HWND,LPCWSTR))lt_dlsym( hDLL, "ODBCCreateDataSourceW" );
-            if ( pSQLCreateDataSource )
-                return pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), lpszDSN );
+            if ( pSQLCreateDataSource ) {
+                BOOL ret;
+
+                ret = pSQLCreateDataSource( ( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), lpszDSN );
+
+                lt_dlclose( hDLL );
+                return ret;
+            }
             else
                 inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, (char*)lt_dlerror() );
+
+            lt_dlclose( hDLL );
         }
     }
 

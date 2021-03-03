@@ -83,7 +83,7 @@ SQLRETURN CLAllocStmt( SQLHDBC connection_handle,
                 LOG_INFO,
                 "Error: IM001" );
 
-        cl_statement -> cl_connection -> dh.__post_internal_error( &connection -> error,
+        cl_connection -> dh.__post_internal_error( &connection -> error,
                 ERROR_HY001, NULL,
                 connection -> environment -> requested_version );
 

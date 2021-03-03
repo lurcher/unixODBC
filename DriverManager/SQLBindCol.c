@@ -139,6 +139,7 @@ int check_target_type( int c_type, int connection_mode)
         return 1;
     }
 
+
 	switch( c_type ) {
 		case SQL_C_CHAR:
 		case SQL_C_LONG:
@@ -180,7 +181,15 @@ int check_target_type( int c_type, int connection_mode)
 		case SQL_C_WCHAR:
 		case SQL_ARD_TYPE:
 		case SQL_C_DOUBLE:
-		/* case SQL_C_XML: still trying to find what value this is */
+        /*
+         * MS Added types
+         */
+        case -150:  /* SQL_SS_VARIANT */
+        case -151:  /* SQL_SS_UDT */
+        case -152:  /* SQL_SS_XML */
+        case -153:  /* SQL_SS_TABLE */
+        case -154:  /* SQL_SS_TIME2 */
+        case -155:  /* SQL_SS_TIMESTAMPOFFSET */
 			return 1;
 
 		default:

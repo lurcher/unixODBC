@@ -278,6 +278,8 @@ struct env_lib_struct
     char            *lib_name;
     DRV_SQLHANDLE   env_handle;
     int             count;
+    int             driver_act_ver;     /* real version of the driver, keep in the list instead of the env, as 
+                                         * we may have both V2 and V3 drivers in use */
     struct env_lib_struct   *next;
 };
 
@@ -297,7 +299,6 @@ typedef struct environment
     int             fetch_mode;         /* for SQLDataSources */
     int             entry;
     void            *sh;                /* statistics handle */
-    int             driver_act_ver;     /* real version of the driver */
     struct env_lib_struct *env_lib_list;/* use this to avoid multiple AllocEnv in the driver */
 } *DMHENV;
 

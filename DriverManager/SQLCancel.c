@@ -236,18 +236,8 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
             else if ( statement -> interupted_func ==
                     SQL_API_SQLBULKOPERATIONS )
             {
-                if ( statement -> interupted_state == STATE_S5 ||
-                        statement -> interupted_state == STATE_S6 ||
-                        statement -> interupted_state == STATE_S7 )
-                {
-                    statement -> state = STATE_S6;
-                    statement -> eod = 0;
-                }
-                else
-                {
-                    statement -> state = STATE_S6;
-                    statement -> eod = 0;
-                }
+                statement -> state = STATE_S6;
+                statement -> eod = 0;
             }
             else if ( statement -> interupted_func ==
                     SQL_API_SQLSETPOS )

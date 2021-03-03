@@ -1196,7 +1196,7 @@ char cmdbuffer[MAX_MESSAGE_LEN+1];	/* QR_set_command() dups this string so dont 
 			mylog("send_query: 'E' - %s\n", msgbuffer);
 			qlog("ERROR from backend during send_query: '%s'\n", msgbuffer);
 
-			/* We should report that an error occured. Zoltan */
+			/* We should report that an error occurred. Zoltan */
             if (res)
                 QR_Destructor(res);
 			res = QR_Constructor();

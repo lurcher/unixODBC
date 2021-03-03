@@ -299,6 +299,9 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
         cl_connection -> dh.__post_internal_error( &connection -> error,
                 ERROR_HY001, NULL,
                 connection -> environment -> requested_version );
+
+        free( cl_connection );
+
         return SQL_ERROR;
     }
 

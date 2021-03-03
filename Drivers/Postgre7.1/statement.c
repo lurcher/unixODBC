@@ -413,7 +413,7 @@ mylog("recycle statement: self= %u\n", self);
 		break;
 
 	default:
-		SC_set_error(self, STMT_INTERNAL_ERROR, "An internal error occured while recycling statements");
+		SC_set_error(self, STMT_INTERNAL_ERROR, "An internal error occurred while recycling statements");
 		return FALSE;
 	}
 

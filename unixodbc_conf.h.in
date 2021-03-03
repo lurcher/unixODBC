@@ -467,7 +467,6 @@
 #undef UNIXODBC
 
 /* We are building inside the unixODBC source tree */
-#undef UNIXODBC_SOURCE
 
 /* Version number of package */
 #undef VERSION
