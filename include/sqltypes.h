@@ -49,7 +49,7 @@ extern "C" {
  */
 
 #ifndef SIZEOF_LONG_INT
-#include "unixodbc_conf.h"
+#define SIZEOF_LONG_INT __SIZEOF_LONG__
 #endif
 
 #ifndef SIZEOF_LONG_INT
