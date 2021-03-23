@@ -8,6 +8,7 @@ svn:
 	@echo "*** Building config.h"
 	@autoheader
 	@sed -i '/UNIXODBC_SOURCE/d' unixodbc_conf.h.in
+	@sed -i '/ VERSION/d' unixodbc_conf.h.in
 	@echo "*** Building configure"
 	@autoconf
 	@echo "*** Finished"
