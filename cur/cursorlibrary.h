@@ -91,7 +91,7 @@ typedef struct cl_statement
     char                *sql_text;      /* text of current statement */
     char                **column_names; /* names of each column */
     SQLSMALLINT         *data_type;
-    SQLLEN              *column_size;
+    SQLULEN             *column_size;
     SQLSMALLINT         *decimal_digits;
     int                 driver_stmt_closed;
     int                 not_from_select;

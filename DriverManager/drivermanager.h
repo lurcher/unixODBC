@@ -927,12 +927,14 @@ void return_to_pool( DMHDBC connection );
 #define DM_SQLALLOCCONNECT          0
 #define CHECK_SQLALLOCCONNECT(con)  (con->functions[0].func!=NULL)
 #define SQLALLOCCONNECT(con,env,oh)\
-                                    (con->functions[0].func)(env,oh)
+                                    ((SQLRETURN (*)(SQLHENV, SQLHDBC*))\
+                                    con->functions[0].func)(env,oh)
 
 #define DM_SQLALLOCENV              1
 #define CHECK_SQLALLOCENV(con)      (con->functions[1].func!=NULL)
 #define SQLALLOCENV(con,oh)\
-                                    (con->functions[1].func)(oh)
+                                    ((SQLRETURN (*)(SQLHENV*))\
+                                    con->functions[1].func)(oh)
 
 #define DM_SQLALLOCHANDLE           2
 #define CHECK_SQLALLOCHANDLE(con)   (con->functions[2].func!=NULL)
@@ -942,148 +944,232 @@ void return_to_pool( DMHDBC connection );
      */
 #define SQLALLOCHANDLE(con,ht,ih,oh,dmh)\
             (con->cl_handle?\
-                    (con->functions[2].func)(ht,ih,oh,dmh):\
-                    (con->functions[2].func)(ht,ih,oh))
+                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE, SQLHANDLE*, SQLHANDLE))\
+                     con->functions[2].func)(ht,ih,oh,dmh):\
+                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE, SQLHANDLE*))\
+                     con->functions[2].func)(ht,ih,oh))
 
 #define DM_SQLALLOCSTMT             3
 #define CHECK_SQLALLOCSTMT(con)     (con->functions[3].func!=NULL)
 #define SQLALLOCSTMT(con,dbc,oh,dmh)\
             (con->cl_handle?\
-                    (con->functions[3].func)(dbc,oh,dmh):\
-                    (con->functions[3].func)(dbc,oh))
+                    ((SQLRETURN (*)(SQLHDBC, SQLHSTMT*, SQLHANDLE))\
+                     con->functions[3].func)(dbc,oh,dmh):\
+                    ((SQLRETURN (*)(SQLHDBC, SQLHSTMT*))\
+                     con->functions[3].func)(dbc,oh))
 
 #define DM_SQLALLOCHANDLESTD        4
 
 #define DM_SQLBINDCOL               5
 #define CHECK_SQLBINDCOL(con)       (con->functions[5].func!=NULL)
 #define SQLBINDCOL(con,stmt,cn,tt,tvp,bl,sli)\
-                                    (con->functions[5].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLLEN, SQLLEN*))\
+                                    con->functions[5].func)\
                                         (stmt,cn,tt,tvp,bl,sli)
 
 #define DM_SQLBINDPARAM             6
 #define CHECK_SQLBINDPARAM(con)     (con->functions[6].func!=NULL)
 #define SQLBINDPARAM(con,stmt,pn,vt,pt,cs,dd,pvp,ind)\
-                                    (con->functions[6].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLUSMALLINT, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLULEN, SQLSMALLINT,\
+                                      SQLPOINTER, SQLLEN*))\
+                                    con->functions[6].func)\
                                         (stmt,pn,vt,pt,cs,dd,pvp,ind)
 
 #define DM_SQLBINDPARAMETER         7
 #define CHECK_SQLBINDPARAMETER(con) (con->functions[7].func!=NULL)
 #define SQLBINDPARAMETER(con,stmt,pn,typ,vt,pt,cs,dd,pvp,bl,ind)\
-                                    (con->functions[7].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLSMALLINT, SQLSMALLINT, SQLSMALLINT,\
+                                      SQLULEN, SQLSMALLINT, SQLPOINTER,\
+                                      SQLLEN, SQLLEN*))\
+                                    con->functions[7].func)\
                                         (stmt,pn,typ,vt,pt,cs,dd,pvp,bl,ind)
 
 #define DM_SQLBROWSECONNECT         8
 #define CHECK_SQLBROWSECONNECT(con) (con->functions[8].func!=NULL)
 #define SQLBROWSECONNECT(con,dbc,ics,sl1,ocs,bl,sl2)\
-                                    (con->functions[8].func)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[8].func)\
                                     (dbc,ics,sl1,ocs,bl,sl2)
 #define CHECK_SQLBROWSECONNECTW(con) (con->functions[8].funcW!=NULL)
 #define SQLBROWSECONNECTW(con,dbc,ics,sl1,ocs,bl,sl2)\
-                                    (con->functions[8].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[8].funcW)\
                                     (dbc,ics,sl1,ocs,bl,sl2)
     
 #define DM_SQLBULKOPERATIONS        9
 #define CHECK_SQLBULKOPERATIONS(con)    (con->functions[9].func!=NULL)
 #define SQLBULKOPERATIONS(con,stmt,op)\
-                                    (con->functions[9].func)(stmt,op)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT))\
+                                    con->functions[9].func)(stmt,op)
 
 #define DM_SQLCANCEL                10
 #define CHECK_SQLCANCEL(con)        (con->functions[10].func!=NULL)
 #define SQLCANCEL(con,stmt)\
-                                    (con->functions[10].func)(stmt)
+                                    ((SQLRETURN (*)(SQLHSTMT))\
+                                    con->functions[10].func)(stmt)
 
 #define DM_SQLCLOSECURSOR           11
 #define CHECK_SQLCLOSECURSOR(con)   (con->functions[11].func!=NULL)
 #define SQLCLOSECURSOR(con,stmt)\
-                                    (con->functions[11].func)(stmt)
+                                    ((SQLRETURN (*)(SQLHSTMT))\
+                                    con->functions[11].func)(stmt)
 
 #define DM_SQLCOLATTRIBUTE          12
 #define CHECK_SQLCOLATTRIBUTE(con)  (con->functions[12].func!=NULL)
 #define SQLCOLATTRIBUTE(con,stmt,cn,fi,cap,bl,slp,nap)\
-                                    (con->functions[12].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLUSMALLINT, SQLPOINTER, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLLEN*))\
+                                    con->functions[12].func)\
                                         (stmt,cn,fi,cap,bl,slp,nap)
 #define CHECK_SQLCOLATTRIBUTEW(con)  (con->functions[12].funcW!=NULL)
 #define SQLCOLATTRIBUTEW(con,stmt,cn,fi,cap,bl,slp,nap)\
-                                    (con->functions[12].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLUSMALLINT, SQLPOINTER, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLLEN*))\
+                                    con->functions[12].funcW)\
                                         (stmt,cn,fi,cap,bl,slp,nap)
 
 #define DM_SQLCOLATTRIBUTES         13
 #define CHECK_SQLCOLATTRIBUTES(con) (con->functions[13].func!=NULL)
 #define SQLCOLATTRIBUTES(con,stmt,cn,fi,cap,bl,slp,nap)\
-                                    (con->functions[13].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLUSMALLINT, SQLPOINTER, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLLEN*))\
+                                    con->functions[13].func)\
                                         (stmt,cn,fi,cap,bl,slp,nap)
 #define CHECK_SQLCOLATTRIBUTESW(con) (con->functions[13].funcW!=NULL)
 #define SQLCOLATTRIBUTESW(con,stmt,cn,fi,cap,bl,slp,nap)\
-                                    (con->functions[13].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLUSMALLINT, SQLPOINTER, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLLEN*))\
+                                    con->functions[13].funcW)\
                                         (stmt,cn,fi,cap,bl,slp,nap)
 
 #define DM_SQLCOLUMNPRIVILEGES      14 
 #define CHECK_SQLCOLUMNPRIVILEGES(con)  (con->functions[14].func!=NULL)
 #define SQLCOLUMNPRIVILEGES(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[14].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[14].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 #define CHECK_SQLCOLUMNPRIVILEGESW(con)  (con->functions[14].funcW!=NULL)
 #define SQLCOLUMNPRIVILEGESW(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[14].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[14].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 
 #define DM_SQLCOLUMNS               15
 #define CHECK_SQLCOLUMNS(con)       (con->functions[15].func!=NULL)
 #define SQLCOLUMNS(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[15].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[15].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 #define CHECK_SQLCOLUMNSW(con)       (con->functions[15].funcW!=NULL)
 #define SQLCOLUMNSW(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[15].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[15].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 
 #define DM_SQLCONNECT               16
 #define CHECK_SQLCONNECT(con)       (con->functions[16].func!=NULL)
 #define SQLCONNECT(con,dbc,dsn,l1,uid,l2,at,l3)\
-                                    (con->functions[16].func)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[16].func)\
                                     (dbc,dsn,l1,uid,l2,at,l3)
 #define CHECK_SQLCONNECTW(con)       (con->functions[16].funcW!=NULL)
 #define SQLCONNECTW(con,dbc,dsn,l1,uid,l2,at,l3)\
-                                    (con->functions[16].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[16].funcW)\
                                     (dbc,dsn,l1,uid,l2,at,l3)
 
 #define DM_SQLCOPYDESC              17
 #define CHECK_SQLCOPYDESC(con)      (con->functions[17].func!=NULL)
 #define SQLCOPYDESC(con,sd,td)\
-                                    (con->functions[17].func)(sd,td)
+                                    ((SQLRETURN (*)(SQLHDESC, SQLHDESC))\
+                                    con->functions[17].func)(sd,td)
 
 #define DM_SQLDATASOURCES           18
 
 #define DM_SQLDESCRIBECOL           19
 #define CHECK_SQLDESCRIBECOL(con)   (con->functions[19].func!=NULL)
 #define SQLDESCRIBECOL(con,stmt,cnum,cn,bli,nl,dt,cs,dd,n)\
-                                    (con->functions[19].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLUSMALLINT, SQLCHAR*, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLULEN*,\
+                                      SQLSMALLINT*, SQLSMALLINT*))\
+                                    con->functions[19].func)\
                                         (stmt,cnum,cn,bli,nl,dt,cs,dd,n)
 #define CHECK_SQLDESCRIBECOLW(con)   (con->functions[19].funcW!=NULL)
 #define SQLDESCRIBECOLW(con,stmt,cnum,cn,bli,nl,dt,cs,dd,n)\
-                                    (con->functions[19].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLUSMALLINT, SQLWCHAR*, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLULEN*,\
+                                      SQLSMALLINT*, SQLSMALLINT*))\
+                                    con->functions[19].funcW)\
                                         (stmt,cnum,cn,bli,nl,dt,cs,dd,n)
 
 #define DM_SQLDESCRIBEPARAM         20
 #define CHECK_SQLDESCRIBEPARAM(con) (con->functions[20].func!=NULL)
 #define SQLDESCRIBEPARAM(con,stmt,pn,dtp,psp,ddp,np)\
-                                    (con->functions[20].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLUSMALLINT, SQLSMALLINT*, SQLULEN*,\
+                                      SQLSMALLINT*, SQLSMALLINT*))\
+                                    con->functions[20].func)\
                                         (stmt,pn,dtp,psp,ddp,np)
 
 #define DM_SQLDISCONNECT            21
 #define CHECK_SQLDISCONNECT(con)    (con->functions[21].func!=NULL)
 #define SQLDISCONNECT(con,dbc)\
-                                    (con->functions[21].func)(dbc)
+                                    ((SQLRETURN (*)(SQLHDBC))\
+                                    con->functions[21].func)(dbc)
 
 #define DM_SQLDRIVERCONNECT         22
 #define CHECK_SQLDRIVERCONNECT(con) (con->functions[22].func!=NULL)
 #define SQLDRIVERCONNECT(con,dbc,wh,ics,sl1,ocs,bl,sl2p,dc)\
-                                    (con->functions[22].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLHWND,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLUSMALLINT))\
+                                    con->functions[22].func)\
                                         (dbc,wh,ics,sl1,ocs,bl,sl2p,dc)
 
 #define CHECK_SQLDRIVERCONNECTW(con) (con->functions[22].funcW!=NULL)
 #define SQLDRIVERCONNECTW(con,dbc,wh,ics,sl1,ocs,bl,sl2p,dc)\
-                                     (con->functions[22].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLHWND,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLSMALLINT*, SQLUSMALLINT))\
+                                     con->functions[22].funcW)\
                                         (dbc,wh,ics,sl1,ocs,bl,sl2p,dc)
 
 #define DM_SQLDRIVERS               23
@@ -1091,423 +1177,616 @@ void return_to_pool( DMHDBC connection );
 #define DM_SQLENDTRAN               24
 #define CHECK_SQLENDTRAN(con)       (con->functions[24].func!=NULL)
 #define SQLENDTRAN(con,ht,h,op)\
-                                    (con->functions[24].func)(ht,h,op)
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE, SQLSMALLINT))\
+                                    con->functions[24].func)(ht,h,op)
 
 #define DM_SQLERROR                 25
 #define CHECK_SQLERROR(con)         (con->functions[25].func!=NULL)
 #define SQLERROR(con,env,dbc,stmt,st,nat,msg,mm,pcb)\
-                                    (con->functions[25].func)\
+                                    ((SQLRETURN (*)(SQLHENV, SQLHDBC, SQLHSTMT,\
+                                      SQLCHAR*, SQLINTEGER*,\
+                                      SQLCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[25].func)\
                                         (env,dbc,stmt,st,nat,msg,mm,pcb)
 #define CHECK_SQLERRORW(con)         (con->functions[25].funcW!=NULL)
 #define SQLERRORW(con,env,dbc,stmt,st,nat,msg,mm,pcb)\
-                                     (con->functions[25].funcW)\
+                                    ((SQLRETURN (*)(SQLHENV, SQLHDBC, SQLHSTMT,\
+                                      SQLWCHAR*, SQLINTEGER*,\
+                                      SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[25].funcW)\
                                         (env,dbc,stmt,st,nat,msg,mm,pcb)
 
 #define DM_SQLEXECDIRECT            26
 #define CHECK_SQLEXECDIRECT(con)    (con->functions[26].func!=NULL)
 #define SQLEXECDIRECT(con,stmt,sql,len)\
-                                    (con->functions[26].func)(stmt,sql,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLCHAR*, SQLINTEGER))\
+                                    con->functions[26].func)(stmt,sql,len)
 #define CHECK_SQLEXECDIRECTW(con)    (con->functions[26].funcW!=NULL)
 #define SQLEXECDIRECTW(con,stmt,sql,len)\
-                                    (con->functions[26].funcW)(stmt,sql,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLWCHAR*, SQLINTEGER))\
+                                    con->functions[26].funcW)(stmt,sql,len)
 
 #define DM_SQLEXECUTE               27
 #define CHECK_SQLEXECUTE(con)       (con->functions[27].func!=NULL)
 #define SQLEXECUTE(con,stmt)\
-                                    (con->functions[27].func)(stmt)
+                                    ((SQLRETURN (*)(SQLHSTMT))\
+                                    con->functions[27].func)(stmt)
 
 #define DM_SQLEXTENDEDFETCH         28
 #define CHECK_SQLEXTENDEDFETCH(con) (con->functions[28].func!=NULL)
 #define SQLEXTENDEDFETCH(con,stmt,fo,of,rcp,ssa)\
-                                    (con->functions[28].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                     SQLLEN, SQLULEN*, SQLUSMALLINT*))\
+                                    con->functions[28].func)\
                                         (stmt,fo,of,rcp,ssa)
 
 #define DM_FETCH                    29
 #define CHECK_SQLFETCH(con)         (con->functions[29].func!=NULL)
 #define SQLFETCH(con,stmt)\
-                                    (con->functions[29].func)(stmt)
+                                    ((SQLRETURN (*)(SQLHSTMT))\
+                                    con->functions[29].func)(stmt)
 
 #define DM_SQLFETCHSCROLL           30
 #define CHECK_SQLFETCHSCROLL(con)   (con->functions[30].func!=NULL)
 #define SQLFETCHSCROLL(con,stmt,or,of)\
-                                    (con->functions[30].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT, SQLLEN))\
+                                    con->functions[30].func)\
                                         (stmt,or,of)
 
 #define DM_SQLFOREIGNKEYS           31
 #define CHECK_SQLFOREIGNKEYS(con)   (con->functions[31].func!=NULL)
 #define SQLFOREIGNKEYS(con,stmt,cn,nl1,sn,nl2,tn,nl3,fcn,nl4,fsn,nl5,ftn,nl6)\
-                                    (con->functions[31].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[31].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,fcn,nl4,fsn,nl5,ftn,nl6)
 #define CHECK_SQLFOREIGNKEYSW(con)   (con->functions[31].funcW!=NULL)
 #define SQLFOREIGNKEYSW(con,stmt,cn,nl1,sn,nl2,tn,nl3,fcn,nl4,fsn,nl5,ftn,nl6)\
-                                    (con->functions[31].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[31].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,fcn,nl4,fsn,nl5,ftn,nl6)
 
 #define DM_SQLFREEENV               32
 #define CHECK_SQLFREEENV(con)       (con->functions[32].func!=NULL)
 #define SQLFREEENV(con,env)\
-                                    (con->functions[32].func)(env)
+                                    ((SQLRETURN (*)(SQLHENV))\
+                                    con->functions[32].func)(env)
 
 #define DM_SQLFREEHANDLE            33
 #define CHECK_SQLFREEHANDLE(con)    (con->functions[33].func!=NULL)
 #define SQLFREEHANDLE(con,typ,env)\
-                                    (con->functions[33].func)(typ,env)
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE))\
+                                    con->functions[33].func)(typ,env)
 
 #define DM_SQLFREESTMT              34
 #define CHECK_SQLFREESTMT(con)      (con->functions[34].func!=NULL)
 #define SQLFREESTMT(con,stmt,opt)\
-                                    (con->functions[34].func)(stmt,opt)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT))\
+                                    con->functions[34].func)(stmt,opt)
 
 #define DM_SQLFREECONNECT           35
 #define CHECK_SQLFREECONNECT(con)   (con->functions[35].func!=NULL)
 #define SQLFREECONNECT(con,dbc)\
-                                    (con->functions[35].func)(dbc)
+                                    ((SQLRETURN (*)(SQLHDBC))\
+                                    con->functions[35].func)(dbc)
 
 #define DM_SQLGETCONNECTATTR        36
 #define CHECK_SQLGETCONNECTATTR(con)    (con->functions[36].func!=NULL)
 #define SQLGETCONNECTATTR(con,dbc,at,vp,bl,slp)\
-                                    (con->functions[36].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[36].func)\
                                         (dbc,at,vp,bl,slp)
 #define CHECK_SQLGETCONNECTATTRW(con)    (con->functions[36].funcW!=NULL)
 #define SQLGETCONNECTATTRW(con,dbc,at,vp,bl,slp)\
-                                    (con->functions[36].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[36].funcW)\
                                         (dbc,at,vp,bl,slp)
 
 #define DM_SQLGETCONNECTOPTION      37
 #define CHECK_SQLGETCONNECTOPTION(con)  (con->functions[37].func!=NULL)
 #define SQLGETCONNECTOPTION(con,dbc,at,val)\
-                                    (con->functions[37].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT, SQLPOINTER))\
+                                    con->functions[37].func)\
                                         (dbc,at,val)
 #define CHECK_SQLGETCONNECTOPTIONW(con)  (con->functions[37].funcW!=NULL)
 #define SQLGETCONNECTOPTIONW(con,dbc,at,val)\
-                                    (con->functions[37].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT, SQLPOINTER))\
+                                    con->functions[37].funcW)\
                                         (dbc,at,val)
 
 #define DM_SQLGETCURSORNAME         38
 #define CHECK_SQLGETCURSORNAME(con) (con->functions[38].func!=NULL)
 #define SQLGETCURSORNAME(con,stmt,cn,bl,nlp)\
-                                    (con->functions[38].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[38].func)\
                                         (stmt,cn,bl,nlp)
 #define CHECK_SQLGETCURSORNAMEW(con) (con->functions[38].funcW!=NULL)
 #define SQLGETCURSORNAMEW(con,stmt,cn,bl,nlp)\
-                                    (con->functions[38].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[38].funcW)\
                                         (stmt,cn,bl,nlp)
 
 #define DM_SQLGETDATA               39
 #define CHECK_SQLGETDATA(con)       (con->functions[39].func!=NULL)
 #define SQLGETDATA(con,stmt,cn,tt,tvp,bl,sli)\
-                                    (con->functions[39].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLLEN, SQLLEN*))\
+                                    con->functions[39].func)\
                                         (stmt,cn,tt,tvp,bl,sli)
 
 #define DM_SQLGETDESCFIELD          40
 #define CHECK_SQLGETDESCFIELD(con)  (con->functions[40].func!=NULL)
 #define SQLGETDESCFIELD(con,des,rn,fi,vp,bl,slp)\
-                                    (con->functions[40].func)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[40].func)\
                                         (des,rn,fi,vp,bl,slp)
 #define CHECK_SQLGETDESCFIELDW(con)  (con->functions[40].funcW!=NULL)
 #define SQLGETDESCFIELDW(con,des,rn,fi,vp,bl,slp)\
-                                    (con->functions[40].funcW)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[40].funcW)\
                                         (des,rn,fi,vp,bl,slp)
 
 #define DM_SQLGETDESCREC            41
 #define CHECK_SQLGETDESCREC(con)    (con->functions[41].func!=NULL)
 #define SQLGETDESCREC(con,des,rn,n,bl,slp,tp,stp,lp,pp,sp,np)\
-                                    (con->functions[41].func)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT, SQLSMALLINT*,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLLEN*,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLSMALLINT*))\
+                                    con->functions[41].func)\
                                         (des,rn,n,bl,slp,tp,stp,lp,pp,sp,np)
 #define CHECK_SQLGETDESCRECW(con)    (con->functions[41].funcW!=NULL)
 #define SQLGETDESCRECW(con,des,rn,n,bl,slp,tp,stp,lp,pp,sp,np)\
-                                    (con->functions[41].funcW)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLLEN*,\
+                                      SQLSMALLINT*, SQLSMALLINT*, SQLSMALLINT*))\
+                                    con->functions[41].funcW)\
                                         (des,rn,n,bl,slp,tp,stp,lp,pp,sp,np)
 
 #define DM_SQLGETDIAGFIELD          42
 #define CHECK_SQLGETDIAGFIELD(con)  (con->functions[42].func!=NULL)
 #define SQLGETDIAGFIELD(con,typ,han,rn,di,dip,bl,slp)\
-                                    (con->functions[42].func)\
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE,\
+                                      SQLSMALLINT, SQLSMALLINT, SQLPOINTER,\
+                                      SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[42].func)\
                                         (typ,han,rn,di,dip,bl,slp)
 #define CHECK_SQLGETDIAGFIELDW(con)  (con->functions[42].funcW!=NULL)
 #define SQLGETDIAGFIELDW(con,typ,han,rn,di,dip,bl,slp)\
-                                    (con->functions[42].funcW)\
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE,\
+                                      SQLSMALLINT, SQLSMALLINT, SQLPOINTER,\
+                                      SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[42].funcW)\
                                         (typ,han,rn,di,dip,bl,slp)
 
 #define DM_SQLGETENVATTR            43
 #define CHECK_SQLGETENVATTR(con)    (con->functions[43].func!=NULL)
 #define SQLGETENVATTR(con,env,attr,val,len,ol)\
-                                    (con->functions[43].func)\
+                                    ((SQLRETURN (*)(SQLHENV, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[43].func)\
                                     (env,attr,val,len,ol)
 
 #define DM_SQLGETFUNCTIONS          44
 #define CHECK_SQLGETFUNCTIONS(con)  (con->functions[44].func!=NULL)
 #define SQLGETFUNCTIONS(con,dbc,id,ptr)\
-                                    (con->functions[44].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT, SQLUSMALLINT*))\
+                                    con->functions[44].func)\
                                         (dbc,id,ptr)
 
 #define DM_SQLGETINFO               45
 #define CHECK_SQLGETINFO(con)       (con->functions[45].func!=NULL)
 #define SQLGETINFO(con,dbc,it,ivo,bl,slp)\
-                                    (con->functions[45].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT,\
+                                      SQLPOINTER, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[45].func)\
                                         (dbc,it,ivo,bl,slp)
 #define CHECK_SQLGETINFOW(con)       (con->functions[45].funcW!=NULL)
 #define SQLGETINFOW(con,dbc,it,ivo,bl,slp)\
-                                    (con->functions[45].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT,\
+                                      SQLPOINTER, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[45].funcW)\
                                         (dbc,it,ivo,bl,slp)
 
 #define DM_SQLGETSTMTATTR           46
 #define CHECK_SQLGETSTMTATTR(con)   (con->functions[46].func!=NULL)
 #define SQLGETSTMTATTR(con,stmt,at,vp,bl,slp)\
-                                    (con->functions[46].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[46].func)\
                                         (stmt,at,vp,bl,slp)
 #define CHECK_SQLGETSTMTATTRW(con)   (con->functions[46].funcW!=NULL)
 #define SQLGETSTMTATTRW(con,stmt,at,vp,bl,slp)\
-                                    (con->functions[46].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[46].funcW)\
                                         (stmt,at,vp,bl,slp)
 #define DM_SQLGETSTMTOPTION         47
 #define CHECK_SQLGETSTMTOPTION(con) (con->functions[47].func!=NULL)
 #define SQLGETSTMTOPTION(con,stmt,op,val)\
-                                    (con->functions[47].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT, SQLPOINTER))\
+                                    con->functions[47].func)\
                                         (stmt,op,val)
 #define CHECK_SQLGETSTMTOPTIONW(con) (con->functions[47].funcW!=NULL)
 #define SQLGETSTMTOPTIONW(con,stmt,op,val)\
-                                    (con->functions[47].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT, SQLPOINTER))\
+                                    con->functions[47].funcW)\
                                         (stmt,op,val)
 
 #define DM_SQLGETTYPEINFO           48
 #define CHECK_SQLGETTYPEINFO(con)   (con->functions[48].func!=NULL)
 #define SQLGETTYPEINFO(con,stmt,typ)\
-                                    (con->functions[48].func)(stmt,typ)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT))\
+                                    con->functions[48].func)(stmt,typ)
 #define CHECK_SQLGETTYPEINFOW(con)   (con->functions[48].funcW!=NULL)
 #define SQLGETTYPEINFOW(con,stmt,typ)\
-                                    (con->functions[48].funcW)(stmt,typ)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT))\
+                                    con->functions[48].funcW)(stmt,typ)
 
 #define DM_SQLMORERESULTS           49
 #define CHECK_SQLMORERESULTS(con)   (con->functions[49].func!=NULL)
 #define SQLMORERESULTS(con,stmt)\
-                                    (con->functions[49].func)(stmt)
+                                    ((SQLRETURN (*)(SQLHSTMT))\
+                                    con->functions[49].func)(stmt)
 
 #define DM_SQLNATIVESQL             50
 #define CHECK_SQLNATIVESQL(con)     (con->functions[50].func!=NULL)
 #define SQLNATIVESQL(con,dbc,ist,tl,ost,bl,tlp)\
-                                    (con->functions[50].func)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLCHAR*, SQLINTEGER,\
+                                      SQLCHAR*, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[50].func)\
                                         (dbc,ist,tl,ost,bl,tlp)
 #define CHECK_SQLNATIVESQLW(con)     (con->functions[50].funcW!=NULL)
 #define SQLNATIVESQLW(con,dbc,ist,tl,ost,bl,tlp)\
-                                    (con->functions[50].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC,\
+                                      SQLWCHAR*, SQLINTEGER,\
+                                      SQLWCHAR*, SQLINTEGER, SQLINTEGER*))\
+                                    con->functions[50].funcW)\
                                         (dbc,ist,tl,ost,bl,tlp)
 
 #define DM_SQLNUMPARAMS             51
 #define CHECK_SQLNUMPARAMS(con)     (con->functions[51].func!=NULL)
 #define SQLNUMPARAMS(con,stmt,cnt)\
-                                    (con->functions[51].func)(stmt,cnt)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT*))\
+                                    con->functions[51].func)(stmt,cnt)
 
 #define DM_SQLNUMRESULTCOLS         52
 #define CHECK_SQLNUMRESULTCOLS(con) (con->functions[52].func!=NULL)
 #define SQLNUMRESULTCOLS(con,stmt,cnt)\
-                                    (con->functions[52].func)(stmt,cnt)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSMALLINT*))\
+                                    con->functions[52].func)(stmt,cnt)
 
 #define DM_SQLPARAMDATA             53
 #define CHECK_SQLPARAMDATA(con)     (con->functions[53].func!=NULL)
 #define SQLPARAMDATA(con,stmt,val)\
-                                    (con->functions[53].func)(stmt,val)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLPOINTER*))\
+                                    con->functions[53].func)(stmt,val)
 
 #define DM_SQLPARAMOPTIONS          54
 #define CHECK_SQLPARAMOPTIONS(con)  (con->functions[54].func!=NULL)
 #define SQLPARAMOPTIONS(con,stmt,cr,pi)\
-                                    (con->functions[54].func)(stmt,cr,pi)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLULEN, SQLULEN*))\
+                                    con->functions[54].func)(stmt,cr,pi)
 
 #define DM_SQLPREPARE               55
 #define CHECK_SQLPREPARE(con)       (con->functions[55].func!=NULL)
 #define SQLPREPARE(con,stmt,sql,len)\
-                                    (con->functions[55].func)(stmt,sql,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLCHAR*, SQLINTEGER))\
+                                    con->functions[55].func)(stmt,sql,len)
 #define CHECK_SQLPREPAREW(con)       (con->functions[55].funcW!=NULL)
 #define SQLPREPAREW(con,stmt,sql,len)\
-                                    (con->functions[55].funcW)(stmt,sql,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLWCHAR*, SQLINTEGER))\
+                                    con->functions[55].funcW)(stmt,sql,len)
 
 #define DM_SQLPRIMARYKEYS           56
 #define CHECK_SQLPRIMARYKEYS(con)   (con->functions[56].func!=NULL)
 #define SQLPRIMARYKEYS(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[56].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[56].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 #define CHECK_SQLPRIMARYKEYSW(con)   (con->functions[56].funcW!=NULL)
 #define SQLPRIMARYKEYSW(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[56].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[56].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 
 #define DM_SQLPROCEDURECOLUMNS      57
 #define CHECK_SQLPROCEDURECOLUMNS(con)  (con->functions[57].func!=NULL)
 #define SQLPROCEDURECOLUMNS(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[57].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[57].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 #define CHECK_SQLPROCEDURECOLUMNSW(con)  (con->functions[57].funcW!=NULL)
 #define SQLPROCEDURECOLUMNSW(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
-                                    (con->functions[57].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[57].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)
 
 #define DM_SQLPROCEDURES            58
 #define CHECK_SQLPROCEDURES(con)    (con->functions[58].func!=NULL)
 #define SQLPROCEDURES(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[58].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[58].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 #define CHECK_SQLPROCEDURESW(con)    (con->functions[58].funcW!=NULL)
 #define SQLPROCEDURESW(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[58].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[58].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 
 #define DM_SQLPUTDATA               59
 #define CHECK_SQLPUTDATA(con)       (con->functions[59].func!=NULL)
 #define SQLPUTDATA(con,stmt,d,p)\
-                                    (con->functions[59].func)(stmt,d,p)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLPOINTER, SQLLEN))\
+                                    con->functions[59].func)(stmt,d,p)
 
 #define DM_SQLROWCOUNT              60
 #define CHECK_SQLROWCOUNT(con)      (con->functions[60].func!=NULL)
 #define DEF_SQLROWCOUNT(con,stmt,cnt)\
-                                    (con->functions[60].func)(stmt,cnt)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLLEN*))\
+                                    con->functions[60].func)(stmt,cnt)
 
 #define DM_SQLSETCONNECTATTR        61
 #define CHECK_SQLSETCONNECTATTR(con)    (con->functions[61].func!=NULL)
 #define SQLSETCONNECTATTR(con,dbc,at,vp,sl)\
-                                    (con->functions[61].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER))\
+                                    con->functions[61].func)\
                                         (dbc,at,vp,sl)
 #define CHECK_SQLSETCONNECTATTRW(con)    (con->functions[61].funcW!=NULL)
 #define SQLSETCONNECTATTRW(con,dbc,at,vp,sl)\
-                                    (con->functions[61].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLINTEGER,\
+                                      SQLPOINTER, SQLINTEGER))\
+                                    con->functions[61].funcW)\
                                         (dbc,at,vp,sl)
 
 #define DM_SQLSETCONNECTOPTION      62
 #define CHECK_SQLSETCONNECTOPTION(con)  (con->functions[62].func!=NULL)
 #define SQLSETCONNECTOPTION(con,dbc,op,p)\
-                                    (con->functions[62].func)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT, SQLULEN))\
+                                    con->functions[62].func)\
                                         (dbc,op,p)
 #define CHECK_SQLSETCONNECTOPTIONW(con)  (con->functions[62].funcW!=NULL)
 #define SQLSETCONNECTOPTIONW(con,dbc,op,p)\
-                                    (con->functions[62].funcW)\
+                                    ((SQLRETURN (*)(SQLHDBC, SQLUSMALLINT, SQLULEN))\
+                                    con->functions[62].funcW)\
                                         (dbc,op,p)
 
 #define DM_SQLSETCURSORNAME         63
 #define CHECK_SQLSETCURSORNAME(con) (con->functions[63].func!=NULL)
 #define SQLSETCURSORNAME(con,stmt,nam,len)\
-                                    (con->functions[63].func)(stmt,nam,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[63].func)(stmt,nam,len)
 #define CHECK_SQLSETCURSORNAMEW(con) (con->functions[63].funcW!=NULL)
 #define SQLSETCURSORNAMEW(con,stmt,nam,len)\
-                                    (con->functions[63].funcW)(stmt,nam,len)
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[63].funcW)(stmt,nam,len)
 
 #define DM_SQLSETDESCFIELD          64
 #define CHECK_SQLSETDESCFIELD(con)  (con->functions[64].func!=NULL)
 #define SQLSETDESCFIELD(con,des,rn,fi,vp,bl)\
-                                    (con->functions[64].func)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLINTEGER))\
+                                    con->functions[64].func)\
                                     (des,rn,fi,vp,bl)
 #define CHECK_SQLSETDESCFIELDW(con)  (con->functions[64].funcW!=NULL)
 #define SQLSETDESCFIELDW(con,des,rn,fi,vp,bl)\
-                                    (con->functions[64].funcW)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                     SQLSMALLINT, SQLPOINTER, SQLINTEGER))\
+                                    con->functions[64].funcW)\
                                     (des,rn,fi,vp,bl)
 
 #define DM_SQLSETDESCREC            65
 #define CHECK_SQLSETDESCREC(con)    (con->functions[65].func!=NULL)
 #define SQLSETDESCREC(con,des,rn,t,st,l,p,sc,dp,slp,ip)\
-                                    (con->functions[65].func)\
+                                    ((SQLRETURN (*)(SQLHDESC, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLSMALLINT, SQLLEN, SQLSMALLINT,\
+                                      SQLSMALLINT, SQLPOINTER, SQLLEN*, SQLLEN*))\
+                                    con->functions[65].func)\
                                         (des,rn,t,st,l,p,sc,dp,slp,ip)
 
 #define DM_SQLSETENVATTR            66
 #define CHECK_SQLSETENVATTR(con)    (con->functions[66].func!=NULL)
 #define SQLSETENVATTR(con,env,attr,val,len)\
-                                    (con->functions[66].func)(env,attr,val,len)
+                                    ((SQLRETURN (*)(SQLHENV, SQLINTEGER, SQLPOINTER, SQLINTEGER))\
+                                    con->functions[66].func)(env,attr,val,len)
 
 #define DM_SQLSETPARAM              67
 #define CHECK_SQLSETPARAM(con)      (con->functions[67].func!=NULL)
 #define SQLSETPARAM(con,stmt,pn,vt,pt,lp,ps,pv,sli)\
-                                    (con->functions[67].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLSMALLINT, SQLSMALLINT, SQLULEN,\
+                                      SQLSMALLINT, SQLPOINTER, SQLLEN*))\
+                                    con->functions[67].func)\
                                         (stmt,pn,vt,pt,lp,ps,pv,sli)
 
 #define DM_SQLSETPOS                68
 #define CHECK_SQLSETPOS(con)        (con->functions[68].func!=NULL)
 #define SQLSETPOS(con,stmt,rn,op,lt)\
-                                    (con->functions[68].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLSETPOSIROW,\
+                                      SQLUSMALLINT, SQLUSMALLINT))\
+                                    con->functions[68].func)\
                                         (stmt,rn,op,lt)
 
 #define DM_SQLSETSCROLLOPTIONS      69
 #define CHECK_SQLSETSCROLLOPTIONS(con)  (con->functions[69].func!=NULL)
 #define SQLSETSCROLLOPTIONS(con,stmt,fc,cr,rs)\
-                                    (con->functions[69].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT,\
+                                      SQLLEN, SQLUSMALLINT))\
+                                    con->functions[69].func)\
                                         (stmt,fc,cr,rs)
 #define DM_SQLSETSTMTATTR           70
 #define CHECK_SQLSETSTMTATTR(con)   (con->functions[70].func!=NULL)
 #define SQLSETSTMTATTR(con,stmt,attr,vp,sl)\
-                                    (con->functions[70].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLINTEGER, SQLPOINTER, SQLINTEGER))\
+                                    con->functions[70].func)\
                                         (stmt,attr,vp,sl)
 #define CHECK_SQLSETSTMTATTRW(con)   (con->functions[70].funcW!=NULL)
 #define SQLSETSTMTATTRW(con,stmt,attr,vp,sl)\
-                                    (con->functions[70].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLINTEGER, SQLPOINTER, SQLINTEGER))\
+                                    con->functions[70].funcW)\
                                         (stmt,attr,vp,sl)
 
 #define DM_SQLSETSTMTOPTION         71
 #define CHECK_SQLSETSTMTOPTION(con) (con->functions[71].func!=NULL)
 #define SQLSETSTMTOPTION(con,stmt,op,val)\
-                                    (con->functions[71].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT, SQLULEN))\
+                                    con->functions[71].func)\
                                         (stmt,op,val)
 
 #define CHECK_SQLSETSTMTOPTIONW(con)   (con->functions[71].funcW!=NULL)
 #define SQLSETSTMTOPTIONW(con,stmt,op,val)\
-                                    (con->functions[71].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT, SQLUSMALLINT, SQLULEN))\
+                                    con->functions[71].funcW)\
                                         (stmt,op,val)
 
 #define DM_SQLSPECIALCOLUMNS        72
 #define CHECK_SQLSPECIALCOLUMNS(con)    (con->functions[72].func!=NULL)
 #define SQLSPECIALCOLUMNS(con,stmt,it,cn,nl1,sn,nl2,tn,nl3,s,n)\
-                                    (con->functions[72].func)\
+                                    ((SQLRETURN (*) (\
+                                           SQLHSTMT, SQLUSMALLINT,\
+                                           SQLCHAR*, SQLSMALLINT,\
+                                           SQLCHAR*, SQLSMALLINT,\
+                                           SQLCHAR*, SQLSMALLINT,\
+                                           SQLUSMALLINT, SQLUSMALLINT))\
+                                    con->functions[72].func)\
                                         (stmt,it,cn,nl1,sn,nl2,tn,nl3,s,n)
 #define CHECK_SQLSPECIALCOLUMNSW(con)    (con->functions[72].funcW!=NULL)
 #define SQLSPECIALCOLUMNSW(con,stmt,it,cn,nl1,sn,nl2,tn,nl3,s,n)\
-                                    (con->functions[72].funcW)\
+                                    ((SQLRETURN (*) (\
+                                        SQLHSTMT, SQLUSMALLINT,\
+                                        SQLWCHAR*, SQLSMALLINT,\
+                                        SQLWCHAR*, SQLSMALLINT,\
+                                        SQLWCHAR*, SQLSMALLINT,\
+                                        SQLUSMALLINT, SQLUSMALLINT))\
+                                    con->functions[72].funcW)\
                                         (stmt,it,cn,nl1,sn,nl2,tn,nl3,s,n)
 
 #define DM_SQLSTATISTICS            73
 #define CHECK_SQLSTATISTICS(con)    (con->functions[73].func!=NULL)
 #define SQLSTATISTICS(con,stmt,cn,nl1,sn,nl2,tn,nl3,un,res)\
-                                    (con->functions[73].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLUSMALLINT, SQLUSMALLINT))\
+                                    con->functions[73].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,un,res)
 #define CHECK_SQLSTATISTICSW(con)    (con->functions[73].funcW!=NULL)
 #define SQLSTATISTICSW(con,stmt,cn,nl1,sn,nl2,tn,nl3,un,res)\
-                                    (con->functions[73].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLUSMALLINT, SQLUSMALLINT))\
+                                    con->functions[73].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,un,res)
 
 #define DM_SQLTABLEPRIVILEGES       74
 #define CHECK_SQLTABLEPRIVILEGES(con)   (con->functions[74].func!=NULL)
 #define SQLTABLEPRIVILEGES(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[74].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[74].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 #define CHECK_SQLTABLEPRIVILEGESW(con)   (con->functions[74].funcW!=NULL)
 #define SQLTABLEPRIVILEGESW(con,stmt,cn,nl1,sn,nl2,tn,nl3)\
-                                    (con->functions[74].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[74].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3)
 
 #define DM_SQLTABLES                75
 #define CHECK_SQLTABLES(con)        (con->functions[75].func!=NULL)
 #define SQLTABLES(con,stmt,cn,nl1,sn,nl2,tn,nl3,tt,nl4)\
-                                    (con->functions[75].func)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT,\
+                                      SQLCHAR*, SQLSMALLINT))\
+                                    con->functions[75].func)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,tt,nl4)
 #define CHECK_SQLTABLESW(con)        (con->functions[75].funcW!=NULL)
 #define SQLTABLESW(con,stmt,cn,nl1,sn,nl2,tn,nl3,tt,nl4)\
-                                    (con->functions[75].funcW)\
+                                    ((SQLRETURN (*)(SQLHSTMT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT,\
+                                      SQLWCHAR*, SQLSMALLINT))\
+                                    con->functions[75].funcW)\
                                         (stmt,cn,nl1,sn,nl2,tn,nl3,tt,nl4)
 
 #define DM_SQLTRANSACT              76
 #define CHECK_SQLTRANSACT(con)      (con->functions[76].func!=NULL)
 #define SQLTRANSACT(con,eh,ch,op)\
-                                    (con->functions[76].func)(eh,ch,op)
+                                    ((SQLRETURN (*)(SQLHENV, SQLHDBC, SQLUSMALLINT))\
+                                    con->functions[76].func)(eh,ch,op)
 
 
 #define DM_SQLGETDIAGREC            77
 #define CHECK_SQLGETDIAGREC(con)    (con->functions[77].func!=NULL)
 #define SQLGETDIAGREC(con,typ,han,rn,st,nat,msg,bl,tlp)\
-                                    (con->functions[77].func)\
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE,\
+                                      SQLSMALLINT, SQLCHAR*, SQLINTEGER*,\
+                                      SQLCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[77].func)\
                                         (typ,han,rn,st,nat,msg,bl,tlp)
 #define CHECK_SQLGETDIAGRECW(con)    (con->functions[77].funcW!=NULL)
 #define SQLGETDIAGRECW(con,typ,han,rn,st,nat,msg,bl,tlp)\
-                                    (con->functions[77].funcW)\
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE,\
+                                      SQLSMALLINT, SQLWCHAR*, SQLINTEGER*,\
+                                      SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*))\
+                                    con->functions[77].funcW)\
                                         (typ,han,rn,st,nat,msg,bl,tlp)
 
 #define DM_SQLCANCELHANDLE          78
 #define CHECK_SQLCANCELHANDLE(con)  (con->functions[78].func!=NULL)
 #define SQLCANCELHANDLE(con,typ,han)\
-                                    (con->functions[78].func)\
+                                    ((SQLRETURN (*)(SQLSMALLINT, SQLHANDLE))\
+                                    con->functions[78].func)\
                                         (typ,han)
 
 #endif

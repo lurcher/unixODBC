@@ -61,5 +61,5 @@ SQLRETURN CLParamOptions(
     return SQLPARAMOPTIONS( cl_statement -> cl_connection,
             cl_statement -> driver_stmt,
             crow,
-            *pirow );
+            pirow );
 }

@@ -262,7 +262,7 @@ SQLRETURN SQLFetch( SQLHSTMT statement_handle )
                 ret = SQLEXTENDEDFETCH( statement -> connection,
                             statement -> driver_stmt,
                             SQL_FETCH_NEXT,
-                            NULL,
+                            0,
                             statement -> row_ct_ptr,
                             statement -> row_st_arr );
             }
@@ -286,7 +286,7 @@ SQLRETURN SQLFetch( SQLHSTMT statement_handle )
                 ret = SQLEXTENDEDFETCH( statement -> connection,
                             statement -> driver_stmt,
                             SQL_FETCH_NEXT,
-                            NULL,
+                            0,
                             statement -> row_ct_ptr,
                             row_st_arr );
 
