@@ -403,7 +403,7 @@
 #define PACKAGE_NAME "unixODBC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "unixODBC 2.3.9pre"
+#define PACKAGE_STRING "unixODBC 2.3.10pre"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "unixODBC"
@@ -412,7 +412,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.3.9pre"
+#define PACKAGE_VERSION "2.3.10pre"
 
 /* Platform is 64 bit */
 #define PLATFORM64 /**/
@@ -470,7 +470,7 @@
 /* We are building inside the unixODBC source tree */
 
 /* Version number of package */
-#define VERSION "2.3.9pre"
+#define VERSION "2.3.10pre"
 
 /* Work with IBM drivers that use 32 bit handles on 64 bit platforms */
 /* #undef WITH_HANDLE_REDIRECT */
