@@ -234,7 +234,7 @@ SQLRETURN get_column_names( CLHSTMT cl_statement )
         ret = SQLDESCRIBECOL( cl_statement -> cl_connection,
                 cl_statement -> driver_stmt,
                 i,
-                cname, 
+                (SQLCHAR*) cname,
                 sizeof( cname ),
                 NULL,
                 &cl_statement -> data_type[ i - 1 ], 

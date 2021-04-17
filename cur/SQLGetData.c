@@ -362,7 +362,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 
 	ret = SQLALLOCSTMT( cl_connection, 
             cl_connection -> driver_dbc,
-            &cl_statement -> fetch_statement,
+            (SQLHSTMT) &cl_statement -> fetch_statement,
             NULL );
 
     if ( !SQL_SUCCEEDED( ret ))

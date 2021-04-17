@@ -643,7 +643,7 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                 ret = SQLSETCONNECTATTR( connection,
                         connection -> driver_dbc,
                         option,
-                        value,
+                        (SQLPOINTER)(intptr_t) value,
                         string_length );
             }
             else

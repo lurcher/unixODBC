@@ -4194,8 +4194,9 @@ void extract_diag_error( int htype,
     SQLCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
     SQLCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLCHAR sqlstate[ 6 ];
-    SQLINTEGER native, len;
+    SQLINTEGER native;
     SQLINTEGER rec_number;
+    SQLSMALLINT len;
     
     head -> return_code = return_code;
     head -> header_set = 0;
@@ -4571,8 +4572,9 @@ void extract_diag_error_w( int htype,
     SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
     SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
     SQLWCHAR sqlstate[ 6 ];
-    SQLINTEGER native, len;
+    SQLINTEGER native;
     SQLINTEGER rec_number;
+    SQLSMALLINT len;
 
     head -> return_code = return_code;
     head -> header_set = 0;

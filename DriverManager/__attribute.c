@@ -1013,7 +1013,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETENVATTR( connection,
                             connection -> driver_dbc,
                             as -> attribute,
-                            as -> int_value,
+                            (SQLPOINTER)(intptr_t) as -> int_value,
                             0 );
                 }
                 else
@@ -1047,7 +1047,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETCONNECTATTR( connection,
                             connection -> driver_dbc,
                             as -> attribute,
-                            as -> int_value,
+                            (SQLPOINTER)(intptr_t) as -> int_value,
                             0 );
                 }
                 else
@@ -1073,7 +1073,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETCONNECTOPTION( connection,
                             connection -> driver_dbc,
                             as -> attribute,
-                            as -> value );
+                            (SQLULEN) as -> value );
                 }
             }
         }
@@ -1093,7 +1093,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETCONNECTOPTION( connection,
                             connection -> driver_dbc,
                             as -> attribute,
-                            as -> value );
+                            (SQLULEN) as -> value );
                 }
             }
         }
@@ -1119,7 +1119,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETSTMTATTR( connection,
                             statement -> driver_stmt,
                             as -> attribute,
-                            as -> int_value,
+                            (SQLPOINTER)(intptr_t) as -> int_value,
                             0 );
                 }
                 else
@@ -1145,7 +1145,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETSTMTOPTION( connection,
                             statement -> driver_stmt,
                             as -> attribute,
-                            as -> value );
+                            (SQLULEN) as -> value );
                 }
             }
         }
@@ -1165,7 +1165,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                     ret = SQLSETSTMTOPTION( connection,
                             statement -> driver_stmt,
                             as -> attribute,
-                            as -> value );
+                            (SQLULEN) as -> value );
                 }
             }
 
@@ -1182,7 +1182,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                         ret = SQLSETSTMTATTR( connection,
                                 statement -> driver_stmt,
                                 as -> attribute,
-                                as -> int_value,
+                                (SQLPOINTER)(intptr_t) as -> int_value,
                                 0 );
                     }
                     else

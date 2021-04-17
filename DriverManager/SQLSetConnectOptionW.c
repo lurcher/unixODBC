@@ -507,7 +507,7 @@ SQLRETURN SQLSetConnectOptionW( SQLHDBC connection_handle,
             ret = SQLSETCONNECTATTRW( connection,
                     connection -> driver_dbc,
                     option,
-                    value,
+                    (SQLPOINTER)(intptr_t) value,
                     string_length );
         }
         else
