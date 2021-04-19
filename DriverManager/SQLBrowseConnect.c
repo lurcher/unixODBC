@@ -433,7 +433,7 @@ SQLRETURN SQLBrowseConnect(
     {
         ret = SQLBROWSECONNECT( connection,
             connection -> driver_dbc,
-            in_str,
+            (SQLCHAR*) in_str,
             in_str_len,
             conn_str_out,
             conn_str_out_max,

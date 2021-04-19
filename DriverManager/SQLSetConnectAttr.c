@@ -751,7 +751,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                     ret = SQLSETCONNECTOPTION( connection,
                             connection -> driver_dbc,
                             attribute,
-                            value );
+                            (SQLULEN) value );
                 }
                 else
                 {
@@ -815,7 +815,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                         ret = SQLSETCONNECTOPTIONW( connection,
                                 connection -> driver_dbc,
                                 attribute,
-                                s1 );
+                                (SQLULEN) s1 );
 
                         if ( s1 )
                             free( s1 );
@@ -826,7 +826,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                         ret = SQLSETCONNECTOPTIONW( connection,
                                 connection -> driver_dbc,
                                 attribute,
-                                value );
+                                (SQLULEN) value );
                         break;
                     }
                 }

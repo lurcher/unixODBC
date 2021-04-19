@@ -357,7 +357,7 @@ SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
                 ret = SQLSETSTMTOPTION( statement -> connection,
                     statement -> driver_stmt,
                     attribute,
-                    statement -> implicit_ard -> driver_desc );
+                    (SQLULEN) statement -> implicit_ard -> driver_desc );
             }
 
 			if ( ret != SQL_SUCCESS ) 
@@ -489,7 +489,7 @@ SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
                 ret = SQLSETSTMTOPTION( statement -> connection,
                     statement -> driver_stmt,
                     attribute,
-                    drv_desc );
+                    (SQLULEN) drv_desc );
             }
 
 			if ( ret != SQL_SUCCESS ) 

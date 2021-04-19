@@ -185,6 +185,17 @@ eval "SHLIBEXT=$shrext_cmds"
 AC_MSG_RESULT($SHLIBEXT)
 AC_SUBST(SHLIBEXT,$SHLIBEXT)
 
+dnl Check whether the user specified a path in which libltdl should search for
+dnl ODBC drivers. This search occurs before libltdl tries other paths, such as
+dnl its own default search path or the system library search path.
+dnl
+dnl This option is useful for multi-arch systems such as Debian, which can have
+dnl multiple arch-specific library search paths present on a given system.
+AC_ARG_WITH([odbc-driver-path],
+  [AS_HELP_STRING([--with-odbc-driver-path=DIR], [search for ODBC drivers in DIR at run-time before trying the libltdl and system library search paths])],
+  [AC_DEFINE_UNQUOTED([MODULEDIR], ["`eval echo ${withval}`"], [ODBC driver search path])]
+)
+
 AC_DEFINE_UNQUOTED([SHLIBEXT], "$shrext_cmds", [Shared lib extension])
 AC_DEFINE_DIR([DEFLIB_PATH], [libdir], [Lib directory])
 AC_DEFINE_DIR([LIB_PREFIX], [libdir], [Lib directory])

@@ -758,7 +758,7 @@ static void do_attr( DMHDBC connection, int value,
             SQLSETCONNECTATTR(connection,
                         connection -> driver_dbc,
                         attr3,
-                        value,
+                        (SQLPOINTER)(intptr_t) value,
                         sizeof( value ));
         }
         else if (CHECK_SQLSETCONNECTOPTION(connection) && attr2 )
@@ -773,7 +773,7 @@ static void do_attr( DMHDBC connection, int value,
             SQLSETCONNECTATTRW(connection,
                         connection -> driver_dbc,
                         attr3,
-                        value,
+                        (SQLPOINTER)(intptr_t) value,
                         sizeof( value ));
         }
         else if (CHECK_SQLSETCONNECTOPTIONW(connection) && attr2 )
@@ -1118,6 +1118,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     mutex_lib_entry();      /* warning, this doesn't protect from other libs in the application */
                             /* in their own threads calling dlinit(); */
     lt_dlinit();
+#ifdef MODULEDIR
+    lt_dlsetsearchpath(MODULEDIR);
+#endif
     mutex_lib_exit();
 
     /*
@@ -1463,7 +1466,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
             ret = SQLSETENVATTR( connection,
                     connection -> driver_env,
                     SQL_ATTR_ODBC_VERSION,
-                    connection -> environment -> requested_version,
+                    (SQLPOINTER)(intptr_t) connection -> environment -> requested_version,
                     0 );
 
             /*
@@ -1836,7 +1839,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                     SQLSETCONNECTOPTION(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
-                            sa -> str_attr );
+                            (SQLULEN) sa -> str_attr );
                 }
                 else if (CHECK_SQLSETCONNECTATTRW( connection ))
                 {
@@ -1851,7 +1854,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                     SQLSETCONNECTOPTIONW(connection,
                                 connection -> driver_dbc,
                                 sa -> attr_type,
-                                sa -> str_attr );
+                                (SQLULEN) sa -> str_attr );
                 }
 
             }
@@ -1862,7 +1865,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                     SQLSETCONNECTATTR(connection,
                             connection -> driver_dbc,
                             sa -> attr_type,
-                            sa -> intptr_attr,
+                            (SQLPOINTER) sa -> intptr_attr,
                             sa -> str_len );
                 }
                 else if (CHECK_SQLSETCONNECTOPTION(connection))
@@ -1877,7 +1880,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                     SQLSETCONNECTATTRW(connection,
                                 connection -> driver_dbc,
                                 sa -> attr_type,
-                                sa -> intptr_attr,
+                                (SQLPOINTER) sa -> intptr_attr,
                                 sa -> str_len );
                 }
                 else if (CHECK_SQLSETCONNECTOPTIONW(connection))
@@ -3279,7 +3282,7 @@ restart:;
                     {
                         ret = SQLEXECDIRECT(( &ptr -> connection ),
                                 statement -> driver_stmt,
-                                connection -> probe_sql,
+                                (SQLCHAR*) connection -> probe_sql,
                                 SQL_NTS );
 
                         if ( !SQL_SUCCEEDED( ret ))
@@ -3621,7 +3624,7 @@ void return_to_pool( DMHDBC connection )
             SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_RESET_CONNECTION,
-                    SQL_RESET_CONNECTION_YES,
+                    (SQLPOINTER)(intptr_t) SQL_RESET_CONNECTION_YES,
                     0 );
         }
     }
@@ -4030,7 +4033,7 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
 
         ret_from_connect = SQLCONNECT( connection,
                 connection -> driver_dbc,
-                dsn, SQL_NTS,
+                (SQLCHAR*) dsn, SQL_NTS,
                 user_name, name_length2,
                 authentication, name_length3 );
 

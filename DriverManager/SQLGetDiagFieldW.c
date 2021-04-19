@@ -228,7 +228,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
       case SQL_DIAG_CURSOR_ROW_COUNT:
       case SQL_DIAG_ROW_COUNT:
         {
-            SQLINTEGER val;
+            SQLLEN val;
             SQLRETURN ret;
 
             if ( rec_number > 0 || head -> handle_type != SQL_HANDLE_STMT )

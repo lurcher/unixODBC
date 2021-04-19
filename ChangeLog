@@ -3,6 +3,7 @@
 
     * Add connection pooling via wide connection functions
     * Remove "#define VERSION" from unixodbc_conf.h
+    * Call driver functions through prototypes 
 
 06-Sep-2020
 2.3.9
