@@ -352,6 +352,9 @@ case $host_os in
     ;;
 esac
 
+dnl intptr_t is used in places now
+AC_TYPE_INTPTR_T
+
 dnl check how time() can be used
 AC_HEADER_TIME
 AC_CHECK_HEADERS(sys/time.h)
