@@ -3295,6 +3295,23 @@ char * __wstring_with_length_hide_pwd( SQLCHAR *out, SQLWCHAR *str, SQLINTEGER l
 {
     char *p = __wstring_with_length( out, str, len );
 
+    if ( str )
+    {
+        char *ptr;
+
+        ptr = strstr( p, "PWD=" );
+        while ( ptr )
+        {
+            ptr += 4;
+            while ( *ptr && *ptr != ';' && *ptr != ']' )
+            {
+                *ptr = '*';
+                ptr ++;
+            }
+            ptr = strstr( ptr, "PWD=" );
+        }
+    }
+
     return p;
 }
 
