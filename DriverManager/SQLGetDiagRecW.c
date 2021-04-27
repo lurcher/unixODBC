@@ -424,7 +424,7 @@ SQLRETURN SQLGetDiagRecW( SQLSMALLINT handle_type,
         SQLSMALLINT *text_length_ptr )
 {
     SQLRETURN ret;
-    SQLCHAR s0[ 32 ], s1[ 100 + LOG_MESSAGE_LEN ];
+    SQLCHAR s0[ 48 ], s1[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s2[ 100 + LOG_MESSAGE_LEN ];
     SQLCHAR s3[ 100 + LOG_MESSAGE_LEN ];
 
