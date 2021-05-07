@@ -5648,6 +5648,13 @@ void __post_internal_error_api( EHEAD *error_handle,
         message = "General error";
         break;
 
+      case ERROR_HYT02:
+        strcpy( sqlstate, "HYT02");
+        message = "Connection pool at capacity and the wait has timed out";
+        subclass = SUBCLASS_ODBC;
+        class = SUBCLASS_ODBC;
+        break;
+
 	  default:
         strcpy( sqlstate, "?????" );
         message = "Unknown";
