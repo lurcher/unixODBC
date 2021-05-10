@@ -307,7 +307,6 @@ typedef struct environment
     struct statement;
 #endif
 
-
 /*
  * connection pooling attributes
  */
@@ -439,6 +438,7 @@ typedef struct connection_pool_head
     CPOOLENT *entries;
 } CPOOLHEAD;
 
+void pool_unreserve( CPOOLHEAD *pooh );
 
 typedef struct descriptor
 {
