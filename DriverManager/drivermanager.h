@@ -307,7 +307,6 @@ typedef struct environment
     struct statement;
 #endif
 
-
 /*
  * connection pooling attributes
  */
@@ -408,8 +407,24 @@ typedef struct connection
 	SQLSMALLINT		crb_value;
 } *DMHDBC;
 
-typedef struct connection_pool
+struct connection_pool_head;
+
+typedef struct connection_pool_entry
 {
+    time_t  expiry_time;
+    int     ttl;
+    int     timeout;
+    int     in_use;
+    struct  connection_pool_entry *next;
+    struct  connection_pool_head *head;
+    struct  connection connection;
+    int     cursors;
+} CPOOLENT;
+
+typedef struct connection_pool_head
+{
+    struct connection_pool_head *next;
+
     char    driver_connect_string[ 1024 ];
     int     dsn_length;
     char    server[ 128 ];
@@ -418,14 +433,12 @@ typedef struct connection_pool
     int     user_length;
     char    password[ 128 ];
     int     password_length;
-    time_t  expiry_time;
-    int     ttl;
-    int     timeout;
-    int     in_use;
-    struct  connection_pool *next;
-    struct  connection connection;
-    int     cursors;
-} CPOOL;
+
+    int     num_entries;                /* always at least 1 */
+    CPOOLENT *entries;
+} CPOOLHEAD;
+
+void pool_unreserve( CPOOLHEAD *pooh );
 
 typedef struct descriptor
 {
@@ -659,7 +672,8 @@ typedef enum error_id
     ERROR_SL010,
     ERROR_SL008,
     ERROR_HY000,
-    ERROR_IM011
+    ERROR_IM011,
+    ERROR_HYT02
 } error_id;
 
 #define IGNORE_THREAD       (-1)
@@ -787,6 +801,8 @@ struct driver_helper_funcs
 
 void thread_protect( int type, void *handle );
 void thread_release( int type, void *handle );
+int pool_timedwait( DMHDBC );
+void pool_signal();
 
 #else
 
@@ -916,9 +932,13 @@ int search_for_pool( DMHDBC connection,
            SQLCHAR *authentication,
            SQLSMALLINT name_length3,
            SQLCHAR *connect_string,
-           SQLSMALLINT connect_string_length );
+           SQLSMALLINT connect_string_length,
+           CPOOLHEAD **pooh,
+           int retrying );
 
 void return_to_pool( DMHDBC connection );
+
+int add_to_pool( DMHDBC connection, CPOOLHEAD *pooh );
 
 /*
  * Macros to check and call functions in the driver

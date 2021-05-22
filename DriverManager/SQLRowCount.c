@@ -137,7 +137,7 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
 {
     DMHSTMT statement = (DMHSTMT) statement_handle;
     SQLRETURN ret;
-    SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
+    SQLCHAR s0[ 24 ], s1[ 100 + LOG_MESSAGE_LEN ];
 
     /*
      * check statement
@@ -240,7 +240,7 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
         sprintf( statement -> msg, 
                 "\n\t\tExit:[%s]\
 \n\t\t\tRow Count = %s",
-                    __get_return_status( ret, s1 ),
+                    __get_return_status( ret, s0 ),
                     __ptr_as_string( s1, rowcount ));
 
         dm_log_write( __FILE__, 

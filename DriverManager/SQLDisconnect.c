@@ -284,29 +284,8 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
      * is it a pooled connection, or can it go back 
      */
 
-    if ( connection -> pooled_connection )
-    {
-        __clean_stmt_from_dbc( connection );
-        __clean_desc_from_dbc( connection );
-
-        return_to_pool( connection );
-
-        if ( log_info.log_flag )
-        {
-            sprintf( connection -> msg, 
-                    "\n\t\tExit:[%s]",
-                        __get_return_status( SQL_SUCCESS, s1 ));
-
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
-                    connection -> msg );
-        }
-
-        return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
-    }
-    else if ( pooling_enabled && connection -> pooling_timeout > 0 ) 
+    if ( connection -> pooled_connection ||
+         pooling_enabled && connection -> pooling_timeout > 0 )
     {
         __clean_stmt_from_dbc( connection );
         __clean_desc_from_dbc( connection );

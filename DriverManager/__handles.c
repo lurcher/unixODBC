@@ -284,6 +284,8 @@ static pth_mutex_t mutex_pool = PTH_MUTEX_INIT;
 static pth_mutex_t mutex_iconv = PTH_MUTEX_INIT;
 static int pth_init_called = 0;
 
+static pth_cond_t cond_pool = PTH_COND_INIT;
+
 static int local_mutex_entry( pth_mutex_t *mutex )
 {
     if ( !pth_init_called )
@@ -299,6 +301,17 @@ static int local_mutex_exit( pth_mutex_t *mutex )
     return pth_mutex_release( mutex );
 }
 
+static int local_cond_timedwait( pth_cond_t *cond, pth_mutex_t *mutex, struct timespec *until )
+{
+    /* NOTE: timedwait is not present in PTH */
+    return pth_cond_await( cond, mutex, 0 );
+}
+
+static void local_cond_signal( pth_cond_t *cond )
+{
+    pth_cond_notify( cond, 0 );
+}
+
 #elif HAVE_LIBPTHREAD
 
 #include <pthread.h>
@@ -307,6 +320,8 @@ static pthread_mutex_t mutex_lists = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t mutex_env = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t mutex_pool = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t mutex_iconv = PTHREAD_MUTEX_INITIALIZER;
+
+static pthread_cond_t cond_pool = PTHREAD_COND_INITIALIZER;
 
 static int local_mutex_entry( pthread_mutex_t *mutex )
 {
@@ -318,6 +333,16 @@ static int local_mutex_exit( pthread_mutex_t *mutex )
     return pthread_mutex_unlock( mutex );
 }
 
+static int local_cond_timedwait( pthread_cond_t *cond, pthread_mutex_t *mutex, struct timespec *until )
+{
+    return pthread_cond_timedwait( cond, mutex, until );
+}
+
+static void local_cond_signal( pthread_cond_t *cond )
+{
+    pthread_cond_signal( cond );
+}
+
 #elif HAVE_LIBTHREAD
 
 #include <thread.h>
@@ -326,6 +351,8 @@ static mutex_t mutex_lists;
 static mutex_t mutex_env;
 static mutex_t mutex_pool;
 static mutex_t mutex_iconv;
+
+static cond_t cond_pool;
 
 static int local_mutex_entry( mutex_t *mutex )
 {
@@ -337,10 +364,22 @@ static int local_mutex_exit( mutex_t *mutex )
     return mutex_unlock( mutex );
 }
 
+static int local_cond_timedwait( cond_t *cond, mutex_t *mutex, struct timespec *until )
+{
+    return cond_timedwait( cond, mutex, until );
+}
+
+static void local_cond_signal( cond_t *cond )
+{
+    cond_signal( cond );
+}
+
 #else
 
 #define local_mutex_entry(x)
 #define local_mutex_exit(x)
+#define local_cond_timedwait(x,y,z) 0
+#define local_cond_signal(x)
 
 #endif
 
@@ -1747,6 +1786,52 @@ void thread_release( int type, void *handle )
         }
         break;
     }
+}
+
+/*
+ * Waits on pool condition variable until signaled, or 1s timeout elapses.
+ *
+ * Will be called with mutexes locked according to threading level as follows:
+ *
+ * 0   - mutex_pool
+ * 1,2 - connection->mutex mutex_pool
+ * 3   - mutex_env mutex_pool
+ *
+ * Returns
+ *   nonzero on timeout
+ *   zero when signaled
+ */
+int pool_timedwait( DMHDBC connection )
+{
+    int ret;
+    struct timespec waituntil;
+
+    clock_gettime( CLOCK_REALTIME, &waituntil );
+    waituntil.tv_sec ++;
+
+    switch ( connection -> protection_level )
+    {
+        case TS_LEVEL3:
+            mutex_pool_exit();
+            ret = local_cond_timedwait( &cond_pool, &mutex_env, &waituntil );
+            mutex_pool_entry();
+            break;
+        case TS_LEVEL2:
+        case TS_LEVEL1:
+            mutex_pool_exit();
+            ret = local_cond_timedwait( &cond_pool, &connection -> mutex, &waituntil );
+            mutex_pool_entry();
+            break;
+        case TS_LEVEL0:
+            ret = local_cond_timedwait( &cond_pool, &mutex_pool, &waituntil );
+            break;
+    }
+    return ret;
+}
+
+void pool_signal()
+{
+    local_cond_signal( &cond_pool );
 }
 
 #endif

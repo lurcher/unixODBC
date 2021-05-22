@@ -259,6 +259,9 @@ static char const rcsid[]= "$RCSfile: SQLAllocHandle.c,v $ $Revision: 1.13 $";
  */
 
 extern int pooling_enabled;
+extern int pool_max_size;
+extern int pool_wait_timeout;
+
 
 /*
  * this is used so that it can be called without falling
@@ -277,6 +280,8 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
         {
             DMHENV environment;
             char pooling_string[ 128 ];
+            char pool_max_size_string [ 128 ];
+            char pool_wait_timeout_string [ 128 ];
 
             if ( !output_handle ) 
             {
@@ -306,6 +311,19 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             else
             {
                 pooling_enabled = 0;
+            }
+
+            if ( pooling_enabled )
+            {
+                SQLGetPrivateProfileString( "ODBC", "PoolMaxSize", "0",
+                    pool_max_size_string, sizeof( pool_max_size_string ),
+                    "ODBCINST.INI" );
+                pool_max_size = atoi( pool_max_size_string );
+
+                SQLGetPrivateProfileString( "ODBC", "PoolWaitTimeout", "30",
+                    pool_wait_timeout_string, sizeof( pool_wait_timeout_string ),
+                    "ODBCINST.INI" );
+                pool_wait_timeout = atoi( pool_wait_timeout_string );
             }
 
             if ( !( environment = __alloc_env()))

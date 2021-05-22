@@ -3295,6 +3295,23 @@ char * __wstring_with_length_hide_pwd( SQLCHAR *out, SQLWCHAR *str, SQLINTEGER l
 {
     char *p = __wstring_with_length( out, str, len );
 
+    if ( str )
+    {
+        char *ptr;
+
+        ptr = strstr( p, "PWD=" );
+        while ( ptr )
+        {
+            ptr += 4;
+            while ( *ptr && *ptr != ';' && *ptr != ']' )
+            {
+                *ptr = '*';
+                ptr ++;
+            }
+            ptr = strstr( ptr, "PWD=" );
+        }
+    }
+
     return p;
 }
 
@@ -5629,6 +5646,13 @@ void __post_internal_error_api( EHEAD *error_handle,
         else
             strcpy( sqlstate, "S1000" );
         message = "General error";
+        break;
+
+      case ERROR_HYT02:
+        strcpy( sqlstate, "HYT02");
+        message = "Connection pool at capacity and the wait has timed out";
+        subclass = SUBCLASS_ODBC;
+        class = SUBCLASS_ODBC;
         break;
 
 	  default:
