@@ -665,6 +665,8 @@ retry:
                     connection -> environment -> requested_version );
             __release_conn( &con_struct );
 
+            pool_unreserve( pooh );
+
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
 
@@ -679,6 +681,8 @@ retry:
             __post_internal_error( &connection -> error,
                     ERROR_IM012, NULL,
                     connection -> environment -> requested_version );
+
+            pool_unreserve( pooh );
 
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
@@ -699,6 +703,8 @@ retry:
                     ERROR_IM002, NULL,
                     connection -> environment -> requested_version );
             __release_conn( &con_struct );
+
+            pool_unreserve( pooh );
 
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }
@@ -730,6 +736,9 @@ retry:
     if ( !__connect_part_one( connection, lib_name, driver_name, &warnings ))
     {
         __disconnect_part_four( connection );       /* release unicode handles */
+
+        pool_unreserve( pooh );
+
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
@@ -747,6 +756,8 @@ retry:
         __post_internal_error( &connection -> error,
                 ERROR_IM001, NULL,
                 connection -> environment -> requested_version );
+
+        pool_unreserve( pooh );
 
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
@@ -859,6 +870,8 @@ retry:
                         LOG_INFO,
                         LOG_INFO,
                         connection -> msg );
+
+                pool_unreserve( pooh );
 
                 return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
             }
@@ -1008,6 +1021,8 @@ retry:
                         LOG_INFO,
                         connection -> msg );
 
+                pool_unreserve( pooh );
+
                 return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
             }
         }
@@ -1041,6 +1056,8 @@ retry:
         __disconnect_part_two( connection );
         __disconnect_part_one( connection );
         __disconnect_part_four( connection );       /* release unicode handles */
+
+        pool_unreserve( pooh );
 
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
@@ -1078,6 +1095,11 @@ retry:
     if ( warnings && ret_from_connect == SQL_SUCCESS )
     {
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
+    }
+
+    if ( pooling_enabled  && !add_to_pool( connection, pooh ) )
+    {
+        pool_unreserve( pooh );
     }
 
     return function_return_nodrv( SQL_HANDLE_DBC, connection, ret_from_connect );
