@@ -5,6 +5,7 @@
     * Remove "#define VERSION" from unixodbc_conf.h
     * Call driver functions through prototypes 
     * Add connection pool limit option
+    * Add fseeko support in cursor lib
 
 06-Sep-2020
 2.3.9

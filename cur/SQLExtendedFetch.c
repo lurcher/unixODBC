@@ -123,9 +123,15 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
          * read the file buffer
          */
 
+#ifdef HAVE_FSEEKO
+        if ( fseeko( cl_statement -> rowset_file,
+                    cl_statement -> buffer_length * row_number,
+                    SEEK_SET ))
+#else
         if ( fseek( cl_statement -> rowset_file,
                     cl_statement -> buffer_length * row_number,
                     SEEK_SET ))
+#endif
         {
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                 ERROR_S1000, 
@@ -369,9 +375,15 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
              * write the file buffer
              */
 
+#ifdef HAVE_FSEEKO
+            if ( fseeko( cl_statement -> rowset_file,
+                        cl_statement -> buffer_length * row_number,
+                        SEEK_SET ))
+#else
             if ( fseek( cl_statement -> rowset_file,
                         cl_statement -> buffer_length * row_number,
                         SEEK_SET ))
+#endif
             {
                 cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_S1000, 
