@@ -287,7 +287,7 @@ typedef struct environment
 {
     int             type;               /* magic number */
     struct environment *next_class_list;/* static list of all env handles */
-    char            msg[ LOG_MSG_MAX ];	/* buff to format msgs */
+    char            msg[ LOG_MSG_MAX*2 ];	/* buff to format msgs */
     int             state;              /* state of environment */
     int             version_set;        /* whether ODBC version has been set */
     SQLINTEGER      requested_version;  /* SQL_OV_ODBC2 or SQL_OV_ODBC3 */
@@ -315,7 +315,7 @@ typedef struct connection
 {
     int             type;               /* magic number */
     struct connection *next_class_list; /* static list of all dbc handles */
-    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
+    char            msg[ LOG_MSG_MAX*2 ]; /* buff to format msgs */
     int             state;              /* state of connection */
     DMHENV          environment;        /* environment that own's the
                                            connection */
@@ -444,7 +444,7 @@ typedef struct descriptor
 {
     int             type;               /* magic number */
     struct descriptor *next_class_list; /* static list of all desc handles */
-    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
+    char            msg[ LOG_MSG_MAX*2 ]; /* buff to format msgs */
     int             state;              /* state of descriptor */
 
 #ifdef FAST_HANDLE_VALIDATE
@@ -469,7 +469,7 @@ typedef struct statement
 {
     int             type;               /* magic number */
     struct statement *next_class_list;  /* static list of all stmt handles */
-    char            msg[ LOG_MSG_MAX ]; /* buff to format msgs */
+    char            msg[ LOG_MSG_MAX*2 ]; /* buff to format msgs */
     int             state;              /* state of statement */
 #ifdef FAST_HANDLE_VALIDATE
     struct statement *prev_class_list;  /* static list of all stmt handles */

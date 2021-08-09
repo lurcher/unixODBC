@@ -6,6 +6,7 @@
     * Call driver functions through prototypes 
     * Add connection pool limit option
     * Add fseeko support in cursor lib
+    * Try and prevent ;pgging buffer overflow
 
 06-Sep-2020
 2.3.9
