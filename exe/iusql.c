@@ -11,6 +11,7 @@
  **************************************************/
 
 #include <config.h>
+#include <ctype.h>
 #define UNICODE
 #include "isql.h"
 #include "ini.h"
@@ -33,6 +34,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
 static int CloseDatabase( SQLHENV hEnv, SQLHDBC hDbc );
 static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable );
 static int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable );
+static int ExecuteEcho( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable );
 
 static void WriteHeaderHTMLTable( SQLHSTMT hStmt );
 static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter );
@@ -179,6 +181,13 @@ int main( int argc, char *argv[] )
 
     szSQL = calloc( 1, buffer_size + 1 );
 
+#ifdef HAVE_SETVBUF
+    /* Ensure result lines are available to reader of whatever stdout */
+    if (bBatch) {
+        (void)setvbuf(stdout, NULL, _IOLBF, (size_t) 0);
+    }
+#endif
+
     /****************************
      * CONNECT
      ***************************/
@@ -195,6 +204,7 @@ int main( int argc, char *argv[] )
         printf( "|                                       |\n" );
         printf( "| sql-statement                         |\n" );
         printf( "| help [tablename]                      |\n" );
+        printf( "| echo [string]                         |\n" );
         printf( "| quit                                  |\n" );
         printf( "|                                       |\n" );
         printf( "+---------------------------------------+\n" );
@@ -277,6 +287,8 @@ int main( int argc, char *argv[] )
                 szSQL[1] = '\0';
             else if ( strncmp( szSQL, "help", 4 ) == 0 )
                 ExecuteHelp( hDbc, szSQL, cDelimiter, bColumnNames, bHTMLTable );
+            else if ( strncmp( szSQL, "echo", 4 ) == 0 )
+                ExecuteEcho( hDbc, szSQL, cDelimiter, bColumnNames, bHTMLTable );
             else if (memcmp(szSQL, "--", 2) != 0)
                 ExecuteSQL( hDbc, szSQL, cDelimiter, bColumnNames, bHTMLTable );
         }
@@ -642,6 +654,22 @@ static int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnN
     return 1;
 }
 
+/****************************
+ * ExecuteEcho - simply write as is the string (if any) to stdout
+ ***************************/
+static int ExecuteEcho( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
+{
+    char *p;
+
+    for ( p = szSQL+4; *p != '\0' && isspace((int)*p) ; ++p )
+        ;
+    if ( *p != '\0' && p == szSQL+4 ) {
+        fprintf( stderr, "[ISQL]ERROR: incorrect echo call\n" );
+        return 0;
+    }
+
+    (void)printf( "%s\n", p );
+}
 
 /****************************
  * CloseDatabase - cleanup in prep for exiting the program
