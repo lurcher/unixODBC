@@ -105,7 +105,11 @@ typedef struct cl_statement
     int                 rowset_complete;
     FILE                *rowset_file;
     char                *rowset_buffer;
-    int                 buffer_length;
+#ifdef HAVE_FSEEKO
+    off_t               buffer_length;
+#else
+    long                buffer_length;
+#endif
     int                 column_count;
     int                 curr_rowset_start;
     int                 cursor_pos;

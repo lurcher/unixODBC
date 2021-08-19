@@ -372,8 +372,10 @@ fi
 AC_CHECK_LONG_LONG
 AC_CHECK_SIZEOF([long int])
 AC_CHECK_TYPES([ptrdiff_t])
+AC_SYS_LARGEFILE
+AC_FUNC_FSEEKO
 
-AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo )
+AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo fseeko setvbuf )
 
 AM_LANGINFO_CODESET
 
