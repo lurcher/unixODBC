@@ -9,6 +9,7 @@
     * Try and prevent logging buffer overflow
     * add 'echo' option to isql/iusql
     * Alter iwql/iusql buffering
+    * Add fix to SQLGetDiagRec U->A conversion
 
 06-Sep-2020
 2.3.9
