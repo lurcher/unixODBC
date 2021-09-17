@@ -422,9 +422,9 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
                 {
                     unicode_to_ansi_copy((char*) message_text, buffer_length, s2, SQL_NTS, __get_connection( head ), NULL );
                 }
-                if ( text_length )
+                if ( string_length )
 			    {
-				    *text_length /= sizeof( SQLWCHAR );
+				    *string_length /= sizeof( SQLWCHAR );
 			    }
             }
 
