@@ -74,7 +74,7 @@ shrext_cmds=`test .$module = .yes && echo .so || echo .dylib`
 
 Building With Qt qmake (by Peter):
 
-	Qt is now availible for OSX but unixODBC may not detect your Qt
+	Qt is now available for OSX but unixODBC may not detect your Qt
 	libs... worse yet you may not be able sort out the GNU auto-tools
 	required to build on OSX.
 	
