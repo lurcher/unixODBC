@@ -364,6 +364,7 @@ char *tmp;
 
         if ( strlen( str ) + strlen( tmp ) > str_len )
         {
+            free( tmp );
             break;
         }
         else
@@ -1121,6 +1122,9 @@ retry:
 
                                 pool_unreserve( pooh );
                         
+                                __release_conn( &con_struct );
+                                __release_conn( &con_struct1 );
+
                                 return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
                             }
 
@@ -1180,6 +1184,8 @@ retry:
                                 }
 
                                 pool_unreserve( pooh );
+
+                                __release_conn( &con_struct1 );
 
                                 return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
                             }
@@ -1259,6 +1265,8 @@ retry:
             }
 
             pool_unreserve( pooh );
+
+            __release_conn( &con_struct );
 
             return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
         }

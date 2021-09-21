@@ -84,7 +84,7 @@ to hang on to the contents of the [.include] and [.doc] directories.
 Look at the compiler flags and link commands in vmsbuild.com for
 examples of what you need to do to build programs using the libraries.
 
-For performance reasons it may be desireable to install the libraries as
+For performance reasons it may be desirable to install the libraries as
 known images (which has nothing to do with "install" in the sense of
 copying software to its target location).  See the documentation to the
 INSTALL command or use the command procedure [.vms]install_image.com
