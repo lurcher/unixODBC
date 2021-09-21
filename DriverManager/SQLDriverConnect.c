@@ -364,6 +364,7 @@ char *tmp;
 
         if ( strlen( str ) + strlen( tmp ) > str_len )
         {
+            free( tmp );
             break;
         }
         else
