@@ -1,4 +1,9 @@
 #include <config.h>
+
+#ifdef UNIXODBC_SOURCE
+#include <ltdl.h>
+#endif
+
 #include <odbcinstext.h>
 
 BOOL _SQLDriverConnectPrompt( 
