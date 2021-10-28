@@ -4,7 +4,7 @@ Building on AIX
 Install
 =======
 
-AIX seems to ship with a install tool /usr/bin/bsdinstall, unfortunatly
+AIX seems to ship with a install tool /usr/bin/bsdinstall, unfortunately
 the version of autoconf that unixODBC uses doesn't seem to like this, so
 make sure it doesn't find this. It may be best to define INSTALL as a 
 empty string before building, forcing it to use the builtin install-sh.
@@ -55,7 +55,7 @@ The same will need doing for the seyup libs
 
 This is only a issue with the libodbcinstQ.a lib that is opened by
 ODBCConfig. There are two things, first because libtool decides that 
-shared libs ar lib*.a the code trys to load libodbcinstQ.a, and also
+shared libs ar lib*.a the code tries to load libodbcinstQ.a, and also
 we maye have to rebuild the lib using the IBM util makeC++SharedLib 
 (the name gives its away :-)
 

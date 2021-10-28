@@ -14,7 +14,6 @@
 
 #ifdef UNIXODBC_SOURCE
 
-#include <ltdl.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -24,7 +23,6 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#include <stdio.h>
 
 #ifndef ODBCVER
 #define ODBCVER 0x0380

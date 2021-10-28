@@ -1,7 +1,7 @@
 Building unixODBC on Solaris
 ----------------------------
 
-This should just work, however I have had the following helpfull
+This should just work, however I have had the following helpful
 hints sent to me by David Brown of Starquest. The suggested change
 has been made to the code in __info.c
 
@@ -44,7 +44,7 @@ diff __info.c __info.c.orig
  Synopsis: SunOS 5.8: UTF-8 locale ICONV patch
  Date: Oct/11/2002
 
- this has since been superceded by 11326-02, but I think unixODBC should
+ this has since been superseded by 11326-02, but I think unixODBC should
  function fine with 113261-01
 
  Patch-ID# 113261-02

@@ -2137,7 +2137,7 @@ SQLRETURN SQL_API SQLSetScrollOptions(    /*      Use SQLSetStmtOptions */
  *              odbctxt
  *              odbctrac
  */
-/*@{*/
+/**@{*/
 #define	TRACE_VERSION 1000                                  /*!< Version of trace API                               */
 #ifdef UNICODE
 RETCODE TraceOpenLogFile(SQLPOINTER,LPWSTR,LPWSTR,DWORD); 	/*!< open a trace log file				                */
@@ -2180,7 +2180,7 @@ typedef struct tagODBC_VS_ARGS {
 } ODBC_VS_ARGS, *PODBC_VS_ARGS;
 
 void	FireVSDebugEvent(PODBC_VS_ARGS);
-/*@}*/
+/**@}*/
 
 #ifdef __cplusplus
 }
