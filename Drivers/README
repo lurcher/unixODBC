@@ -8,6 +8,13 @@
 | Drivers                                                     |
 +-------------------------------------------------------------+
 
+The drivers in here are historical ones or example drivers.
+They are not supported anymore. But can be used as a starting
+point to write your own.
+
+A list of some third party drivers can be found at:
+http://www.unixodbc.org/drivers.html
+
 Some unixODBC drivers have been coded from scratch while others
 have been integerated (tweeked to compile and tested) into
 unixODBC.
