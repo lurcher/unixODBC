@@ -52,3 +52,5 @@ Config Files:
 Resources:
 
         http://sourceforge.net/projects/unixodbc/
+        https://github.com/lurcher/unixODBC/
+        http://www.unixodbc.org/
