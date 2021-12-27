@@ -1328,6 +1328,8 @@ static int ExecuteEcho( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnN
     }
 
     (void)printf( "%s\n", p );
+
+    return 1;
 }
 
 
