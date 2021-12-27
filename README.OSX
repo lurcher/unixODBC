@@ -71,6 +71,11 @@ shrext_cmds=`test .$module = .yes && echo .so || echo .dylib`
 
     Then rerun configure
 
+It also seems that Makefile.,svn needs some help, this thread seems to cover 
+it and solutions.
+
+https://stackoverflow.com/questions/15448582/installed-libtool-but-libtoolize-not-found/15448876
+
 
 Building With Qt qmake (by Peter):
 
