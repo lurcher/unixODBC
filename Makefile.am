@@ -45,7 +45,7 @@ EXTRA_DIST = \
 	configure.ac \
 	Makefile.svn
 
-install-data-am: install-pkgconfigDATA
+install-data-hook:
 	-mkdir -p $(DESTDIR)${sysconfdir}/ODBCDataSources
 	-touch $(DESTDIR)${sysconfdir}/odbcinst.ini
 	-touch $(DESTDIR)${sysconfdir}/odbc.ini
