@@ -45,6 +45,8 @@ EXTRA_DIST = \
 	configure.ac \
 	Makefile.svn
 
+include_HEADERS = unixodbc.h
+
 install-data-hook:
 	-$(MKDIR_P) $(DESTDIR)$(sysconfdir)/ODBCDataSources
 	-touch $(DESTDIR)$(sysconfdir)/odbcinst.ini
