@@ -46,7 +46,7 @@ EXTRA_DIST = \
 	Makefile.svn
 
 install-data-hook:
-	-mkdir -p $(DESTDIR)${sysconfdir}/ODBCDataSources
-	-touch $(DESTDIR)${sysconfdir}/odbcinst.ini
-	-touch $(DESTDIR)${sysconfdir}/odbc.ini
-	cp unixodbc_conf.h $(DESTDIR)${includedir}/unixodbc_conf.h
+	-mkdir -p $(DESTDIR)$(sysconfdir)/ODBCDataSources
+	-touch $(DESTDIR)$(sysconfdir)/odbcinst.ini
+	-touch $(DESTDIR)$(sysconfdir)/odbc.ini
+	cp unixodbc_conf.h $(DESTDIR)$(includedir)/unixodbc_conf.h
