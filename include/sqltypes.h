@@ -44,16 +44,20 @@ extern "C" {
 #endif
 
 /*
- * this is defined by configure, but will not be on a normal application build
- * the install creates a unixodbc_conf.h file that contains the current build settings
+ * unixODBC needs to know the size of a long integer to #define certain data types.
+ * SIZEOF_LONG_INT is defined by unixODBC but is not usually defined by other programs.
+ * In these cases, the compiler uses #defines stored in unixodbc.h to determine the
+ * correct data types for the target system.
+ *
+ * Refer to unixodbc_conf.h for other build-time settings.
  */
 
 #ifndef SIZEOF_LONG_INT
-#include "unixodbc_conf.h"
+#include "unixodbc.h"
 #endif
 
 #ifndef SIZEOF_LONG_INT
-#error "Needs to know how big a long int is to continue!!!"
+#error "unixODBC needs to know the size of a `long int' to continue!!!"
 #endif
 
 /****************************
