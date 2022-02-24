@@ -2,11 +2,12 @@ prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
+sysconfdir=@sysconfdir@
 
 odbcversion=3
 longodbcversion=3.52
-odbcini=@SYSTEM_FILE_PATH@/odbc.ini
-odbcinstini=@SYSTEM_FILE_PATH@/odbcinst.ini
+odbcini=${sysconfdir}/odbc.ini
+odbcinstini=${sysconfdir}/odbcinst.ini
 ulen=@ODBC_ULEN@
 build_cflags=@ODBC_CFLAGS@
 
