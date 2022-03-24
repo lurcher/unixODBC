@@ -661,6 +661,10 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
     {
         len = strlen((char*) str );
     }
+    else if ( len < 0 ) 
+    {
+        len = 0;
+    }
 
     ustr = malloc( sizeof( SQLWCHAR ) * ( len + 1 ));
     if ( !ustr )
@@ -794,6 +798,10 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
     if ( buffer_len == SQL_NTS )
     {
         buffer_len = strlen( src );
+    }
+    else if ( buffer_len < 0 ) 
+    {
+        buffer_len = 0;
     }
 
 #ifdef HAVE_ICONV

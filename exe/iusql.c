@@ -170,12 +170,21 @@ int main( int argc, char *argv[] )
             }
             continue;
         }
-        else if ( count == 1 )
-            szDSN = argv[nArg];
-        else if ( count == 2 )
-            szUID = argv[nArg];
-        else if ( count == 3 )
-            szPWD = argv[nArg];
+        else if ( count == 1 ) {
+            if ( nArg < argc ) {
+                szDSN = argv[nArg];
+            }
+        }
+        else if ( count == 2 ) {
+            if ( nArg < argc ) {
+                szUID = argv[nArg];
+            }
+        }
+        else if ( count == 3 ) {
+            if ( nArg < argc ) {
+                szPWD = argv[nArg];
+            }
+        }
         count++;
     }
 

@@ -146,7 +146,11 @@ BOOL SQLReadFileDSN(            LPCSTR  pszFileName,
         char szPath[ODBC_FILENAME_MAX+1];
         *szPath = '\0';
         _odbcinst_FileINI( szPath );
+#ifdef HAVE_SNPRINTF
+        snprintf( szFileName, sizeof( szFileName ), "%s/%s", szPath, pszFileName );
+#else
         sprintf( szFileName, "%s/%s", szPath, pszFileName );
+#endif
 
         if ( strlen( szFileName ) < 4 || strcmp( szFileName + strlen( szFileName ) - 4, ".dsn" ))
         {

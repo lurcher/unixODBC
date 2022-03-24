@@ -655,7 +655,11 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
 
     if ( log_info.log_flag )
     {
+#ifdef HAVE_SNPRINTF
+        snprintf( handle_msg, LOG_MSG_MAX*2,
+#else
         sprintf( handle_msg,
+#endif
             "\n\t\tEntry:\
 \n\t\t\t%s = %p\
 \n\t\t\tRec Number = %d\
@@ -704,7 +708,11 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
     {
         if ( SQL_SUCCEEDED( ret ))
         {
+#ifdef HAVE_SNPRINTF
+            snprintf( handle_msg, LOG_MSG_MAX*2,
+#else
             sprintf( handle_msg,
+#endif
                 "\n\t\tExit:[%s]\
 \n\t\t\tSQLState = %s\
 \n\t\t\tNative = %s\
@@ -717,7 +725,11 @@ SQLRETURN SQLGetDiagRec( SQLSMALLINT handle_type,
         }
         else
         {
+#ifdef HAVE_SNPRINTF
+            snprintf( handle_msg, LOG_MSG_MAX*2,
+#else
             sprintf( handle_msg,
+#endif
                     "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
         }

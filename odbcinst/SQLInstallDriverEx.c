@@ -179,7 +179,7 @@ BOOL SQLInstallDriverEx(		LPCSTR	pszDriver,
     }
 	else
     {
-        if ( pszPathOut )
+        if ( pszPathOut && nPathOutMax > 0 )
         {
             if ( strlen( pszPathIn ) < nPathOutMax )
             {

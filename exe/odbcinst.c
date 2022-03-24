@@ -174,7 +174,11 @@ int DriverInstall( char *pszTemplate )
         {
             iniProperty( hIni, szProperty );
             iniValue( hIni, szValue );
+#ifdef HAVE_SNPRINTF
+            snprintf( pChar, 10000 - ( pChar - szDriver ), "%s=%s", szProperty, szValue );
+#else
             sprintf( pChar, "%s=%s", szProperty, szValue );
+#endif
             pChar += ( strlen( szProperty ) + strlen( szValue ) + 2 );
             iniPropertyNext( hIni );
         }

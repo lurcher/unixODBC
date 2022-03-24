@@ -375,7 +375,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 AC_SYS_LARGEFILE
 AC_FUNC_FSEEKO
 
-AC_CHECK_FUNCS( strcasecmp strncasecmp vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo fseeko setvbuf )
+AC_CHECK_FUNCS( strcasecmp strncasecmp snprintf vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo fseeko setvbuf )
 
 AM_LANGINFO_CODESET
 
@@ -508,7 +508,7 @@ case $host_os in
 esac
 
 if test "x$stats" = "xtrue"; then
-  AC_CHECK_FUNCS( ftok semget shmget semop snprintf,[],[stats=false])
+  AC_CHECK_FUNCS( ftok semget shmget semop [],[stats=false])
 fi
 
 if test "x$stats" = "xtrue"; then
