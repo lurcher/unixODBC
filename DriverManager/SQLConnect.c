@@ -3068,13 +3068,20 @@ void pool_unreserve( CPOOLHEAD *pooh )
 
 static void copy_nts( SQLCHAR *dst, SQLCHAR *src, int *out_length, SQLSMALLINT length )
 {
-    if ( length < 0 )
+    if ( src == NULL ) 
     {
-        strcpy( dst, src );
+        dst[ 0 ] = '\0';
     }
-    else
+    else 
     {
-        memcpy( dst, src, length );
+        if ( length < 0 )
+        {
+            strcpy( dst, src );
+        }
+        else
+        {
+            memcpy( dst, src, length );
+        }
     }
     if ( out_length)
     {
