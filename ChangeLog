@@ -12,6 +12,7 @@
     * Alter unicode to ascii conversion in SQLGetDiagField
     * Fix pooling problem when user name and or password is not provided
     * Fix a couple of reported buffer overflow conditions
+    * Fix iconv leak with timeout in pooled connection
 
 06-Sep-2020
 2.3.9

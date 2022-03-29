@@ -3004,6 +3004,23 @@ static void close_pooled_connection( CPOOLENT *ptr )
 
     __clean_stmt_from_dbc( conn );
     __clean_desc_from_dbc( conn );
+
+#ifdef HAVE_ICONV
+
+    if ( ptr -> connection.iconv_cd_ascii_to_uc != (iconv_t)(-1) )
+    {
+        iconv_close( ptr -> connection.iconv_cd_ascii_to_uc );
+        ptr -> connection.iconv_cd_ascii_to_uc = (iconv_t)(-1);
+    }
+
+    if ( ptr -> connection.iconv_cd_uc_to_ascii != (iconv_t)(-1))
+    {
+        iconv_close( ptr -> connection.iconv_cd_uc_to_ascii );
+        ptr -> connection.iconv_cd_uc_to_ascii = (iconv_t)(-1)
+    }
+
+#endif
+
 }
 
 /*
