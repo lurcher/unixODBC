@@ -3016,7 +3016,7 @@ static void close_pooled_connection( CPOOLENT *ptr )
     if ( ptr -> connection.iconv_cd_uc_to_ascii != (iconv_t)(-1))
     {
         iconv_close( ptr -> connection.iconv_cd_uc_to_ascii );
-        ptr -> connection.iconv_cd_uc_to_ascii = (iconv_t)(-1)
+        ptr -> connection.iconv_cd_uc_to_ascii = (iconv_t)(-1);
     }
 
 #endif
