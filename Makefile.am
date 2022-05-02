@@ -47,7 +47,7 @@ EXTRA_DIST = \
 
 include_HEADERS = unixodbc.h
 
-pkginclude_HEADERS = unixodbc_conf.h
+pkginclude_HEADERS = unixodbc_conf.h config.h
 
 install-data-hook:
 	-$(MKDIR_P) $(DESTDIR)$(sysconfdir)/ODBCDataSources
