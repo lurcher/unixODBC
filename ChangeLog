@@ -1,5 +1,5 @@
 11-Jan-2021
-2.3.10pre
+2.3.10
 
     * Add connection pooling via wide connection functions
     * Remove "#define VERSION" from unixodbc_conf.h
