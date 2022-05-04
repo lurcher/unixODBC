@@ -28,6 +28,7 @@ autom4te.cache
 /config.log
 /config.status
 /config.sub
+/config.h.in
 /configure
 /configure.scan
 /depcomp
