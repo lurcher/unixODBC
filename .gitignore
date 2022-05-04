@@ -25,7 +25,6 @@ autom4te.cache
 /compile
 /config.cache
 /config.guess
-/config.h.in
 /config.log
 /config.status
 /config.sub
