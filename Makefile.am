@@ -1,4 +1,4 @@
-ACLOCAL_AMFLAGS=-I m4 
+ACLOCAL_AMFLAGS=-I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = \
@@ -21,7 +21,7 @@ SUBDIRS = \
 	include \
 	doc \
 	man \
-	samples 
+	samples
 
 EXTRA_DIST = \
 	README.OSX \
@@ -47,7 +47,7 @@ EXTRA_DIST = \
 
 include_HEADERS = unixodbc.h
 
-pkginclude_HEADERS = unixodbc_conf.h config.h
+pkginclude_HEADERS = unixodbc_conf.h
 
 install-data-hook:
 	-$(MKDIR_P) $(DESTDIR)$(sysconfdir)/ODBCDataSources
