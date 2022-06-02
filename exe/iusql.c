@@ -355,7 +355,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
 {
     SQLCHAR dsn[ 1024 ], uid[ 1024 ], pwd[ 1024 ];
     SQLTCHAR cstr[ 1024 ];
-    char zcstr[ 1024 ], tmp[ 1024 ];
+    char zcstr[ 1024 * 2 ], tmp[ 1024 * 8 ];
     int i;
     size_t zclen;
 
@@ -376,7 +376,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
     if ( szDSN )
     {
         size_t DSNlen=strlen( szDSN );
-        for ( i = 0; i < DSNlen; i ++ )
+        for ( i = 0; i < DSNlen && i < sizeof( dsn ) - 1; i ++ )
         {
             dsn[ i ] = szDSN[ i ];
         }
@@ -390,7 +390,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
     if ( szUID )
     {
         size_t UIDlen=strlen( szUID );
-        for ( i = 0; i < UIDlen; i ++ )
+        for ( i = 0; i < UIDlen && i < sizeof( uid ) - 1; i ++ )
         {
             uid[ i ] = szUID[ i ];
         }
@@ -404,7 +404,7 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
     if ( szPWD )
     {
         size_t PWDlen=strlen( szPWD );
-        for ( i = 0; i < PWDlen; i ++ )
+        for ( i = 0; i < PWDlen && i < sizeof( pwd ) - 1; i ++ )
         {
             pwd[ i ] = szPWD[ i ];
         }

@@ -2400,10 +2400,15 @@ int __connect_part_two( DMHDBC connection )
 #endif
             if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
             {
-                char txt[ 256 ];
+                char txt[ 1024 ];
 
+#ifdef HAVE_SNPRINTF
+                snprintf( txt, sizeof( txt ), "Can't open cursor lib '%s' : %s", 
+                    name, err ? err : "NULL ERROR RETURN" );
+#else
                 sprintf( txt, "Can't open cursor lib '%s' : %s", 
                     name, err ? err : "NULL ERROR RETURN" );
+#endif
 
                 dm_log_write( __FILE__,
                         __LINE__,
