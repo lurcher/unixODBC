@@ -1,7 +1,7 @@
 13-May-2022
 2.3.12pre
 
-    * Onwards
+    * Fix iconv handle leak with pooling
 
 4-May-2022
 2.3.11

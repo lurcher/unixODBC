@@ -620,6 +620,7 @@ int unicode_setup( DMHDBC connection )
 void unicode_shutdown( DMHDBC connection )
 {
 #ifdef HAVE_ICONV
+
     mutex_iconv_entry();
 
     if ( connection -> iconv_cd_ascii_to_uc != (iconv_t)(-1) )

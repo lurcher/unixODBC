@@ -1082,11 +1082,12 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     fake_unicode = atoi( fake_string );
 
-#ifdef ENABLE_DRIVER_ICONV
 #ifdef HAVE_ICONV
+#ifdef ENABLE_DRIVER_ICONV
     SQLGetPrivateProfileString( driver_name, "IconvEncoding", DEFAULT_ICONV_ENCODING,
 				connection->unicode_string, sizeof( connection->unicode_string ), 
                 "ODBCINST.INI" );
+#endif
 #endif
 
     /*
@@ -1111,7 +1112,6 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
         *warnings = TRUE;
     }
-#endif
 
     /*
      * initialize libtool
@@ -4298,7 +4298,7 @@ retry:
             return function_return( SQL_HANDLE_DBC, connection, ret_from_connect, DEFER_R0 );
         }
 
-	connection -> unicode_driver = 0;
+	    connection -> unicode_driver = 0;
     }
     else
     {
