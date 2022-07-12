@@ -808,6 +808,8 @@ void pool_signal();
 
 #define thread_protect(a,b)
 #define thread_release(a,b)
+#define pool_timedwait(a)
+#define pool_signal()
 
 #endif
 
