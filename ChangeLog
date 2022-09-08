@@ -2,6 +2,7 @@
 2.3.12pre
 
     * Fix iconv handle leak with pooling
+    * Add windows encoding patch
 
 4-May-2022
 2.3.11
