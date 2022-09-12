@@ -1801,13 +1801,22 @@ void thread_release( int type, void *handle )
  *   nonzero on timeout
  *   zero when signaled
  */
+
+
 int pool_timedwait( DMHDBC connection )
 {
     int ret;
     struct timespec waituntil;
 
+#ifdef HAVE_CLOCK_GETTIME
     clock_gettime( CLOCK_REALTIME, &waituntil );
     waituntil.tv_sec ++;
+#else
+    waituntil.tv_sec = time( NULL );
+    waituntil.tv_nsec = 0;
+
+    waituntil.tv_sec ++;
+#endif
 
     switch ( connection -> protection_level )
     {
