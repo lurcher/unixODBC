@@ -100,9 +100,3 @@ SQLRETURN CLGetDiagRec( SQLSMALLINT handle_type,
                          native, message_text, buffer_length,
                          text_length_ptr);
 }
-
-DMHDBC __get_connection( EHEAD * head )
-{
-    return 0;
-}
-
