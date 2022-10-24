@@ -4,6 +4,7 @@
     * Fix iconv handle leak with pooling
     * Add windows encoding patch
     * Avoid failed build if clock_gettime() is not available
+    * Allow passing in a entire connection string into iusql
 
 4-May-2022
 2.3.11

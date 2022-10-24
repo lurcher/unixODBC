@@ -415,16 +415,29 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
         pwd[ 0 ] = '\0';
     }
 
-    sprintf( zcstr, "DSN=%s", dsn );
-    if ( szUID )
+    /*
+     * Allow passing in a entire connect string in the first arg
+     *
+     * isql "DSN={Dsn Name};PWD={Pass world};UID={User Name}"
+     */
+
+    if ( !szPWD && !szUID && ( strstr( dsn, "DSN=" ) || strstr( dsn, "DRIVER=" ) || strstr( dsn, "FILEDSN=" ))) 
     {
-        sprintf( tmp, ";UID=%s", uid );
-        strcat( zcstr, tmp );
+        strcpy( zcstr, dsn );
     }
-    if ( szPWD )
+    else 
     {
-        sprintf( tmp, ";PWD=%s", pwd );
-        strcat( zcstr, tmp );
+        sprintf( zcstr, "DSN=%s", dsn );
+        if ( szUID )
+        {
+            sprintf( tmp, ";UID=%s", uid );
+            strcat( zcstr, tmp );
+        }
+        if ( szPWD )
+        {
+            sprintf( tmp, ";PWD=%s", pwd );
+            strcat( zcstr, tmp );
+        }
     }
 
     zclen=strlen( zcstr );
