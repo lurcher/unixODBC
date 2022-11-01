@@ -1073,7 +1073,14 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
         }
     }
     else {
-        if ( !SQL_SUCCEEDED( SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL ))))
+        ret = SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL ));
+
+        if ( ret == SQL_SUCCESS_WITH_INFO )
+        {
+            if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
+            fprintf( stderr, "[ISQL]INFO: SQLPrepare returned SQL_SUCCESS_WITH_INFO\n" );
+        }
+        else if ( ret != SQL_SUCCESS )
         {
             if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
             fprintf( stderr, "[ISQL]ERROR: Could not SQLPrepare\n" );
