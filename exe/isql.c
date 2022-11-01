@@ -1073,7 +1073,7 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
         }
     }
     else {
-        if ( SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL )) != SQL_SUCCESS )
+        if ( !SQL_SUCCEEDED( SQLPrepare( hStmt, (SQLCHAR*)szSQL, strlen( szSQL ))))
         {
             if ( bVerbose ) DumpODBCLog( hEnv, hDbc, hStmt );
             fprintf( stderr, "[ISQL]ERROR: Could not SQLPrepare\n" );
