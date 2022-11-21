@@ -6,6 +6,7 @@
     * Avoid failed build if clock_gettime() is not available
     * Allow passing in a entire connection string into iusql
     * Allow isql to handle SQL_SUCCESS_WITH_INFO from SQLPrepare
+    * Add extra logging for ODBCINST connect settings
 
 4-May-2022
 2.3.11

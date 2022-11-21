@@ -965,6 +965,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     int fake_unicode;
     char *err;
     struct env_lib_struct *env_lib_list, *env_lib_prev;
+    char txt[ 256 ];
 
     /*
      * check to see if we want to alter the default threading level
@@ -982,6 +983,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 					threading_string, sizeof( threading_string ), 
                 	"ODBCINST.INI" );
     	threading_level = atoi( threading_string );
+
+        sprintf( txt, "\t\tThreading Level set from Driver Entry in ODBCINST.INI %d from '%s'", threading_level, threading_string );
+        dm_log_write_diag( txt );
     }
     else 
 	{
@@ -999,6 +1003,10 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 		"ODBCINST.INI" );
 
     	threading_level = atoi( threading_string );
+
+
+        sprintf( txt, "\t\tThreading Level set from [ODBC] Section in ODBCINST.INI %d from '%s'", threading_level, threading_string );
+        dm_log_write_diag( txt );
 	}
 
     if ( threading_level >= 0 && threading_level <= 3 )
@@ -1019,6 +1027,11 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     connection -> ex_fetch_mapping = atoi( mapping_string );
 
+    if ( connection -> ex_fetch_mapping != 1 ) {
+        sprintf( txt, "\t\tExFetchMapping set to %d from '%s'", connection -> ex_fetch_mapping, mapping_string );
+        dm_log_write_diag( txt );
+    }
+
     /*
      * Does the driver have support for SQLGetFunctions ?
      */
@@ -1028,6 +1041,11 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 "ODBCINST.INI" );
 
     connection -> disable_gf = atoi( disable_gf );
+
+    if ( connection -> disable_gf != 0 ) {
+        sprintf( txt, "\t\tDisableGetFunctions set to %d from '%s'", connection -> disable_gf, disable_gf );
+        dm_log_write_diag( txt );
+    }
 
     /*
      * do we want to keep hold of the lib handle, DB2 fails if we close
@@ -1039,6 +1057,11 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     connection -> dont_dlclose = atoi( mapping_string ) != 0;
 
+    if ( connection -> dont_dlclose != 1 ) {
+        sprintf( txt, "\t\tDisableGetFunctions set to %d from '%s'", connection -> dont_dlclose, mapping_string );
+        dm_log_write_diag( txt );
+    }
+
     /*
      * can we pool this one
      */
@@ -1048,6 +1071,11 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 "ODBCINST.INI" );
 
     connection -> pooling_timeout = atoi( mapping_string );
+
+    if ( connection -> pooling_timeout != 0 ) {
+        sprintf( txt, "\t\tCPTimeout set to %d from '%s'", connection -> pooling_timeout, mapping_string );
+        dm_log_write_diag( txt );
+    }
 
     /*
      * have we got a time-to-live value for the pooling
@@ -1059,6 +1087,11 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
     connection -> ttl = atoi( mapping_string );
 
+    if ( connection -> ttl != 0 ) {
+        sprintf( txt, "\t\tCPTimeToLive set to %d from '%s'", connection -> ttl, mapping_string );
+        dm_log_write_diag( txt );
+    }
+
     /*
      * Is there a check SQL statement
      */
@@ -1066,6 +1099,12 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     SQLGetPrivateProfileString( driver_name, "CPProbe", "",
 				connection -> probe_sql, sizeof( connection -> probe_sql ), 
                 "ODBCINST.INI" );
+
+
+    if ( strlen( connection -> probe_sql ) != 0 ) {
+        sprintf( txt, "\t\tCPProbe set to '%s'", connection -> probe_sql );
+        dm_log_write_diag( txt );
+    }
 
     /*
      * if pooling then leave the dlopen
@@ -1081,6 +1120,12 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
                 "ODBCINST.INI" );
 
     fake_unicode = atoi( fake_string );
+
+    if ( fake_unicode != 0 ) {
+        sprintf( txt, "\t\tFakeUnicode set to %d from '%s'", fake_unicode, fake_string );
+        dm_log_write_diag( txt );
+    }
+
 
 #ifdef HAVE_ICONV
 #ifdef ENABLE_DRIVER_ICONV
