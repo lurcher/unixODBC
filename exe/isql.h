@@ -26,6 +26,7 @@ char *szSyntax =
 "*      isql DSN [UID [PWD]] [options]        *\n"
 "*                                            *\n"
 "*      iusql DSN [UID [PWD]] [options]       *\n"
+"*      iusql "Connection String" [options]   *\n"
 "*                                            *\n"
 "* Options                                    *\n"
 "*                                            *\n"
