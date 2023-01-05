@@ -1027,11 +1027,12 @@ retry:
 
         if ( len_conn_str_in == SQL_NTS )
         {
-            strcpy( connection -> driver_connect_string, (char*)conn_str_in );
+            connection -> _driver_connect_string = strdup((char*)conn_str_in );
         }
         else
         {
-            memcpy( connection -> driver_connect_string, conn_str_in, len_conn_str_in );
+            connection -> _driver_connect_string = calloc( len_conn_str_in, 1 );
+            memcpy( connection -> _driver_connect_string, conn_str_in, len_conn_str_in );
         }
         connection -> dsn_length = len_conn_str_in;
     }

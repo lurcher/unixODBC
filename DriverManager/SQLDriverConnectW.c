@@ -582,7 +582,7 @@ retry:
          */
 
         /*
-         * else save the info for later
+         * else save the info for later, not sure its used though
          */
 
         connection -> dsn_length = 0;
@@ -596,11 +596,12 @@ retry:
 
         if ( len_conn_str_in == SQL_NTS )
         {
-            strcpy( connection -> driver_connect_string, ansi_conn_str_in );
+            connection -> _driver_connect_string = strdup( ansi_conn_str_in );
         }
         else
         {
-            memcpy( connection -> driver_connect_string, ansi_conn_str_in, clen );
+            connection -> _driver_connect_string = calloc( clen, 1 );
+            memcpy( connection -> _driver_connect_string, ansi_conn_str_in, clen );
         }
         connection -> dsn_length = clen;
         free( ansi_conn_str_in );

@@ -811,6 +811,11 @@ void __release_dbc( DMHDBC connection )
         }
     }
 
+    if ( connection -> _driver_connect_string ) 
+    {
+        free( connection -> _driver_connect_string );
+    }
+
     /*
      * clear just to make sure
      */
