@@ -3123,6 +3123,7 @@ void pool_unreserve( CPOOLHEAD *pooh )
                     {
                         pool_head = pooh -> next;
                     }
+                    free( pooh -> _driver_connect_string );
                     free( pooh );
                     break;
                 }
@@ -3200,7 +3201,7 @@ static int pool_match( CPOOLHEAD *pooh,
             match = 0;
         }
         if ( pooh -> dsn_length != connect_string_length ||
-                sql_strcmp( connect_string, (SQLCHAR*)pooh -> driver_connect_string,
+                sql_strcmp( connect_string, (SQLCHAR*)pooh -> _driver_connect_string,
                     connect_string_length, pooh -> dsn_length ))
         {
             match = 0;
@@ -3310,6 +3311,7 @@ disconnect_and_remove:
                     {
                         pool_head = ptrh -> next;
                     }
+                    free( ptrh -> _driver_connect_string );
                     free( ptrh );
                 }
                 goto restart;
@@ -3622,7 +3624,16 @@ disconnect_and_remove:
             copy_nts( newhead -> server, server_name, &newhead -> server_length, name_length1 );
             copy_nts( newhead -> user, user_name, &newhead -> user_length, name_length2 );
             copy_nts( newhead -> password, authentication, &newhead -> password_length, name_length3 );
-            copy_nts( newhead -> driver_connect_string, connect_string, &newhead -> dsn_length, connect_string_length );
+            if ( connect_string == NULL ) {
+                newhead -> _driver_connect_string = calloc( 1, 0 );
+            }
+            else if ( connect_string_length < 0 ) {
+                newhead -> _driver_connect_string = calloc( strlen( connect_string ) + 1, 0 );
+            }
+            else {
+                newhead -> _driver_connect_string = calloc( connect_string_length + 1, 0 );
+            }
+            copy_nts( newhead -> _driver_connect_string, connect_string, &newhead -> dsn_length, connect_string_length );
 
             newhead -> num_entries = 1; /* reserve an entry */
 
