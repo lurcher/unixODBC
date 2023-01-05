@@ -381,7 +381,7 @@ typedef struct connection
     void            *pooled_connection; /* points to t connection pool structure */
     int             pooling_timeout;
     int             ttl;
-    char            driver_connect_string[ 1024 ];
+    char            driver_connect_string[ 32767 ];
     int             dsn_length;
     char            server[ 128 ];
     int             server_length;
@@ -425,7 +425,7 @@ typedef struct connection_pool_head
 {
     struct connection_pool_head *next;
 
-    char    driver_connect_string[ 1024 ];
+    char    driver_connect_string[ 32768 ];
     int     dsn_length;
     char    server[ 128 ];
     int     server_length;
