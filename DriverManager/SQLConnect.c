@@ -3625,13 +3625,13 @@ disconnect_and_remove:
             copy_nts( newhead -> user, user_name, &newhead -> user_length, name_length2 );
             copy_nts( newhead -> password, authentication, &newhead -> password_length, name_length3 );
             if ( connect_string == NULL ) {
-                newhead -> _driver_connect_string = calloc( 1, 0 );
+                newhead -> _driver_connect_string = calloc( 1, 1 );
             }
             else if ( connect_string_length < 0 ) {
-                newhead -> _driver_connect_string = calloc( strlen( connect_string ) + 1, 0 );
+                newhead -> _driver_connect_string = calloc( strlen( connect_string ) + 1, 1 );
             }
             else {
-                newhead -> _driver_connect_string = calloc( connect_string_length + 1, 0 );
+                newhead -> _driver_connect_string = calloc( connect_string_length + 1, 1 );
             }
             copy_nts( newhead -> _driver_connect_string, connect_string, &newhead -> dsn_length, connect_string_length );
 
