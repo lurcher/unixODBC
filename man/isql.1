@@ -6,6 +6,10 @@ isql, iusql - unixODBC interactive SQL command-line tools
 .SH SYNOPSIS
 \fBisql\fR \fIDSN\fR [\fIUSER\fR [\fIPASSWORD\fR]] [\fIoptions\fR] 
 
+\fBiusql\fR \fIDSN\fR [\fIUSER\fR [\fIPASSWORD\fR]] [\fIoptions\fR] 
+
+\fBiusql\fR \fI"ConnectionString"\fR [\fIoptions\fR] 
+
 .SH DESCRIPTION
 \fBisql\fR and \fBiusql\fR are command-line tools allowing users to execute SQL
 interactively or in batches.
@@ -14,7 +18,8 @@ The tools provide several useful features, including an option to generate
 output wrapped in an HTML table.
 
 \fBiusql\fR is the same as \fBisql\fR but includes built-in Unicode support.
-Some data sources only work with \fBiusql\fR.
+Some data sources only work with \fBiusql\fR. A important difference between the
+two tools, is \fBisql\fR connects using SQLConnect and \fBiusql\fR SQLDriverConnect.
 
 .SH ARGUMENTS
 
@@ -38,6 +43,15 @@ Password required to access the database for the specified \fBUSER\fR.
 
 This parameter overrides any \fBPASSWORD\fR specified in the data source
 configuration files.
+
+.IP \fB"ConnectionString"\fR
+Connection string starting with DSN=, DRIVER= or FILEDSN= that is passed unchanged to
+SQLDriverConnect. This option allows the use of more complex syntax in 
+the connection string than would be available just using DSN,UID and PWD.
+
+It also (and this was the main reason for its inclusion) allows passwords 
+containing semicolons without having to add complex escape syntax to the 
+existing code.
 
 .SH OPTIONS
 
