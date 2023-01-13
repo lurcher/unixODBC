@@ -262,10 +262,6 @@ extern int pooling_enabled;
 extern int pool_max_size;
 extern int pool_wait_timeout;
 
-#ifdef HAVE_ATEXIT
-extern void __clear_ini_cache( void );
-#endif
-
 
 /*
  * this is used so that it can be called without falling
@@ -356,14 +352,6 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
              */
 
             environment -> connection_count = 0;
-
-#ifdef HAVE_ATEXIT
-            /*
-             * clear the cache when we are finished
-             */
-
-            atexit( __clear_ini_cache );
-#endif
 
             return SQL_SUCCESS;
         }
