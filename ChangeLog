@@ -9,6 +9,7 @@
     * Add extra logging for ODBCINST connect settings
     * Allow allocated copy (instead of fixed length) for the connection string with 
       pooling to allow any length
+    * Export __clear_ini_cache() from odbcinst to allow explicitly clearing the ini cache
 
 4-May-2022
 2.3.11
