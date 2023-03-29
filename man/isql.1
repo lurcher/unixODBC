@@ -45,6 +45,10 @@ Password required to access the database for the specified \fBUSER\fR.
 This parameter overrides any \fBPASSWORD\fR specified in the data source
 configuration files.
 
+When using \fBiusql\fR, passwords containing semicolons should be escaped with
+braces (curly brackets) and terminated with a semicolon. Refer to the Examples
+section below for syntax.
+
 .IP \fB"ConnectionString"\fR
 A connection string starting with DSN=, DRIVER= or FILEDSN= will be passed
 unchanged to SQLDriverConnect. This option allows for the use of more complex
@@ -158,6 +162,16 @@ A string DSN may be provided in its entirety, with no file DSN reference at all:
 
 .nf
 $ iusql ";Driver=PostgreSQL Unicode;UID=MyID;PASSWORD=secret" \-v
+.fi
+
+.IP "A password containing a semicolon (\fBiusql\fR):"
+
+.nf
+$ iusql WebDB MyID '{My;PWD};'
+.fi
+
+.nf
+$ iusql 'DSN=WebDB;UID=MyID;PWD={My;PWD};'
 .fi
 
 .SH TROUBLESHOOTING
