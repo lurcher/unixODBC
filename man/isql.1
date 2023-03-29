@@ -18,8 +18,9 @@ The tools provide several useful features, including an option to generate
 output wrapped in an HTML table.
 
 \fBiusql\fR is the same as \fBisql\fR but includes built-in Unicode support.
-Some data sources only work with \fBiusql\fR. A important difference between the
-two tools, is \fBisql\fR connects using SQLConnect and \fBiusql\fR SQLDriverConnect.
+Some data sources only work with \fBiusql\fR. An important difference between the
+two tools is that \fBisql\fR connects using SQLConnect and \fBiusql\fR connects
+using SQLDriverConnect.
 
 .SH ARGUMENTS
 
@@ -45,12 +46,13 @@ This parameter overrides any \fBPASSWORD\fR specified in the data source
 configuration files.
 
 .IP \fB"ConnectionString"\fR
-Connection string starting with DSN=, DRIVER= or FILEDSN= that is passed unchanged to
-SQLDriverConnect. This option allows the use of more complex syntax in 
-the connection string than would be available just using DSN,UID and PWD.
+A connection string starting with DSN=, DRIVER= or FILEDSN= will be passed
+unchanged to SQLDriverConnect. This option allows for the use of more complex
+syntax in a connection string than would otherwise be possible by just using
+DSN, UID and PWD.
 
-It also (and this was the main reason for its inclusion) allows passwords 
-containing semicolons without having to add complex escape syntax to the 
+It also (and this was the main reason for its inclusion) allows passwords
+to contain semicolons without having to add complex escape syntax to the 
 existing code.
 
 .SH OPTIONS
