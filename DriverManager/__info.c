@@ -5112,7 +5112,7 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
     DMHDESC hdesc;
     EHEAD   *herror = NULL;
 
-    if ( ret_code == SQL_SUCCESS_WITH_INFO || ret_code == SQL_ERROR )
+    if ( ret_code == SQL_SUCCESS_WITH_INFO || ret_code == SQL_ERROR || ret_code == SQL_NO_DATA)
     {
         /*
          * find what type of handle it is
@@ -5166,7 +5166,7 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
             /*
              * set defer flag
              */
-            herror->defer_extract = ( ret_code == SQL_SUCCESS_WITH_INFO ? defer_type : defer_type >> 1 ) & 1;
+            herror->defer_extract = ( ret_code == SQL_ERROR ? defer_type >> 1 : defer_type ) & 1;
 
             if ( herror->defer_extract )
             {
