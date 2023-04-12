@@ -151,4 +151,9 @@ typedef struct {
 	long		artnum_max;
 } yystmt_t;
 
+void nnsql_getrange(void* hstmt, long* pmin, long* pmax);
+int nnsql_strlike(char* str, char* pattern, char esc, int flag);
+int nnsql_srchtree_evl(void* hstmt);
+int nnsql_srchtree_tchk(void* hstmt);
+
 #endif

@@ -61,12 +61,7 @@ RETCODE SQL_API SQLDriverConnect(
 			break;
 		/* to next case */
 	case SQL_DRIVER_PROMPT:
-		if ( nnodbc_conndialog( hwnd, buf, sizeof(buf)) )
-		{
-			sqlstat = en_IM008;
-			break;
-		}
-		server = buf;
+		sqlstat = en_IM008;
 		break;
 
 	default:

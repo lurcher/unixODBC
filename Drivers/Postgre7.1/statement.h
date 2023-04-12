@@ -220,5 +220,7 @@ void		SC_free_params(StatementClass *self, char option);
 void		SC_log_error(char *func, char *desc, StatementClass *self);
 unsigned long	SC_get_bookmark(StatementClass *self);
 
+RETCODE SQL_API PG_SQLAllocStmt(HDBC hdbc, HSTMT FAR *phstmt);
+RETCODE SQL_API PG_SQLFreeStmt(HSTMT hstmt, UWORD fOption);
 
 #endif

@@ -78,6 +78,7 @@ extern int	nntp_end_post	( void* hcndes );
 
 extern int	nntp_cancel	( void* hcndes, char* group, char* sender,
 				   char* from, char* msgid);
+extern int	nntp_postok	( void* hcndes );
 
 extern int	nntp_getaccmode( void* hcndes );
 extern void	nntp_setaccmode( void* hcndes, int mode );

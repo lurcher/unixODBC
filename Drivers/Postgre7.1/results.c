@@ -29,6 +29,7 @@
 #include "qresult.h"
 #include "convert.h"
 #include "pgtypes.h" 
+#include "misc.h"
 
 #include <stdio.h>
 
