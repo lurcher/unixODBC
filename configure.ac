@@ -508,7 +508,7 @@ case $host_os in
 esac
 
 if test "x$stats" = "xtrue"; then
-  AC_CHECK_FUNCS( ftok semget shmget semop [],[stats=false])
+  AC_CHECK_FUNCS( ftok semget shmget semop,[],[stats=false])
 fi
 
 if test "x$stats" = "xtrue"; then
