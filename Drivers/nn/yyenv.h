@@ -37,4 +37,7 @@ typedef struct
 #  define	YYINITDEPTH	(512)
 # endif
 
+void nnsql_yyinit(yyenv_t* penv, yystmt_t* yystmt);
+int nnsql_yyparse(yyenv_t* pyyenv);
+
 #endif

@@ -29,6 +29,7 @@
 #include "connection.h"
 #include "qresult.h"
 #include "pgtypes.h"
+#include "misc.h"
 
 #ifndef WIN32
 #ifndef HAVE_STRICMP

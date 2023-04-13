@@ -22,6 +22,7 @@
 #include "qresult.h"
 #include "convert.h"
 #include "environ.h"
+#include "misc.h"
 
 #include <stdio.h>
 #include <string.h>

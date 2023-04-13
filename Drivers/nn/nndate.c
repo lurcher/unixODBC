@@ -16,6 +16,7 @@
 #include	<nnconfig.h>
 
 #include	<nndate.h>
+#include	"driver.h"
 
 static char* month_name[] =
 { "Jan", "Feb", "Mar", "Apr", "May", "Jun",

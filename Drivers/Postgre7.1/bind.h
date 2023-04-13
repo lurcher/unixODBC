@@ -44,4 +44,8 @@ struct ParameterInfoClass_ {
 BindInfoClass *create_empty_bindings(int num_columns);
 void extend_bindings(StatementClass *stmt, int num_columns);
 
+RETCODE SQL_API PG_SQLBindCol(HSTMT hstmt, UWORD icol, SWORD fCType,
+			      PTR rgbValue, SQLLEN cbValueMax,
+			      SQLLEN *pcbValue);
+
 #endif

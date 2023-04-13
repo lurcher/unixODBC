@@ -27,6 +27,8 @@
 #include	<stdio.h>
 #include	<ctype.h>
 
+#include	"driver.h"
+
 static int	getcmpopidxbyname(char* name)
 {
 	int	i, size;

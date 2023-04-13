@@ -106,4 +106,17 @@ int  my_strlen(char *s, int len);
 
 int my_strcpy(char *dst, int dst_len, char *src, int src_len);
 
+RETCODE SQL_API PG_SQLExecDirect(HSTMT hstmt, UCHAR FAR *szSqlStr,
+                                 SDWORD cbSqlStr);
+RETCODE SQL_API PG_SQLExecute(HSTMT hstmt);
+RETCODE SQL_API PG_SQLGetData(HSTMT hstmt, UWORD icol, SWORD fCType,
+                              PTR rgbValue, SDWORD cbValueMax,
+                              SDWORD FAR *pcbValue);
+RETCODE SQL_API PG_SQLFetch(HSTMT hstmt);
+RETCODE SQL_API PG_SQLColumns(HSTMT hstmt, UCHAR FAR * szTableQualifier,
+                              SWORD cbTableQualifier,
+                              UCHAR FAR * szTableOwner, SWORD cbTableOwner,
+                              UCHAR FAR * szTableName, SWORD cbTableName,
+                              UCHAR FAR * szColumnName, SWORD cbColumnName);
+
 #endif

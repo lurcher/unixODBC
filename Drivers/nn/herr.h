@@ -113,6 +113,7 @@ enum {
 extern	void*	nnodbc_pusherr		(void* stack, int code, char* msg);
 extern	void	nnodbc_poperr		(void* stack);
 extern	int	nnodbc_errstkempty	(void* stack);
+extern  void	nnodbc_errstkunset	(void* stack);
 extern	int	nnodbc_getsqlstatcode	(void* stack);
 extern	char*	nnodbc_getsqlstatstr	(void* stack);
 extern	char*	nnodbc_getsqlstatmsg	(void* stack);

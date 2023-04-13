@@ -20,6 +20,7 @@
 #include "statement.h"
 #include "qresult.h"
 #include "lobj.h"
+#include "misc.h"
 #include "dlg_specific.h"
 #include <stdio.h>
 #include <string.h>

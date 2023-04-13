@@ -34,10 +34,10 @@
 #include "convert.h"
 #include "bind.h"
 #include "lobj.h"
+#include "misc.h"
 
 extern GLOBAL_VALUES globals;
 
-RETCODE SQL_API PG_SQLExecute( HSTMT   hstmt);
 SQLRETURN   PG_SQLPrepare(SQLHSTMT hstmt,
             SQLCHAR *szSqlStr , SQLINTEGER cbSqlStr);
 

@@ -14,6 +14,9 @@
 **/
 #include <config.h>
 #include "driver.h"
+#if	!defined(WINDOWS) && !defined(WIN32) && !defined(OS2)
+#include	<unistd.h>
+#endif
 
 static char	sccsid[]
 	= "@(#)NNSQL(NetNews SQL) v0.5, Copyright(c) 1995, 1996 by Ke Jin";
