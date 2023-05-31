@@ -137,6 +137,8 @@
 
 static char const rcsid[]= "$RCSfile: SQLSetEnvAttr.c,v $ $Revision: 1.9 $";
 
+extern int pooling_enabled;
+
 SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,
@@ -145,14 +147,15 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
     DMHENV environment = (DMHENV) environment_handle;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
 
-    /*
-     * we may do someting with these later
-     */
-
     if ( !environment_handle && 
             ( attribute == SQL_ATTR_CONNECTION_POOLING || 
               attribute == SQL_ATTR_CP_MATCH ))
     {
+        if ( attribute == SQL_ATTR_CONNECTION_POOLING ) {
+            if ((SQLLEN) value == SQL_CP_ONE_PER_DRIVER || (SQLLEN) value == SQL_CP_ONE_PER_HENV ) {
+                pooling_enabled = 1;
+            }
+        }
         return SQL_SUCCESS;
     }
 

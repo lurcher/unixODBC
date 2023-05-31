@@ -299,6 +299,7 @@ typedef struct environment
     int             fetch_mode;         /* for SQLDataSources */
     int             entry;
     void            *sh;                /* statistics handle */
+    int             released;           /* Catch a race condition in SQLAPI lib */
     struct env_lib_struct *env_lib_list;/* use this to avoid multiple AllocEnv in the driver */
 } *DMHENV;
 
@@ -434,7 +435,7 @@ typedef struct connection_pool_head
     char    password[ 128 ];
     int     password_length;
 
-    int     num_entries;                /* always at least 1 */
+    volatile int num_entries;                /* always at least 1 */
     CPOOLENT *entries;
 } CPOOLHEAD;
 
@@ -547,9 +548,13 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
  * handle allocation functions
  */
 
+/* #define SHARED_POOLED_ENV   1 *//* with this set use a single env handle when pooling is in use, will cause connection to remain open at exit */
+
+DMHENV __share_env( int *first );
 DMHENV __alloc_env( void );
 int __validate_env( DMHENV );
 void __release_env( DMHENV environment );
+int __validate_env_mark_released( DMHENV env );
 
 DMHDBC __alloc_dbc( void );
 int __validate_dbc( DMHDBC );

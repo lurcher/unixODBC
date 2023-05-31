@@ -2900,6 +2900,10 @@ static void close_pooled_connection( CPOOLENT *ptr )
     SQLRETURN ret;
     DMHDBC conn = &ptr -> connection;
 
+    if ( conn -> driver_dbc == NULL ) {
+        return;
+    }
+
     /*
      * disconnect from the driver
      */
@@ -3075,7 +3079,7 @@ static void close_pooled_connection( CPOOLENT *ptr )
 
 /*
  * if a environment gets released from the application, we need to remove any referenvce to that environment 
- * in pooled connections that belong to that environment
+ * in pooled connections that belong to that environment. Also if needed call the release in the driver itself
  */
 
 void __strip_from_pool( DMHENV env )
@@ -3084,10 +3088,6 @@ void __strip_from_pool( DMHENV env )
 
     mutex_pool_entry();
 
-    /*
-     * look in the list of connections for one that matches
-     */
-
     for( ptrh = pool_head; ptrh; ptrh = ptrh -> next )
     {
         CPOOLENT *ptre;
@@ -3095,6 +3095,11 @@ void __strip_from_pool( DMHENV env )
         {
             if ( ptre -> connection.environment == env )
             {
+                /*
+                 * disconnect driver side connection, and when the last the driver side env
+                 */
+                close_pooled_connection( ptre );
+
                 ptre -> connection.environment = NULL;
             }
         }
@@ -3211,6 +3216,49 @@ static int pool_match( CPOOLHEAD *pooh,
 }
 
 /*
+
+int display_pool( void )
+{
+    printf( "pool_head: %p\n", pool_head );
+    if ( pool_head ) {
+        CPOOLHEAD *pptr;
+        CPOOLENT *pent;
+
+        pptr = pool_head;
+
+        while( pptr ) {
+
+            printf( "\tpptr: %p\n", pptr );
+            printf( "\t\tdsn: %s\n", pptr -> _driver_connect_string );
+            printf( "\t\tnum_entries: %d\n", pptr -> num_entries );
+            printf( "\t\tentries: %p\n", pptr -> entries );
+            printf( "\t\tnext: %p\n", pptr -> next );
+
+            pent = pptr -> entries;
+            while( pent ) {
+                printf( "\t\t\tpent: %p\n", pent );
+                printf( "\t\t\texpiry_time: %d\n", pent -> expiry_time );
+                printf( "\t\t\tttl: %d\n", pent -> ttl );
+                printf( "\t\t\tin_use: %d\n", pent -> in_use );
+                printf( "\t\t\thead: %p\n", pent -> head );
+                printf( "\t\t\tcursors: %d\n", pent -> cursors );
+                printf( "\t\t\tconnection -> env: %p\n", pent -> connection.environment );
+                printf( "\t\t\tconnection -> driver_env: %p\n", pent -> connection.driver_env );
+                printf( "\t\t\tnext: %p\n", pent -> next );
+                printf( "\n" );
+
+                pent = pent -> next;
+            }
+
+            pptr = pptr -> next;
+            printf( "\n" );
+        }
+    }
+}
+
+*/
+
+/*
  * Search for a matching connection from the pool
  * Removes expired connections too
 Returns
@@ -3275,6 +3323,40 @@ restart:;
             if ( ptre -> in_use )
             {
                 continue;
+            }
+
+            /*
+             * has it been previously stripped
+             */
+
+            if ( ptre -> connection.environment == NULL ) 
+            {
+                if ( ptre == ptrh -> entries ) /* head of the list ? */
+                {
+                    ptrh -> entries = ptre -> next;
+                }
+                else
+                {
+                    preve -> next = ptre -> next;
+                }
+                free( ptre );
+                ptrh -> num_entries --;
+                pool_signal();
+
+                if ( ! ptrh -> num_entries ) /* free the head too */
+                {
+                    if ( prevh )
+                    {
+                        prevh -> next = ptrh -> next;
+                    }
+                    else
+                    {
+                        pool_head = ptrh -> next;
+                    }
+                    free( ptrh -> _driver_connect_string );
+                    free( ptrh );
+                }
+                goto restart;
             }
 
             /*
@@ -3343,6 +3425,15 @@ disconnect_and_remove:
              */
 
             if ( ptre -> cursors != connection -> cursors )
+            {
+                continue;
+            }
+
+            /*
+             * we are spanning env's
+             */
+
+            if ( ptre -> connection.environment && ptre -> connection.environment != connection -> environment )
             {
                 continue;
             }

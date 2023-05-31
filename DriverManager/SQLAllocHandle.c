@@ -308,13 +308,86 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             {
                 pooling_enabled = 1;
             }
-            else
+
+#ifdef SHARED_POOLED_ENV
+            if ( pooling_enabled )
             {
-                pooling_enabled = 0;
+                int first;
+            
+                SQLGetPrivateProfileString( "ODBC", "PoolMaxSize", "0",
+                    pool_max_size_string, sizeof( pool_max_size_string ),
+                    "ODBCINST.INI" );
+                pool_max_size = atoi( pool_max_size_string );
+
+                SQLGetPrivateProfileString( "ODBC", "PoolWaitTimeout", "30",
+                    pool_wait_timeout_string, sizeof( pool_wait_timeout_string ),
+                    "ODBCINST.INI" );
+                pool_wait_timeout = atoi( pool_wait_timeout_string );
+
+                if ( !( environment = __share_env( &first )))
+                {
+                    *output_handle = SQL_NULL_HENV;
+                    return SQL_ERROR;
+                }
+                *output_handle = (SQLHANDLE) environment;
+
+                if ( first ) {
+                    /*
+                     * setup environment state
+                     */
+
+                    environment -> state = STATE_E1;
+                    environment -> requested_version = requested_version;
+                    environment -> version_set = !!requested_version;
+                    environment -> sql_driver_count = -1;
+
+                    /*
+                     * if SQLAllocEnv is called then it's probable that
+                     * the application wants ODBC2.X type behaviour
+                     *
+                     * In this case we don't need to set the version via
+                     * SQLSetEnvAttr()
+                     *
+                     */
+
+                    environment -> connection_count = 0;
+                }
             }
+            else {
+
+                if ( !( environment = __alloc_env()))
+                {
+                    *output_handle = SQL_NULL_HENV;
+                    return SQL_ERROR;
+                }
+                *output_handle = (SQLHANDLE) environment;
+    
+                /*
+                * setup environment state
+                */
+    
+                environment -> state = STATE_E1;
+                environment -> requested_version = requested_version;
+                environment -> version_set = !!requested_version;
+        	    environment -> sql_driver_count = -1;
+    
+                /*
+                * if SQLAllocEnv is called then it's probable that
+                * the application wants ODBC2.X type behaviour
+                *
+                * In this case we don't need to set the version via
+                * SQLSetEnvAttr()
+                *
+                */
+    
+                environment -> connection_count = 0;
+           }
+#else
 
             if ( pooling_enabled )
             {
+                int first;
+            
                 SQLGetPrivateProfileString( "ODBC", "PoolMaxSize", "0",
                     pool_max_size_string, sizeof( pool_max_size_string ),
                     "ODBCINST.INI" );
@@ -334,26 +407,27 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             *output_handle = (SQLHANDLE) environment;
 
             /*
-             * setup environment state
-             */
+            * setup environment state
+            */
 
             environment -> state = STATE_E1;
             environment -> requested_version = requested_version;
             environment -> version_set = !!requested_version;
-        	environment -> sql_driver_count = -1;
+            environment -> sql_driver_count = -1;
 
             /*
-             * if SQLAllocEnv is called then it's probable that
-             * the application wants ODBC2.X type behaviour
-             *
-             * In this case we don't need to set the version via
-             * SQLSetEnvAttr()
-             *
-             */
-
+            * if SQLAllocEnv is called then it's probable that
+            * the application wants ODBC2.X type behaviour
+            *
+            * In this case we don't need to set the version via
+            * SQLSetEnvAttr()
+            *
+            */
+    
             environment -> connection_count = 0;
-
-            return SQL_SUCCESS;
+#endif
+    
+           return SQL_SUCCESS;
         }
         break;
 

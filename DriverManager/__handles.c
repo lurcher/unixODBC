@@ -426,15 +426,9 @@ void mutex_lib_exit( void )
     local_mutex_exit( &mutex_lists );
 }
 
-/*
- * allocate and register a environment handle
- */
-
-DMHENV __alloc_env( void )
+static DMHENV __locked_alloc_env()
 {
-    DMHENV environment = NULL;
-
-    local_mutex_entry( &mutex_lists );
+    DMHENV environment;
 
     environment = calloc( sizeof( *environment ), 1 );
 
@@ -505,6 +499,49 @@ DMHENV __alloc_env( void )
 
     }
 
+    return environment;
+}
+
+static DMHENV shared_environment;
+
+DMHENV __share_env( int *first )
+{
+    DMHENV environment;
+
+    local_mutex_entry( &mutex_lists );
+
+    if ( shared_environment ) {
+
+        *first = 0;
+
+        environment = shared_environment;
+    }
+    else {
+        environment = __locked_alloc_env();
+
+        *first = 1;
+
+        shared_environment = environment;
+    }
+
+    local_mutex_exit( &mutex_lists );
+
+    return environment;
+}
+
+
+/*
+ * allocate and register a environment handle
+ */
+
+DMHENV __alloc_env( void )
+{
+    DMHENV environment = NULL;
+
+    local_mutex_entry( &mutex_lists );
+
+    environment = __locked_alloc_env();
+
     local_mutex_exit( &mutex_lists );
 
     return environment;
@@ -514,8 +551,12 @@ DMHENV __alloc_env( void )
  * check that a env is real
  */
 
-int __validate_env( DMHENV env )
+int __validate_env_mark_released( DMHENV env )
 {
+    if ( shared_environment && env == shared_environment ) {
+        return 1;
+    }
+
 #ifdef FAST_HANDLE_VALIDATE
 
     if ( env && *(( int * ) env ) == HENV_MAGIC )
@@ -537,6 +578,55 @@ int __validate_env( DMHENV env )
         if ( ptr == env )
         {
             ret = 1;
+            env -> released = 1;
+            break;
+        }
+
+        ptr = ptr -> next_class_list;
+    }
+
+    local_mutex_exit( &mutex_lists );
+
+    return ret;
+
+#endif
+}
+
+int __validate_env( DMHENV env )
+{
+    if ( shared_environment && env == shared_environment ) {
+        return 1;
+    }
+
+#ifdef FAST_HANDLE_VALIDATE
+
+    if ( env && *(( int * ) env ) == HENV_MAGIC )
+        return 1;
+    else
+        return 0;
+
+#else
+
+    DMHENV ptr;
+    int ret = 0;
+
+    local_mutex_entry( &mutex_lists );
+
+    ptr = environment_root;
+
+    while( ptr )
+    {
+        if ( ptr == env )
+        {
+            if ( env -> released ) 
+            {
+                fprintf( stderr, "unixODBC: API Error, env handle used after being free\n" );
+                ret = 0;
+            }
+            else 
+            {
+                ret = 1;
+            }
             break;
         }
 
@@ -558,6 +648,10 @@ void __release_env( DMHENV environment )
 {
     DMHENV last = NULL;
     DMHENV ptr;
+
+    if ( shared_environment && environment == shared_environment ) {
+        return;
+    } 
 
     local_mutex_entry( &mutex_lists );
 
