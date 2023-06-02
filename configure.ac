@@ -94,6 +94,14 @@ AC_ARG_ENABLE( iconv,
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-iconv) ;;
     esac],[iconv=true])
 
+AC_ARG_ENABLE( utf8ini, 
+[AS_HELP_STRING([--enable-utf8ini], [build with basic support for utf8 encoding in ini file support [default=no]])],
+[ case "${enableval}" in
+    yes) utf8ini=true ;;
+    no) utf8ini=false ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-utf8ini) ;;
+    esac],[utf8ini=false])
+
 dnl Check for sys/sem.h
 
 AC_CHECK_HEADERS(sys/sem.h, semh=true, semh=false)
@@ -324,6 +332,14 @@ AC_SUBST(READLINE)
 AC_MSG_CHECKING( Are we using ini caching )
 if test "x$inicaching" = "xtrue"; then
 	AC_DEFINE([ENABLE_INI_CACHING],[],[Using ini cacheing])
+	AC_MSG_RESULT( yes );
+else
+	AC_MSG_RESULT( no );
+fi
+
+AC_MSG_CHECKING( Are we using utf8 ini encoding )
+if test "x$utf8ini" = "xtrue"; then
+	AC_DEFINE([WITH_UTF8_INI],[],[Using utf8 ini encoding])
 	AC_MSG_RESULT( yes );
 else
 	AC_MSG_RESULT( no );

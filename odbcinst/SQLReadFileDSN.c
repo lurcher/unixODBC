@@ -259,7 +259,7 @@ BOOL INSTAPI  SQLReadFileDSNW(LPCWSTR  lpszFileName,
     {
         if ( str && lpszString )
         {
-            _single_copy_to_wide( lpszString, str, len + 1 );
+            len = _single_copy_to_wide( lpszString, str, len + 1 );
         }
     }
 

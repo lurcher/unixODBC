@@ -658,9 +658,9 @@ int  INSTAPI SQLGetPrivateProfileStringW( LPCWSTR lpszSection,
 		if ( buf && lpszRetBuffer )
 		{
             if ( !lpszSection || !lpszEntry )
-                _multi_string_copy_to_wide( lpszRetBuffer, buf, ret );
+                ret = _multi_string_copy_to_wide( lpszRetBuffer, buf, ret );
             else
-                _single_copy_to_wide( lpszRetBuffer, buf, ret );
+                ret = _single_copy_to_wide( lpszRetBuffer, buf, ret );
 		}
 	}
 

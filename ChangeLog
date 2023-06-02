@@ -11,6 +11,7 @@
       pooling to allow any length
     * Export __clear_ini_cache() from odbcinst to allow explicitly clearing the ini cache
     * Fix seg fault when used with SQLAPI
+    * Add --enable-utf8ini flag to add utf8 to WCHAR conversions in SQLGetPrivateProfileStringW
 
 4-May-2022
 2.3.11

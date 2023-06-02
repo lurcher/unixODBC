@@ -53,6 +53,64 @@ char* _multi_string_alloc_and_copy( LPCWSTR in )
     return chr;
 }
 
+#ifdef WITH_UTF8_INI
+
+char* _single_string_alloc_and_copy( LPCWSTR in )
+{
+    char *chr;
+    int len = 0, ulen = 0;
+
+    if ( !in )
+    {
+        return NULL;
+    }
+
+    while ( in[ len ] != 0 )
+    {
+        if ( in[ len ] < 0x80 ) {
+            ulen ++;
+        }
+        else if ( in[ len ] < 0x800 ) {
+            ulen += 2;
+        }
+        else {
+            ulen += 3;
+        }
+        len ++;
+    }
+
+    chr = malloc( ulen + 1 );
+
+    len = 0;
+    ulen = 0;
+    while ( in[ len ] != 0 )
+    {
+        if ( in[ len ] < 0x80 ) {
+            chr[ ulen ] = in[ len ];
+            len ++;
+            ulen ++;
+        }
+        else if ( in[ len ] < 0x800 ) {
+            chr[ ulen ++ ] = ( 0xC0 | ( in[ len ]  >> 6 ));
+            chr[ ulen ] = ( 0x80 | ( in[ len ] & 0x3F ));
+            len ++;
+            ulen ++;
+        }
+        else {
+            chr[ ulen ++ ] = ( 0xE0 | ( in[ len ] >> 12 ));
+            chr[ ulen ++ ] = ( 0x80 | ( in[ len ]  >> 6 & 0x3F ));
+            chr[ ulen ] = ( 0x80 | ( in[ len ] & 0x3F ));
+            len ++;
+            ulen ++;
+        }
+    }
+    chr[ ulen ++ ] = '\0';
+
+    return chr;
+}
+
+#else
+
 char* _single_string_alloc_and_copy( LPCWSTR in )
 {
     char *chr;
@@ -80,6 +138,8 @@ char* _single_string_alloc_and_copy( LPCWSTR in )
 
     return chr;
 }
+
+#endif
 
 SQLWCHAR* _multi_string_alloc_and_expand( LPCSTR in )
 {
@@ -150,8 +210,55 @@ void _single_string_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
     *out = 0;
 }
 
-void _single_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
+#ifdef WITH_UTF8_INI
+
+int _single_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
 {
+    int clen = 0;
+
+    while ( len >= 0 )
+    {
+        if ((*in & 0x80) == 0x00 ) {
+            *out = *in;
+
+            in ++;
+            len --;
+            if ( *out == 0 ) {
+                break;
+            }
+        }
+        else if ((*in & 0xE0) == 0xC0) {
+            *out = (*in++ & 0x3F);
+            *out = *out << 6;
+            *out |= (*in & 0x7F);
+
+            in ++;
+            len -= 2;
+        }
+        else if ((*in & 0xF0) == 0xE0) {
+            *out = *in++ & 0x1F;
+            *out = *out << 12;
+            *out |= ((*in++ & 0x7F) << 6);
+            *out |= (*in & 0x3F);
+
+            in ++;
+            len -= 3;
+        }
+        out ++;
+        clen ++;
+    }
+
+    return clen;
+}
+
+#else
+
+int _single_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
+{
+    int clen;
+
+    clen = len;
+
     while ( len >= 0 )
     {
         *out = *in;
@@ -159,7 +266,11 @@ void _single_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
         in++;
         len --;
     }
+
+    return clen;
 }
+
+#endif
 
 void _single_copy_from_wide( SQLCHAR *out, LPCWSTR in, int len )
 {
@@ -172,18 +283,68 @@ void _single_copy_from_wide( SQLCHAR *out, LPCWSTR in, int len )
     }
 }
 
-void _multi_string_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
+#ifdef WITH_UTF8_INI
+
+int _multi_string_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
 {
+    int clen = 0;
+
+    while ( len > 0 && ( in[ 0 ] || in[ 1 ] ))
+    {
+        if ((*in & 0x80) == 0x00 ) {
+            *out = *in;
+
+            in ++;
+            len --;
+        }
+        else if ((*in & 0xE0) == 0xC0) {
+            *out = (*in++ & 0x3F);
+            *out = *out << 6;
+            *out |= (*in & 0x7F);
+
+            in ++;
+            len -= 2;
+        }
+        else if ((*in & 0xF0) == 0xE0) {
+            *out = *in++ & 0x1F;
+            *out = *out << 12;
+            *out |= ((*in++ & 0x7F) << 6);
+            *out |= (*in & 0x3F);
+
+            in ++;
+            len -= 3;
+        }
+        out ++;
+        clen ++;
+    }
+
+    *out++ = 0;
+    *out++ = 0;
+
+    return clen;
+}
+
+#else
+
+int _multi_string_copy_to_wide( SQLWCHAR *out, LPCSTR in, int len )
+{
+    int clen = 0;
+
     while ( len > 0 && ( in[ 0 ] || in[ 1 ] ))
     {
         *out = *in;
         out++;
         in++;
         len --;
+        clen ++;
     }
     *out++ = 0;
     *out++ = 0;
+
+    return clen;
 }
+
+#endif
 
 int _multi_string_length( LPCSTR in )
 {
