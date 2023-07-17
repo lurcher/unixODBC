@@ -548,8 +548,6 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
  * handle allocation functions
  */
 
-/* #define SHARED_POOLED_ENV   1 *//* with this set use a single env handle when pooling is in use, will cause connection to remain open at exit */
-
 DMHENV __share_env( int *first );
 DMHENV __alloc_env( void );
 int __validate_env( DMHENV );

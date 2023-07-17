@@ -250,7 +250,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
             thread_release( SQL_HANDLE_ENV, environment );
 
-#ifdef SHARED_POOLED_ENV
+#ifdef WITH_SHARDENV
             if ( pooling_enabled == 0 ) {
                 /*
                  * release any pooled connections that are using this environment

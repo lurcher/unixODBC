@@ -309,7 +309,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 pooling_enabled = 1;
             }
 
-#ifdef SHARED_POOLED_ENV
+#ifdef WITH_SHARDENV
             if ( pooling_enabled )
             {
                 int first;

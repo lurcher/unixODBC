@@ -13,6 +13,7 @@
     * Fix seg fault when used with SQLAPI
     * Add --enable-utf8ini flag to add utf8 to WCHAR conversions in SQLGetPrivateProfileStringW
     * Allow longer error messages via GetDiag functions
+    * Add --enable-singleenv to enable single shared env handle when using pooling
 
 4-May-2022
 2.3.11
