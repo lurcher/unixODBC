@@ -230,6 +230,27 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
             thread_protect( SQL_HANDLE_ENV, environment );
 
+#ifdef WITH_SHARDENV
+            if ( pooling_enabled == 0 ) {
+                /*
+                 * check states
+                 */
+                if ( environment -> state != STATE_E1 )
+                {
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
+                            "Error: HY010" );
+    
+                    __post_internal_error( &environment -> error,
+                            ERROR_HY010, NULL,
+                            environment -> requested_version );
+    
+                    return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
+                }
+            }
+#else
             /*
              * check states
              */
@@ -247,6 +268,7 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
                 return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
             }
+#endif
 
             thread_release( SQL_HANDLE_ENV, environment );
 
