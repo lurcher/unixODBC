@@ -1,3 +1,9 @@
+23-Aug-2023
+2.3.13pre
+
+    * Disable connection pooling if the cursor lib is in use, the two conflict over the manupluation
+      of driver function entry points
+
 8-Aug-2023
 2.3.12
 

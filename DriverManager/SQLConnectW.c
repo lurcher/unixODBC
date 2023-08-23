@@ -889,7 +889,11 @@ retry:
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
     }
 
-    if ( pooling_enabled && !add_to_pool( connection, pooh ) )
+    /*
+     * we cant use a pooled cursor lib connection, they both mess with the function pointers
+     */
+
+    if ( pooling_enabled && !connection -> cl_handle && !add_to_pool( connection, pooh ) )
     {
         pool_unreserve( pooh );
     }
