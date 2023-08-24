@@ -57,6 +57,7 @@ SQLHDBC hDbc                        = 0;
 int     bQuote                      = 0;
 int     version3                    = 0;
 int     bBatch                      = 0;
+int     bIntro                      = 0;
 int     ac_off                      = 0;
 int     bHTMLTable                  = 0;
 int     cDelimiter                  = 0;
@@ -82,10 +83,12 @@ int main( int argc, char *argv[] )
 #if defined(HAVE_EDITLINE) || defined(HAVE_READLINE)
     char    *rlhistory; /* readline history path */
 
+    if (getenv("HOME")) {
     rlhistory = strdup(getenv("HOME"));
     rlhistory = realloc(rlhistory, strlen(rlhistory)+16);
     strcat(rlhistory, "/.isql_history");
     read_history(rlhistory);
+    }
 #endif
 
     szDSN = NULL;
@@ -130,6 +133,9 @@ int main( int argc, char *argv[] )
                     break;
                 case 'b':
                     bBatch = 1;
+                    break;
+                case 'i':
+                    bIntro = 1;
                     break;
                 case 'c':
                     bColumnNames = 1;
@@ -208,7 +214,7 @@ int main( int argc, char *argv[] )
     /****************************
      * EXECUTE
      ***************************/
-    if ( !bBatch )
+    if ( !bBatch && !bIntro)
     {
         printf( "+---------------------------------------+\n" );
         printf( "| Connected!                            |\n" );
