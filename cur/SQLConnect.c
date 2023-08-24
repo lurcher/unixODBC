@@ -421,7 +421,7 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
          * cursor lib, this may be cleared if its a pooled connection
          */
 
-        if ( connection -> functions ) {
+        if ( connection ) {
             for ( i = 0; 
                 i < sizeof( cl_template_func ) / sizeof( cl_template_func[ 0 ] ); 
                 i ++ )
@@ -429,14 +429,14 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
                 connection -> functions[ i ] =
                     cl_connection -> functions[ i ];
             }
+
+            /*
+             * replace the driver dbc
+             */
+    
+            connection -> driver_dbc = 
+                cl_connection -> driver_dbc;
         }
-
-        /*
-         * replace the driver dbc
-         */
-
-        connection -> driver_dbc = 
-            cl_connection -> driver_dbc;
 
         /*
          * release the allocated memory

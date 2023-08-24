@@ -3878,6 +3878,19 @@ void return_to_pool( DMHDBC connection )
         }
     }
 
+    if ( connection -> cl_handle ) 
+    {
+        /*
+         * slight hack to warn the cursor lib the connection is going away 
+         */
+
+        SQLSETCONNECTATTR( connection,
+                    connection -> driver_dbc,
+                    SQL_ATTR_RESET_CONNECTION,
+                    (SQLPOINTER)(intptr_t) 2,
+                    0 );
+    }
+
     /*
      * remove all information from the connection
      */
@@ -4656,12 +4669,7 @@ retry:
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
     }
 
-    /*
-     * Don't pool with the cursor lib, it expects to beable to reach back into the connection
-     * that may not be there anymore
-     */
-
-    if ( pooling_enabled && !connection -> cl_handle && !add_to_pool( connection, pooh ) )
+    if ( pooling_enabled && !add_to_pool( connection, pooh ) )
     {
         pool_unreserve( pooh );
     }

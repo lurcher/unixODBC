@@ -1925,12 +1925,7 @@ retry:
         ret_from_connect = SQL_SUCCESS_WITH_INFO;
     }
 
-    /*
-     * Don't pool with the cursor lib, it expects to beable to reach back into the connection
-     * that may not be there anymore
-     */
-
-    if ( pooling_enabled && !connection -> cl_handle && !add_to_pool( connection, pooh ) )
+    if ( pooling_enabled && !add_to_pool( connection, pooh ) )
     {
         pool_unreserve( pooh );
     }
