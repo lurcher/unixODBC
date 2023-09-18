@@ -365,6 +365,14 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
     connection -> functions[ DM_SQLBULKOPERATIONS ].func = NULL;
 
     /*
+     * prevent the DM from tring to get via the W functions
+     */
+
+    connection -> functions[ DM_SQLERROR ].funcW = NULL;
+    connection -> functions[ DM_SQLGETDIAGREC ].funcW = NULL;
+    connection -> functions[ DM_SQLGETDIAGFIELD ].funcW = NULL;
+
+    /*
      * intercept the driver dbc
      */
 

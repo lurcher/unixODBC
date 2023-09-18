@@ -7,6 +7,7 @@
       the help text gone but does not disable prompts like the
       -b option. This patch also prevents isql from crashing
       when no $HOME is set.
+    * Prevent the DM from going via the W functions, bipassing the cursor lib if in use
 
 
 8-Aug-2023
