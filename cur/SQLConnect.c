@@ -335,6 +335,12 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
             connection -> functions[ i ].can_supply =
                 cl_connection -> functions[ i ].can_supply;
         }
+        /*
+         * prevent the DM from tring to get via the W functions, the cursor lib is 
+         * ascii only
+         */
+
+        connection -> functions[ i ].funcW = NULL;
     }
 
     /*
@@ -364,13 +370,6 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
     connection -> functions[ DM_SQLBULKOPERATIONS ].can_supply = 0;
     connection -> functions[ DM_SQLBULKOPERATIONS ].func = NULL;
 
-    /*
-     * prevent the DM from tring to get via the W functions
-     */
-
-    connection -> functions[ DM_SQLERROR ].funcW = NULL;
-    connection -> functions[ DM_SQLGETDIAGREC ].funcW = NULL;
-    connection -> functions[ DM_SQLGETDIAGFIELD ].funcW = NULL;
 
     /*
      * intercept the driver dbc
