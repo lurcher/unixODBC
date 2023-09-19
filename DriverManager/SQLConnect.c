@@ -3438,6 +3438,20 @@ disconnect_and_remove:
                 continue;
             }
 
+#ifdef HAVE_UNISTD_H
+#ifdef HAVE_GETPID
+            /* 
+             * Are we spanning threads/processes, there is no problem with that for us, but I have seen this fail badly
+             * in drivers that use OpenSSL
+             */
+
+            if ( ptre -> connection.created_pid != getpid()) 
+            {
+                continue;
+            }
+#endif
+#endif
+
             /*
              * ok so far, is it still alive ?
              */
@@ -3451,42 +3465,71 @@ disconnect_and_remove:
              */
             dead = 0;
 
-            if ((CHECK_SQLGETCONNECTATTR(( &ptre -> connection )) &&
-                    SQL_SUCCEEDED( ret = SQLGETCONNECTATTR(( &ptre -> connection ),
-                        ptre -> connection.driver_dbc,
-                        SQL_ATTR_CONNECTION_DEAD,
-                        &dead,
-                        SQL_IS_INTEGER,
-                        0 ))) ||
-                (CHECK_SQLGETCONNECTATTRW(( &ptre -> connection )) &&
-                    SQL_SUCCEEDED( ret = SQLGETCONNECTATTRW(( &ptre -> connection ),
-                        ptre -> connection.driver_dbc,
-                        SQL_ATTR_CONNECTION_DEAD,
-                        &dead,
-                        SQL_IS_INTEGER,
-                        0 ))) ||
-                (CHECK_SQLGETCONNECTOPTION(( &ptre -> connection )) &&
-                    SQL_SUCCEEDED( ret = SQLGETCONNECTOPTION(( &ptre -> connection ),
-                        ptre -> connection.driver_dbc,
-                        SQL_ATTR_CONNECTION_DEAD,
-                        &dead ))) ||
-                (CHECK_SQLGETCONNECTOPTIONW(( &ptre -> connection )) &&
-                    SQL_SUCCEEDED( ret = SQLGETCONNECTOPTIONW(( &ptre -> connection ),
-                        ptre -> connection.driver_dbc,
-                        SQL_ATTR_CONNECTION_DEAD,
-                        &dead )))
-            )
+            if ( CHECK_SQLGETCONNECTATTR(( &ptre -> connection )))
             {
-                /*
-                 * if it failed assume that it's because it doesn't support
-                 * it, but it's ok
-                 */
-                if ( dead == SQL_CD_TRUE )
+                ret = SQLGETCONNECTATTR(( &ptre -> connection ),
+                        ptre -> connection.driver_dbc,
+                        SQL_ATTR_CONNECTION_DEAD,
+                        &dead,
+                        SQL_IS_INTEGER,
+                        0 );
+                if ( SQL_SUCCEEDED( ret )) 
                 {
-                    goto disconnect_and_remove;
+                    has_checked = 1;
+                    if ( dead == SQL_CD_TRUE )
+                    {
+                        goto disconnect_and_remove;
+                    }
                 }
-                has_checked = 1;
             }
+            if ( !has_checked && CHECK_SQLGETCONNECTATTRW(( &ptre -> connection )))
+            {
+                ret = SQLGETCONNECTATTRW(( &ptre -> connection ),
+                        ptre -> connection.driver_dbc,
+                        SQL_ATTR_CONNECTION_DEAD,
+                        &dead,
+                        SQL_IS_INTEGER,
+                        0 );
+                if ( SQL_SUCCEEDED( ret )) 
+                {
+                    has_checked = 1;
+                    if ( dead == SQL_CD_TRUE )
+                    {
+                        goto disconnect_and_remove;
+                    }
+                }
+            }
+            if ( !has_checked && CHECK_SQLGETCONNECTOPTION(( &ptre -> connection ))) 
+            {
+                    ret = SQLGETCONNECTOPTION(( &ptre -> connection ),
+                        ptre -> connection.driver_dbc,
+                        SQL_ATTR_CONNECTION_DEAD,
+                        &dead );
+                if ( SQL_SUCCEEDED( ret )) 
+                {
+                    has_checked = 1;
+                    if ( dead == SQL_CD_TRUE )
+                    {
+                        goto disconnect_and_remove;
+                    }
+                }
+            }
+            if ( !has_checked && CHECK_SQLGETCONNECTOPTIONW(( &ptre -> connection ))) 
+            {
+                    ret = SQLGETCONNECTOPTIONW(( &ptre -> connection ),
+                        ptre -> connection.driver_dbc,
+                        SQL_ATTR_CONNECTION_DEAD,
+                        &dead );
+                if ( SQL_SUCCEEDED( ret )) 
+                {
+                    has_checked = 1;
+                    if ( dead == SQL_CD_TRUE )
+                    {
+                        goto disconnect_and_remove;
+                    }
+                }
+            }
+
             /*
              * Need some other way of checking, This isn't safe to pool...
              * But it needs to be something thats not slower than connecting...
@@ -3678,6 +3721,12 @@ disconnect_and_remove:
             connection -> iconv_cd_ascii_to_uc = ptre -> connection.iconv_cd_ascii_to_uc;
 #endif
 
+#ifdef HAVE_UNISTD_H
+#ifdef HAVE_GETPID
+            connection -> created_pid = ptre -> connection.created_pid;
+#endif
+#endif
+
             /*
              * copy current environment into the pooled connection
              */
@@ -3823,6 +3872,12 @@ int add_to_pool ( DMHDBC connection, CPOOLHEAD *pooh )
     ptr -> connection.iconv_cd_ascii_to_uc = connection -> iconv_cd_ascii_to_uc;
     connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
     connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
+#endif
+
+#ifdef HAVE_UNISTD_H
+#ifdef HAVE_GETPID
+    ptr -> connection.created_pid = connection -> created_pid;
+#endif
 #endif
 
     /*

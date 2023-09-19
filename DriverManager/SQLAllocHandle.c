@@ -566,6 +566,11 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             connection -> stmt_attribute.count = 0;
             connection -> stmt_attribute.list = NULL;
             connection -> save_attr = NULL;
+#ifdef HAVE_UNISTD_H
+#ifdef HAVE_GETPID
+            connection -> created_pid = getpid();
+#endif
+#endif
 
 #ifdef HAVE_ICONV
             connection -> iconv_cd_uc_to_ascii = (iconv_t)-1;

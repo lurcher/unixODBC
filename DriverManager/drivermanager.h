@@ -16,6 +16,9 @@
 #ifdef HAVE_TIME_H
 #include <time.h>
 #endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h> 
+#endif
 
 #ifdef HAVE_SYNCH_H
 #include <synch.h>
@@ -360,6 +363,10 @@ typedef struct connection
     int             quite_mode_set;
     int             txn_isolation;
     int             txn_isolation_set;
+
+#ifdef HAVE_UNISTD_H
+    pid_t           created_pid;
+#endif
 
     SQLINTEGER      cursors;
     void            *cl_handle;         /* handle to the cursor lib */
