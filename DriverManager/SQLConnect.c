@@ -3216,10 +3216,16 @@ static int pool_match( CPOOLHEAD *pooh,
 }
 
 /*
+ * use this variable to spot odd behavour with memory and Python, that looks
+ * like copies of the process memory are replicated and then wound backwards
+ */
+
+/*
+static int ecount;
 
 int display_pool( void )
 {
-    printf( "pool_head: %p\n", pool_head );
+    printf( "pool_head: %p %d\n", pool_head, ecount ++ );
     if ( pool_head ) {
         CPOOLHEAD *pptr;
         CPOOLENT *pent;
@@ -3244,6 +3250,7 @@ int display_pool( void )
                 printf( "\t\t\tcursors: %d\n", pent -> cursors );
                 printf( "\t\t\tconnection -> env: %p\n", pent -> connection.environment );
                 printf( "\t\t\tconnection -> driver_env: %p\n", pent -> connection.driver_env );
+                printf( "\t\t\tconnection -> driver_dbc: %p\n", pent -> connection.driver_dbc );
                 printf( "\t\t\tnext: %p\n", pent -> next );
                 printf( "\n" );
 
@@ -3255,7 +3262,6 @@ int display_pool( void )
         }
     }
 }
-
 */
 
 /*
@@ -3363,7 +3369,7 @@ restart:;
              * has it expired ? Do some cleaning up first
              */
 
-            if ( ptre -> expiry_time < current_time )
+            if ( ptre -> expiry_time < current_time && ptre -> in_use == 0 )
             {
                 /*
                  * disconnect and remove
@@ -3437,20 +3443,6 @@ disconnect_and_remove:
             {
                 continue;
             }
-
-#ifdef HAVE_UNISTD_H
-#ifdef HAVE_GETPID
-            /* 
-             * Are we spanning threads/processes, there is no problem with that for us, but I have seen this fail badly
-             * in drivers that use OpenSSL
-             */
-
-            if ( ptre -> connection.created_pid != getpid()) 
-            {
-                continue;
-            }
-#endif
-#endif
 
             /*
              * ok so far, is it still alive ?
@@ -3721,12 +3713,6 @@ disconnect_and_remove:
             connection -> iconv_cd_ascii_to_uc = ptre -> connection.iconv_cd_ascii_to_uc;
 #endif
 
-#ifdef HAVE_UNISTD_H
-#ifdef HAVE_GETPID
-            connection -> created_pid = ptre -> connection.created_pid;
-#endif
-#endif
-
             /*
              * copy current environment into the pooled connection
              */
@@ -3872,12 +3858,6 @@ int add_to_pool ( DMHDBC connection, CPOOLHEAD *pooh )
     ptr -> connection.iconv_cd_ascii_to_uc = connection -> iconv_cd_ascii_to_uc;
     connection -> iconv_cd_uc_to_ascii = (iconv_t) -1;
     connection -> iconv_cd_ascii_to_uc = (iconv_t) -1;
-#endif
-
-#ifdef HAVE_UNISTD_H
-#ifdef HAVE_GETPID
-    ptr -> connection.created_pid = connection -> created_pid;
-#endif
 #endif
 
     /*

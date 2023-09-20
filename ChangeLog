@@ -9,7 +9,6 @@
       when no $HOME is set.
     * Prevent the DM from going via the W functions, bipassing the cursor lib if in use
 
-
 8-Aug-2023
 2.3.12
 

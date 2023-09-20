@@ -364,10 +364,6 @@ typedef struct connection
     int             txn_isolation;
     int             txn_isolation_set;
 
-#ifdef HAVE_UNISTD_H
-    pid_t           created_pid;
-#endif
-
     SQLINTEGER      cursors;
     void            *cl_handle;         /* handle to the cursor lib */
     int             trace;
