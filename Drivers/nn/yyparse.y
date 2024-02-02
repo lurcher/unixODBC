@@ -40,7 +40,6 @@ static	char	sccsid[]
 # define yylex()		nnsql_yylex(&yylval, pyyenv)
 #endif
 union YYSTYPE;
-int nnsql_yylex(union YYSTYPE* pyylval, yyenv_t* penv);
 
 
 #define yyparse(x)		nnsql_yyparse	(yyenv_t* pyyenv)

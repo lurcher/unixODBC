@@ -3,9 +3,8 @@
 
     * Disable connection pooling if the cursor lib is in use, the two conflict over the manupluation
       of driver function entry points
-    * small patch to odbc/isql to have a -i option that makes
-      the help text gone but does not disable prompts like the
-      -b option. This patch also prevents isql from crashing
+    * small patch to odbc/isql to have a -i option that removes the help text, but does 
+      not disable prompts like the -b option. This patch also prevents isql from crashing
       when no $HOME is set.
     * Prevent the DM from going via the W functions, bipassing the cursor lib if in use
 
