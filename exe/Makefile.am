@@ -59,11 +59,14 @@ slencheck_SOURCES = slencheck.c
 dltest_DEPENDENCIES = $(LTDLDEPS)
 dltest_LDADD = $(LIBLTDL)
 
+CROSS_LAUNCHER ?= ""
+
 all-am:
-	@sed "s![@]ODBC_ULEN[@]!`$(top_builddir)/exe/odbc_config$(EXEEXT) --ulen`!" \
-	  $(top_builddir)/DriverManager/odbc.pc > $(top_builddir)/exe/odbc.pc.tmp
+	@sed "s![@]ODBC_ULEN[@]!`$(CROSS_LAUNCHER)$(top_builddir)/exe/odbc_config$(EXEEXT) --ulen`!" \
+	    $(top_builddir)/DriverManager/odbc.pc > $(top_builddir)/exe/odbc.pc.tmp
 	@mv -f $(top_builddir)/exe/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
-	@sed "s![@]ODBC_CFLAGS[@]!`$(top_builddir)/exe/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
-	  $(top_builddir)/DriverManager/odbc.pc > $(top_builddir)/exe/odbc.pc.tmp
+	@sed "s![@]ODBC_CFLAGS[@]!`$(CROSS_LAUNCHER)$(top_builddir)/exe/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
+	    $(top_builddir)/DriverManager/odbc.pc > $(top_builddir)/exe/odbc.pc.tmp
 	@mv -f $(top_builddir)/exe/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
+
 
