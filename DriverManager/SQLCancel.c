@@ -102,6 +102,29 @@
 
 static char const rcsid[]= "$RCSfile: SQLCancel.c,v $ $Revision: 1.4 $";
 
+#define IS_01S05 0
+#define IS_NOT_01S05 1
+#define NOT_A_DIAGRECORD 2
+
+static int IsDiagRec01S05(DMHSTMT statement, SQLSMALLINT recNo)
+{
+    SQLCHAR state[12]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
+    SQLRETURN ret = statement->connection->unicode_driver && CHECK_SQLGETDIAGRECW( statement->connection ) ?
+        SQLGETDIAGRECW( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, (SQLWCHAR*)state, NULL, NULL, 0, NULL ) :
+        SQLGETDIAGREC( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, state, NULL, NULL, 0, NULL ) ;
+    if ( SQL_NO_DATA == ret )
+    {
+        return NOT_A_DIAGRECORD;
+    }
+    else if ( SQL_SUCCEEDED( ret ) && (statement->connection->unicode_driver ?
+        !memcmp(state, "0\0001\000S\0000\0005\0", 10) : !memcmp(state, "01S05", 5)) )
+    {
+        return IS_01S05;
+    }
+
+    return IS_NOT_01S05;
+}
+
 SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 {
     DMHSTMT statement = (DMHSTMT) statement_handle;
@@ -186,27 +209,13 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
     {
         if (ret == SQL_SUCCESS_WITH_INFO )
         {
-            SQLULEN nRecs = 0;
-            SQLSMALLINT len;
-            SQLRETURN ret2 = statement->connection->unicode_driver && CHECK_SQLGETDIAGFIELDW( statement->connection ) ?
-                SQLGETDIAGFIELDW ( statement -> connection,  SQL_HANDLE_STMT, statement->driver_stmt, 0, SQL_DIAG_NUMBER, &nRecs, 0, &len ) :
-                SQLGETDIAGFIELD( statement -> connection, SQL_HANDLE_STMT, statement->driver_stmt, 0, SQL_DIAG_NUMBER, &nRecs, 0, &len);
-            if ( SQL_SUCCEEDED( ret2 ) && nRecs )
+            int result;
+            for (SQLSMALLINT recNo = 1; (result = IsDiagRec01S05(statement, recNo)) != NOT_A_DIAGRECORD; recNo++)
             {
-                SQLSMALLINT recNo = 1;
-                while (nRecs--)
+                if (IS_01S05 == result)
                 {
-                    SQLCHAR state[12]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
-                    ret2 = statement->connection->unicode_driver && CHECK_SQLGETDIAGRECW( statement->connection ) ?
-                        SQLGETDIAGRECW( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, (SQLWCHAR*)state, NULL, NULL, 0, NULL ) :
-                        SQLGETDIAGREC( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, state, NULL, NULL, 0, NULL ) ;
-                    if ( SQL_SUCCEEDED( ret2 ) && (statement->connection->unicode_driver ?
-                        !memcmp(state, "0\0001\000S\0000\0005\0", 10) : !memcmp(state, "01S05", 5)) )
-                    {
-                        ret = SQL_SUCCESS;
-                        break;
-                    }
-                    recNo++;
+                    ret = SQL_SUCCESS;
+                    break;
                 }
             }
         }
