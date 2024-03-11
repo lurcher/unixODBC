@@ -109,14 +109,10 @@ static char const rcsid[]= "$RCSfile: SQLCancel.c,v $ $Revision: 1.4 $";
 static int IsDiagRec01S05(DMHSTMT statement, SQLSMALLINT recNo)
 {
     static SQLWCHAR str_01S05[ 5 ] = { '0', '1', 'S', '0', '5' };
-#ifdef SQL_WCHART_CONVERT
-    SQLCHAR state[24]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
-#else
-    SQLCHAR state[12]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
-#endif
+    SQLWCHAR state[6]; /* use the same buffer for both, length must be long enough to hold 5 SQLWCHARs + NULL */
     SQLRETURN ret = statement->connection->unicode_driver && CHECK_SQLGETDIAGRECW( statement->connection ) ?
-        SQLGETDIAGRECW( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, (SQLWCHAR*)state, NULL, NULL, 0, NULL ) :
-        SQLGETDIAGREC( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, state, NULL, NULL, 0, NULL ) ;
+        SQLGETDIAGRECW( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, state, NULL, NULL, 0, NULL ) :
+        SQLGETDIAGREC( statement->connection, SQL_HANDLE_STMT, statement->driver_stmt, recNo, (SQLCHAR*)state, NULL, NULL, 0, NULL ) ;
     if ( SQL_NO_DATA == ret )
     {
         return NOT_A_DIAGRECORD;
