@@ -9,6 +9,7 @@
     * Prevent the DM from going via the W functions, bipassing the cursor lib if in use
     * Added better support for cross compiling in exe/Makefile.am
     * Refactor in SQLCancel and a endian fix at the same time
+    * Add check for Solaris version of getpwuid_r
 
 8-Aug-2023
 2.3.12

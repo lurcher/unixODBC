@@ -407,7 +407,9 @@ AC_CHECK_TYPES([ptrdiff_t])
 AC_SYS_LARGEFILE
 AC_FUNC_FSEEKO
 
-AC_CHECK_FUNCS( strcasecmp strncasecmp snprintf vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid getpwuid_r nl_langinfo fseeko setvbuf clock_gettime getpid )
+AC_CHECK_FUNCS( strcasecmp strncasecmp snprintf vsnprintf strtol atoll strtoll endpwent gettimeofday ftime time stricmp strnicmp getuid getpwuid nl_langinfo fseeko setvbuf clock_gettime getpid )
+
+AX_FUNC_WHICH_GETPWUID_R
 
 AM_LANGINFO_CODESET
 

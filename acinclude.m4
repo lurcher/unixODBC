@@ -701,3 +701,133 @@ AC_DEFUN([AM_LANGINFO_CODESET],
       [Define if you have <langinfo.h> and nl_langinfo(CODESET).])
   fi
 ])
+
+# ==================================================================================
+# Based on
+#   https://www.gnu.org/software/autoconf-archive/ax_func_which_getpwuid_r.html
+# ==================================================================================
+#
+# SYNOPSIS
+#
+#   AX_FUNC_WHICH_GETPWUID_R
+#
+# DESCRIPTION
+#
+#   Determines which historical variant of the getpwuid_r() call
+#   (taking three, five, or six arguments) is available on the system and
+#   defines one of the following macros accordingly:
+#
+#     HAVE_FUNC_GETPWUID_R_5
+#     HAVE_FUNC_GETPWUID_R_4
+#
+#   as well as
+#
+#     HAVE_GETPWUID_R
+#
+
+AC_DEFUN([AX_FUNC_WHICH_GETPWUID_R], [
+
+    AC_LANG_PUSH([C])
+    AC_MSG_CHECKING([how many arguments getpwuid_r() takes])
+
+    AC_CACHE_VAL([ac_cv_func_which_getpwuid_r], [
+
+################################################################
+
+ac_cv_func_which_getpwuid_r=unknown
+
+#
+# ONE ARGUMENT (sanity check)
+#
+
+# This should fail, as there is no variant of getpwuid_r() that takes
+# a single argument. If it actually compiles, then we can assume that
+# netdb.h is not declaring the function, and the compiler is thereby
+# assuming an implicit prototype. In which case, we're out of luck.
+#
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <pwd.h>],
+        [
+            char *name = "www.gnu.org";
+            (void)getpwuid_r(name) /* ; */
+        ])],
+    [ac_cv_func_which_getpwuid_r=no])
+
+#
+# FIVE ARGUMENTS
+# (e.g. Linux)
+#
+
+if test "$ac_cv_func_which_getpwuid_r" = "unknown"; then
+
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <pwd.h>],
+        [
+            char *name = "www.gnu.org";
+            struct passwd pwd;
+            char buf@<:@1024@:>@;
+            int buflen = 1024;
+            struct passwd *result;
+            (void)getpwuid_r(name, &pwd, buf, buflen, &result) /* ; */
+        ])],
+    [ac_cv_func_which_getpwuid_r=five])
+
+fi
+
+#
+# FOUR ARGUMENTS
+# (e.g. Solaris)
+#
+
+if test "$ac_cv_func_which_getpwuid_r" = "unknown"; then
+
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <pwd.h>],
+        [
+            char *name = "www.gnu.org";
+            struct passwd pwd;
+            char buf@<:@1024@:>@;
+            int buflen = 1024;
+            (void)getpwuid_r(name, &pwd, buf, buflen) /* ; */
+        ])],
+    [ac_cv_func_which_getpwuid_r=four])
+
+fi
+
+################################################################
+
+]) dnl end AC_CACHE_VAL
+
+case "$ac_cv_func_which_getpwuid_r" in
+    four|five)
+    AC_DEFINE([HAVE_GETPWUID_R], [1],
+              [Define to 1 if you have some form of getpwuid_r().])
+    ;;
+esac
+
+case "$ac_cv_func_which_getpwuid_r" in
+    four)
+    AC_MSG_RESULT([four])
+    AC_DEFINE([HAVE_FUNC_GETPWUID_R_4], [1],
+              [Define to 1 if you have the four-argument form of getpwuid_r().])
+    ;;
+
+    five)
+    AC_MSG_RESULT([five])
+    AC_DEFINE([HAVE_FUNC_GETPWUID_R_5], [1],
+              [Define to 1 if you have the five-argument form of getpwuid_r().])
+    ;;
+
+    no)
+    AC_MSG_RESULT([cannot find function declaration in pwd.h])
+    ;;
+
+    unknown)
+    AC_MSG_RESULT([can't tell])
+    ;;
+
+    *)
+    AC_MSG_ERROR([internal error])
+    ;;
+esac
+
+AC_LANG_POP
+
+]) dnl end AC_DEFUN

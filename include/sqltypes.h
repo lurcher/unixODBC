@@ -88,7 +88,7 @@ typedef char				CHAR;
 #ifdef SQL_WCHART_CONVERT
 typedef wchar_t             TCHAR;
 #else
-typedef signed short        TCHAR;
+typedef unsigned short      TCHAR;
 #endif
 
 #else
