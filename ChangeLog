@@ -10,6 +10,8 @@
     * Added better support for cross compiling in exe/Makefile.am
     * Refactor in SQLCancel and a endian fix at the same time
     * Add check for Solaris version of getpwuid_r
+    * Make definition of TCHAR match WCHAR
+    * Added some missing error logging in SQLSpecialColumns[W]
 
 8-Aug-2023
 2.3.12
