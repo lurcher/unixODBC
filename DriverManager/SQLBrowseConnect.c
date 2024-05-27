@@ -206,7 +206,7 @@ SQLRETURN SQLBrowseConnect(
     struct con_struct con_struct;
     char *driver, *dsn;
     char lib_name[ INI_MAX_PROPERTY_VALUE + 1 ];
-    char driver_name[ INI_MAX_PROPERTY_VALUE + 1 ];
+    char driver_name[ INI_MAX_PROPERTY_VALUE + 1 ] = { 0 };
     char in_str_buf[ BUFFER_LEN ];
     char *in_str;
     SQLSMALLINT in_str_len;
