@@ -4566,8 +4566,8 @@ retry:
                         as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
                         as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
-                        sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                                as1, as2 );
+                        if ( as1 && as2 ) 
+                                sprintf( connection -> msg, "\t\tDIAG [%s] %s", as1, as2 );
 
                         if ( as1 ) free( as1 );
                         if ( as2 ) free( as2 );
@@ -4607,8 +4607,8 @@ retry:
                         as1 = (SQLCHAR *) unicode_to_ansi_alloc( sqlstate, SQL_NTS, connection, NULL );
                         as2 = (SQLCHAR *) unicode_to_ansi_alloc( message_text, SQL_NTS, connection, NULL );
 
-                        sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                                as1, as2 );
+                        if (as1 && as2)
+                                sprintf( connection -> msg, "\t\tDIAG [%s] %s", as1, as2 );
 
                         if ( as1 ) free( as1 );
                         if ( as2 ) free( as2 );
