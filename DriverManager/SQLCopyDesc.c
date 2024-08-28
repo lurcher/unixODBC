@@ -291,6 +291,8 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     target_descriptor -> msg );
         }
 
+        thread_release( SQL_HANDLE_DBC, src_descriptor -> connection );
+
         return function_return( IGNORE_THREAD, target_descriptor, ret, DEFER_R3 );
     }
     else

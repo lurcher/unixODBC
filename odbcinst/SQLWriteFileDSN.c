@@ -19,7 +19,12 @@ BOOL SQLWriteFileDSN(			LPCSTR	pszFileName,
 	HINI	hIni;
 	char	szFileName[ODBC_FILENAME_MAX+1];
 
-	if ( pszFileName[0] == '/' )
+    if ( pszFileName == NULL ) 
+    {
+        inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_INVALID_PATH, "" );
+		return FALSE;
+    }
+	else if ( pszFileName[0] == '/' )
 	{
 		strncpy( szFileName, pszFileName, sizeof(szFileName) - 5 );
 	}

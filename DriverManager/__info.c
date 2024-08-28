@@ -3982,7 +3982,7 @@ void __post_internal_error_ex( EHEAD *error_header,
      */
 
     strcpy((char*) msg, ERROR_PREFIX );
-    strcat((char*) msg, (char*) message_text );
+    strncat((char*) msg, (char*) message_text, sizeof( msg ) - ( 1 + strlen( ERROR_PREFIX )));
 
     __post_internal_error_ex_noprefix(
         error_header,

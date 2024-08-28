@@ -1904,7 +1904,7 @@ void thread_release( int type, void *handle )
 
 int pool_timedwait( DMHDBC connection )
 {
-    int ret;
+    int ret = 0;
     struct timespec waituntil;
 
 #ifdef HAVE_CLOCK_GETTIME
