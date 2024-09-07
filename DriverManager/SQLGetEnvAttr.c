@@ -231,7 +231,7 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
       case SQL_ATTR_UNIXODBC_SYSPATH:
         if ( value )
         {
-			char b1[ 512 ];
+            char b1[ ODBC_FILENAME_MAX + 1 ];
 
             if ( buffer_length >= strlen( odbcinst_system_file_path( b1 ))) 
             {
