@@ -466,7 +466,7 @@ void Syntax()
 void PrintConfigInfo()
 {
     char szFileName[ODBC_FILENAME_MAX+1];
-	char b1[ 256 ], b2[ 256 ];
+    char b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
 
     printf( "unixODBC " VERSION "\n" );
 

@@ -296,7 +296,7 @@ try_again:
             char szIniName[ INI_MAX_OBJECT_NAME + 1 ];
             char buffer[ 1024 ];
             int total_len = 0;
-			char b1[ 512 ], b2[ 512 ];
+            char b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
             int found = 0;
 
             /*
