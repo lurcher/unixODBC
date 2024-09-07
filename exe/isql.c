@@ -1873,7 +1873,11 @@ static int get_args(char *string, char **args, int maxarg) {
             args[nargs++] = NULL;
         else
             args[nargs++] = strdup(arg);
-        if (nargs > maxarg) return maxarg;
+        if (nargs > maxarg)
+        {
+            free(copy);
+            return maxarg;
+        }
     }
     free(copy);
     return nargs;
