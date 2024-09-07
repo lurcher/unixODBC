@@ -186,6 +186,7 @@ int DriverInstall( char *pszTemplate )
         {
             SQLInstallerError( 1, &nError, szError, ODBC_FILENAME_MAX, NULL );
             if ( cVerbose == 0 ) printf( "odbcinst: SQLInstallDriverEx failed with %s.\n", szError );
+            iniClose( hIni );
             return 1;
         }
         if ( cVerbose == 0 ) printf( "odbcinst: Driver installed. Usage count increased to %d. \n    Target directory is %s\n", (int)nUsageCount, szPathOut );

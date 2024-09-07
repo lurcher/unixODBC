@@ -189,6 +189,7 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
 	if ( pODBCINSTGetProperties == NULL )
 	{
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "Could not find ODBCINSTGetProperties()" );
+		lt_dlclose( hDLL );
 		return ODBCINST_ERROR;
 	}
 	
