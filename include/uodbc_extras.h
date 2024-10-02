@@ -72,11 +72,6 @@ extern int uodbc_vsnprintf (char *str, size_t count, const char *fmt, va_list ar
 extern int strcasecmp( const char *s1, const char * s2 );
 #endif
 
-#ifndef HAVE_STRNCASECMP
-extern int strncasecmp (const char *s1, const char *s2, int n );
-#endif
-
-
 #if defined(__cplusplus)
          }
 #endif

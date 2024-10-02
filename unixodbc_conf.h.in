@@ -272,9 +272,6 @@
 /* Define to 1 if you have the `strlcpy' function. */
 #undef HAVE_STRLCPY
 
-/* Define to 1 if you have the `strncasecmp' function. */
-#undef HAVE_STRNCASECMP
-
 /* Define to 1 if you have the `strnicmp' function. */
 #undef HAVE_STRNICMP
 
