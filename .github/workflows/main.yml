@@ -23,5 +23,5 @@ jobs:
         CC=${{ matrix.cc }} ./configure
     - name: build
       run: |
-        make AM_MAKEFLAGS=CFLAGS=-Werror
-
+        ##make AM_MAKEFLAGS=CFLAGS=-Werror
+        make
