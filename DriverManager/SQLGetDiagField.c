@@ -580,10 +580,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                  * map 3 to 2 if required
                  */
                 if ( diag_info_ptr )
-                {
-                    if ( diag_info_ptr )
-                        __map_error_state( diag_info_ptr, __get_version( head ));
-                }
+                    __map_error_state( diag_info_ptr, __get_version( head ));
             }
 
             return ret;
@@ -608,10 +605,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                  * map 3 to 2 if required
                  */
                 if ( diag_info_ptr )
-                {
-                    if ( diag_info_ptr )
-                        __map_error_state( diag_info_ptr, __get_version( head ));
-                }
+                    __map_error_state( diag_info_ptr, __get_version( head ));
             }
 
             return ret;
