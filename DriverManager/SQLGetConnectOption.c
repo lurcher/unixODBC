@@ -361,15 +361,7 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
                   case SQL_ATTR_TRACEFILE:
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value )
-                    {
-                        /*
-                         * guess a length
-                         */
-                        if ( value )
-                        {
-                            s1 = malloc( sizeof( SQLWCHAR ) * 1024 );
-                        }
-                    }
+                         s1 = malloc( sizeof( SQLWCHAR ) * 1024 ); /* guess a length */
                     break;
                 }
 
