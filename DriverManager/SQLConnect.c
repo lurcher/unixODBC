@@ -965,7 +965,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     int fake_unicode;
     char *err;
     struct env_lib_struct *env_lib_list, *env_lib_prev;
-    char txt[ 256 ];
+    char txt[ 531 ];
 
     /*
      * check to see if we want to alter the default threading level
