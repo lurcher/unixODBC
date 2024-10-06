@@ -4925,7 +4925,7 @@ void extract_diag_error_w( int htype,
                 as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection, NULL );
 
                 sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                        as1 ? as1 : "NULL", as2 ? as2 : "NULL" );
+                        as1 ? as1 : (SQLCHAR*)"NULL", as2 ? as2 : (SQLCHAR*)"NULL" );
 
                 if( as1 ) free( as1 );
                 if( as2 ) free( as2 );
@@ -5037,7 +5037,7 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
                 as2 = (SQLCHAR*) unicode_to_ansi_alloc( msg1, SQL_NTS, connection, NULL );
 
                 sprintf( connection -> msg, "\t\tDIAG [%s] %s",
-                        as1 ? as1 : "NULL", as2 ? as2 : "NULL");
+                        as1 ? as1 : (SQLCHAR*)"NULL", as2 ? as2 : (SQLCHAR*)"NULL");
 
                 if( as1 ) free( as1 );
                 if( as2 ) free( as2 );
