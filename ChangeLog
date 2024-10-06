@@ -13,6 +13,7 @@
     * Make definition of TCHAR match WCHAR
     * Added some missing error logging in SQLSpecialColumns[W]
     * Set driver_name in SQLBrowseConnect(W) to "" to prevent seg fault if lib not found
+    * Various mem buffers fixes. Thanks chipitsine
 
 8-Aug-2023
 2.3.12
