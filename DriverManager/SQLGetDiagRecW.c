@@ -326,13 +326,10 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
 
             if ( SQL_SUCCEEDED( ret ) && sqlstate )
             {
-                if ( sqlstate )
+                if ( as1 )
                 {
-                    if ( as1 )
-                    {
-                        ansi_to_unicode_copy( sqlstate,(char*) as1, SQL_NTS, __get_connection( head ), NULL );
-                        __map_error_state_w( sqlstate, __get_version( head ));
-                    }
+                    ansi_to_unicode_copy( sqlstate,(char*) as1, SQL_NTS, __get_connection( head ), NULL );
+                    __map_error_state_w( sqlstate, __get_version( head ));
                 }
                 if ( message_text )
                 {
