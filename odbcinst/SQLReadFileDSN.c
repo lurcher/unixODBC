@@ -88,7 +88,7 @@ BOOL SQLReadFileDSN(            LPCSTR  pszFileName,
 {
     HINI    hIni;
     char    szValue[INI_MAX_PROPERTY_VALUE+1];
-    char    szFileName[ODBC_FILENAME_MAX+1];
+    char    szFileName[ODBC_FILENAME_MAX+2];
 
     inst_logClear();
 

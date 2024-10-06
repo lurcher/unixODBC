@@ -17,7 +17,7 @@ BOOL SQLWriteFileDSN(			LPCSTR	pszFileName,
 								LPCSTR	pszString )
 {
 	HINI	hIni;
-	char	szFileName[ODBC_FILENAME_MAX+1];
+	char	szFileName[ODBC_FILENAME_MAX+7];
 
     if ( pszFileName == NULL ) 
     {

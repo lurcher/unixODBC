@@ -965,7 +965,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     int fake_unicode;
     char *err;
     struct env_lib_struct *env_lib_list, *env_lib_prev;
-    char txt[ 256 ];
+    char txt[ 531 ];
 
     /*
      * check to see if we want to alter the default threading level
@@ -2445,7 +2445,7 @@ int __connect_part_two( DMHDBC connection )
 #endif
             if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
             {
-                char txt[ 1024 ];
+                char txt[ ODBC_FILENAME_MAX * 2 + 45 ];
 
 #ifdef HAVE_SNPRINTF
                 snprintf( txt, sizeof( txt ), "Can't open cursor lib '%s' : %s", 
