@@ -541,11 +541,6 @@ int uodbc_get_stats(
         snprintf(errmsg, sizeof(errmsg), "No stats return structures supplied");
         return -1;
     }
-    if (!sh)
-    {
-        snprintf(errmsg, sizeof(errmsg), "NULL stats handle");
-        return -1;
-    }
     if (memcmp(sh->id, UODBC_STATS_ID, sizeof(sh->id)) != 0)
     {
         snprintf(errmsg, sizeof(errmsg), "Invalid stats handle %p", sh);
