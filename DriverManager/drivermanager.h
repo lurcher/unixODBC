@@ -1176,7 +1176,7 @@ int add_to_pool( DMHDBC connection, CPOOLHEAD *pooh );
                                         (stmt,pn,dtp,psp,ddp,np)
 
 #define DM_SQLDISCONNECT            21
-#define CHECK_SQLDISCONNECT(con)    (con->functions[21].func!=NULL)
+#define CHECK_SQLDISCONNECT(con)    (con->functions!=NULL && con->functions[21].func!=NULL)
 #define SQLDISCONNECT(con,dbc)\
                                     ((SQLRETURN (*)(SQLHDBC))\
                                     con->functions[21].func)(dbc)
