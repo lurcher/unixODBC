@@ -248,7 +248,7 @@ BOOL INSTAPI SQLInstallDriverExW(LPCWSTR lpszDriver,
 		pout = NULL;
 	}
 
-	ret = SQLInstallDriverEx( drv, pth, pout, cbPathOutMax, &len, fRequest, lpdwUsageCount );
+	ret = pout ? SQLInstallDriverEx( drv, pth, pout, cbPathOutMax, &len, fRequest, lpdwUsageCount ) : FALSE;
 
 	if ( ret )
 	{
