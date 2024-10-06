@@ -1,0 +1,27 @@
+on: [ push, workflow_dispatch ]
+
+permissions:
+  contents: read
+
+jobs:
+  Test:
+    strategy:
+      matrix:
+        cc: [ gcc, clang ]  
+      fail-fast: false
+    name: ${{ matrix.cc }}
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install apt dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libltdl-dev
+    - name: configure
+      run: |
+        autoreconf -iv
+        CC=${{ matrix.cc }} ./configure
+    - name: build
+      run: |
+        ##make AM_MAKEFLAGS=CFLAGS=-Werror
+        make
