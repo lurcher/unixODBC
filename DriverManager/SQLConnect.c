@@ -2445,7 +2445,7 @@ int __connect_part_two( DMHDBC connection )
 #endif
             if ( !(connection -> cl_handle = odbc_dlopen( name, &err )))
             {
-                char txt[ 1024 ];
+                char txt[ ODBC_FILENAME_MAX * 2 + 45 ];
 
 #ifdef HAVE_SNPRINTF
                 snprintf( txt, sizeof( txt ), "Can't open cursor lib '%s' : %s", 
