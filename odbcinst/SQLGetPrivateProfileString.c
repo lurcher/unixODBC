@@ -642,7 +642,7 @@ int  INSTAPI SQLGetPrivateProfileStringW( LPCWSTR lpszSection,
 		buf = NULL;
 	}
 
-	ret = SQLGetPrivateProfileString( sect, entry, def, buf, cbRetBuffer, name );
+	ret = buf ? SQLGetPrivateProfileString( sect, entry, def, buf, cbRetBuffer, name ) : -1;
 
 	if ( sect )
 		free( sect );
