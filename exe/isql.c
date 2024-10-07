@@ -208,7 +208,7 @@ int main( int argc, char *argv[] )
      * CONNECT
      ***************************/
 
-    if (szPWD==NULL || szUID==NULL || !OpenDatabase( &hEnv, &hDbc, szDSN, szUID, szPWD ))
+    if (!OpenDatabase( &hEnv, &hDbc, szDSN, szUID, szPWD ))
         exit( 1 );
 
     /****************************
