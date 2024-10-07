@@ -116,7 +116,7 @@ BOOL INSTAPI SQLWriteFileDSNW(LPCWSTR  lpszFileName,
 	key = lpszKeyName ? _single_string_alloc_and_copy( lpszKeyName ) : (char*)NULL;
 	str = lpszString ? _single_string_alloc_and_copy( lpszString ) : (char*)NULL;
 
-	ret = SQLWriteFileDSN( file, app, key, str );
+	ret = app ? SQLWriteFileDSN( file, app, key, str ) : FALSE;
 
 	if ( file )
 		free( file );
