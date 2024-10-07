@@ -1,4 +1,4 @@
-on: [ push, workflow_dispatch ]
+on: [ push, pull_request, workflow_dispatch ]
 
 permissions:
   contents: read
@@ -11,17 +11,39 @@ jobs:
       fail-fast: false
     name: ${{ matrix.cc }}
     runs-on: ubuntu-24.04
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized" 
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 3306:3306
     steps:
     - uses: actions/checkout@v4
     - name: Install apt dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libltdl-dev
+        sudo apt-get install -y libltdl-dev odbc-mariadb
     - name: configure
       run: |
         autoreconf -iv
-        CC=${{ matrix.cc }} ./configure
+        CC=${{ matrix.cc }} CFLAGS="-ggdb -fsanitize=address" ./configure --prefix=/ --exec-prefix=/
     - name: build
       run: |
         ##make AM_MAKEFLAGS=CFLAGS=-Werror
         make
+        sudo make install
+    - name: mariadb smoke test
+      run: |
+        sudo -E ./exe/.libs/odbcinst -i -d -f .github/MariaDB_odbc_driver_template.ini
+        ./exe/.libs/odbcinst  -i -s -h -f .github/MariaDB_odbc_data_source_template.ini
+        echo 'SELECT VERSION();' | ./exe/.libs/isql -v MariaDB-server -b
+
