@@ -418,8 +418,9 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
      * disconnect from the driver
      */
 
-    ret = SQLDISCONNECT( cl_connection, 
-            cl_connection -> driver_dbc );
+    ret = cl_connection -> functions ?
+            SQLDISCONNECT( cl_connection, cl_connection -> driver_dbc ) :
+            -1;
 
     if ( SQL_SUCCEEDED( ret ))
     {
