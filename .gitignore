@@ -1,3 +1,5 @@
+*.la
+*.pc
 *.lo
 *.o
 INSTALL
