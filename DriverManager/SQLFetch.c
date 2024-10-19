@@ -169,7 +169,10 @@ SQLRETURN SQLFetch( SQLHSTMT statement_handle )
      * check states
      */
 
-    thread_protect( SQL_HANDLE_STMT, statement );
+    if (SQL_HANDLE_STMT != IGNORE_THREAD)
+    {
+        thread_protect( SQL_HANDLE_STMT, statement );
+    }
 
     if ( statement -> state == STATE_S1 ||
             statement -> state == STATE_S2 ||
