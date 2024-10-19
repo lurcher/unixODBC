@@ -41,6 +41,8 @@ int logOpen( HLOG *phLog, char *pszProgramName, char *pszLogFile, long nMaxMsgs 
 
 	/* LOG STRUCT */
 	*phLog = malloc( sizeof(LOG) );
+        if ( !*phLog )
+            return LOG_ERROR;
     (*phLog)->nMaxMsgs			= nMaxMsgs;
     (*phLog)->hMessages			= lstOpen();
     (*phLog)->bOn				= 0;
