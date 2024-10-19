@@ -40,6 +40,8 @@ char* _multi_string_alloc_and_copy( LPCWSTR in )
     }
 
     chr = malloc( len + 2 );
+    if ( !chr )
+        return NULL;
 
     len = 0;
     while ( in[ len ] != 0 || in[ len + 1 ] != 0 )
@@ -80,6 +82,8 @@ char* _single_string_alloc_and_copy( LPCWSTR in )
     }
 
     chr = malloc( ulen + 1 );
+    if ( !chr )
+        return NULL;
 
     len = 0;
     ulen = 0;
@@ -127,6 +131,8 @@ char* _single_string_alloc_and_copy( LPCWSTR in )
     }
 
     chr = malloc( len + 1 );
+    if ( !chr )
+        return NULL;
 
     len = 0;
     while ( in[ len ] != 0 )
@@ -157,6 +163,8 @@ SQLWCHAR* _multi_string_alloc_and_expand( LPCSTR in )
     }
 
     chr = malloc(sizeof( SQLWCHAR ) * ( len + 2 ));
+    if ( !chr )
+        return NULL;
 
     len = 0;
     while ( in[ len ] != 0 || in[ len + 1 ] != 0 )
@@ -186,6 +194,8 @@ SQLWCHAR* _single_string_alloc_and_expand( LPCSTR in )
     }
 
     chr = malloc( sizeof( SQLWCHAR ) * ( len + 1 ));
+    if ( !chr )
+        return NULL;
 
     len = 0;
     while ( in[ len ] != 0 )
