@@ -30,6 +30,8 @@ int iniObjectInsert( HINI hIni, char *pszObject )
 
 	/* CREATE OBJECT STRUCT */
 	hObject = malloc( sizeof(INIOBJECT) );
+        if ( !hObject )
+            return INI_ERROR;
 	hIni->hCurProperty			= NULL;
 	hObject->hFirstProperty		= NULL;
 	hObject->hLastProperty		= NULL;
