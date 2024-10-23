@@ -13,6 +13,7 @@ SQLRemoveDSNFromIni
 SQLValidDSN
 SQLWritePrivateProfileString
 SQLGetPrivateProfileString
+__SQLGetPrivateProfileStringNL
 SQLRemoveDriverManager
 SQLInstallTranslator
 SQLRemoveTranslator

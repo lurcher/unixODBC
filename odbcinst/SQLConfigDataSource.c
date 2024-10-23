@@ -35,6 +35,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 	char	szDriverSetup[INI_MAX_PROPERTY_VALUE+1];
     char    szIniName[ ODBC_FILENAME_MAX * 2 + 3 ];
 	char	b1[ ODBC_FILENAME_MAX + 1 ], b2[ ODBC_FILENAME_MAX + 1 ];
+    int     config_mode;
 
 	/* SANITY CHECKS */
 	if ( pszDriver == NULL || pszAttributes == NULL )
@@ -69,6 +70,9 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
     sprintf( szIniName, "%s/%s", odbcinst_system_file_path( b1 ), odbcinst_system_file_name( b2 ) );
 #endif
 
+    __lock_config_mode();
+    config_mode = __get_config_mode();
+
 	/* OK */
 #ifdef __OS2__
 	if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', TRUE, 1L ) != INI_SUCCESS )
@@ -77,6 +81,8 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 #endif
 	{
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
+        __set_config_mode( config_mode );
+        __unlock_config_mode();
 		return FALSE;
 	}
 
@@ -105,7 +111,8 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 			char szError[ 512 ];
 			sprintf( szError, "Could not find Setup property for (%.400s) in system information", pszDriver );
 			inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, szError );
-        	__set_config_mode( ODBC_BOTH_DSN );
+            __set_config_mode( config_mode );
+            __unlock_config_mode();
 			return FALSE;
 		}
 
@@ -184,7 +191,9 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 		else
 			inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
 
-        __set_config_mode( ODBC_BOTH_DSN );
+        __set_config_mode( config_mode );
+        __unlock_config_mode();
+
 		return nReturn;
 
 	}
@@ -192,7 +201,8 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 	inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
 	iniClose( hIni );
 
-    __set_config_mode( ODBC_BOTH_DSN );
+    __set_config_mode( config_mode );
+    __unlock_config_mode();
 
 	return FALSE;
 }

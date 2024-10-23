@@ -9,7 +9,7 @@
 
 
 /****************************
- * default to 3.51 declare something else before here and you get a whole new ball of wax
+ * default to 3.8 declare something else before here and you get a whole new ball of wax
  ***************************/
 #ifndef ODBCVER
 #define ODBCVER 0x0380

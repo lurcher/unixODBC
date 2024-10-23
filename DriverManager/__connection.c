@@ -114,14 +114,23 @@ char *__find_lib_name( char *dsn, char *lib_name, char *driver_name )
 {
     char driver[ INI_MAX_PROPERTY_VALUE + 1 ];
     char driver_lib[ INI_MAX_PROPERTY_VALUE + 1 ];
+    int mode;
 
-    SQLSetConfigMode( ODBC_USER_DSN );
+    /*
+     * this cound mess up threaded programs by changing the mode
+     */
+
+    __lock_config_mode();
+
+    mode = __get_config_mode();
+
+    __set_config_mode( ODBC_USER_DSN );
 
 	/*
 	 * GET DRIVER FROM ODBC.INI
 	 */
 
-    SQLGetPrivateProfileString( dsn, "Driver", "",
+    __SQLGetPrivateProfileStringNL( dsn, "Driver", "",
             driver_lib, sizeof( driver_lib ), "ODBC.INI" );
 
     if ( driver_lib[ 0 ] == 0 )
@@ -130,14 +139,18 @@ char *__find_lib_name( char *dsn, char *lib_name, char *driver_name )
          * if not found look in system DSN
          */
 
-        SQLSetConfigMode( ODBC_SYSTEM_DSN );
+        __set_config_mode( ODBC_SYSTEM_DSN );
 
-        SQLGetPrivateProfileString( dsn, "Driver", "",
+        __SQLGetPrivateProfileStringNL( dsn, "Driver", "",
                 driver_lib, sizeof( driver_lib ), "ODBC.INI" );
         
-        SQLSetConfigMode( ODBC_BOTH_DSN );
-        if ( driver_lib[ 0 ] == 0 )
+        if ( driver_lib[ 0 ] == 0 ) {
+            __set_config_mode( mode );
+            __unlock_config_mode();
             return NULL;
+        }
+
+        __set_config_mode( ODBC_BOTH_DSN );
     }
 
 	/*
@@ -151,31 +164,37 @@ char *__find_lib_name( char *dsn, char *lib_name, char *driver_name )
         strcpy( driver, driver_lib );
 
 		/*
-		 * allow the use of "User odbcinst files
+		 * allow the use of User odbcinst files, use no lock version as its 
+         * protected by mutex
 		 */
 
 #ifdef PLATFORM64
-		SQLGetPrivateProfileString( driver, "Driver64", "",
+		__SQLGetPrivateProfileStringNL( driver, "Driver64", "",
 				driver_lib, sizeof( driver_lib ), "ODBCINST.INI" );
 
 		if ( driver_lib[ 0 ] == '\0' )
 		{
-			SQLGetPrivateProfileString( driver, "Driver", "",
+			__SQLGetPrivateProfileStringNL( driver, "Driver", "",
 					driver_lib, sizeof( driver_lib ), "ODBCINST.INI" );
 		}
 #else
-		SQLGetPrivateProfileString( driver, "Driver", "",
+		__SQLGetPrivateProfileStringNL( driver, "Driver", "",
 				driver_lib, sizeof( driver_lib ), "ODBCINST.INI" );
 #endif
 
                 strcpy( driver_name, driver );
 
 		if ( driver_lib[ 0 ] == 0 ) {
+            __set_config_mode( mode );
+            __unlock_config_mode();
 		    return NULL;
 		}
 	}
 
 	strcpy( lib_name, driver_lib );
+
+    __set_config_mode( mode );
+    __unlock_config_mode();
 
     return lib_name;
 }

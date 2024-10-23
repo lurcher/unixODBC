@@ -208,6 +208,8 @@ BOOL _SQLDriverConnectPromptW(
 
 void __set_config_mode( int mode );
 int __get_config_mode( void );
+void __lock_config_mode( void );
+void __unlock_config_mode( void );
 
 int inst_logPushMsg( 
         char *pszModule, 
@@ -220,6 +222,13 @@ int inst_logPushMsg(
 int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg );
 int inst_logClear();
 
+int __SQLGetPrivateProfileStringNL( LPCSTR  pszSection,
+                                LPCSTR  pszEntry,
+                                LPCSTR  pszDefault,
+                                LPSTR   pRetBuffer,
+                                int     nRetBuffer,
+                                LPCSTR  pszFileName
+                              );
 
 /*
  * we should look at caching this info, the calls can become expensive

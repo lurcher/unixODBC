@@ -365,7 +365,7 @@ void __clear_ini_cache( void )
 
 #endif
 
-int SQLGetPrivateProfileString( LPCSTR  pszSection,
+int __SQLGetPrivateProfileStringNL( LPCSTR  pszSection,
                                 LPCSTR  pszEntry,
                                 LPCSTR  pszDefault,
                                 LPSTR   pRetBuffer,
@@ -601,6 +601,23 @@ int SQLGetPrivateProfileString( LPCSTR  pszSection,
     iniClose( hIni );
 
     save_ini_cache( ret, pszSection, pszEntry, pszDefault, pRetBuffer, nRetBuffer, pszFileName );
+
+    return ret;
+}
+
+int SQLGetPrivateProfileString( LPCSTR  pszSection,
+                                LPCSTR  pszEntry,
+                                LPCSTR  pszDefault,
+                                LPSTR   pRetBuffer,
+                                int     nRetBuffer,
+                                LPCSTR  pszFileName
+                              )
+{
+int ret;
+
+    __lock_config_mode();
+    ret = __SQLGetPrivateProfileStringNL( pszSection, pszEntry, pszDefault, pRetBuffer, nRetBuffer, pszFileName );
+    __unlock_config_mode();
 
     return ret;
 }

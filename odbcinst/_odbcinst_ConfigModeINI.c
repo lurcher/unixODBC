@@ -25,7 +25,11 @@
 
 BOOL _odbcinst_ConfigModeINI( char *pszFileName )
 {
-	UWORD nConfigMode = __get_config_mode();
+	UWORD nConfigMode;
+
+    __lock_config_mode();
+	nConfigMode = __get_config_mode();
+    __unlock_config_mode();
 
 	pszFileName[0] = '\0';
 

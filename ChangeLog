@@ -14,6 +14,8 @@
     * Added some missing error logging in SQLSpecialColumns[W]
     * Set driver_name in SQLBrowseConnect(W) to "" to prevent seg fault if lib not found
     * Various mem buffers fixes. Thanks chipitsine
+    * Fix race condition with threaded applications where SQLGetPrivateProfileString can fail
+      due to collision with loading driver library during connection
 
 8-Aug-2023
 2.3.12
