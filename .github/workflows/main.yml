@@ -7,9 +7,12 @@ jobs:
   Test:
     strategy:
       matrix:
-        cc: [ gcc, clang ]  
+        platform: [
+          { cc: gcc,   MAKE_EXTRAFLAGS: "AM_MAKEFLAGS=CFLAGS=-Werror" },
+          { cc: clang, MAKE_EXTRAFLAGS: "" }
+        ]
       fail-fast: false
-    name: ${{ matrix.cc }}
+    name: ${{ matrix.platform.cc }}
     runs-on: ubuntu-24.04
     services:
       postgres:
@@ -48,11 +51,10 @@ jobs:
     - name: configure
       run: |
         autoreconf -iv
-        CC=${{ matrix.cc }} CFLAGS="-ggdb -fsanitize=address" ./configure --prefix=/usr
+        CC=${{ matrix.platform.cc }} CFLAGS="-ggdb -fsanitize=address" ./configure --prefix=/usr
     - name: build
       run: |
-        ##make AM_MAKEFLAGS=CFLAGS=-Werror
-        make
+        make ${{ matrix.platform.MAKE_EXTRAFLAGS }}
         sudo make install
     - name: mariadb smoke test
       run: |
