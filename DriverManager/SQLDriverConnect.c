@@ -466,7 +466,12 @@ struct con_pair * con_p;
     {
         con_p = malloc( sizeof( *con_p ));
         if ( !con_p )
+        {
+            free(keyword);
+            if ( value )
+                free(value);
             return NULL;
+        }
         con_p -> keyword = keyword;
         con_p -> attribute = value;
         return con_p;
