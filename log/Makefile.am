@@ -12,4 +12,4 @@ libloglc_la_SOURCES = \
 	logPopMsg.c \
 	logPushMsg.c
 
-libloglc_la_LIBADD = 
+libloglc_la_LIBADD =

@@ -2,7 +2,7 @@ noinst_LTLIBRARIES = liblstlc.la
 
 AM_CPPFLAGS = -I@top_srcdir@/include
 
-liblstlc_la_LDFLAGS = -no-undefined 
+liblstlc_la_LDFLAGS = -no-undefined
 
 liblstlc_la_SOURCES = \
 	_lstAdjustCurrent.c \

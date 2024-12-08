@@ -6,4 +6,4 @@ libsapdbS_la_LDFLAGS = -module -no-undefined -version-info 1:0:0 -avoid-version 
 
 libsapdbS_la_SOURCES = sapdb.c
 
-EXTRA_DIST = README 
+EXTRA_DIST = README

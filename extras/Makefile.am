@@ -8,4 +8,4 @@ libodbcextraslc_la_SOURCES = \
     strcasecmp.c \
     snprintf.c
 
-libodbcextraslc_la_LDFLAGS = -no-undefined 
+libodbcextraslc_la_LDFLAGS = -no-undefined

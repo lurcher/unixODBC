@@ -1,6 +1,6 @@
 bin_PROGRAMS = isql dltest odbcinst iusql odbc_config slencheck
 
-AM_CPPFLAGS = -I@top_srcdir@/include $(LTDLINCL) 
+AM_CPPFLAGS = -I@top_srcdir@/include $(LTDLINCL)
 
 EXTRA_DIST = \
 	isql.h \
@@ -9,14 +9,14 @@ EXTRA_DIST = \
 odbcinst_LDADD = \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
-	$(LIBLTDL) 
+	$(LIBLTDL)
 
 odbcinst_DEPENDENCIES = \
 	../odbcinst/libodbcinst.la \
 	../ini/libinilc.la \
 	$(LTDLDEPS)
 
-odbcinst_SOURCES = odbcinst.c 
+odbcinst_SOURCES = odbcinst.c
 
 isql_LDADD = \
 	../DriverManager/libodbc.la \
@@ -68,5 +68,3 @@ all-am:
 	@sed "s![@]ODBC_CFLAGS[@]!`$(CROSS_LAUNCHER)$(top_builddir)/exe/odbc_config$(EXEEXT) --cflags | sed 's/ -I.*//'`!" \
 	    $(top_builddir)/DriverManager/odbc.pc > $(top_builddir)/exe/odbc.pc.tmp
 	@mv -f $(top_builddir)/exe/odbc.pc.tmp $(top_builddir)/DriverManager/odbc.pc
-
-

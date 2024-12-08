@@ -1,2 +1,2 @@
 EXTRA_DIST = \
-    cursor.c 
+    cursor.c

@@ -4,6 +4,6 @@ SUBDIRS = \
     Postgre7.1 \
     template \
     MiniSQL \
-    nn 
+    nn
 
 endif

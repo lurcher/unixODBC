@@ -2,7 +2,7 @@ noinst_LTLIBRARIES = libinilc.la
 
 AM_CPPFLAGS = -I@top_srcdir@/include
 
-libinilc_la_LDFLAGS = -no-undefined 
+libinilc_la_LDFLAGS = -no-undefined
 
 libinilc_la_LIBADD = \
     ../extras/libodbcextraslc.la

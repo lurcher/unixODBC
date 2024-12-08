@@ -8,4 +8,4 @@ EXTRA_DIST = \
 	navi.html \
 	odbc.css \
 	query.html \
-	resul.html 
+	resul.html

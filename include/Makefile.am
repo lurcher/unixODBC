@@ -26,4 +26,4 @@ include_HEADERS = \
 	sqlspi.h \
 	autotest.h \
 	uodbc_stats.h \
-	uodbc_extras.h 
+	uodbc_extras.h

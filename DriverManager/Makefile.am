@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libodbc.la
 
 AM_CPPFLAGS = -I@top_srcdir@/include \
-		$(LTDLINCL) 
+		$(LTDLINCL)
 
 EXTRA_DIST = \
 	drivermanager.h \
@@ -27,7 +27,7 @@ libodbc_la_DEPENDENCIES = $(LTDLDEPS) \
 	../lst/liblstlc.la \
     ../log/libloglc.la \
     ../ini/libinilc.la \
-    ../odbcinst/libodbcinstlc.la 
+    ../odbcinst/libodbcinstlc.la
 
 libodbc_la_SOURCES = \
 	SQLAllocConnect.c \

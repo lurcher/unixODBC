@@ -19,4 +19,4 @@ EXTRA_DIST = \
 	InternalStructure9.gif \
 	InternalStructure9.html \
 	back.gif \
-	next.gif 
+	next.gif

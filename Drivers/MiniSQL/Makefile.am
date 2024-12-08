@@ -191,7 +191,7 @@ EXTRA_DIST = \
 	driverextras.h \
 	_sqlFreeConnect.c \
 	_sqlFreeEnv.c \
-	_sqlFreeStmt.c 
+	_sqlFreeStmt.c
 
 libodbcmini_la_LDFLAGS = -no-undefined -version-info 1:0:0 \
 	-L@msql_libraries@ -lmsql -module

@@ -2,19 +2,19 @@ lib_LTLIBRARIES = libtemplate.la
 
 AM_CPPFLAGS = -I@top_srcdir@/include -I. $(LTDLINCL)
 
-libtemplate_la_LDFLAGS = -no-undefined  -version-info 1:0:0 
+libtemplate_la_LDFLAGS = -no-undefined  -version-info 1:0:0
 
 EXTRA_DIST = \
 	driver.h \
 	prototypes.h \
-	driverextras.h 
+	driverextras.h
 
 libtemplate_la_LIBADD = \
 	../../lst/liblstlc.la \
 	../../log/libloglc.la \
 	../../ini/libinilc.la \
 	../../odbcinst/libodbcinstlc.la \
-	$(LIBLTDL) 
+	$(LIBLTDL)
 
 libtemplate_la_SOURCES = \
 	SQLAllocConnect.c \

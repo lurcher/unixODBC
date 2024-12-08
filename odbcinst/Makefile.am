@@ -4,7 +4,7 @@ AM_CPPFLAGS = -I@top_srcdir@/include \
 	$(LTDLINCL)
 
 EXTRA_DIST = \
-	odbcinst.exp 
+	odbcinst.exp
 
 libodbcinst_la_LDFLAGS = \
 	-no-undefined  \
@@ -16,13 +16,13 @@ libodbcinst_la_LIBADD = \
 	../ini/libinilc.la \
 	../log/libloglc.la \
 	../lst/liblstlc.la \
-	$(LIBLTDL) 
+	$(LIBLTDL)
 
 libodbcinst_la_DEPENDENCIES = \
     ../log/libloglc.la \
     ../ini/libinilc.la \
     ../lst/liblstlc.la \
-    $(LTDLDEPS) 
+    $(LTDLDEPS)
 
 sysconf_DATA=
 

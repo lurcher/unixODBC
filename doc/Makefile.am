@@ -7,4 +7,4 @@ SUBDIRS = \
 EXTRA_DIST = \
 	index.html \
 	smallbook.gif \
-	unixODBC.gif 
+	unixODBC.gif
