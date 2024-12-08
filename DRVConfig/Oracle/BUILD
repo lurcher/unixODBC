@@ -1,0 +1,12 @@
+
+cc_library(
+    name = 'liboraodbcS',
+    visibility = ['//visibility:public'],
+    srcs = [
+        'oraodbcS.c',
+    ],
+    linkstatic = True,
+    deps = [
+        '//:headers',
+    ],
+)

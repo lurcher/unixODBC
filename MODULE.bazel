@@ -1,0 +1,11 @@
+
+module(
+    name = 'unixodbc',
+    repo_name = 'github_unixodbc',
+    version = '2.3.12',
+)
+
+bazel_dep(
+    name = 'bazel_skylib',
+    version = '1.7.1',
+)
