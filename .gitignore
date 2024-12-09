@@ -59,7 +59,32 @@ m4/lt~obsolete.m4
 # (meta build system like autotools,
 # can automatically generate from config.status script
 # (which is called by configure script))
+
 Makefile
+
+# Generated headers from autotools
+
+config.h
+unixodbc.h
+unixodbc_conf.h
+
+# Generated executables and other artifacts for autotools in-tree build
+
+DriverManager/.libs
+cur/.libs
+exe/.libs
+exe/dltest
+exe/isql
+exe/iusql
+exe/odbc_config
+exe/odbcinst
+exe/slencheck
+extras/.libs
+ini/.libs
+libtool
+log/.libs
+lst/.libs
+odbcinst/.libs
 
 # https://bazel.build/
 
