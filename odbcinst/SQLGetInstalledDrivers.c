@@ -89,7 +89,7 @@ BOOL INSTAPI SQLGetInstalledDriversW  (LPWSTR      lpszBuf,
 
 	ret = SQLGetInstalledDrivers( path, cbBufMax, pcbBufOut );
 
-	if ( ret ) 
+	if ( ret )
 	{
 		_multi_string_copy_to_wide( lpszBuf, path, cbBufMax );
 	}

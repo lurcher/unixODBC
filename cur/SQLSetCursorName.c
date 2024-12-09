@@ -63,14 +63,14 @@ SQLRETURN CLSetCursorName( SQLHSTMT statement_handle,
            SQLCHAR *cursor_name,
            SQLSMALLINT name_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret = SQL_SUCCESS;
 
     if ( name_length == SQL_NTS )
     {
         if ( strlen((char*) cursor_name ) > MAX_CURSOR_NAME )
         {
-            memcpy( cl_statement -> cursor_name, cursor_name, 
+            memcpy( cl_statement -> cursor_name, cursor_name,
                     MAX_CURSOR_NAME );
             cl_statement -> cursor_name[ MAX_CURSOR_NAME ] = '\0';
             ret = SQL_SUCCESS_WITH_INFO;
@@ -84,14 +84,14 @@ SQLRETURN CLSetCursorName( SQLHSTMT statement_handle,
     {
         if ( name_length > MAX_CURSOR_NAME )
         {
-            memcpy( cl_statement -> cursor_name, cursor_name, 
+            memcpy( cl_statement -> cursor_name, cursor_name,
                     MAX_CURSOR_NAME );
             cl_statement -> cursor_name[ MAX_CURSOR_NAME ] = '\0';
             ret = SQL_SUCCESS_WITH_INFO;
         }
         else
         {
-            memcpy( cl_statement -> cursor_name, cursor_name, 
+            memcpy( cl_statement -> cursor_name, cursor_name,
                     name_length );
             cl_statement -> cursor_name[ name_length ] = '\0';
         }
@@ -101,7 +101,7 @@ SQLRETURN CLSetCursorName( SQLHSTMT statement_handle,
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_01004, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
     }
 

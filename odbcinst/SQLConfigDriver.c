@@ -71,7 +71,7 @@ static BOOL SQLConfigDriverWide( HWND	hWnd,
 	}
 
 #ifdef PLATFORM64
-	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup64", "" ) == INI_SUCCESS || 
+	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup64", "" ) == INI_SUCCESS ||
 				iniPropertySeek( hIni, (char *)pszDriver, "Setup", "" ) == INI_SUCCESS )
 #else
 	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup", "" ) != INI_SUCCESS )
@@ -154,9 +154,9 @@ BOOL INSTAPI SQLConfigDriver(HWND hwndParent,
 	drv = lpszDriver ? _single_string_alloc_and_expand( lpszDriver ) : (SQLWCHAR*)NULL;
 	args = lpszArgs ? _multi_string_alloc_and_expand( lpszArgs ) : (SQLWCHAR*)NULL;
 
-	if ( lpszMsg ) 
+	if ( lpszMsg )
 	{
-		if ( cbMsgMax > 0 ) 
+		if ( cbMsgMax > 0 )
 		{
 			msg = calloc( cbMsgMax + 1, sizeof( SQLWCHAR ));
 		}
@@ -165,17 +165,17 @@ BOOL INSTAPI SQLConfigDriver(HWND hwndParent,
 			msg = NULL;
 		}
 	}
-	else 
+	else
 	{
 		msg = NULL;
 	}
 
-	ret = SQLConfigDriverWide( hwndParent, 
+	ret = SQLConfigDriverWide( hwndParent,
 							fRequest,
 							lpszDriver,
 							lpszArgs,
 							lpszMsg,
-							cbMsgMax, 
+							cbMsgMax,
 							&len,
 				   			drv,
 							args,
@@ -187,14 +187,14 @@ BOOL INSTAPI SQLConfigDriver(HWND hwndParent,
 	if ( args )
 		free( args );
 
-	if ( iswide ) 
+	if ( iswide )
 	{
 		if ( ret && msg )
 		{
 			_single_copy_from_wide((SQLCHAR*) lpszMsg, msg, len + 1 );
 		}
 	}
-	else 
+	else
 	{
 		/*
 		 * the output is already in the right buffer
@@ -230,9 +230,9 @@ BOOL INSTAPI SQLConfigDriverW(HWND hwndParent,
 	drv = lpszDriver ? _single_string_alloc_and_copy( lpszDriver ) : (char*)NULL;
 	args = lpszArgs ? _multi_string_alloc_and_copy( lpszArgs ) : (char*)NULL;
 
-	if ( lpszMsg ) 
+	if ( lpszMsg )
 	{
-		if ( cbMsgMax > 0 ) 
+		if ( cbMsgMax > 0 )
 		{
 			msg = calloc( cbMsgMax + 1, 1 );
 		}
@@ -241,17 +241,17 @@ BOOL INSTAPI SQLConfigDriverW(HWND hwndParent,
 			msg = NULL;
 		}
 	}
-	else 
+	else
 	{
 		msg = NULL;
 	}
 
-	ret = SQLConfigDriverWide( hwndParent, 
+	ret = SQLConfigDriverWide( hwndParent,
 							fRequest,
 							drv,
 							args,
 							msg,
-							cbMsgMax, 
+							cbMsgMax,
 							&len,
 				   			lpszDriver,
 							lpszArgs,
@@ -263,13 +263,13 @@ BOOL INSTAPI SQLConfigDriverW(HWND hwndParent,
 	if ( args )
 		free( args );
 
-	if ( iswide ) 
+	if ( iswide )
 	{
 			/*
 			 * the output is already in the right buffer
 			 */
 	}
-	else 
+	else
 	{
 		if ( ret && msg )
 		{

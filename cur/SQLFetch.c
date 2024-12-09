@@ -71,9 +71,9 @@
 
 SQLRETURN CLFetch( SQLHSTMT statement_handle )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
-    if ( cl_statement -> not_from_select ) 
+    if ( cl_statement -> not_from_select )
     {
     	return SQLFETCH( cl_statement -> cl_connection, cl_statement -> driver_stmt );
     }
@@ -89,7 +89,7 @@ SQLRETURN CLFetch( SQLHSTMT statement_handle )
     }
 
     return do_fetch_scroll( cl_statement,
-            SQL_FETCH_NEXT, 
+            SQL_FETCH_NEXT,
             0,
             cl_statement -> row_status_ptr,
             cl_statement -> rows_fetched_ptr,

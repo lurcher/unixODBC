@@ -144,8 +144,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetConnectOption.c,v $ $Revision: 1.9 $";
-
 SQLRETURN SQLGetConnectOptionA( SQLHDBC connection_handle,
            SQLUSMALLINT option,
            SQLPOINTER value )
@@ -197,10 +195,10 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -218,10 +216,10 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
                 __con_attr_as_string( s1, option ),
                 value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -229,10 +227,10 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
 
     if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -253,10 +251,10 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
             break;
 
           default:
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -329,14 +327,14 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
      */
     if ( type )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
@@ -417,7 +415,7 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
                         &len );
 
                 /*
-                 * not much else we can do here, lets assume that 
+                 * not much else we can do here, lets assume that
                  * there is enough space
                  */
 
@@ -478,7 +476,7 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
                         &len );
 
                 /*
-                 * not much else we can do here, lets assume that 
+                 * not much else we can do here, lets assume that
                  * there is enough space
                  */
 
@@ -503,14 +501,14 @@ SQLRETURN SQLGetConnectOption( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 

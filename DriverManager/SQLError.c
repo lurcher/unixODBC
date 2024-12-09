@@ -182,7 +182,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLError.c,v $ $Revision: 1.11 $";
 
 static SQLRETURN local_extract_sql_error( EHEAD *head,
         SQLCHAR *sqlstate,

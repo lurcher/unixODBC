@@ -24,13 +24,13 @@ int iniObjectSeekSure( HINI hIni, char *pszObject )
     /* SANITY CHECKS */
     if ( hIni == NULL )
         return INI_ERROR;
-	if ( !pszObject )
+    if ( !pszObject )
         return INI_ERROR;
 
-	if ( (nReturn = iniObjectSeek( hIni, pszObject )) == INI_NO_DATA )
+    if ( (nReturn = iniObjectSeek( hIni, pszObject )) == INI_NO_DATA )
         return iniObjectInsert( hIni, pszObject );
 
-	return nReturn;
+    return nReturn;
 }
 
 

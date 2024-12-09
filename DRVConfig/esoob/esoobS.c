@@ -1,6 +1,6 @@
 /*
  *  Copyright (c) 1999 Easysoft Ltd. All rights reserved.
- * 
+ *
  *  This file contains the ODBCINSTGetProperties function required by
  *  unixODBC (http://www.unixodbc.org) to define Easysoft ODBC-ODBC Bridge
  *  DSNs.
@@ -47,7 +47,7 @@
 #include <config.h>
 #include <odbcinstext.h>
 
-char *help_strings[] = 
+char *help_strings[] =
 {
     "Name of the server to connect to.",
     "Name of the network transport to use.",
@@ -62,7 +62,7 @@ char *help_strings[] =
     "Tell driver to treat strings as literal and treat wildcard "
     "characters as literals.",
     "Enable (1) or Disable (0)  OOB's metadata blockfetchmode",
-    "Enable (1) or Disable (0)  disguise wide characters mode" 
+    "Enable (1) or Disable (0)  disguise wide characters mode"
 };
 
 int ODBCINSTGetProperties(
@@ -87,7 +87,7 @@ int ODBCINSTGetProperties(
     strncpy( hLastProperty->szValue, "TCP/IP", INI_MAX_PROPERTY_VALUE );
     hLastProperty->pszHelp = malloc(strlen(help_strings[1]) + 1);
     strcpy(hLastProperty->pszHelp, help_strings[1]);
-    
+
     hLastProperty->pNext = (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );
     hLastProperty = hLastProperty->pNext;
     memset( hLastProperty, 0, sizeof(ODBCINSTPROPERTY) );

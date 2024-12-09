@@ -462,7 +462,7 @@
 #include <sys/time.h>
 #elif defined( HAVE_FTIME ) && defined( HAVE_SYS_TIMEB_H )
 #include <sys/timeb.h>
-#elif defined( DHAVE_TIME ) && defined( HAVE_TIME_H ) 
+#elif defined( DHAVE_TIME ) && defined( HAVE_TIME_H )
 #include <time.h>
 #endif
 
@@ -509,7 +509,6 @@ static t_enc lookuptable[] = {
 
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __info.c,v $ $Revision: 1.50 $";
 
 struct log_structure log_info = { NULL, NULL, 0, 0 };
 
@@ -539,14 +538,14 @@ int unicode_setup( DMHDBC connection )
      * is this a bigendian machine ?
      */
 
-    u.l = 1; 
+    u.l = 1;
     be = (u.c[sizeof (long) - 1] == 1);
 
     mutex_iconv_entry();
 
 #if defined( HAVE_NL_LANGINFO ) && defined(HAVE_LANGINFO_CODESET)
-    /* 
-     * Try with current locale settings first 
+    /*
+     * Try with current locale settings first
      */
     asc[ 0 ] = nl_langinfo(CODESET);
 #elif defined(_WIN32) && !defined(__CYGWIN__)
@@ -719,7 +718,7 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
 {
     SQLWCHAR *ustr;
 
-    if ( wlen ) 
+    if ( wlen )
     {
         *wlen = len;
     }
@@ -733,7 +732,7 @@ SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection
     {
         len = strlen((char*) str );
     }
-    else if ( len < 0 ) 
+    else if ( len < 0 )
     {
         len = 0;
     }
@@ -756,7 +755,7 @@ char *unicode_to_ansi_alloc( SQLWCHAR *str, SQLINTEGER len, DMHDBC connection, i
 {
     char *aptr;
 
-    if ( clen ) 
+    if ( clen )
     {
         *clen = len;
     }
@@ -815,7 +814,7 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
         {
    		mutex_iconv_exit();
 
-            if ( clen ) 
+            if ( clen )
             {
                 *clen = opt - dest;
             }
@@ -841,7 +840,7 @@ char *unicode_to_ansi_copy( char * dest, int dest_len, SQLWCHAR *src, SQLINTEGER
 #endif
     }
 
-    if ( clen ) 
+    if ( clen )
     {
         *clen = i;
     }
@@ -871,7 +870,7 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
     {
         buffer_len = strlen( src );
     }
-    else if ( buffer_len < 0 ) 
+    else if ( buffer_len < 0 )
     {
         buffer_len = 0;
     }
@@ -893,7 +892,7 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
         {
 			mutex_iconv_exit();
 
-            if ( wlen ) 
+            if ( wlen )
             {
                 *wlen = ( opt - ((char*)dest)) / sizeof( SQLWCHAR );
             }
@@ -916,7 +915,7 @@ SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_le
 #endif
     }
 
-    if ( wlen ) 
+    if ( wlen )
     {
         *wlen = i;
     }
@@ -1088,7 +1087,7 @@ char * __type_as_string( SQLCHAR *s, SQLSMALLINT type )
  * display a data field as a string
  */
 
-char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLSMALLINT *ptr, SQLPOINTER buf )
 {
     SQLLEN iptr;
@@ -1106,7 +1105,7 @@ char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type,
     return (char*) s;
 }
 
-char * __idata_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __idata_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLINTEGER *ptr, SQLPOINTER buf )
 {
     SQLLEN iptr;
@@ -1124,7 +1123,7 @@ char * __idata_as_string( SQLCHAR *s, SQLINTEGER type,
     return (char*) s;
 }
 
-char * __data_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __data_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLLEN *ptr, SQLPOINTER buf )
 {
     if ( ptr && *ptr == SQL_NULL_DATA )
@@ -1134,7 +1133,7 @@ char * __data_as_string( SQLCHAR *s, SQLINTEGER type,
     else if ( ptr && *ptr < 0 )
     {
         sprintf((char*) s, "Indicator = %d", (int)*ptr );
-    } 
+    }
     else if ( !buf )
     {
         sprintf((char*) s, "[NULLPTR]" );
@@ -2373,11 +2372,11 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
       case SQL_CATALOG_LOCATION:
         sprintf((char*)  s, "SQL_CATALOG_LOCATION" );
         break;
-    
+
       case SQL_CATALOG_NAME:
         sprintf((char*)  s, "SQL_CATALOG_NAME" );
         break;
-    
+
       case SQL_CATALOG_NAME_SEPARATOR:
         sprintf((char*)  s, "SQL_CATALOG_NAME_SEPARATOR" );
         break;
@@ -2397,8 +2396,8 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
       case SQL_COLUMN_ALIAS:
         sprintf((char*)  s, "SQL_COLUMN_ALIAS" );
         break;
-    
-      case SQL_CONCAT_NULL_BEHAVIOR:    
+
+      case SQL_CONCAT_NULL_BEHAVIOR:
         sprintf((char*)  s, "SQL_CONCAT_NULL_BEHAVIOR" );
         break;
 
@@ -2597,7 +2596,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
       case SQL_ODBC_VER:
         sprintf((char*)  s, "SQL_ODBC_VER" );
         break;
-  
+
       case SQL_DROP_ASSERTION:
         sprintf((char*)  s, "SQL_DROP_ASSERTION" );
         break;
@@ -2633,7 +2632,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
       case SQL_DYNAMIC_CURSOR_ATTRIBUTES1:
         sprintf((char*)  s, "SQL_DYNAMIC_CURSOR_ATTRIBUTES1" );
         break;
-    
+
       case SQL_DYNAMIC_CURSOR_ATTRIBUTES2:
         sprintf((char*)  s, "SQL_EXPRESSIONS_IN_ORDERBY" );
         break;
@@ -2682,7 +2681,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_INSERT_STATEMENT" );
         break;
 
-      case SQL_INTEGRITY:    
+      case SQL_INTEGRITY:
         sprintf((char*)  s, "SQL_INTEGRITY" );
         break;
 
@@ -2713,7 +2712,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
       case SQL_MAX_CATALOG_NAME_LEN:
         sprintf((char*)  s, "SQL_MAX_CATALOG_NAME_LEN" );
         break;
-    
+
       case SQL_MAX_CHAR_LITERAL_LEN:
         sprintf((char*)  s, "SQL_MAX_CHAR_LITERAL_LEN" );
         break;
@@ -2722,7 +2721,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_MAX_COLUMN_NAME_LEN" );
         break;
 
-      case SQL_MAX_COLUMNS_IN_GROUP_BY:    
+      case SQL_MAX_COLUMNS_IN_GROUP_BY:
         sprintf((char*)  s, "SQL_MAX_COLUMNS_IN_GROUP_BY" );
         break;
 
@@ -2746,19 +2745,19 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_MAX_CONCURRENT_ACTIVITIES" );
         break;
 
-      case SQL_MAX_CURSOR_NAME_LEN:    
+      case SQL_MAX_CURSOR_NAME_LEN:
         sprintf((char*)  s, "SQL_MAX_CURSOR_NAME_LEN" );
         break;
 
-      case SQL_MAX_DRIVER_CONNECTIONS:    
+      case SQL_MAX_DRIVER_CONNECTIONS:
         sprintf((char*)  s, "SQL_MAX_DRIVER_CONNECTIONS" );
         break;
 
-      case SQL_MAX_IDENTIFIER_LEN:    
+      case SQL_MAX_IDENTIFIER_LEN:
         sprintf((char*)  s, "SQL_MAX_IDENTIFIER_LEN" );
         break;
 
-      case SQL_MAX_INDEX_SIZE:    
+      case SQL_MAX_INDEX_SIZE:
         sprintf((char*)  s, "SQL_MAX_INDEX_SIZE" );
         break;
 
@@ -2766,10 +2765,10 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_MAX_PROCEDURE_NAME_LEN" );
         break;
 
-      case SQL_MAX_ROW_SIZE:    
+      case SQL_MAX_ROW_SIZE:
         sprintf((char*)  s, "SQL_MAX_ROW_SIZE" );
         break;
-    
+
       case SQL_MAX_ROW_SIZE_INCLUDES_LONG:
         sprintf((char*)  s, "SQL_MAX_ROW_SIZE_INCLUDES_LONG" );
         break;
@@ -2782,7 +2781,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_MAX_STATEMENT_LEN" );
         break;
 
-      case SQL_MAX_TABLE_NAME_LEN:    
+      case SQL_MAX_TABLE_NAME_LEN:
         sprintf((char*)  s, "SQL_MAX_TABLE_NAME_LEN" );
         break;
 
@@ -2814,7 +2813,7 @@ char * __info_as_string( SQLCHAR *s, SQLINTEGER type )
         sprintf((char*)  s, "SQL_NULL_COLLATION" );
         break;
 
-      case SQL_NUMERIC_FUNCTIONS:        
+      case SQL_NUMERIC_FUNCTIONS:
         sprintf((char*)  s, "SQL_NUMERIC_FUNCTIONS" );
         break;
 
@@ -3398,7 +3397,7 @@ char * __wstring_with_length_hide_pwd( SQLCHAR *out, SQLWCHAR *str, SQLINTEGER l
 /*
  * display a C type as a string
  */
- 
+
 char * __c_as_text( SQLINTEGER type )
 {
     switch( type )
@@ -3528,7 +3527,7 @@ char * __c_as_text( SQLINTEGER type )
 /*
  * display a SQL type as a string
  */
- 
+
 char * __sql_as_text( SQLINTEGER type )
 {
     switch( type )
@@ -3823,7 +3822,7 @@ static int check_error_order( ERROR *e1, ERROR *e2, EHEAD *head )
     int ret;
 
     /*
-     * as far as I can see, a simple strcmp gives the order we need 
+     * as far as I can see, a simple strcmp gives the order we need
      */
 
     s1 = unicode_to_ansi_alloc( e1 -> sqlstate, SQL_NTS, __get_connection( head ), NULL);
@@ -3837,7 +3836,7 @@ static int check_error_order( ERROR *e1, ERROR *e2, EHEAD *head )
     return ret;
 }
 
-/* 
+/*
  * insert the error into the list, making sure its in the correct
  * order
  */
@@ -4089,7 +4088,7 @@ void __post_internal_error_ex_noprefix( EHEAD *error_header,
     wide_strcpy( e2 -> diag_server_name, e1 -> diag_server_name );
 
     /*
-     * the list for SQLError puts both local and driver 
+     * the list for SQLError puts both local and driver
      * errors in the same list
      */
 
@@ -4202,7 +4201,7 @@ void __post_internal_error_ex_w_noprefix( EHEAD *error_header,
     error_header -> return_code = SQL_ERROR;
 
     /*
-     * the list for SQLError puts both local and driver 
+     * the list for SQLError puts both local and driver
      * errors in the same list
      */
 
@@ -4294,7 +4293,7 @@ void extract_diag_error( int htype,
     SQLINTEGER native;
     SQLINTEGER rec_number;
     SQLSMALLINT len;
-    
+
     head -> return_code = return_code;
     head -> header_set = 0;
     head -> diag_cursor_row_count_ret = SQL_ERROR;
@@ -4325,7 +4324,7 @@ void extract_diag_error( int htype,
             ERROR *e = malloc( sizeof( ERROR ));
             SQLWCHAR *tmp;
 
-            /* 
+            /*
              * make sure we are truncated in the right place
              */
 
@@ -4570,7 +4569,7 @@ void extract_sql_error( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
-                            EHEAD *head, 
+                            EHEAD *head,
                             int return_code )
 {
     SQLRETURN ret;
@@ -4593,7 +4592,7 @@ void extract_sql_error( DRV_SQLHANDLE henv,
         len = 0;
 
         ret = SQLERROR( connection,
-                henv, 
+                henv,
                 hdbc,
                 hstmt,
                 sqlstate,
@@ -4615,7 +4614,7 @@ void extract_sql_error( DRV_SQLHANDLE henv,
              * add our prefix
              */
 
-            /* 
+            /*
              * make sure we are truncated in the right place
              */
 
@@ -4724,7 +4723,7 @@ void extract_diag_error_w( int htype,
             SQLWCHAR *tmp;
 #endif
 
-            /* 
+            /*
              * make sure we are truncated in the right place
              */
 
@@ -4947,7 +4946,7 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
-                            EHEAD *head, 
+                            EHEAD *head,
                             int return_code )
 {
     SQLRETURN ret;
@@ -4964,7 +4963,7 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
         len = 0;
 
         ret = SQLERRORW( connection,
-                henv, 
+                henv,
                 hdbc,
                 hstmt,
                 sqlstate,
@@ -4989,7 +4988,7 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
              * add our prefix
              */
 
-            /* 
+            /*
              * make sure we are truncated in the right place
              */
 
@@ -5129,7 +5128,7 @@ void extract_error_from_driver( EHEAD * error_handle,
 
 /* Return without collecting diag recs from the handle - to be called if the
    DM function is returning before calling the driver function. */
-int function_return_nodrv( int level, void *handle, int ret_code) 
+int function_return_nodrv( int level, void *handle, int ret_code)
 {
     if ( level != IGNORE_THREAD )
     {
@@ -5482,7 +5481,7 @@ void __post_internal_error_api( EHEAD *error_handle,
         if ( connection_mode >= SQL_OV_ODBC3 )
         {
             strcpy( sqlstate, "HY003" );
-            /* Windows DM returns " Program type out of range" instead of 
+            /* Windows DM returns " Program type out of range" instead of
                "Invalid application buffer type" */
             message = "Program type out of range";
         }
@@ -5585,7 +5584,7 @@ void __post_internal_error_api( EHEAD *error_handle,
             strcpy( sqlstate, "S1095" );
         message = "Function type out of range";
         break;
-        
+
       case ERROR_HY097:
         if ( connection_mode >= SQL_OV_ODBC3 )
             strcpy( sqlstate, "HY097" );
@@ -5878,7 +5877,7 @@ void dm_log_write( char *function_name, int line, int type, int severity,
 
 			sprintf( tstamp_str, "[%ld.%03d]", tp.time, tp.millitm );
 		}
-#elif defined( DHAVE_TIME ) && defined( HAVE_TIME_H ) 
+#elif defined( DHAVE_TIME ) && defined( HAVE_TIME_H )
 		{
 			time_t tv;
 
@@ -5890,14 +5889,14 @@ void dm_log_write( char *function_name, int line, int type, int severity,
 #endif
         if ( !log_info.program_name )
         {
-            uo_fprintf( fp, "[ODBC][%s]%s[%s][%d]%s\n", __get_pid((SQLCHAR*) tmp ), 
+            uo_fprintf( fp, "[ODBC][%s]%s[%s][%d]%s\n", __get_pid((SQLCHAR*) tmp ),
 					tstamp_str,
                     function_name, line, message );
         }
         else
         {
             uo_fprintf( fp, "[%s][%s]%s[%s][%d]%s\n", log_info.program_name,
-                __get_pid((SQLCHAR*) tmp ), 
+                __get_pid((SQLCHAR*) tmp ),
 				tstamp_str,
 				function_name, line, message );
         }

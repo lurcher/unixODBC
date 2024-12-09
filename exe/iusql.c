@@ -27,7 +27,7 @@
 #ifdef HAVE_SETLOCALE
     #ifdef HAVE_LOCALE_H
         #include <locale.h>
-    #endif 
+    #endif
 #endif
 
 static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *szPWD );
@@ -276,15 +276,15 @@ int main( int argc, char *argv[] )
 
         /* remove trailing spaces */
 
-        while( len > 0 ) 
+        while( len > 0 )
         {
             len --;
 
-            if ( szSQL[ len ] == ' ' ) 
+            if ( szSQL[ len ] == ' ' )
             {
                 szSQL[ len ] = '\0';
             }
-            else 
+            else
             {
                 break;
             }
@@ -321,7 +321,7 @@ OptimalDisplayWidth( SQLHSTMT hStmt, SQLINTEGER nCol, int nUserWidth )
     SQLUINTEGER nLabelWidth                     = 10;
     SQLULEN nDataWidth                      = 10;
     SQLUINTEGER nOptimalDisplayWidth            = 10;
-    SQLCHAR     szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLCHAR     szColumnName[MAX_DATA_WIDTH+1];
 
     *szColumnName = '\0';
 
@@ -421,11 +421,11 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
      * isql "DSN={Dsn Name};PWD={Pass world};UID={User Name}"
      */
 
-    if ( !szPWD && !szUID && ( strstr( dsn, "DSN=" ) || strstr( dsn, "DRIVER=" ) || strstr( dsn, "FILEDSN=" ))) 
+    if ( !szPWD && !szUID && ( strstr( dsn, "DSN=" ) || strstr( dsn, "DRIVER=" ) || strstr( dsn, "FILEDSN=" )))
     {
         strcpy( zcstr, dsn );
     }
-    else 
+    else
     {
         sprintf( zcstr, "DSN=%s", dsn );
         if ( szUID )
@@ -467,8 +467,8 @@ static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUI
 static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bHTMLTable )
 {
     SQLHSTMT        hStmt;
-    SQLTCHAR        szSepLine[32001];   
-    SQLTCHAR        szUcSQL[32001]; 
+    SQLTCHAR        szSepLine[32001];
+    SQLTCHAR        szUcSQL[32001];
     SQLSMALLINT     cols;
     SQLINTEGER      ret;
     SQLLEN          nRows                   = 0;
@@ -515,9 +515,9 @@ static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNa
             SQLFreeStmt( hStmt, SQL_DROP );
             return 0;
         }
-    
+
         ret =  SQLExecute( hStmt );
-    
+
         if ( ret == SQL_NO_DATA )
         {
             fprintf( stderr, "[ISQL]INFO: SQLExecute returned SQL_NO_DATA\n" );
@@ -536,7 +536,7 @@ static int ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNa
         }
     }
 
-    do 
+    do
     {
         /*
          * check to see if it has generated a result set
@@ -599,7 +599,7 @@ static int ExecuteHelp( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnN
 {
     char            szTable[250]                        = "";
     SQLHSTMT        hStmt;
-    SQLTCHAR        szSepLine[32001];   
+    SQLTCHAR        szSepLine[32001];
     SQLLEN          nRows               = 0;
 
     szSepLine[ 0 ] = 0;
@@ -715,7 +715,7 @@ static void WriteHeaderHTMLTable( SQLHSTMT hStmt )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLTCHAR        szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLTCHAR        szColumnName[MAX_DATA_WIDTH+1];
 
     szColumnName[ 0 ] = 0;
 
@@ -799,9 +799,9 @@ static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLTCHAR            szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLTCHAR            szColumnName[MAX_DATA_WIDTH+1];
 
-    szColumnName[ 0 ]   = 0;    
+    szColumnName[ 0 ]   = 0;
 
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
@@ -872,14 +872,14 @@ void UWriteHeaderNormal( SQLHSTMT hStmt, SQLTCHAR *szSepLine )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLTCHAR            szColumn[MAX_DATA_WIDTH+20];    
-    SQLTCHAR            szColumnName[MAX_DATA_WIDTH+1]; 
-    SQLTCHAR            szHdrLine[32001];   
+    SQLTCHAR            szColumn[MAX_DATA_WIDTH+20];
+    SQLTCHAR            szColumnName[MAX_DATA_WIDTH+1];
+    SQLTCHAR            szHdrLine[32001];
     SQLUINTEGER     nOptimalDisplayWidth            = 10;
 
-    szColumn[ 0 ]       = 0;    
-    szColumnName[ 0 ]   = 0;    
-    szHdrLine[ 0 ]      = 0;    
+    szColumn[ 0 ]       = 0;
+    szColumnName[ 0 ]   = 0;
+    szHdrLine[ 0 ]      = 0;
 
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
@@ -917,7 +917,7 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
     SQLLEN          nIndicator                      = 0;
     SQLTCHAR        szColumn[MAX_DATA_WIDTH+20];
     SQLTCHAR        szColumnValue[MAX_DATA_WIDTH+1];
-    SQLTCHAR        szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLTCHAR        szColumnName[MAX_DATA_WIDTH+1];
     SQLRETURN       nReturn                         = 0;
     SQLRETURN       ret;
     SQLLEN          nRows                           = 0;
@@ -925,7 +925,7 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
 
     szColumn[ 0 ]       = 0;
     szColumnValue[ 0 ]  = 0;
-    szColumnName[ 0 ]   = 0;    
+    szColumnName[ 0 ]   = 0;
 
     if ( SQLNumResultCols( hStmt, &nColumns ) != SQL_SUCCESS )
         nColumns = -1;
@@ -981,7 +981,7 @@ static SQLLEN WriteBodyNormal( SQLHSTMT hStmt )
             break;
         printf( "|\n" );
         nRows++;
-    } 
+    }
     if ( ret == SQL_ERROR )
     {
         if ( bVerbose ) DumpODBCLog( 0, 0, hStmt );

@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -58,8 +58,6 @@
 
 #include <config.h>
 #include "drivermanager.h"
-
-static char const rcsid[]= "$RCSfile: SQLFreeConnect.c,v $ $Revision: 1.2 $";
 
 SQLRETURN SQLFreeConnect( SQLHDBC connection_handle )
 {

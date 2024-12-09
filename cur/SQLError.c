@@ -73,9 +73,9 @@ SQLRETURN CLError( SQLHENV environment_handle,
 
     if ( statement_handle )
     {
-        CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+        CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
-		if ( cl_statement -> driver_stmt_closed ) 
+		if ( cl_statement -> driver_stmt_closed )
 		{
 			return SQL_NO_DATA;
 		}
@@ -120,7 +120,7 @@ SQLRETURN CLError( SQLHENV environment_handle,
     }
     else if ( connection_handle )
     {
-        CLHDBC cl_connection = (CLHDBC) connection_handle; 
+        CLHDBC cl_connection = (CLHDBC) connection_handle;
 
         if ( CHECK_SQLERROR( cl_connection ))
         {

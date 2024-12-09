@@ -109,7 +109,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetInfoW.c,v $";
 
 SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
            SQLUSMALLINT info_type,
@@ -131,10 +130,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -144,22 +143,22 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 			parent_connection = find_parent_handle( connection, SQL_HANDLE_DBC );
 
 			if ( parent_connection ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLGETINFOW( parent_connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
-					return SQLGETINFOW( parent_connection, 
-							connection_handle, 
+					return SQLGETINFOW( parent_connection,
+							connection_handle,
            					info_type,
            					info_value,
            					buffer_length,
@@ -183,14 +182,14 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 \n\t\t\tStrLen = %p",
                 connection,
                 __info_as_string( s1, info_type ),
-                info_value, 
+                info_value,
                 (int)buffer_length,
                 (void*)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -200,10 +199,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
             info_type != SQL_DM_VER &&
             connection -> state == STATE_C2 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 08003" );
 
         __post_internal_error( &connection -> error,
@@ -214,10 +213,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
     }
     else if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 08003" );
 
         __post_internal_error( &connection -> error,
@@ -229,10 +228,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
     if ( buffer_length < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &connection -> error,
@@ -252,7 +251,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
       case SQL_DM_VER:
         type = 1;
         sprintf( txt, "%02d.%02d.%04d.%04d",
-                SQL_SPEC_MAJOR, SQL_SPEC_MINOR, 
+                SQL_SPEC_MAJOR, SQL_SPEC_MINOR,
                 atoi( VERSION ), atoi( VERSION + 2 ));
         cptr = txt;
         break;
@@ -285,10 +284,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &connection -> error,
@@ -316,10 +315,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &connection -> error,
@@ -350,10 +349,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
         {
             if ( !CHECK_SQLGETINFOW( connection ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -372,14 +371,14 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
             if ( log_info.log_flag )
             {
-                sprintf( connection -> msg, 
+                sprintf( connection -> msg,
                         "\n\t\tExit:[%s]",
                             __get_return_status( ret, s1 ));
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         connection -> msg );
             }
         }
@@ -389,10 +388,10 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
             if ( !CHECK_SQLGETINFO( connection ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -511,14 +510,14 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
             if ( log_info.log_flag )
             {
-                sprintf( connection -> msg, 
+                sprintf( connection -> msg,
                         "\n\t\tExit:[%s]",
                             __get_return_status( ret, s1 ));
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         connection -> msg );
             }
         }
@@ -563,7 +562,7 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
         if ( string_length )
             *string_length = sizeof( SQLPOINTER );
     }
-	else if ( type == 3 ) 
+	else if ( type == 3 )
 	{
         if ( info_value )
             *((SQLUSMALLINT *)info_value) = sval;
@@ -574,14 +573,14 @@ SQLRETURN SQLGetInfoW( SQLHDBC connection_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 

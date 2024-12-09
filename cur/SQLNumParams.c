@@ -52,7 +52,7 @@ SQLRETURN CLNumParams(
     SQLHSTMT           statement_handle,
     SQLSMALLINT        *pcpar )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLNUMPARAMS( cl_statement -> cl_connection,
             cl_statement -> driver_stmt,

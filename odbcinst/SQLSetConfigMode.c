@@ -44,11 +44,11 @@ static int mutex_exit( pth_mutex_t *mutex )
 {
     return pth_mutex_release( mutex );
 }
- 
+
 #elif HAVE_LIBPTHREAD
-                 
+
 #include <pthread.h>
-                
+
 static pthread_mutex_t mutex_config = PTHREAD_MUTEX_INITIALIZER;
 
 static int mutex_entry( pthread_mutex_t *mutex )
@@ -103,7 +103,7 @@ int __get_config_mode( void )
 {
     char *p;
 
-    /* 
+    /*
      * if the environment var is set then it overrides the flag
      */
 

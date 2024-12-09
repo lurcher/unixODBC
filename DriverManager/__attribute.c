@@ -67,7 +67,6 @@
 #include <string.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __attribute.c,v $";
 
 /*
  * these are taken directly from odbctest/attr.cpp
@@ -93,173 +92,173 @@ typedef struct attr_options
 	int		is_pointer;
 } attr_options;
 
-static attr_options stmt_options[] = 
+static attr_options stmt_options[] =
 {
-	{ "SQL_ATTR_APP_PARAM_DESC", SQL_ATTR_APP_PARAM_DESC, 
+	{ "SQL_ATTR_APP_PARAM_DESC", SQL_ATTR_APP_PARAM_DESC,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_APP_ROW_DESC", SQL_ATTR_APP_ROW_DESC, 
+	{ "SQL_ATTR_APP_ROW_DESC", SQL_ATTR_APP_ROW_DESC,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ASYNC_ENABLE", SQL_ATTR_ASYNC_ENABLE, 
+	{ "SQL_ATTR_ASYNC_ENABLE", SQL_ATTR_ASYNC_ENABLE,
 		{
-			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF }, 
-			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON }, 
+			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF },
+			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CONCURRENCY", SQL_ATTR_CONCURRENCY, 
+	{ "SQL_ATTR_CONCURRENCY", SQL_ATTR_CONCURRENCY,
 		{
-			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY }, 
-			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK }, 
-			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER }, 
-			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES }, 
+			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY },
+			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK },
+			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER },
+			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CURSOR_SCROLLABLE", SQL_ATTR_CURSOR_SCROLLABLE, 
+	{ "SQL_ATTR_CURSOR_SCROLLABLE", SQL_ATTR_CURSOR_SCROLLABLE,
 		{
-			{ "SQL_NONSCROLLABLE", SQL_NONSCROLLABLE }, 
-			{ "SQL_SCROLLABLE", SQL_SCROLLABLE }, 
+			{ "SQL_NONSCROLLABLE", SQL_NONSCROLLABLE },
+			{ "SQL_SCROLLABLE", SQL_SCROLLABLE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CURSOR_SENSITIVITY", SQL_ATTR_CURSOR_SENSITIVITY, 
+	{ "SQL_ATTR_CURSOR_SENSITIVITY", SQL_ATTR_CURSOR_SENSITIVITY,
 		{
-			{ "SQL_UNSPECIFIED", SQL_UNSPECIFIED }, 
-			{ "SQL_INSENSITIVE", SQL_INSENSITIVE }, 
-			{ "SQL_SENSITIVE", SQL_SENSITIVE }, 
+			{ "SQL_UNSPECIFIED", SQL_UNSPECIFIED },
+			{ "SQL_INSENSITIVE", SQL_INSENSITIVE },
+			{ "SQL_SENSITIVE", SQL_SENSITIVE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CURSOR_TYPE", SQL_ATTR_CURSOR_TYPE, 
+	{ "SQL_ATTR_CURSOR_TYPE", SQL_ATTR_CURSOR_TYPE,
 		{
-			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY }, 
-			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC }, 
-			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN }, 
-			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC }, 
+			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY },
+			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC },
+			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN },
+			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ENABLE_AUTO_IPD", SQL_ATTR_ENABLE_AUTO_IPD, 
+	{ "SQL_ATTR_ENABLE_AUTO_IPD", SQL_ATTR_ENABLE_AUTO_IPD,
 		{
-			{ "SQL_FALSE", SQL_FALSE }, 
-			{ "SQL_TRUE", SQL_TRUE }, 
+			{ "SQL_FALSE", SQL_FALSE },
+			{ "SQL_TRUE", SQL_TRUE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_FETCH_BOOKMARK_PTR", SQL_ATTR_FETCH_BOOKMARK_PTR, 
+	{ "SQL_ATTR_FETCH_BOOKMARK_PTR", SQL_ATTR_FETCH_BOOKMARK_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER, FALSE, TRUE
 	},
-	{ "SQL_ATTR_FETCH_IMP_PARAM_DESC", SQL_ATTR_IMP_PARAM_DESC, 
+	{ "SQL_ATTR_FETCH_IMP_PARAM_DESC", SQL_ATTR_IMP_PARAM_DESC,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_FETCH_IMP_ROW_DESC", SQL_ATTR_IMP_ROW_DESC, 
+	{ "SQL_ATTR_FETCH_IMP_ROW_DESC", SQL_ATTR_IMP_ROW_DESC,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_KEYSET_SIZE", SQL_ATTR_KEYSET_SIZE, 
+	{ "SQL_ATTR_KEYSET_SIZE", SQL_ATTR_KEYSET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_MAX_LENGTH", SQL_ATTR_MAX_LENGTH, 
+	{ "SQL_ATTR_MAX_LENGTH", SQL_ATTR_MAX_LENGTH,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_MAX_ROWS", SQL_ATTR_MAX_ROWS, 
+	{ "SQL_ATTR_MAX_ROWS", SQL_ATTR_MAX_ROWS,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_METADATA_ID", SQL_ATTR_METADATA_ID, 
+	{ "SQL_ATTR_METADATA_ID", SQL_ATTR_METADATA_ID,
 		{
-			{ "SQL_FALSE", SQL_FALSE }, 
-			{ "SQL_TRUE", SQL_TRUE }, 
+			{ "SQL_FALSE", SQL_FALSE },
+			{ "SQL_TRUE", SQL_TRUE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_NOSCAN", SQL_ATTR_NOSCAN, 
+	{ "SQL_ATTR_NOSCAN", SQL_ATTR_NOSCAN,
 		{
-			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF }, 
-			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON }, 
+			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF },
+			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_PARAM_BIND_OFFSET_PTR", SQL_ATTR_PARAM_BIND_OFFSET_PTR, 
+	{ "SQL_ATTR_PARAM_BIND_OFFSET_PTR", SQL_ATTR_PARAM_BIND_OFFSET_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER, FALSE, TRUE
 	},
-	{ "SQL_ATTR_PARAM_BIND_TYPE", SQL_ATTR_PARAM_BIND_TYPE, 
+	{ "SQL_ATTR_PARAM_BIND_TYPE", SQL_ATTR_PARAM_BIND_TYPE,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_PARAM_OPERATION_PTR", SQL_ATTR_PARAM_OPERATION_PTR, 
+	{ "SQL_ATTR_PARAM_OPERATION_PTR", SQL_ATTR_PARAM_OPERATION_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_SMALLINT, FALSE, TRUE
 	},
-	{ "SQL_ATTR_PARAM_STATUS_PTR", SQL_ATTR_PARAM_STATUS_PTR, 
+	{ "SQL_ATTR_PARAM_STATUS_PTR", SQL_ATTR_PARAM_STATUS_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_SMALLINT, FALSE, TRUE
 	},
-	{ "SQL_ATTR_PARAMS_PROCESSED_PTR", SQL_ATTR_PARAMS_PROCESSED_PTR, 
+	{ "SQL_ATTR_PARAMS_PROCESSED_PTR", SQL_ATTR_PARAMS_PROCESSED_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_SMALLINT, FALSE, TRUE
 	},
-	{ "SQL_ATTR_PARAMSET_SIZE", SQL_ATTR_PARAMSET_SIZE, 
+	{ "SQL_ATTR_PARAMSET_SIZE", SQL_ATTR_PARAMSET_SIZE,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_QUERY_TIMEOUT", SQL_ATTR_QUERY_TIMEOUT, 
+	{ "SQL_ATTR_QUERY_TIMEOUT", SQL_ATTR_QUERY_TIMEOUT,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_RETRIEVE_DATA", SQL_ATTR_RETRIEVE_DATA, 
+	{ "SQL_ATTR_RETRIEVE_DATA", SQL_ATTR_RETRIEVE_DATA,
 		{
-			{ "SQL_RD_ON", SQL_RD_ON }, 
-			{ "SQL_RD_OFF", SQL_RD_OFF }, 
+			{ "SQL_RD_ON", SQL_RD_ON },
+			{ "SQL_RD_OFF", SQL_RD_OFF },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ROW_ARRAY_SIZE", SQL_ATTR_ROW_ARRAY_SIZE, 
+	{ "SQL_ATTR_ROW_ARRAY_SIZE", SQL_ATTR_ROW_ARRAY_SIZE,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ROW_BIND_OFFSET_PTR", SQL_ATTR_ROW_BIND_OFFSET_PTR, 
+	{ "SQL_ATTR_ROW_BIND_OFFSET_PTR", SQL_ATTR_ROW_BIND_OFFSET_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER, FALSE, TRUE
 	},
-	{ "SQL_ATTR_ROW_BIND_TYPE", SQL_ATTR_ROW_BIND_TYPE, 
+	{ "SQL_ATTR_ROW_BIND_TYPE", SQL_ATTR_ROW_BIND_TYPE,
 		{
-			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN }, 
+			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ROW_NUMBER", SQL_ATTR_ROW_NUMBER, 
+	{ "SQL_ATTR_ROW_NUMBER", SQL_ATTR_ROW_NUMBER,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ROW_OPERATION_PTR", SQL_ATTR_ROW_OPERATION_PTR, 
+	{ "SQL_ATTR_ROW_OPERATION_PTR", SQL_ATTR_ROW_OPERATION_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_SMALLINT, FALSE, TRUE
@@ -269,12 +268,12 @@ static attr_options stmt_options[] =
 			{ NULL }
 		}, "3.0", SQL_SMALLINT, FALSE, TRUE
 	},
-	{ "SQL_ATTR_ROWS_FETCHED_PTR", SQL_ATTR_ROWS_FETCHED_PTR, 
+	{ "SQL_ATTR_ROWS_FETCHED_PTR", SQL_ATTR_ROWS_FETCHED_PTR,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_SIMULATE_CURSOR", SQL_ATTR_SIMULATE_CURSOR, 
+	{ "SQL_ATTR_SIMULATE_CURSOR", SQL_ATTR_SIMULATE_CURSOR,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
@@ -284,195 +283,195 @@ static attr_options stmt_options[] =
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ NULL 
+	{ NULL
 	}
 };
 
-static attr_options stmt_opt_options[] = 
+static attr_options stmt_opt_options[] =
 {
-	{ "SQL_ASYNC_ENABLE", SQL_ASYNC_ENABLE, 
+	{ "SQL_ASYNC_ENABLE", SQL_ASYNC_ENABLE,
 		{
-			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF }, 
-			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON }, 
+			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF },
+			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_BIND_TYPE", SQL_BIND_TYPE, 
+	{ "SQL_BIND_TYPE", SQL_BIND_TYPE,
 		{
-			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN }, 
+			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_CONCURRENCY", SQL_CONCURRENCY, 
+	{ "SQL_CONCURRENCY", SQL_CONCURRENCY,
 		{
-			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY }, 
-			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK }, 
-			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER }, 
-			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES }, 
-			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY }, 
+			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY },
+			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK },
+			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER },
+			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES },
+			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_CURSOR_TYPE", SQL_CURSOR_TYPE, 
+	{ "SQL_CURSOR_TYPE", SQL_CURSOR_TYPE,
 		{
-			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY }, 
-			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC }, 
-			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN }, 
-			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC }, 
+			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY },
+			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC },
+			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN },
+			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_KEYSET_SIZE", SQL_KEYSET_SIZE, 
+	{ "SQL_KEYSET_SIZE", SQL_KEYSET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_MAX_LENGTH", SQL_MAX_LENGTH, 
-		{
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "SQL_MAX_ROWS", SQL_MAX_ROWS, 
+	{ "SQL_MAX_LENGTH", SQL_MAX_LENGTH,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_NOSCAN", SQL_NOSCAN, 
-		{
-			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF }, 
-			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON }, 
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "SQL_QUERY_TIMEOUT", SQL_QUERY_TIMEOUT, 
+	{ "SQL_MAX_ROWS", SQL_MAX_ROWS,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_RETRIEVE_DATA", SQL_RETRIEVE_DATA, 
+	{ "SQL_NOSCAN", SQL_NOSCAN,
 		{
-			{ "SQL_RD_ON", SQL_RD_ON }, 
-			{ "SQL_RD_OFF", SQL_RD_OFF }, 
+			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF },
+			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON },
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "SQL_QUERY_TIMEOUT", SQL_QUERY_TIMEOUT,
+		{
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "SQL_RETRIEVE_DATA", SQL_RETRIEVE_DATA,
+		{
+			{ "SQL_RD_ON", SQL_RD_ON },
+			{ "SQL_RD_OFF", SQL_RD_OFF },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ROWSET_SIZE", SQL_ROWSET_SIZE, 
+	{ "SQL_ROWSET_SIZE", SQL_ROWSET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_SIMULATE_CURSOR", SQL_SIMULATE_CURSOR, 
+	{ "SQL_SIMULATE_CURSOR", SQL_SIMULATE_CURSOR,
 		{
-			{ "SQL_SC_NON_UNIQUE", SQL_SC_NON_UNIQUE }, 
-			{ "SQL_SC_TRY_UNIQUE", SQL_SC_TRY_UNIQUE }, 
-			{ "SQL_SC_UNIQUE", SQL_SC_UNIQUE }, 
+			{ "SQL_SC_NON_UNIQUE", SQL_SC_NON_UNIQUE },
+			{ "SQL_SC_TRY_UNIQUE", SQL_SC_TRY_UNIQUE },
+			{ "SQL_SC_UNIQUE", SQL_SC_UNIQUE },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_USE_BOOKMARKS", SQL_USE_BOOKMARKS, 
+	{ "SQL_USE_BOOKMARKS", SQL_USE_BOOKMARKS,
 		{
-			{ "SQL_UB_ON", SQL_UB_ON }, 
-			{ "SQL_UB_OFF", SQL_UB_OFF }, 
+			{ "SQL_UB_ON", SQL_UB_ON },
+			{ "SQL_UB_OFF", SQL_UB_OFF },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ NULL 
+	{ NULL
 	}
 };
 
-static attr_options conn_options[] = 
+static attr_options conn_options[] =
 {
-	{ "SQL_ATTR_ACCESS_MODE", SQL_ATTR_ACCESS_MODE, 
+	{ "SQL_ATTR_ACCESS_MODE", SQL_ATTR_ACCESS_MODE,
 		{
-			{ "SQL_MODE_READ_WRITE", SQL_MODE_READ_WRITE }, 
-			{ "SQL_MODE_READ_ONLY", SQL_MODE_READ_ONLY }, 
+			{ "SQL_MODE_READ_WRITE", SQL_MODE_READ_WRITE },
+			{ "SQL_MODE_READ_ONLY", SQL_MODE_READ_ONLY },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ASYNC_ENABLE", SQL_ATTR_ASYNC_ENABLE, 
+	{ "SQL_ATTR_ASYNC_ENABLE", SQL_ATTR_ASYNC_ENABLE,
 		{
-			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF }, 
-			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON }, 
+			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF },
+			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_AUTO_IPD", SQL_ATTR_AUTO_IPD, 
+	{ "SQL_ATTR_AUTO_IPD", SQL_ATTR_AUTO_IPD,
 		{
-			{ "SQL_TRUE", SQL_TRUE }, 
-			{ "SQL_FALSE", SQL_FALSE }, 
+			{ "SQL_TRUE", SQL_TRUE },
+			{ "SQL_FALSE", SQL_FALSE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_AUTOCOMMIT", SQL_ATTR_AUTOCOMMIT, 
+	{ "SQL_ATTR_AUTOCOMMIT", SQL_ATTR_AUTOCOMMIT,
 		{
-			{ "SQL_AUTOCOMMIT_ON", SQL_AUTOCOMMIT_ON }, 
-			{ "SQL_AUTOCOMMIT_OFF", SQL_AUTOCOMMIT_OFF }, 
+			{ "SQL_AUTOCOMMIT_ON", SQL_AUTOCOMMIT_ON },
+			{ "SQL_AUTOCOMMIT_OFF", SQL_AUTOCOMMIT_OFF },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CONNECTION_TIMEOUT", SQL_ATTR_CONNECTION_TIMEOUT, 
+	{ "SQL_ATTR_CONNECTION_TIMEOUT", SQL_ATTR_CONNECTION_TIMEOUT,
 		{
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CURRENT_CATALOG", SQL_ATTR_CURRENT_CATALOG, 
+	{ "SQL_ATTR_CURRENT_CATALOG", SQL_ATTR_CURRENT_CATALOG,
 		{
 			{ NULL }
 		}, "2.0", SQL_CHAR
 	},
-	{ "SQL_ATTR_LOGIN_TIMEOUT", SQL_ATTR_LOGIN_TIMEOUT, 
+	{ "SQL_ATTR_LOGIN_TIMEOUT", SQL_ATTR_LOGIN_TIMEOUT,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_METADATA_ID", SQL_ATTR_METADATA_ID, 
+	{ "SQL_ATTR_METADATA_ID", SQL_ATTR_METADATA_ID,
 		{
-			{ "SQL_TRUE", SQL_TRUE }, 
-			{ "SQL_FALSE", SQL_FALSE }, 
+			{ "SQL_TRUE", SQL_TRUE },
+			{ "SQL_FALSE", SQL_FALSE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_ODBC_CURSORS", SQL_ATTR_ODBC_CURSORS, 
+	{ "SQL_ATTR_ODBC_CURSORS", SQL_ATTR_ODBC_CURSORS,
 		{
-			{ "SQL_CUR_USE_IF_NEEDED", SQL_CUR_USE_IF_NEEDED }, 
-			{ "SQL_CUR_USE_ODBC", SQL_CUR_USE_ODBC }, 
-			{ "SQL_CUR_USE_DRIVER", SQL_CUR_USE_DRIVER }, 
+			{ "SQL_CUR_USE_IF_NEEDED", SQL_CUR_USE_IF_NEEDED },
+			{ "SQL_CUR_USE_ODBC", SQL_CUR_USE_ODBC },
+			{ "SQL_CUR_USE_DRIVER", SQL_CUR_USE_DRIVER },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_PACKET_SIZE", SQL_ATTR_PACKET_SIZE, 
-		{
-			{ NULL }
-		}, "2.0", SQL_INTEGER
-	},
-	{ "SQL_ATTR_QUIET_MODE", SQL_ATTR_QUIET_MODE, 
+	{ "SQL_ATTR_PACKET_SIZE", SQL_ATTR_PACKET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_TRACE", SQL_ATTR_TRACE, 
+	{ "SQL_ATTR_QUIET_MODE", SQL_ATTR_QUIET_MODE,
 		{
-			{ "SQL_OPT_TRACE_OFF", SQL_OPT_TRACE_OFF }, 
-			{ "SQL_OPT_TRACE_ON", SQL_OPT_TRACE_ON }, 
+			{ NULL }
+		}, "2.0", SQL_INTEGER
+	},
+	{ "SQL_ATTR_TRACE", SQL_ATTR_TRACE,
+		{
+			{ "SQL_OPT_TRACE_OFF", SQL_OPT_TRACE_OFF },
+			{ "SQL_OPT_TRACE_ON", SQL_OPT_TRACE_ON },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_TRACEFILE", SQL_ATTR_TRACEFILE, 
+	{ "SQL_ATTR_TRACEFILE", SQL_ATTR_TRACEFILE,
 		{
 			{ NULL }
 		}, "1.0", SQL_CHAR
 	},
-	{ "SQL_ATTR_TRANSLATE_LIB", SQL_ATTR_TRANSLATE_LIB, 
+	{ "SQL_ATTR_TRANSLATE_LIB", SQL_ATTR_TRANSLATE_LIB,
 		{
 			{ NULL }
 		}, "1.0", SQL_CHAR
 	},
-	{ "SQL_ATTR_TRANSLATE_OPTION", SQL_ATTR_TRANSLATE_OPTION, 
+	{ "SQL_ATTR_TRANSLATE_OPTION", SQL_ATTR_TRANSLATE_OPTION,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_TXN_ISOLATION", SQL_ATTR_TXN_ISOLATION, 
+	{ "SQL_ATTR_TXN_ISOLATION", SQL_ATTR_TXN_ISOLATION,
 		{
 			{ "SQL_TXN_READ_UNCOMMITTED", SQL_TXN_READ_UNCOMMITTED },
 			{ "SQL_TXN_READ_COMMITTED", SQL_TXN_READ_COMMITTED },
@@ -481,183 +480,183 @@ static attr_options conn_options[] =
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ NULL 
+	{ NULL
 	}
 };
 
-static attr_options conn_opt_options[] = 
+static attr_options conn_opt_options[] =
 {
-	{ "conn: SQL_ACCESS_MODE", SQL_ACCESS_MODE, 
+	{ "conn: SQL_ACCESS_MODE", SQL_ACCESS_MODE,
 		{
-			{ "SQL_MODE_READ_ONLY", SQL_MODE_READ_ONLY }, 
-			{ "SQL_MODE_READ_WRITE", SQL_MODE_READ_WRITE }, 
+			{ "SQL_MODE_READ_ONLY", SQL_MODE_READ_ONLY },
+			{ "SQL_MODE_READ_WRITE", SQL_MODE_READ_WRITE },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "conn: SQL_AUTOCOMMIT", SQL_AUTOCOMMIT, 
+	{ "conn: SQL_AUTOCOMMIT", SQL_AUTOCOMMIT,
 		{
-			{ "SQL_AUTOCOMMIT_ON", SQL_AUTOCOMMIT_ON }, 
-			{ "SQL_AUTOCOMMIT_OFF", SQL_AUTOCOMMIT_OFF }, 
+			{ "SQL_AUTOCOMMIT_ON", SQL_AUTOCOMMIT_ON },
+			{ "SQL_AUTOCOMMIT_OFF", SQL_AUTOCOMMIT_OFF },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "conn: SQL_CURRENT_QUALIFIER", SQL_CURRENT_QUALIFIER, 
+	{ "conn: SQL_CURRENT_QUALIFIER", SQL_CURRENT_QUALIFIER,
 		{
 			{ NULL }
 		}, "2.0", SQL_CHAR
 	},
-	{ "conn: SQL_LOGIN_TIMEOUT", SQL_LOGIN_TIMEOUT, 
+	{ "conn: SQL_LOGIN_TIMEOUT", SQL_LOGIN_TIMEOUT,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "conn: SQL_ODBC_CURSORS", SQL_ODBC_CURSORS, 
+	{ "conn: SQL_ODBC_CURSORS", SQL_ODBC_CURSORS,
 		{
-			{ "SQL_CUR_USE_IF_NEEDED", SQL_CUR_USE_IF_NEEDED }, 
-			{ "SQL_CUR_USE_ODBC", SQL_CUR_USE_ODBC }, 
-			{ "SQL_CUR_USE_DRIVER", SQL_CUR_USE_DRIVER }, 
+			{ "SQL_CUR_USE_IF_NEEDED", SQL_CUR_USE_IF_NEEDED },
+			{ "SQL_CUR_USE_ODBC", SQL_CUR_USE_ODBC },
+			{ "SQL_CUR_USE_DRIVER", SQL_CUR_USE_DRIVER },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "conn: SQL_OPT_TRACE", SQL_OPT_TRACE, 
+	{ "conn: SQL_OPT_TRACE", SQL_OPT_TRACE,
 		{
-			{ "SQL_OPT_TRACE_ON", SQL_OPT_TRACE_ON }, 
-			{ "SQL_OPT_TRACE_OFF", SQL_OPT_TRACE_OFF }, 
+			{ "SQL_OPT_TRACE_ON", SQL_OPT_TRACE_ON },
+			{ "SQL_OPT_TRACE_OFF", SQL_OPT_TRACE_OFF },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "conn: SQL_OPT_TRACEFILE", SQL_OPT_TRACEFILE, 
+	{ "conn: SQL_OPT_TRACEFILE", SQL_OPT_TRACEFILE,
 		{
 			{ NULL }
 		}, "1.0", SQL_CHAR
 	},
-	{ "conn: SQL_PACKET_SIZE", SQL_PACKET_SIZE, 
+	{ "conn: SQL_PACKET_SIZE", SQL_PACKET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "conn: SQL_QUIET_MODE", SQL_QUIET_MODE, 
+	{ "conn: SQL_QUIET_MODE", SQL_QUIET_MODE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "conn: SQL_TRANSLATE_DLL", SQL_TRANSLATE_DLL, 
+	{ "conn: SQL_TRANSLATE_DLL", SQL_TRANSLATE_DLL,
 		{
 			{ NULL }
 		}, "1.0", SQL_CHAR
 	},
-	{ "conn: SQL_TRANSLATE_OPTION", SQL_TRANSLATE_OPTION, 
+	{ "conn: SQL_TRANSLATE_OPTION", SQL_TRANSLATE_OPTION,
 		{
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "conn: SQL_TXN_ISOLATION", SQL_TXN_ISOLATION, 
+	{ "conn: SQL_TXN_ISOLATION", SQL_TXN_ISOLATION,
 		{
-			{ "SQL_TXN_READ_UNCOMMITED", SQL_TXN_READ_UNCOMMITTED }, 
-			{ "SQL_TXN_READ_COMMITED", SQL_TXN_READ_COMMITTED }, 
-			{ "SQL_TXN_REPEATABLE_READ", SQL_TXN_REPEATABLE_READ }, 
-			{ "SQL_TXN_SERIALIZABLE", SQL_TXN_SERIALIZABLE }, 
-			{ "SQL_TXN_VERSIONING", 0x00000010L }, 
+			{ "SQL_TXN_READ_UNCOMMITED", SQL_TXN_READ_UNCOMMITTED },
+			{ "SQL_TXN_READ_COMMITED", SQL_TXN_READ_COMMITTED },
+			{ "SQL_TXN_REPEATABLE_READ", SQL_TXN_REPEATABLE_READ },
+			{ "SQL_TXN_SERIALIZABLE", SQL_TXN_SERIALIZABLE },
+			{ "SQL_TXN_VERSIONING", 0x00000010L },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_ASYNC_ENABLE", SQL_ASYNC_ENABLE, 
+	{ "stmt: SQL_ASYNC_ENABLE", SQL_ASYNC_ENABLE,
 		{
-			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF }, 
-			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON }, 
+			{ "SQL_ASYNC_ENABLE_OFF", SQL_ASYNC_ENABLE_OFF },
+			{ "SQL_ASYNC_ENABLE_ON", SQL_ASYNC_ENABLE_ON },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_BIND_TYPE", SQL_BIND_TYPE, 
+	{ "stmt: SQL_BIND_TYPE", SQL_BIND_TYPE,
 		{
-			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN }, 
+			{ "SQL_BIND_BY_COLUMN", SQL_BIND_BY_COLUMN },
 			{ NULL }
 		}, "1.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_CONCURRENCY", SQL_CONCURRENCY, 
+	{ "stmt: SQL_CONCURRENCY", SQL_CONCURRENCY,
 		{
-			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY }, 
-			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK }, 
-			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER }, 
-			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES }, 
-			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY }, 
+			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY },
+			{ "SQL_CONCUR_LOCK", SQL_CONCUR_LOCK },
+			{ "SQL_CONCUR_ROWVER", SQL_CONCUR_ROWVER },
+			{ "SQL_CONCUR_VALUES", SQL_CONCUR_VALUES },
+			{ "SQL_CONCUR_READ_ONLY", SQL_CONCUR_READ_ONLY },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_CURSOR_TYPE", SQL_CURSOR_TYPE, 
+	{ "stmt: SQL_CURSOR_TYPE", SQL_CURSOR_TYPE,
 		{
-			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY }, 
-			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC }, 
-			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN }, 
-			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC }, 
+			{ "SQL_CURSOR_FORWARD_ONLY", SQL_CURSOR_FORWARD_ONLY },
+			{ "SQL_CURSOR_STATIC", SQL_CURSOR_STATIC },
+			{ "SQL_CURSOR_KEYSET_DRIVEN", SQL_CURSOR_KEYSET_DRIVEN },
+			{ "SQL_CURSOR_DYNAMIC", SQL_CURSOR_DYNAMIC },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_KEYSET_SIZE", SQL_KEYSET_SIZE, 
-		{
-			{ NULL }
-		}, "2.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_MAX_LENGTH", SQL_MAX_LENGTH, 
-		{
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_MAX_ROWS", SQL_MAX_ROWS, 
-		{
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_NOSCAN", SQL_NOSCAN, 
-		{
-			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF }, 
-			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON }, 
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_QUERY_TIMEOUT", SQL_QUERY_TIMEOUT, 
-		{
-			{ NULL }
-		}, "1.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_RETRIEVE_DATA", SQL_RETRIEVE_DATA, 
-		{
-			{ "SQL_RD_ON", SQL_RD_ON }, 
-			{ "SQL_RD_OFF", SQL_RD_OFF }, 
-			{ NULL }
-		}, "2.0", SQL_INTEGER
-	},
-	{ "stmt: SQL_ROWSET_SIZE", SQL_ROWSET_SIZE, 
+	{ "stmt: SQL_KEYSET_SIZE", SQL_KEYSET_SIZE,
 		{
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_SIMULATE_CURSOR", SQL_SIMULATE_CURSOR, 
+	{ "stmt: SQL_MAX_LENGTH", SQL_MAX_LENGTH,
 		{
-			{ "SQL_SC_NON_UNIQUE", SQL_SC_NON_UNIQUE }, 
-			{ "SQL_SC_TRY_UNIQUE", SQL_SC_TRY_UNIQUE }, 
-			{ "SQL_SC_UNIQUE", SQL_SC_UNIQUE }, 
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "stmt: SQL_MAX_ROWS", SQL_MAX_ROWS,
+		{
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "stmt: SQL_NOSCAN", SQL_NOSCAN,
+		{
+			{ "SQL_NOSCAN_OFF", SQL_NOSCAN_OFF },
+			{ "SQL_NOSCAN_ON", SQL_NOSCAN_ON },
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "stmt: SQL_QUERY_TIMEOUT", SQL_QUERY_TIMEOUT,
+		{
+			{ NULL }
+		}, "1.0", SQL_INTEGER
+	},
+	{ "stmt: SQL_RETRIEVE_DATA", SQL_RETRIEVE_DATA,
+		{
+			{ "SQL_RD_ON", SQL_RD_ON },
+			{ "SQL_RD_OFF", SQL_RD_OFF },
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ "stmt: SQL_USE_BOOKMARKS", SQL_USE_BOOKMARKS, 
+	{ "stmt: SQL_ROWSET_SIZE", SQL_ROWSET_SIZE,
 		{
-			{ "SQL_UB_ON", SQL_UB_ON }, 
-			{ "SQL_UB_OFF", SQL_UB_OFF }, 
 			{ NULL }
 		}, "2.0", SQL_INTEGER
 	},
-	{ NULL 
+	{ "stmt: SQL_SIMULATE_CURSOR", SQL_SIMULATE_CURSOR,
+		{
+			{ "SQL_SC_NON_UNIQUE", SQL_SC_NON_UNIQUE },
+			{ "SQL_SC_TRY_UNIQUE", SQL_SC_TRY_UNIQUE },
+			{ "SQL_SC_UNIQUE", SQL_SC_UNIQUE },
+			{ NULL }
+		}, "2.0", SQL_INTEGER
+	},
+	{ "stmt: SQL_USE_BOOKMARKS", SQL_USE_BOOKMARKS,
+		{
+			{ "SQL_UB_ON", SQL_UB_ON },
+			{ "SQL_UB_OFF", SQL_UB_OFF },
+			{ NULL }
+		}, "2.0", SQL_INTEGER
+	},
+	{ NULL
 	}
 };
 
-static attr_options env_options[] = 
+static attr_options env_options[] =
 {
-	{ "SQL_ATTR_ODBC_VERSION", SQL_ATTR_ODBC_VERSION, 
+	{ "SQL_ATTR_ODBC_VERSION", SQL_ATTR_ODBC_VERSION,
 		{
-			{ "SQL_OV_ODBC2", SQL_OV_ODBC2 }, 
-			{ "SQL_OV_ODBC3", SQL_OV_ODBC3 }, 
-			{ "SQL_OV_ODBC3_80", SQL_OV_ODBC3_80 }, 
+			{ "SQL_OV_ODBC2", SQL_OV_ODBC2 },
+			{ "SQL_OV_ODBC3", SQL_OV_ODBC3 },
+			{ "SQL_OV_ODBC3_80", SQL_OV_ODBC3_80 },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
@@ -669,19 +668,19 @@ static attr_options env_options[] =
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_CONNECTION_POOLING", SQL_ATTR_CONNECTION_POOLING, 
+	{ "SQL_ATTR_CONNECTION_POOLING", SQL_ATTR_CONNECTION_POOLING,
 		{
-			{ "SQL_CP_OFF", SQL_OV_ODBC2 }, 
-			{ "SQL_CP_ONE_PER_DRIVER", SQL_CP_ONE_PER_DRIVER }, 
-			{ "SQL_CP_ONE_PER_HENV", SQL_CP_ONE_PER_HENV }, 
-			{ "SQL_CP_DEFAULT", SQL_CP_DEFAULT }, 
+			{ "SQL_CP_OFF", SQL_OV_ODBC2 },
+			{ "SQL_CP_ONE_PER_DRIVER", SQL_CP_ONE_PER_DRIVER },
+			{ "SQL_CP_ONE_PER_HENV", SQL_CP_ONE_PER_HENV },
+			{ "SQL_CP_DEFAULT", SQL_CP_DEFAULT },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
-	{ "SQL_ATTR_OUTPUT_NTS", SQL_ATTR_OUTPUT_NTS, 
+	{ "SQL_ATTR_OUTPUT_NTS", SQL_ATTR_OUTPUT_NTS,
 		{
-			{ "SQL_TRUE", SQL_TRUE }, 
-			{ "SQL_FALSE", SQL_FALSE }, 
+			{ "SQL_TRUE", SQL_TRUE },
+			{ "SQL_FALSE", SQL_FALSE },
 			{ NULL }
 		}, "3.0", SQL_INTEGER
 	},
@@ -689,10 +688,10 @@ static attr_options env_options[] =
         {
             { NULL }
         }, "3.0", SQL_CHAR
-            
+
     },
     {
-        NULL 
+        NULL
 	}
 };
 
@@ -738,7 +737,7 @@ int found = 0;
     /*
      * Handle non standard attributes by [numeric_value]={char value} or [numeric_value]=\int_value
      */
-    if ( !found ) 
+    if ( !found )
     {
         if ( kw[ 0 ] == '[' ) {
             as -> attribute = atoi( kw + 1 );
@@ -1323,7 +1322,7 @@ void *__attr_override( void *handle, int type, int attribute, void *value, SQLIN
     }
 }
 
-void *__attr_override_wide( void *handle, int type, int attribute, void *value, SQLINTEGER *string_length, 
+void *__attr_override_wide( void *handle, int type, int attribute, void *value, SQLINTEGER *string_length,
 		SQLWCHAR *buffer )
 {
     struct attr_set *as;
@@ -1380,7 +1379,7 @@ void *__attr_override_wide( void *handle, int type, int attribute, void *value, 
             {
                 *string_length = strlen( as -> value ) * sizeof( SQLWCHAR );
             }
-			switch( type ) 
+			switch( type )
 			{
       			case SQL_HANDLE_DBC:
 					ansi_to_unicode_copy( buffer, as->value, SQL_NTS, (DMHDBC) handle, NULL );
@@ -1417,38 +1416,38 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
     ival = (SQLINTEGER) value;
 #endif
 
-    switch( attribute ) 
+    switch( attribute )
     {
         case SQL_ACCESS_MODE:
-            if ( ival != SQL_MODE_READ_ONLY && ival != SQL_MODE_READ_WRITE ) 
+            if ( ival != SQL_MODE_READ_ONLY && ival != SQL_MODE_READ_WRITE )
             {
                 return SQL_ERROR;
             }
             break;
 
         case SQL_ATTR_ASYNC_ENABLE:
-            if ( ival != SQL_ASYNC_ENABLE_OFF && ival != SQL_ASYNC_ENABLE_ON ) 
+            if ( ival != SQL_ASYNC_ENABLE_OFF && ival != SQL_ASYNC_ENABLE_ON )
             {
                 return SQL_ERROR;
             }
             break;
 
         case SQL_ATTR_AUTO_IPD:
-            if ( ival != SQL_TRUE && ival != SQL_FALSE ) 
+            if ( ival != SQL_TRUE && ival != SQL_FALSE )
             {
                 return SQL_ERROR;
             }
             break;
 
         case SQL_ATTR_AUTOCOMMIT:
-            if ( ival != SQL_AUTOCOMMIT_ON && ival != SQL_AUTOCOMMIT_OFF ) 
+            if ( ival != SQL_AUTOCOMMIT_ON && ival != SQL_AUTOCOMMIT_OFF )
             {
                 return SQL_ERROR;
             }
             break;
 
         case SQL_ATTR_METADATA_ID:
-            if ( ival != SQL_TRUE && ival != SQL_FALSE ) 
+            if ( ival != SQL_TRUE && ival != SQL_FALSE )
             {
                 return SQL_ERROR;
             }
@@ -1456,14 +1455,14 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
 
         case SQL_ATTR_ODBC_CURSORS:
             if ( ival != SQL_CUR_USE_IF_NEEDED && ival != SQL_CUR_USE_ODBC &&
-                ival != SQL_CUR_USE_DRIVER ) 
+                ival != SQL_CUR_USE_DRIVER )
             {
                 return SQL_ERROR;
             }
             break;
 
         case SQL_ATTR_TRACE:
-            if ( ival != SQL_OPT_TRACE_ON && ival != SQL_OPT_TRACE_OFF ) 
+            if ( ival != SQL_OPT_TRACE_ON && ival != SQL_OPT_TRACE_OFF )
             {
                 return SQL_ERROR;
             }
@@ -1483,7 +1482,7 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
 
         case SQL_ATTR_CONCURRENCY:
             if ( ival != SQL_CONCUR_READ_ONLY && ival != SQL_CONCUR_LOCK &&
-                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES ) 
+                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES )
             {
                 return SQL_ERROR;
             }
@@ -1497,7 +1496,7 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
             break;
 
         case SQL_ATTR_CURSOR_SENSITIVITY:
-            if ( ival != SQL_UNSPECIFIED && ival != SQL_INSENSITIVE 
+            if ( ival != SQL_UNSPECIFIED && ival != SQL_INSENSITIVE
                 && ival != SQL_SENSITIVE )
             {
                 return SQL_ERROR;
@@ -1506,7 +1505,7 @@ int dm_check_connection_attrs( DMHDBC connection, SQLINTEGER attribute, SQLPOINT
 
         case SQL_ATTR_CURSOR_TYPE:
             if ( ival != SQL_CURSOR_FORWARD_ONLY && ival != SQL_CURSOR_STATIC &&
-                ival != SQL_CURSOR_KEYSET_DRIVEN && ival != SQL_CURSOR_DYNAMIC ) 
+                ival != SQL_CURSOR_KEYSET_DRIVEN && ival != SQL_CURSOR_DYNAMIC )
             {
                 return SQL_ERROR;
             }
@@ -1570,10 +1569,10 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
     ival = (SQLUINTEGER) value;
 #endif
 
-    switch( attribute ) 
+    switch( attribute )
     {
         case SQL_ATTR_ASYNC_ENABLE:
-            if ( ival != SQL_ASYNC_ENABLE_OFF && ival != SQL_ASYNC_ENABLE_ON ) 
+            if ( ival != SQL_ASYNC_ENABLE_OFF && ival != SQL_ASYNC_ENABLE_ON )
             {
                 return SQL_ERROR;
             }
@@ -1581,7 +1580,7 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
 
         case SQL_ATTR_CONCURRENCY:
             if ( ival != SQL_CONCUR_READ_ONLY && ival != SQL_CONCUR_LOCK &&
-                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES ) 
+                ival != SQL_CONCUR_ROWVER && ival != SQL_CONCUR_VALUES )
             {
                 return SQL_ERROR;
             }
@@ -1595,7 +1594,7 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
             break;
 
         case SQL_ATTR_CURSOR_SENSITIVITY:
-            if ( ival != SQL_UNSPECIFIED && ival != SQL_INSENSITIVE 
+            if ( ival != SQL_UNSPECIFIED && ival != SQL_INSENSITIVE
                 && ival != SQL_SENSITIVE )
             {
                 return SQL_ERROR;
@@ -1604,7 +1603,7 @@ int dm_check_statement_attrs( DMHSTMT statement, SQLINTEGER attribute, SQLPOINTE
 
         case SQL_ATTR_CURSOR_TYPE:
             if ( ival != SQL_CURSOR_FORWARD_ONLY && ival != SQL_CURSOR_STATIC &&
-                ival != SQL_CURSOR_KEYSET_DRIVEN && ival != SQL_CURSOR_DYNAMIC ) 
+                ival != SQL_CURSOR_KEYSET_DRIVEN && ival != SQL_CURSOR_DYNAMIC )
             {
                 return SQL_ERROR;
             }

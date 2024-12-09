@@ -185,38 +185,37 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColAttribute.c,v $ $Revision: 1.19 $";
 
 SQLINTEGER map_ca_odbc3_to_2( SQLINTEGER field_identifier )
 {
     switch( field_identifier )
     {
       case SQL_DESC_COUNT:
-        field_identifier = SQL_COLUMN_COUNT; 
+        field_identifier = SQL_COLUMN_COUNT;
         break;
 
       case SQL_DESC_TYPE:
-        field_identifier = SQL_COLUMN_TYPE; 
+        field_identifier = SQL_COLUMN_TYPE;
         break;
 
       case SQL_DESC_LENGTH:
-        field_identifier = SQL_COLUMN_LENGTH; 
+        field_identifier = SQL_COLUMN_LENGTH;
         break;
 
       case SQL_DESC_PRECISION:
-        field_identifier = SQL_COLUMN_PRECISION; 
+        field_identifier = SQL_COLUMN_PRECISION;
         break;
 
       case SQL_DESC_SCALE:
-        field_identifier = SQL_COLUMN_SCALE; 
+        field_identifier = SQL_COLUMN_SCALE;
         break;
 
       case SQL_DESC_NULLABLE:
-        field_identifier = SQL_COLUMN_NULLABLE; 
+        field_identifier = SQL_COLUMN_NULLABLE;
         break;
 
       case SQL_DESC_NAME:
-        field_identifier = SQL_COLUMN_NAME; 
+        field_identifier = SQL_COLUMN_NAME;
         break;
 
       default:
@@ -261,10 +260,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -290,10 +289,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                 string_length,
                 numeric_attribute );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -303,10 +302,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
             field_identifier != SQL_DESC_COUNT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error_api( &statement -> error,
@@ -338,10 +337,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
      */
     if ( statement -> state == STATE_S1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -354,10 +353,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
     else if ( statement -> state == STATE_S2 &&
             field_identifier != SQL_DESC_COUNT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07005" );
 
         __post_internal_error( &statement -> error,
@@ -369,10 +368,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
     */
     else if ( statement -> state == STATE_S4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -388,10 +387,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -406,10 +405,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLCOLATTRIBUTE )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -531,7 +530,7 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
                     {
                         unicode_to_ansi_copy( character_attribute, buffer_length, s1,  SQL_NTS, statement -> connection, NULL );
                     }
-					if ( SQL_SUCCEEDED( ret ) && string_length ) 
+					if ( SQL_SUCCEEDED( ret ) && string_length )
 					{
 						*string_length /= sizeof( SQLWCHAR );	
 					}
@@ -548,10 +547,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &statement -> error,
@@ -652,10 +651,10 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &statement -> error,
@@ -701,14 +700,14 @@ SQLRETURN SQLColAttribute ( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

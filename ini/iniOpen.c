@@ -180,7 +180,7 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
 
 #ifdef __OS2DEBUG__
     printf("iniOpen entered \n");
-#endif    
+#endif
 
     /* INIT STATEMENT */
     *hIni = malloc( sizeof(INI) );
@@ -209,7 +209,7 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
 
 #ifdef __OS2DEBUG__
     printf("iniOpen file is mode %d \n", bFileType);
-#endif    
+#endif
 
     /* OPEN FILE */
     if ( pszFileName )
@@ -400,7 +400,7 @@ int iniOpen( HINI *hIni, char *pszFileName, char *cComment, char cLeftBracket, c
 
     if ( ( !hFile ) &&
         ( errno != ENFILE ) && ( errno != EMFILE ) &&
-        ( errno != ENOMEM ) && ( errno != EACCES ) && 
+        ( errno != ENOMEM ) && ( errno != EACCES ) &&
         ( errno != EFBIG ) && ( errno != EINTR ) &&
         ( errno != ENOSPC ) && ( errno != EOVERFLOW ) &&
         ( errno != EWOULDBLOCK ))

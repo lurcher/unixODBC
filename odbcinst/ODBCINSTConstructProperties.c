@@ -26,7 +26,7 @@ static const char *aYesNo[] =
 };
 */
 
-/*! 
+/*!
  * \brief   Builds a property list for pszDriver.
  *
  *          Adds common DSN properties (Name,Driver,Description) and then asks the
@@ -37,16 +37,16 @@ static const char *aYesNo[] =
  *          driver developer can just implement ODBCINSTGetProperties. This function
  *          can then call ODBCINSTGetProperties to get properties. The code that calls
  *          this function can then display the properties in the UI in use.
- * 
+ *
  * \param   pszDriver       Friendly driver name.
  * \param   hFirstProperty  Place to store the properties list. The properties (including
  *                          some of the elements within each HODBCINSTPROPERTY may
  *                          need to be freed using \sa ODBCINSTDestructProperties.
- * 
+ *
  * \return  int
  * \retval  ODBCINST_ERROR      Called failed. No memory was allocated at hFirstProperty. The
- *                              likely reasons for this; \li failed to lookup setup library name 
- *                              \li failed to load setup library \li failed to find 
+ *                              likely reasons for this; \li failed to lookup setup library name
+ *                              \li failed to load setup library \li failed to find
  *                              ODBCINSTGetProperties symbol in setup library
  * \retval  ODBCINST_SUCCESS    Success! Do not forget to call ODBCINSTDestructProperties to
  *                              free memory used by the properties when you are done.
@@ -158,7 +158,7 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
 	iniValue( hIni, szDriverSetup );
 	iniClose( hIni );
 
-	if ( szDriverSetup[ 0 ] == '\0' ) 
+	if ( szDriverSetup[ 0 ] == '\0' )
 	{
 		sprintf( szError, "Could not find Setup property for (%s) in system information", pszDriver );
 		inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, szError );
@@ -184,7 +184,7 @@ int ODBCINSTConstructProperties( char *pszDriver, HODBCINSTPROPERTY *hFirstPrope
 	pODBCINSTGetProperties = (int(*)(struct tODBCINSTPROPERTY*)) lt_dlsym( hDLL, "ODBCINSTGetProperties" );
 
 /*	PAH - This can be true even when we found the symbol.
-    if ( lt_dlerror() != NULL ) 
+    if ( lt_dlerror() != NULL )
 */
 	if ( pODBCINSTGetProperties == NULL )
 	{

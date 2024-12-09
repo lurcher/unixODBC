@@ -61,7 +61,7 @@ SQLRETURN CLProcedures(
     SQLCHAR            *sz_proc_name,
     SQLSMALLINT        cb_proc_name )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLPROCEDURES( cl_statement -> cl_connection,

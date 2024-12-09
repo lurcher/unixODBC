@@ -59,7 +59,7 @@ SQLRETURN CLPrepare( SQLHSTMT statement_handle,
            SQLCHAR *statement_text,
            SQLINTEGER text_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     /*
      * save the statement for later use

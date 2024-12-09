@@ -88,7 +88,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNativeSqlW.c,v $";
 
 SQLRETURN SQLNativeSqlW(
     SQLHDBC            hdbc,
@@ -109,10 +108,10 @@ SQLRETURN SQLNativeSqlW(
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -122,22 +121,22 @@ SQLRETURN SQLNativeSqlW(
 			parent_connection = find_parent_handle( connection, SQL_HANDLE_DBC );
 
 			if ( parent_connection ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLNATIVESQLW( parent_connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
-					return SQLNATIVESQLW( parent_connection, 
-							connection, 
+					return SQLNATIVESQLW( parent_connection,
+							connection,
 							sz_sql_str_in,
 							cb_sql_str_in,
 							sz_sql_str,
@@ -185,10 +184,10 @@ SQLRETURN SQLNativeSqlW(
 
         free( s1 );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -206,10 +205,10 @@ SQLRETURN SQLNativeSqlW(
     if ( cb_sql_str_in < 0 &&
             cb_sql_str_in != SQL_NTS )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &connection -> error,
@@ -222,10 +221,10 @@ SQLRETURN SQLNativeSqlW(
     if ( sz_sql_str &&
             cb_sql_str_max < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &connection -> error,
@@ -238,10 +237,10 @@ SQLRETURN SQLNativeSqlW(
     if ( connection -> state == STATE_C2 ||
             connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 08003" );
 
         __post_internal_error( &connection -> error,
@@ -256,10 +255,10 @@ SQLRETURN SQLNativeSqlW(
     {
         if ( !CHECK_SQLNATIVESQLW( connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &connection -> error,
@@ -284,10 +283,10 @@ SQLRETURN SQLNativeSqlW(
 
         if ( !CHECK_SQLNATIVESQL( connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &connection -> error,
@@ -346,19 +345,19 @@ SQLRETURN SQLNativeSqlW(
             s1 = malloc( 101 );
         }
 
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tSQL Out = %s",
                     __get_return_status( ret, s2 ),
-                    __idata_as_string( s1, SQL_CHAR, 
+                    __idata_as_string( s1, SQL_CHAR,
                         pcb_sql_str, sz_sql_str ));
 
         free( s1 );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 

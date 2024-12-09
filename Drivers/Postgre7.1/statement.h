@@ -11,7 +11,7 @@
 #define __STATEMENT_H__
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -39,7 +39,7 @@ typedef enum {
                            a call to SQLExecute, but after SQLPrepare. To get all the necessary
                            information in such a case, we simply execute the query _before_ the
                            actual call to SQLExecute, so that statement is considered to be "premature".
-                        */   
+                        */
     STMT_FINISHED,      /* statement execution has finished */
     STMT_EXECUTING      /* statement execution is still going on */
 } STMT_Status;

@@ -128,7 +128,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPrepare.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLPrepareA( SQLHSTMT statement_handle,
            SQLCHAR *statement_text,
@@ -154,10 +153,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -192,10 +191,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
         free( s1 );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -203,10 +202,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
     if ( !statement_text )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -218,10 +217,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
     if ( text_length <= 0 && text_length != SQL_NTS )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -243,10 +242,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -262,10 +261,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -280,10 +279,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLPREPARE )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -301,10 +300,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
         if ( !CHECK_SQLPREPAREW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -330,10 +329,10 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLPREPARE( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -369,14 +368,14 @@ SQLRETURN SQLPrepare( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s2 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

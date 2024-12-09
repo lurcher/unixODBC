@@ -107,7 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLFreeStmt.c,v $ $Revision: 1.6 $";
 
 SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
            SQLUSMALLINT option )
@@ -121,10 +120,10 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -140,10 +139,10 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
                 statement,
                 option );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -158,10 +157,10 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
         break;
 
       default:
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY092" );
 
         __post_internal_error( &statement -> error,
@@ -180,10 +179,10 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
         statement -> state == STATE_S14 ||
         statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -195,10 +194,10 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
 
     if ( !CHECK_SQLFREESTMT( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -258,14 +257,14 @@ SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

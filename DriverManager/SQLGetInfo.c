@@ -172,7 +172,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetInfo.c,v $ $Revision: 1.14 $";
 
 SQLRETURN SQLGetInfoA( SQLHDBC connection_handle,
            SQLUSMALLINT info_type,
@@ -206,10 +205,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
     {
         if ( !__validate_dbc( connection ))
         {
-            dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+            dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
@@ -228,27 +227,27 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
                     connection,
                     __info_as_string( s1, info_type ),
                     info_type,
-                    info_value, 
+                    info_value,
                     (int)buffer_length,
                     (void*)string_length );
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 
         thread_protect( SQL_HANDLE_DBC, connection );
 
-        if ( info_type != SQL_ODBC_VER && 
+        if ( info_type != SQL_ODBC_VER &&
                 info_type != SQL_DM_VER &&
                 connection -> state == STATE_C2 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -259,10 +258,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
         }
         else if ( connection -> state == STATE_C3 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -274,10 +273,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
 
         if ( buffer_length < 0 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY090" );
 
             __post_internal_error( &connection -> error,
@@ -287,7 +286,7 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
             return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
         }
     }
-    
+
     switch ( info_type )
     {
       case SQL_DATA_SOURCE_NAME:
@@ -298,7 +297,7 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
       case SQL_DM_VER:
         type = 1;
         sprintf( txt, "%02d.%02d.%04d.%04d",
-                SQL_SPEC_MAJOR, SQL_SPEC_MINOR, 
+                SQL_SPEC_MAJOR, SQL_SPEC_MINOR,
                 atoi( VERSION ), atoi( VERSION + 2 ));
         cptr = txt;
         break;
@@ -331,10 +330,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &connection -> error,
@@ -362,10 +361,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+                dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
                 __post_internal_error( &connection -> error,
@@ -398,10 +397,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
 
             if ( !CHECK_SQLGETINFOW( connection ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -510,7 +509,7 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
                 {
                     unicode_to_ansi_copy( info_value, buffer_length, s1, SQL_NTS, connection, NULL  );
                 }
-				if ( SQL_SUCCEEDED( ret ) && string_length && info_value ) 
+				if ( SQL_SUCCEEDED( ret ) && string_length && info_value )
 				{
 					*string_length = strlen(info_value);
 				}
@@ -525,10 +524,10 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
         {
             if ( !CHECK_SQLGETINFO( connection ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -576,7 +575,7 @@ SQLRETURN SQLGetInfoInternal( SQLHDBC connection_handle,
         if ( string_length )
             *string_length = sizeof( SQLPOINTER );
     }
-	else if ( type == 3 ) 
+	else if ( type == 3 )
 	{
         if ( info_value )
             *((SQLUSMALLINT *)info_value) = sval;

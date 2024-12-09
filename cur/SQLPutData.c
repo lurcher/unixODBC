@@ -52,7 +52,7 @@ SQLRETURN CLPutData( SQLHSTMT statement_handle,
            SQLPOINTER data,
            SQLINTEGER strlen_or_ind )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLPUTDATA( cl_statement -> cl_connection,
            cl_statement -> driver_stmt,

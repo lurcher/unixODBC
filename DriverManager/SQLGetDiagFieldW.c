@@ -94,7 +94,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagFieldW.c,v $";
 
 #define ODBC30_SUBCLASS        "01S00,01S01,01S02,01S06,01S07,07S01,08S01,21S01,\
 21S02,25S01,25S02,25S03,42S01,42S02,42S11,42S12,42S21,42S22,HY095,HY097,HY098,\
@@ -458,12 +457,12 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
       case SQL_DIAG_NUMBER:
         {
             SQLINTEGER val;
-            
+
             if ( rec_number > 0 )
             {
                 return SQL_ERROR;
             }
-            val = head -> sql_diag_head.internal_count + 
+            val = head -> sql_diag_head.internal_count +
                 head -> sql_diag_head.error_count;
 
             if ( diag_info_ptr )
@@ -477,7 +476,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
         {
             if ( diag_info_ptr )
             {
-                memcpy( diag_info_ptr, &head -> return_code, 
+                memcpy( diag_info_ptr, &head -> return_code,
                         sizeof( head -> return_code ));
             }
         }
@@ -507,12 +506,12 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
             ptr = ptr -> next;
             rec_number --;
         }
-		if ( !ptr ) 
+		if ( !ptr )
 		{
 			return SQL_NO_DATA;
 		}
     }
-    else if ( rec_number <= head -> sql_diag_head.internal_count + 
+    else if ( rec_number <= head -> sql_diag_head.internal_count +
             head -> sql_diag_head.error_count )
     {
         rec_number -= head -> sql_diag_head.internal_count;
@@ -592,7 +591,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
                 rec_number --;
             }
 
-			if ( !ptr ) 
+			if ( !ptr )
 			{
 	    		return SQL_NO_DATA;
 			}

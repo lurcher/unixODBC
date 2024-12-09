@@ -20,15 +20,13 @@ int iniPropertyFirst( HINI hIni )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
-	
+    if ( hIni->hCurObject == NULL )
+        return INI_NO_DATA;
+
     hIni->hCurProperty = hIni->hCurObject->hFirstProperty;
 
-	if ( hIni->hCurProperty == NULL )
-		return INI_NO_DATA;
+    if ( hIni->hCurProperty == NULL )
+        return INI_NO_DATA;
 
-	return INI_SUCCESS;
+    return INI_SUCCESS;
 }
-
-

@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -118,25 +118,24 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetDescField.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLSetDescFieldA( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length )
 {
     return SQLSetDescField( descriptor_handle,
-           rec_number, 
+           rec_number,
            field_identifier,
-           value, 
+           value,
            buffer_length );
 }
 
 SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length )
 {
     /*
@@ -157,10 +156,10 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
     if ( !__validate_desc( descriptor ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -179,13 +178,13 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
                 descriptor,
                 rec_number,
                 __desc_attr_as_string( s1, field_identifier ),
-                value, 
+                value,
                 (int)buffer_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 descriptor -> msg );
     }
 
@@ -193,10 +192,10 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
     if ( descriptor -> connection -> state < STATE_C4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -219,10 +218,10 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
         __check_stmt_from_desc( descriptor, STATE_S14 ) ||
         __check_stmt_from_desc( descriptor, STATE_S15 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -296,7 +295,7 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
             && buffer_length != SQL_IS_UINTEGER && buffer_length != SQL_IS_SMALLINT &&
             buffer_length != SQL_IS_USMALLINT;
     }
-    
+
     if ( isStrField && buffer_length < 0 && buffer_length != SQL_NTS)
     {
         __post_internal_error( &descriptor -> error,
@@ -314,7 +313,7 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
         return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
-    
+
     if ( field_identifier == SQL_DESC_PARAMETER_TYPE && (intptr_t)value != SQL_PARAM_INPUT
         && (intptr_t)value != SQL_PARAM_OUTPUT && (intptr_t)value != SQL_PARAM_INPUT_OUTPUT &&
         (intptr_t)value != SQL_PARAM_INPUT_OUTPUT_STREAM && (intptr_t)value != SQL_PARAM_OUTPUT_STREAM )
@@ -330,9 +329,9 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
     {
       ret = SQLSETDESCFIELD( descriptor -> connection,
               descriptor -> driver_desc,
-              rec_number, 
+              rec_number,
               field_identifier,
-              value, 
+              value,
               buffer_length );
     }
     else if ( CHECK_SQLSETDESCFIELDW( descriptor -> connection ))
@@ -353,23 +352,23 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
         }
         ret = SQLSETDESCFIELDW( descriptor -> connection,
                 descriptor -> driver_desc,
-                rec_number, 
+                rec_number,
                 field_identifier,
-                s1, 
+                s1,
                 buffer_length );
-       
+
         if (isStrField)
         {
             if (s1)
               free(s1);
         }
     }
-    else 
+    else
 	{
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &descriptor -> error,
@@ -381,14 +380,14 @@ SQLRETURN SQLSetDescField( SQLHDESC descriptor_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( descriptor -> msg, 
+        sprintf( descriptor -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 descriptor -> msg );
     }
 

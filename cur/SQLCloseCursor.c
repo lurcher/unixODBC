@@ -50,7 +50,7 @@
 
 SQLRETURN CLCloseCursor( SQLHSTMT statement_handle )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     /*
      * free up any rowset

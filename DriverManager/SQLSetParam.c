@@ -135,7 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetParam.c,v $ $Revision: 1.7 $";
 
 int check_value_type( int c_type, int connection_mode)
 {
@@ -214,10 +213,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -235,7 +234,7 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 \n\t\t\tLength Precision = %d\
 \n\t\t\tParameter Scale = %d\
 \n\t\t\tParameter Value = %p\
-\n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStrLen Or Ind = %p",
                 statement,
                 parameter_number,
                 value_type,
@@ -247,10 +246,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
                 (void*)parameter_value,
                 (void*)strlen_or_ind );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -258,10 +257,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
     if ( parameter_number < 1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error_api( &statement -> error,
@@ -274,10 +273,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
     if (!check_value_type( value_type, statement -> connection -> environment -> requested_version ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY003" );
 
         __post_internal_error_api( &statement -> error,
@@ -290,10 +289,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
     if ( parameter_value == NULL && strlen_or_ind == NULL && value_type != SQL_PARAM_OUTPUT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error_api( &statement -> error,
@@ -317,10 +316,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -370,10 +369,10 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
     }
     else
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -385,14 +384,14 @@ SQLRETURN SQLSetParam( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

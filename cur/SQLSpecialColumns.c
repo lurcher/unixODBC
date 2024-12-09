@@ -63,7 +63,7 @@ SQLRETURN CLSpecialColumns( SQLHSTMT statement_handle,
            SQLUSMALLINT scope,
            SQLUSMALLINT nullable )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLSPECIALCOLUMNS( cl_statement -> cl_connection,

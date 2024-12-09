@@ -100,7 +100,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLCancel.c,v $ $Revision: 1.4 $";
 
 #define IS_01S05 0
 #define IS_NOT_01S05 1
@@ -138,10 +137,10 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -155,21 +154,21 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 \n\t\t\tStatement = %p",
                 statement );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
 #if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
     /*
-     * Allow this past the thread checks if the driver is at all thread safe, as SQLCancel can 
+     * Allow this past the thread checks if the driver is at all thread safe, as SQLCancel can
      * be called across threads
      */
-    if ( statement -> connection -> protection_level == 3 ) 
+    if ( statement -> connection -> protection_level == 3 )
     {
-        thread_protect( SQL_HANDLE_STMT, statement ); 
+        thread_protect( SQL_HANDLE_STMT, statement );
     }
 #endif
 
@@ -179,10 +178,10 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 
     if ( !CHECK_SQLCANCEL( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -190,15 +189,15 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 statement -> connection -> environment -> requested_version );
 
 #if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
-        if ( statement -> connection -> protection_level == 3 ) 
+        if ( statement -> connection -> protection_level == 3 )
         {
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
-        else 
+        else
         {
             return function_return_nodrv( IGNORE_THREAD, statement, SQL_ERROR );
         }
-#else 
+#else
         return function_return_nodrv( IGNORE_THREAD, statement, SQL_ERROR );
 #endif
     }
@@ -220,7 +219,7 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
                 }
             }
         }
-    
+
         if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ||
@@ -290,23 +289,23 @@ SQLRETURN SQLCancel( SQLHSTMT statement_handle )
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
 #if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
-    if ( statement -> connection -> protection_level == 3 ) 
+    if ( statement -> connection -> protection_level == 3 )
     {
         return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R2 );
     }
-    else 
+    else
     {
         return function_return( IGNORE_THREAD, statement, ret, DEFER_R2 );
     }

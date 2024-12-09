@@ -23,15 +23,15 @@ int iniObjectSeek( HINI hIni, char *pszObject )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	iniObjectFirst( hIni );
-	while ( iniObjectEOL( hIni ) == FALSE )
-	{
+    iniObjectFirst( hIni );
+    while ( iniObjectEOL( hIni ) == FALSE )
+    {
         if ( strcasecmp( pszObject, hIni->hCurObject->szName ) == 0 )
             return INI_SUCCESS;
-		iniObjectNext( hIni );
-	}
+	iniObjectNext( hIni );
+    }
 
-	return INI_NO_DATA;
+    return INI_NO_DATA;
 }
 
 

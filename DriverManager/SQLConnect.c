@@ -594,7 +594,6 @@
 #endif
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLConnect.c,v $ $Revision: 1.66 $";
 
 #ifdef __OS2__
 #define CURSOR_LIB	"ODBCCR"
@@ -622,112 +621,112 @@ static struct driver_func  template_func[] =
     /* 05 */ { SQL_API_SQLBINDCOL,           "SQLBindCol", (void*)SQLBindCol },
     /* 06 */ { SQL_API_SQLBINDPARAM,         "SQLBindParam", (void*)SQLBindParam },
     /* 07 */ { SQL_API_SQLBINDPARAMETER,     "SQLBindParameter", (void*)SQLBindParameter },
-    /* 08 */ { SQL_API_SQLBROWSECONNECT,     "SQLBrowseConnect", 
+    /* 08 */ { SQL_API_SQLBROWSECONNECT,     "SQLBrowseConnect",
                 (void*)SQLBrowseConnect, (void*)SQLBrowseConnectW },
     /* 09 */ { SQL_API_SQLBULKOPERATIONS,    "SQLBulkOperations", (void*)SQLBulkOperations },
     /* 10 */ { SQL_API_SQLCANCEL,            "SQLCancel", (void*)SQLCancel },
     /* 11 */ { SQL_API_SQLCLOSECURSOR,       "SQLCloseCursor", (void*)SQLCloseCursor },
-    /* 12 */ { SQL_API_SQLCOLATTRIBUTE,      "SQLColAttribute", 
+    /* 12 */ { SQL_API_SQLCOLATTRIBUTE,      "SQLColAttribute",
                 (void*)SQLColAttribute, (void*)SQLColAttributeW },
-    /* 13 */ { SQL_API_SQLCOLATTRIBUTES,     "SQLColAttributes", 
+    /* 13 */ { SQL_API_SQLCOLATTRIBUTES,     "SQLColAttributes",
                 (void*)SQLColAttributes, (void*)SQLColAttributesW },
-    /* 14 */ { SQL_API_SQLCOLUMNPRIVILEGES,  "SQLColumnPrivileges", 
+    /* 14 */ { SQL_API_SQLCOLUMNPRIVILEGES,  "SQLColumnPrivileges",
                 (void*)SQLColumnPrivileges, (void*)SQLColumnPrivilegesW },
-    /* 15 */ { SQL_API_SQLCOLUMNS,           "SQLColumns", 
+    /* 15 */ { SQL_API_SQLCOLUMNS,           "SQLColumns",
                 (void*)SQLColumns, (void*)SQLColumnsW },
-    /* 16 */ { SQL_API_SQLCONNECT,           "SQLConnect", 
+    /* 16 */ { SQL_API_SQLCONNECT,           "SQLConnect",
                 (void*)SQLConnect, (void*)SQLConnectW },
     /* 17 */ { SQL_API_SQLCOPYDESC,          "SQLCopyDesc", (void*)SQLCopyDesc },
-    /* 18 */ { SQL_API_SQLDATASOURCES,       "SQLDataSources", 
+    /* 18 */ { SQL_API_SQLDATASOURCES,       "SQLDataSources",
                 (void*)SQLDataSources, (void*)SQLDataSourcesW },
-    /* 19 */ { SQL_API_SQLDESCRIBECOL,       "SQLDescribeCol", 
+    /* 19 */ { SQL_API_SQLDESCRIBECOL,       "SQLDescribeCol",
                 (void*)SQLDescribeCol, (void*)SQLDescribeColW },
     /* 20 */ { SQL_API_SQLDESCRIBEPARAM,     "SQLDescribeParam", (void*)SQLDescribeParam },
     /* 21 */ { SQL_API_SQLDISCONNECT,        "SQLDisconnect", (void*)SQLDisconnect },
-    /* 22 */ { SQL_API_SQLDRIVERCONNECT,     "SQLDriverConnect", 
+    /* 22 */ { SQL_API_SQLDRIVERCONNECT,     "SQLDriverConnect",
                 (void*)SQLDriverConnect, (void*)SQLDriverConnectW },
-    /* 23 */ { SQL_API_SQLDRIVERS,           "SQLDrivers", 
+    /* 23 */ { SQL_API_SQLDRIVERS,           "SQLDrivers",
                 (void*)SQLDrivers, (void*)SQLDriversW },
     /* 24 */ { SQL_API_SQLENDTRAN,           "SQLEndTran", (void*)SQLEndTran },
-    /* 25 */ { SQL_API_SQLERROR,             "SQLError", 
+    /* 25 */ { SQL_API_SQLERROR,             "SQLError",
                 (void*)SQLError, (void*)SQLErrorW },
-    /* 26 */ { SQL_API_SQLEXECDIRECT,        "SQLExecDirect", 
+    /* 26 */ { SQL_API_SQLEXECDIRECT,        "SQLExecDirect",
                 (void*)SQLExecDirect, (void*)SQLExecDirectW },
     /* 27 */ { SQL_API_SQLEXECUTE,           "SQLExecute", (void*)SQLExecute },
     /* 28 */ { SQL_API_SQLEXTENDEDFETCH,     "SQLExtendedFetch", (void*)SQLExtendedFetch },
     /* 29 */ { SQL_API_SQLFETCH,             "SQLFetch", (void*)SQLFetch },
     /* 30 */ { SQL_API_SQLFETCHSCROLL,       "SQLFetchScroll", (void*)SQLFetchScroll },
-    /* 31 */ { SQL_API_SQLFOREIGNKEYS,       "SQLForeignKeys", 
+    /* 31 */ { SQL_API_SQLFOREIGNKEYS,       "SQLForeignKeys",
                 (void*)SQLForeignKeys, (void*)SQLForeignKeysW },
     /* 32 */ { SQL_API_SQLFREEENV,           "SQLFreeEnv", (void*)SQLFreeEnv },
     /* 33 */ { SQL_API_SQLFREEHANDLE,        "SQLFreeHandle", (void*)SQLFreeHandle },
     /* 34 */ { SQL_API_SQLFREESTMT,          "SQLFreeStmt", (void*)SQLFreeStmt },
     /* 35 */ { SQL_API_SQLFREECONNECT,       "SQLFreeConnect", (void*)SQLFreeConnect },
-    /* 36 */ { SQL_API_SQLGETCONNECTATTR,    "SQLGetConnectAttr", 
+    /* 36 */ { SQL_API_SQLGETCONNECTATTR,    "SQLGetConnectAttr",
                 (void*)SQLGetConnectAttr, (void*)SQLGetConnectAttrW },
-    /* 37 */ { SQL_API_SQLGETCONNECTOPTION,  "SQLGetConnectOption", 
+    /* 37 */ { SQL_API_SQLGETCONNECTOPTION,  "SQLGetConnectOption",
                 (void*)SQLGetConnectOption, (void*)SQLGetConnectOptionW },
-    /* 38 */ { SQL_API_SQLGETCURSORNAME,     "SQLGetCursorName", 
+    /* 38 */ { SQL_API_SQLGETCURSORNAME,     "SQLGetCursorName",
                 (void*)SQLGetCursorName, (void*)SQLGetCursorNameW },
     /* 39 */ { SQL_API_SQLGETDATA,           "SQLGetData", (void*)SQLGetData },
-    /* 40 */ { SQL_API_SQLGETDESCFIELD,      "SQLGetDescField", 
+    /* 40 */ { SQL_API_SQLGETDESCFIELD,      "SQLGetDescField",
                 (void*)SQLGetDescField, (void*)SQLGetDescFieldW },
-    /* 41 */ { SQL_API_SQLGETDESCREC,        "SQLGetDescRec", 
+    /* 41 */ { SQL_API_SQLGETDESCREC,        "SQLGetDescRec",
                 (void*)SQLGetDescRec, (void*)SQLGetDescRecW },
-    /* 42 */ { SQL_API_SQLGETDIAGFIELD,      "SQLGetDiagField", 
+    /* 42 */ { SQL_API_SQLGETDIAGFIELD,      "SQLGetDiagField",
                 (void*)SQLGetDiagField, (void*)SQLGetDiagFieldW },
     /* 43 */ { SQL_API_SQLGETENVATTR,        "SQLGetEnvAttr", (void*)SQLGetEnvAttr },
     /* 44 */ { SQL_API_SQLGETFUNCTIONS,      "SQLGetFunctions", (void*)SQLGetFunctions },
-    /* 45 */ { SQL_API_SQLGETINFO,           "SQLGetInfo", 
+    /* 45 */ { SQL_API_SQLGETINFO,           "SQLGetInfo",
                 (void*)SQLGetInfo, (void*)SQLGetInfoW },
-    /* 46 */ { SQL_API_SQLGETSTMTATTR,       "SQLGetStmtAttr", 
+    /* 46 */ { SQL_API_SQLGETSTMTATTR,       "SQLGetStmtAttr",
                 (void*)SQLGetStmtAttr, (void*)SQLGetStmtAttrW },
     /* 47 */ { SQL_API_SQLGETSTMTOPTION,     "SQLGetStmtOption", (void*)SQLGetStmtOption },
-    /* 48 */ { SQL_API_SQLGETTYPEINFO,       "SQLGetTypeInfo", 
+    /* 48 */ { SQL_API_SQLGETTYPEINFO,       "SQLGetTypeInfo",
                 (void*)SQLGetTypeInfo, (void*)SQLGetTypeInfoW },
     /* 49 */ { SQL_API_SQLMORERESULTS,       "SQLMoreResults", (void*)SQLMoreResults },
-    /* 50 */ { SQL_API_SQLNATIVESQL,         "SQLNativeSql", 
+    /* 50 */ { SQL_API_SQLNATIVESQL,         "SQLNativeSql",
                 (void*)SQLNativeSql, (void*)SQLNativeSqlW },
     /* 51 */ { SQL_API_SQLNUMPARAMS,         "SQLNumParams", (void*)SQLNumParams },
     /* 52 */ { SQL_API_SQLNUMRESULTCOLS,     "SQLNumResultCols", (void*)SQLNumResultCols },
     /* 53 */ { SQL_API_SQLPARAMDATA,         "SQLParamData", (void*)SQLParamData },
     /* 54 */ { SQL_API_SQLPARAMOPTIONS,      "SQLParamOptions", (void*)SQLParamOptions },
-    /* 55 */ { SQL_API_SQLPREPARE,           "SQLPrepare", 
+    /* 55 */ { SQL_API_SQLPREPARE,           "SQLPrepare",
                 (void*)SQLPrepare, (void*)SQLPrepareW },
-    /* 56 */ { SQL_API_SQLPRIMARYKEYS,       "SQLPrimaryKeys", 
+    /* 56 */ { SQL_API_SQLPRIMARYKEYS,       "SQLPrimaryKeys",
                 (void*)SQLPrimaryKeys, (void*)SQLPrimaryKeysW },
-    /* 57 */ { SQL_API_SQLPROCEDURECOLUMNS,  "SQLProcedureColumns", 
+    /* 57 */ { SQL_API_SQLPROCEDURECOLUMNS,  "SQLProcedureColumns",
                 (void*)SQLProcedureColumns, (void*)SQLProcedureColumnsW },
-    /* 58 */ { SQL_API_SQLPROCEDURES,        "SQLProcedures", 
+    /* 58 */ { SQL_API_SQLPROCEDURES,        "SQLProcedures",
                 (void*)SQLProcedures, (void*)SQLProceduresW },
     /* 59 */ { SQL_API_SQLPUTDATA,           "SQLPutData", (void*)SQLPutData },
     /* 60 */ { SQL_API_SQLROWCOUNT,          "SQLRowCount", (void*)SQLRowCount },
-    /* 61 */ { SQL_API_SQLSETCONNECTATTR,    "SQLSetConnectAttr", 
+    /* 61 */ { SQL_API_SQLSETCONNECTATTR,    "SQLSetConnectAttr",
                 (void*)SQLSetConnectAttr, (void*)SQLSetConnectAttrW },
-    /* 62 */ { SQL_API_SQLSETCONNECTOPTION,  "SQLSetConnectOption", 
+    /* 62 */ { SQL_API_SQLSETCONNECTOPTION,  "SQLSetConnectOption",
                 (void*)SQLSetConnectOption, (void*)SQLSetConnectOptionW },
-    /* 63 */ { SQL_API_SQLSETCURSORNAME,     "SQLSetCursorName", 
+    /* 63 */ { SQL_API_SQLSETCURSORNAME,     "SQLSetCursorName",
                 (void*)SQLSetCursorName, (void*)SQLSetCursorNameW },
-    /* 64 */ { SQL_API_SQLSETDESCFIELD,      "SQLSetDescField", 
+    /* 64 */ { SQL_API_SQLSETDESCFIELD,      "SQLSetDescField",
                 (void*)SQLSetDescField, (void*)SQLSetDescFieldW },
     /* 65 */ { SQL_API_SQLSETDESCREC,        "SQLSetDescRec", (void*)SQLSetDescRec },
     /* 66 */ { SQL_API_SQLSETENVATTR,        "SQLSetEnvAttr", (void*)SQLSetEnvAttr },
     /* 67 */ { SQL_API_SQLSETPARAM,          "SQLSetParam", (void*)SQLSetParam },
     /* 68 */ { SQL_API_SQLSETPOS,            "SQLSetPos", (void*)SQLSetPos },
     /* 69 */ { SQL_API_SQLSETSCROLLOPTIONS,  "SQLSetScrollOptions", (void*)SQLSetScrollOptions },
-    /* 70 */ { SQL_API_SQLSETSTMTATTR,       "SQLSetStmtAttr", 
+    /* 70 */ { SQL_API_SQLSETSTMTATTR,       "SQLSetStmtAttr",
                 (void*)SQLSetStmtAttr, (void*)SQLSetStmtAttrW },
     /* 71 */ { SQL_API_SQLSETSTMTOPTION,     "SQLSetStmtOption", (void*)SQLSetStmtOption },
-    /* 72 */ { SQL_API_SQLSPECIALCOLUMNS,    "SQLSpecialColumns", 
+    /* 72 */ { SQL_API_SQLSPECIALCOLUMNS,    "SQLSpecialColumns",
                 (void*)SQLSpecialColumns, (void*)SQLSpecialColumnsW },
-    /* 73 */ { SQL_API_SQLSTATISTICS,        "SQLStatistics", 
+    /* 73 */ { SQL_API_SQLSTATISTICS,        "SQLStatistics",
                 (void*)SQLStatistics, (void*)SQLStatisticsW },
-    /* 74 */ { SQL_API_SQLTABLEPRIVILEGES,   "SQLTablePrivileges", 
+    /* 74 */ { SQL_API_SQLTABLEPRIVILEGES,   "SQLTablePrivileges",
                 (void*)SQLTablePrivileges, (void*)SQLTablePrivilegesW },
-    /* 75 */ { SQL_API_SQLTABLES,            "SQLTables", 
+    /* 75 */ { SQL_API_SQLTABLES,            "SQLTables",
                 (void*)SQLTables, (void*)SQLTablesW },
     /* 76 */ { SQL_API_SQLTRANSACT,          "SQLTransact", (void*)SQLTransact },
-    /* 77 */ { SQL_API_SQLGETDIAGREC,        "SQLGetDiagRec", 
+    /* 77 */ { SQL_API_SQLGETDIAGREC,        "SQLGetDiagRec",
                 (void*)SQLGetDiagRec, (void*)SQLGetDiagRecW },
     /* 78 */ { SQL_API_SQLCANCELHANDLE,      "SQLCancelHandle", (void*)SQLCancelHandle },
 };
@@ -742,7 +741,7 @@ int pool_max_size = 0;
 int pool_wait_timeout;
 
 /*
- * helper function and macro to make setting any values set before connection 
+ * helper function and macro to make setting any values set before connection
  * simplier
  */
 
@@ -750,7 +749,7 @@ int pool_wait_timeout;
         do_attr( connection, connection -> value, connection -> value##_set, attr3, \
                 attr2 )
 
-static void do_attr( DMHDBC connection, int value, 
+static void do_attr( DMHDBC connection, int value,
         int value_set, int attr3, int attr2  )
 {
     if ( value_set )
@@ -846,7 +845,7 @@ static void *odbc_dlopen( char *libname, char **err )
 	        /*
 	        * If only one, then use the static space
 	        */
-    
+
 	        if ( lib_list == NULL )
 	        {
 		        list = &single_lib_count;
@@ -914,7 +913,7 @@ static void odbc_dlclose( void *handle )
         {
 		if ( list == &single_lib_count )
 		{
-            if ( prev ) 
+            if ( prev )
             {
                 prev -> next = list -> next;
             }
@@ -977,17 +976,17 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      * so only look for the entry if it's set
      */
 
-    if ( driver_name[ 0 ] != '\0' ) 
+    if ( driver_name[ 0 ] != '\0' )
 	{
     	SQLGetPrivateProfileString( driver_name, "Threading", "99",
-					threading_string, sizeof( threading_string ), 
+					threading_string, sizeof( threading_string ),
                 	"ODBCINST.INI" );
     	threading_level = atoi( threading_string );
 
         sprintf( txt, "\t\tThreading Level set from Driver Entry in ODBCINST.INI %d from '%s'", threading_level, threading_string );
         dm_log_write_diag( txt );
     }
-    else 
+    else
 	{
 	    threading_level = 99;
     }
@@ -996,10 +995,10 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 	 * look for default in [ODBC] section
 	 */
 
-	if ( threading_level == 99 ) 
+	if ( threading_level == 99 )
 	{
     	SQLGetPrivateProfileString( "ODBC", "Threading", "0",
-				threading_string, sizeof( threading_string ), 
+				threading_string, sizeof( threading_string ),
                 		"ODBCINST.INI" );
 
     	threading_level = atoi( threading_string );
@@ -1017,12 +1016,12 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 	connection -> threading_level = threading_level;
 
     /*
-     * do we want to disable the SQLFetch -> SQLExtendedFetch 
+     * do we want to disable the SQLFetch -> SQLExtendedFetch
      * mapping ?
      */
 
     SQLGetPrivateProfileString( driver_name, "ExFetchMapping", "1",
-				mapping_string, sizeof( mapping_string ), 
+				mapping_string, sizeof( mapping_string ),
                 "ODBCINST.INI" );
 
     connection -> ex_fetch_mapping = atoi( mapping_string );
@@ -1037,7 +1036,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      */
 
     SQLGetPrivateProfileString( driver_name, "DisableGetFunctions", "0",
-				disable_gf, sizeof( disable_gf ), 
+				disable_gf, sizeof( disable_gf ),
                 "ODBCINST.INI" );
 
     connection -> disable_gf = atoi( disable_gf );
@@ -1052,7 +1051,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      */
 
     SQLGetPrivateProfileString( driver_name, "DontDLClose", "1",
-				mapping_string, sizeof( mapping_string ), 
+				mapping_string, sizeof( mapping_string ),
                 "ODBCINST.INI" );
 
     connection -> dont_dlclose = atoi( mapping_string ) != 0;
@@ -1067,7 +1066,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      */
 
     SQLGetPrivateProfileString( driver_name, "CPTimeout", "0",
-				mapping_string, sizeof( mapping_string ), 
+				mapping_string, sizeof( mapping_string ),
                 "ODBCINST.INI" );
 
     connection -> pooling_timeout = atoi( mapping_string );
@@ -1082,7 +1081,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      */
 
     SQLGetPrivateProfileString( driver_name, "CPTimeToLive", "0",
-				mapping_string, sizeof( mapping_string ), 
+				mapping_string, sizeof( mapping_string ),
                 "ODBCINST.INI" );
 
     connection -> ttl = atoi( mapping_string );
@@ -1097,7 +1096,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
      */
 
     SQLGetPrivateProfileString( driver_name, "CPProbe", "",
-				connection -> probe_sql, sizeof( connection -> probe_sql ), 
+				connection -> probe_sql, sizeof( connection -> probe_sql ),
                 "ODBCINST.INI" );
 
 
@@ -1116,7 +1115,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     }
 
     SQLGetPrivateProfileString( driver_name, "FakeUnicode", "0",
-				fake_string, sizeof( fake_string ), 
+				fake_string, sizeof( fake_string ),
                 "ODBCINST.INI" );
 
     fake_unicode = atoi( fake_string );
@@ -1130,7 +1129,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 #ifdef HAVE_ICONV
 #ifdef ENABLE_DRIVER_ICONV
     SQLGetPrivateProfileString( driver_name, "IconvEncoding", DEFAULT_ICONV_ENCODING,
-				connection->unicode_string, sizeof( connection->unicode_string ), 
+				connection->unicode_string, sizeof( connection->unicode_string ),
                 "ODBCINST.INI" );
 #endif
 #endif
@@ -1183,7 +1182,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     {
         char txt[ 2048 ];
 
-        sprintf( txt, "Can't open lib '%s' : %s", 
+        sprintf( txt, "Can't open lib '%s' : %s",
                 driver_lib, err ? err : "NULL ERROR RETURN" );
 
         dm_log_write( __FILE__,
@@ -1200,7 +1199,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
     }
 
     /*
-     * try and extract the ini and fini functions, and call ini if it's 
+     * try and extract the ini and fini functions, and call ini if it's
      * found
      */
 
@@ -1287,31 +1286,31 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
         }
         else
         {
-            connection -> functions[ i ].funcA = 
+            connection -> functions[ i ].funcA =
                 connection -> functions[ i ].funcW = NULL;
         }
 
         /*
-         * blank out ones that are in the DM to fix a big 
+         * blank out ones that are in the DM to fix a big
          * with glib 2.0.6
          */
 
 		if ( connection -> functions[ i ].func &&
-			(void*)connection -> functions[ i ].func == 
+			(void*)connection -> functions[ i ].func ==
             (void*)connection -> functions[ i ].dm_func )
 		{	
 			connection -> functions[ i ].func = NULL;
 		}
 
 		if ( connection -> functions[ i ].funcW &&
-			(void*)connection -> functions[ i ].funcW == 
+			(void*)connection -> functions[ i ].funcW ==
             (void*)connection -> functions[ i ].dm_funcW )
 		{	
 			connection -> functions[ i ].funcW = NULL;
 		}
 
         connection -> functions[ i ].can_supply =
-            ( connection -> functions[ i ].func != NULL ) || 
+            ( connection -> functions[ i ].func != NULL ) ||
               ( connection -> functions[ i ].funcW != NULL );
     }
 
@@ -1456,7 +1455,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
             {
                 env_lib_list -> count --;
             }
-            
+
     		mutex_lib_exit();
             return 0;
         }
@@ -1639,7 +1638,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
             /*
              * get the errors from the driver before
-             * loseing the connection 
+             * loseing the connection
              */
 
             if ( CHECK_SQLGETDIAGREC( connection ))
@@ -1777,7 +1776,7 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
             /*
              * get the errors from the driver before
-             * loseing the connection 
+             * loseing the connection
              */
 
             if ( CHECK_SQLERROR( connection ))
@@ -1971,7 +1970,7 @@ int __connect_part_two( DMHDBC connection )
 		SQLUSMALLINT supported_array[ 100 ];
 
         /*
-         * try using fast version, but only if the driver is set to ODBC 3, 
+         * try using fast version, but only if the driver is set to ODBC 3,
          * some drivers (SAPDB) fail to return the correct values in this situation
          */
 
@@ -2011,7 +2010,7 @@ int __connect_part_two( DMHDBC connection )
                         	connection -> functions[ i ].can_supply = 0;
                     	}
 					}
-					else 
+					else
 					{
                         if ( connection -> functions[ i ].ordinal >= 100 )
 						{
@@ -2269,7 +2268,7 @@ int __connect_part_two( DMHDBC connection )
         {
             ret = __SQLGetInfo( connection,
                     SQL_XOPEN_CLI_YEAR,
-                    txt, 
+                    txt,
                     sizeof( connection -> cli_year ),
                     NULL );
 
@@ -2333,7 +2332,7 @@ int __connect_part_two( DMHDBC connection )
                     /*
                      * do we need it ?
                      */
-                    if ( !( val & SQL_CA1_ABSOLUTE )) 
+                    if ( !( val & SQL_CA1_ABSOLUTE ))
                     {
                         use_cursor = 1;
                     }
@@ -2361,11 +2360,11 @@ int __connect_part_two( DMHDBC connection )
                      * are we needed
                      */
 
-                    if ( !( val & SQL_FD_FETCH_PRIOR )) 
+                    if ( !( val & SQL_FD_FETCH_PRIOR ))
                     {
                         use_cursor = 1;
                     }
-                    else 
+                    else
                     {
                         use_cursor = 0;
                     }
@@ -2384,7 +2383,7 @@ int __connect_part_two( DMHDBC connection )
 
     if ( use_cursor )
     {
-		char ext[ 32 ]; 
+		char ext[ 32 ];
 		char name[ ODBC_FILENAME_MAX * 2 + 1 ];
         int (*cl_connect)(void*, struct driver_helper_funcs*);
         char *err;
@@ -2394,7 +2393,7 @@ int __connect_part_two( DMHDBC connection )
 		 * SHLIBEXT can end up unset on some distributions (suze)
 		 */
 
-		if ( strlen( SHLIBEXT ) == 0 ) 
+		if ( strlen( SHLIBEXT ) == 0 )
 		{
 			strcpy( ext, ".so" );
 		}
@@ -2431,7 +2430,7 @@ int __connect_part_two( DMHDBC connection )
                 sprintf( name, "%s/%s%s.%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext, CURSOR_LIB_VER );
 #endif
 #endif
-#else 
+#else
 #ifdef __VMS
                 sprintf( name, "%s:%s%s", odbcinst_system_file_path( b1 ), CURSOR_LIB, ext );
 #else
@@ -2448,10 +2447,10 @@ int __connect_part_two( DMHDBC connection )
                 char txt[ ODBC_FILENAME_MAX * 2 + 45 ];
 
 #ifdef HAVE_SNPRINTF
-                snprintf( txt, sizeof( txt ), "Can't open cursor lib '%s' : %s", 
+                snprintf( txt, sizeof( txt ), "Can't open cursor lib '%s' : %s",
                     name, err ? err : "NULL ERROR RETURN" );
 #else
-                sprintf( txt, "Can't open cursor lib '%s' : %s", 
+                sprintf( txt, "Can't open cursor lib '%s' : %s",
                     name, err ? err : "NULL ERROR RETURN" );
 #endif
 
@@ -2637,7 +2636,7 @@ void __disconnect_part_one( DMHDBC connection )
 				connection -> driver_dbc = (DRV_SQLHANDLE)NULL;
             }
         }
-		else 
+		else
 		{
 			if ( CHECK_SQLFREECONNECT( connection ))
 			{
@@ -2651,7 +2650,7 @@ void __disconnect_part_one( DMHDBC connection )
                         connection -> driver_dbc );
 			}
 
-			if ( !ret ) 
+			if ( !ret )
 			{
 				connection -> driver_dbc = (DRV_SQLHANDLE)NULL;
             }
@@ -2683,7 +2682,7 @@ void __disconnect_part_one( DMHDBC connection )
     {
         if ( !connection -> dont_dlclose )
         {
-            /* 
+            /*
              * call fini function if found
              */
 
@@ -2744,7 +2743,7 @@ void __disconnect_part_four( DMHDBC connection )
     if ( connection -> dl_handle )
     {
         /*
-         * this is safe, because the dlopen function will reuse the handle if we 
+         * this is safe, because the dlopen function will reuse the handle if we
          * open the same lib again
          */
         if ( !connection -> dont_dlclose )
@@ -2828,7 +2827,7 @@ void  __check_for_function( DMHDBC connection,
 {
     int i;
 
-    if ( !supported ) 
+    if ( !supported )
     {
         return;
     }
@@ -2971,12 +2970,12 @@ static void close_pooled_connection( CPOOLENT *ptr )
         if ( conn -> dl_handle )
         {
             /*
-             * this is safe, because the dlopen function will reuse the handle if we 
+             * this is safe, because the dlopen function will reuse the handle if we
              * open the same lib again
              */
             if ( !conn -> dont_dlclose )
             {
-                /* 
+                /*
                  * call fini function if found
                  */
 
@@ -3002,7 +3001,7 @@ static void close_pooled_connection( CPOOLENT *ptr )
     }
     else
     {
-        /* 
+        /*
          * All we can do is tidy up
          */
 
@@ -3022,12 +3021,12 @@ static void close_pooled_connection( CPOOLENT *ptr )
         if ( conn -> dl_handle )
         {
             /*
-             * this is safe, because the dlopen function will reuse the handle if we 
+             * this is safe, because the dlopen function will reuse the handle if we
              * open the same lib again
              */
             if ( !conn -> dont_dlclose )
             {
-                /* 
+                /*
                  * call fini function if found
                  */
 
@@ -3078,7 +3077,7 @@ static void close_pooled_connection( CPOOLENT *ptr )
 }
 
 /*
- * if a environment gets released from the application, we need to remove any referenvce to that environment 
+ * if a environment gets released from the application, we need to remove any referenvce to that environment
  * in pooled connections that belong to that environment. Also if needed call the release in the driver itself
  */
 
@@ -3141,11 +3140,11 @@ void pool_unreserve( CPOOLHEAD *pooh )
 
 static void copy_nts( SQLCHAR *dst, SQLCHAR *src, int *out_length, SQLSMALLINT length )
 {
-    if ( src == NULL ) 
+    if ( src == NULL )
     {
         dst[ 0 ] = '\0';
     }
-    else 
+    else
     {
         if ( length < 0 )
         {
@@ -3335,7 +3334,7 @@ restart:;
              * has it been previously stripped
              */
 
-            if ( ptre -> connection.environment == NULL ) 
+            if ( ptre -> connection.environment == NULL )
             {
                 if ( ptre == ptrh -> entries ) /* head of the list ? */
                 {
@@ -3450,9 +3449,9 @@ disconnect_and_remove:
             has_checked = 0;
 
             /*
-             * A pointer to memory in which to return the current value of the attribute specified by Attribute. 
-             * For integer-type attributes, some drivers may only write the lower 32-bit or 16-bit of a buffer 
-             * and leave the higher-order bit unchanged. Therefore, applications should use a buffer of SQLULEN 
+             * A pointer to memory in which to return the current value of the attribute specified by Attribute.
+             * For integer-type attributes, some drivers may only write the lower 32-bit or 16-bit of a buffer
+             * and leave the higher-order bit unchanged. Therefore, applications should use a buffer of SQLULEN
              * and initialize the value to 0 before calling this function.
              */
             dead = 0;
@@ -3465,7 +3464,7 @@ disconnect_and_remove:
                         &dead,
                         SQL_IS_INTEGER,
                         0 );
-                if ( SQL_SUCCEEDED( ret )) 
+                if ( SQL_SUCCEEDED( ret ))
                 {
                     has_checked = 1;
                     if ( dead == SQL_CD_TRUE )
@@ -3482,7 +3481,7 @@ disconnect_and_remove:
                         &dead,
                         SQL_IS_INTEGER,
                         0 );
-                if ( SQL_SUCCEEDED( ret )) 
+                if ( SQL_SUCCEEDED( ret ))
                 {
                     has_checked = 1;
                     if ( dead == SQL_CD_TRUE )
@@ -3491,13 +3490,13 @@ disconnect_and_remove:
                     }
                 }
             }
-            if ( !has_checked && CHECK_SQLGETCONNECTOPTION(( &ptre -> connection ))) 
+            if ( !has_checked && CHECK_SQLGETCONNECTOPTION(( &ptre -> connection )))
             {
                     ret = SQLGETCONNECTOPTION(( &ptre -> connection ),
                         ptre -> connection.driver_dbc,
                         SQL_ATTR_CONNECTION_DEAD,
                         &dead );
-                if ( SQL_SUCCEEDED( ret )) 
+                if ( SQL_SUCCEEDED( ret ))
                 {
                     has_checked = 1;
                     if ( dead == SQL_CD_TRUE )
@@ -3506,13 +3505,13 @@ disconnect_and_remove:
                     }
                 }
             }
-            if ( !has_checked && CHECK_SQLGETCONNECTOPTIONW(( &ptre -> connection ))) 
+            if ( !has_checked && CHECK_SQLGETCONNECTOPTIONW(( &ptre -> connection )))
             {
                     ret = SQLGETCONNECTOPTIONW(( &ptre -> connection ),
                         ptre -> connection.driver_dbc,
                         SQL_ATTR_CONNECTION_DEAD,
                         &dead );
-                if ( SQL_SUCCEEDED( ret )) 
+                if ( SQL_SUCCEEDED( ret ))
                 {
                     has_checked = 1;
                     if ( dead == SQL_CD_TRUE )
@@ -3901,7 +3900,7 @@ void return_to_pool( DMHDBC connection )
      * allow the driver to reset itself if it's a 3.8 driver
      */
 
-    if ( connection -> driver_version == SQL_OV_ODBC3_80 ) 
+    if ( connection -> driver_version == SQL_OV_ODBC3_80 )
     {
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
@@ -3913,10 +3912,10 @@ void return_to_pool( DMHDBC connection )
         }
     }
 
-    if ( connection -> cl_handle ) 
+    if ( connection -> cl_handle )
     {
         /*
-         * slight hack to warn the cursor lib the connection is going away 
+         * slight hack to warn the cursor lib the connection is going away
          */
 
         SQLSETCONNECTATTR( connection,
@@ -3950,7 +3949,7 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
     if ( dsn && strlen( dsn ))
     {
         SQLGetPrivateProfileString( dsn, "DMEnvAttr", "",
-                    txt, sizeof( txt ), 
+                    txt, sizeof( txt ),
                     "ODBC.INI" );
 
         if ( strlen( txt ))
@@ -3960,7 +3959,7 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
         }
 
         SQLGetPrivateProfileString( dsn, "DMConnAttr", "",
-                    txt, sizeof( txt ), 
+                    txt, sizeof( txt ),
                     "ODBC.INI" );
 
         if ( strlen( txt ))
@@ -3970,7 +3969,7 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
         }
 
         SQLGetPrivateProfileString( dsn, "DMStmtAttr", "",
-                    txt, sizeof( txt ), 
+                    txt, sizeof( txt ),
                     "ODBC.INI" );
 
         if ( strlen( txt ))
@@ -3983,9 +3982,9 @@ void __handle_attr_extensions( DMHDBC connection, char *dsn, char *driver_name )
     if ( driver_name && strlen( driver_name ))
     {
         SQLGetPrivateProfileString( driver_name, "DMEnvAttr", "",
-                          txt, sizeof( txt ), 
+                          txt, sizeof( txt ),
                           "ODBCINST.INI" );
-     
+
         if ( strlen( txt ))
         {
             __parse_attribute_string( &connection -> env_attribute,
@@ -4033,10 +4032,10 @@ SQLRETURN SQLConnect( SQLHDBC connection_handle,
      */
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -4376,7 +4375,7 @@ retry:
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
             int lret;
-                
+
             lret = SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_ANSI_APP,
@@ -4401,7 +4400,7 @@ retry:
 
             /*
              * get the errors from the driver before
-             * loseing the connection 
+             * loseing the connection
              */
 
             if ( CHECK_SQLERROR( connection ))
@@ -4469,7 +4468,7 @@ retry:
             }
         }
 
-        /* 
+        /*
          * if it was a error then return now
          */
 
@@ -4535,7 +4534,7 @@ retry:
 
             /*
              * get the errors from the driver before
-             * loseing the connection 
+             * loseing the connection
              */
 
             if ( CHECK_SQLERRORW( connection ))
@@ -4555,7 +4554,7 @@ retry:
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        SQLCHAR *as1, *as2; 
+                        SQLCHAR *as1, *as2;
 
                         __post_internal_error_ex_w( &connection -> error,
                                 sqlstate,
@@ -4597,7 +4596,7 @@ retry:
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
-                        SQLCHAR *as1, *as2; 
+                        SQLCHAR *as1, *as2;
 
                         __post_internal_error_ex_w( &connection -> error,
                                 sqlstate,
@@ -4621,7 +4620,7 @@ retry:
             }
         }
 
-        /* 
+        /*
          * if it was a error then return now
          */
 

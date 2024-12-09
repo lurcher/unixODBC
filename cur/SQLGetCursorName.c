@@ -64,20 +64,20 @@ SQLRETURN CLGetCursorName( SQLHSTMT statement_handle,
            SQLSMALLINT buffer_length,
            SQLSMALLINT *name_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret = SQL_SUCCESS;
 
     if ( cursor_name )
     {
         if ( buffer_length < strlen((char*) cl_statement -> cursor_name ) + 1 )
         {
-            memcpy( cursor_name, cl_statement -> cursor_name, 
+            memcpy( cursor_name, cl_statement -> cursor_name,
                     buffer_length );
             cursor_name[ buffer_length ] = '\0';
             ret = SQL_SUCCESS_WITH_INFO;
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_01004, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
         }
         else

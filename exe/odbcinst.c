@@ -473,23 +473,23 @@ void PrintConfigInfo()
 
     *szFileName = '\0';
     sprintf( szFileName, "%s/%s", odbcinst_system_file_path( b1 ), odbcinst_system_file_name( b2 ));
-    printf( "DRIVERS............: %s\n", szFileName ); 
+    printf( "DRIVERS............: %s\n", szFileName );
 
     *szFileName = '\0';
     _odbcinst_SystemINI( szFileName, FALSE );
-    printf( "SYSTEM DATA SOURCES: %s\n", szFileName ); 
+    printf( "SYSTEM DATA SOURCES: %s\n", szFileName );
 
     *szFileName = '\0';
     _odbcinst_FileINI( szFileName );
-    printf( "FILE DATA SOURCES..: %s\n", szFileName ); 
+    printf( "FILE DATA SOURCES..: %s\n", szFileName );
 
     *szFileName = '\0';
     _odbcinst_UserINI( szFileName, FALSE );
-    printf( "USER DATA SOURCES..: %s\n", szFileName ); 
+    printf( "USER DATA SOURCES..: %s\n", szFileName );
 
-	printf( "SQLULEN Size.......: %ld\n", (long) sizeof( SQLULEN )); 
-	printf( "SQLLEN Size........: %ld\n", (long) sizeof( SQLLEN )); 
-	printf( "SQLSETPOSIROW Size.: %ld\n", (long) sizeof( SQLSETPOSIROW )); 
+	printf( "SQLULEN Size.......: %ld\n", (long) sizeof( SQLULEN ));
+	printf( "SQLLEN Size........: %ld\n", (long) sizeof( SQLLEN ));
+	printf( "SQLSETPOSIROW Size.: %ld\n", (long) sizeof( SQLSETPOSIROW ));
 }
 
 int main( int argc, char *argv[] )

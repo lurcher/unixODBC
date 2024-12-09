@@ -62,7 +62,7 @@
 
 SQLRETURN CLAllocStmt( SQLHDBC connection_handle,
            SQLHSTMT *statement_handle,
-           SQLHANDLE dm_handle ) 
+           SQLHANDLE dm_handle )
 {
     CLHDBC cl_connection = (CLHDBC) connection_handle;
     CLHSTMT cl_statement;
@@ -93,9 +93,9 @@ SQLRETURN CLAllocStmt( SQLHDBC connection_handle,
     memset( cl_statement, 0, sizeof( *cl_statement ));
 
     cl_statement -> cl_connection = cl_connection;
-    cl_statement -> dm_statement = ( DMHSTMT ) dm_handle; 
+    cl_statement -> dm_statement = ( DMHSTMT ) dm_handle;
 
-    ret = SQLALLOCSTMT( cl_connection, 
+    ret = SQLALLOCSTMT( cl_connection,
             cl_connection -> driver_dbc,
             &cl_statement -> driver_stmt,
             NULL );

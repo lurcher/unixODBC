@@ -153,7 +153,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBindParameter.c,v $ $Revision: 1.12 $";
 
 SQLRETURN SQLBindParameter(
     SQLHSTMT           statement_handle,
@@ -176,10 +175,10 @@ SQLRETURN SQLBindParameter(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -199,7 +198,7 @@ SQLRETURN SQLBindParameter(
 \n\t\t\tScale = %d\
 \n\t\t\tRgb Value = %p\
 \n\t\t\tValue Max = %d\
-\n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStrLen Or Ind = %p",
                 statement,
                 ipar,
                 f_param_type,
@@ -213,10 +212,10 @@ SQLRETURN SQLBindParameter(
                 (int)cb_value_max,
                 (void*)pcb_value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -224,10 +223,10 @@ SQLRETURN SQLBindParameter(
 
     if ( ipar < 1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error_api( &statement -> error,
@@ -240,7 +239,7 @@ SQLRETURN SQLBindParameter(
 
     if ( ((f_c_type == SQL_C_CHAR || f_c_type == SQL_C_BINARY || f_c_type == SQL_C_WCHAR) ||
             (f_c_type == SQL_C_DEFAULT &&
-                (f_sql_type == SQL_DEFAULT || 
+                (f_sql_type == SQL_DEFAULT ||
                  f_sql_type == SQL_CHAR ||
                  f_sql_type == SQL_BINARY  ||
                  f_sql_type == SQL_LONGVARCHAR  ||
@@ -252,14 +251,14 @@ SQLRETURN SQLBindParameter(
                  f_sql_type == SQL_WVARCHAR)))
          && cb_value_max < 0 && cb_value_max != SQL_NTS )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
-                ERROR_HY090, NULL, 
+                ERROR_HY090, NULL,
                 statement -> connection -> environment -> requested_version );
 
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
@@ -269,10 +268,10 @@ SQLRETURN SQLBindParameter(
             pcb_value == NULL &&
             f_param_type != SQL_PARAM_OUTPUT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -289,16 +288,16 @@ SQLRETURN SQLBindParameter(
                 f_param_type != SQL_PARAM_OUTPUT_STREAM &&
                 f_param_type != SQL_PARAM_INPUT_OUTPUT_STREAM )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY105" );
-    
+
             __post_internal_error( &statement -> error,
                     ERROR_HY105, NULL,
                     statement -> connection -> environment -> requested_version );
-    
+
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
@@ -307,16 +306,16 @@ SQLRETURN SQLBindParameter(
                 f_param_type != SQL_PARAM_INPUT_OUTPUT &&
                 f_param_type != SQL_PARAM_OUTPUT )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY105" );
-    
+
             __post_internal_error( &statement -> error,
                     ERROR_HY105, NULL,
                     statement -> connection -> environment -> requested_version );
-    
+
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
@@ -324,12 +323,12 @@ SQLRETURN SQLBindParameter(
 	/*
 	 * Alter the types, this is a special to cope with a AllBase bug...
 	 */
-	if ( f_c_type == SQL_C_SLONG && 0 ) 
+	if ( f_c_type == SQL_C_SLONG && 0 )
 	{
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Map from SQL_C_SLONG,SQL_C_CHAR to SQL_C_LONG,SQL_INTEGER" );
 
 		f_c_type = SQL_C_LONG;
@@ -349,10 +348,10 @@ SQLRETURN SQLBindParameter(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -368,10 +367,10 @@ SQLRETURN SQLBindParameter(
 
 	if ( !check_target_type( f_c_type, statement -> connection -> environment -> requested_version ))
 	{
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY003" );
 
         __post_internal_error( &statement -> error,
@@ -409,10 +408,10 @@ SQLRETURN SQLBindParameter(
     }
     else
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -426,14 +425,14 @@ SQLRETURN SQLBindParameter(
     {
         SQLCHAR buf[ 128 ];
 
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, buf ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

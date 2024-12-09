@@ -1,7 +1,7 @@
 
 /* Module:          environ.c
  *
- * Description:     This module contains routines related to 
+ * Description:     This module contains routines related to
  *                  the environment, such as storing connection handles,
  *                  and returning errors.
  *
@@ -53,7 +53,7 @@ mylog("**** in SQLAllocEnv ** \n");
 		EN_log_error(func, "Error allocating environment", NULL);
 		return SQL_ERROR;
 	}
- 
+
 	mylog("** exit SQLAllocEnv: phenv = %u **\n", *phenv);
 	return SQL_SUCCESS;
 }
@@ -85,13 +85,13 @@ SQLRETURN   SQLError(SQLHENV henv,
 {
 char *msg;
 int status;
-    
+
 	mylog("**** SQLError: henv=%u, hdbc=%u, hstmt=%u\n", henv, hdbc, hstmt);
 
     if (SQL_NULL_HSTMT != hstmt) {
 	/* CC: return an error of a hstmt  */
         StatementClass *stmt = (StatementClass *) hstmt;
-        
+
         if (SC_get_error(stmt, &status, &msg)) {
 			mylog("SC_get_error: status = %d, msg = #%s#\n", status, msg);
             if (NULL == msg) {
@@ -99,22 +99,22 @@ int status;
                     strcpy((char*)szSqlState, "00000");
                 if (NULL != pcbErrorMsg)
                     *pcbErrorMsg = 0;
-                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                     szErrorMsg[0] = '\0';
-                
+
                 return SQL_NO_DATA_FOUND;
-            }                
-            if (NULL != pcbErrorMsg)                
+            }
+            if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = (SWORD)strlen(msg);
-            
+
             if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 strncpy_null((char*)szErrorMsg, msg, cbErrorMsgMax);
-            
-            if (NULL != pfNativeError) 
+
+            if (NULL != pfNativeError)
                 *pfNativeError = status;
-            
-            if (NULL != szSqlState)    
-                
+
+            if (NULL != szSqlState)
+
                 switch (status) {
 		/* now determine the SQLSTATE to be returned */
                 case STMT_TRUNCATED:
@@ -157,7 +157,7 @@ int status;
                 case STMT_INTERNAL_ERROR:
                     strcpy((char*)szSqlState, "S1000");
                     /* general error */
-                    break;  
+                    break;
 				case STMT_ROW_OUT_OF_RANGE:
 					strcpy((char*)szSqlState, "S1107");
 					break;
@@ -200,7 +200,7 @@ int status;
 				case STMT_INVALID_CURSOR_POSITION:
                     strcpy((char*)szSqlState, "S1109");
                     break;
-                
+
 				case STMT_VALUE_OUT_OF_RANGE:
 					strcpy((char*)szSqlState, "22003");
 					break;
@@ -214,26 +214,26 @@ int status;
                     strcpy((char*)szSqlState, "S1000");
                     /* also a general error */
                     break;
-                }         
+                }
 
 				mylog("       szSqlState = '%s', szError='%s'\n", szSqlState, szErrorMsg);
-            
+
         } else {
             if (NULL != szSqlState)
                 strcpy((char*)szSqlState, "00000");
             if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = 0;
-            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 szErrorMsg[0] = '\0';
-            
+
 			mylog("       returning NO_DATA_FOUND\n");
             return SQL_NO_DATA_FOUND;
         }
-        return SQL_SUCCESS;    
-        
+        return SQL_SUCCESS;
+
     } else if (SQL_NULL_HDBC != hdbc) {
         ConnectionClass *conn = (ConnectionClass *) hdbc;
-        
+
 		mylog("calling CC_get_error\n");
         if (CC_get_error(conn, &status, &msg)) {
 			mylog("CC_get_error: status = %d, msg = #%s#\n", status, msg);
@@ -242,20 +242,20 @@ int status;
                     strcpy((char*)szSqlState, "00000");
                 if (NULL != pcbErrorMsg)
                     *pcbErrorMsg = 0;
-                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                     szErrorMsg[0] = '\0';
-                
+
                 return SQL_NO_DATA_FOUND;
-            }                
-            
+            }
+
             if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = (SWORD)strlen(msg);
-            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))    
+            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 strncpy_null((char*)szErrorMsg, msg, cbErrorMsgMax);
-            if (NULL != pfNativeError)    
+            if (NULL != pfNativeError)
                 *pfNativeError = status;
-            
-            if (NULL != szSqlState) 
+
+            if (NULL != szSqlState)
                 switch(status) {
 				case STMT_OPTION_VALUE_CHANGED:
 				case CONN_OPTION_VALUE_CHANGED:
@@ -316,20 +316,20 @@ int status;
                     /* general error */
                     break;
                 }
-       
+
         } else {
 			mylog("CC_Get_error returned nothing.\n");
             if (NULL != szSqlState)
                 strcpy((char*)szSqlState, "00000");
             if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = 0;
-            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 szErrorMsg[0] = '\0';
-            
+
             return SQL_NO_DATA_FOUND;
         }
         return SQL_SUCCESS;
-        
+
     } else if (SQL_NULL_HENV != henv) {
         EnvironmentClass *env = (EnvironmentClass *)henv;
         if(EN_get_error(env, &status, &msg)) {
@@ -339,19 +339,19 @@ int status;
                     strcpy((char*)szSqlState, "00000");
                 if (NULL != pcbErrorMsg)
                     *pcbErrorMsg = 0;
-                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+                if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                     szErrorMsg[0] = '\0';
 
                 return SQL_NO_DATA_FOUND;
-            }                
+            }
 
-            if (NULL != pcbErrorMsg)                
+            if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = (SWORD)strlen(msg);
             if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 strncpy_null((char*)szErrorMsg, msg, cbErrorMsgMax);
-            if (NULL != pfNativeError) 
+            if (NULL != pfNativeError)
                 *pfNativeError = status;
-            
+
             if(szSqlState) {
                 switch(status) {
                 case ENV_ALLOC_ERROR:
@@ -369,22 +369,22 @@ int status;
                 strcpy((char*)szSqlState, "00000");
             if (NULL != pcbErrorMsg)
                 *pcbErrorMsg = 0;
-            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+            if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
                 szErrorMsg[0] = '\0';
-            
+
             return SQL_NO_DATA_FOUND;
         }
 
         return SQL_SUCCESS;
     }
-    
+
     if (NULL != szSqlState)
         strcpy((char*)szSqlState, "00000");
     if (NULL != pcbErrorMsg)
         *pcbErrorMsg = 0;
-    if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0)) 
+    if ((NULL != szErrorMsg) && (cbErrorMsgMax > 0))
         szErrorMsg[0] = '\0';
-    
+
     return SQL_NO_DATA_FOUND;
 }
 

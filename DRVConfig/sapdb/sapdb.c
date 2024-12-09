@@ -9,11 +9,11 @@
 #include <config.h>
 #include <odbcinstext.h>
 
-static const char *aHost[] =
-{
-    "localhost",
-    NULL
-};
+/* static const char *aHost[] = */
+/* { */
+/*     "localhost", */
+/*     NULL */
+/* }; */
 
 static const char *aSqlModes[] =
 {

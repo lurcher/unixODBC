@@ -232,7 +232,7 @@ BOOL INSTAPI SQLInstallDriverExW(LPCWSTR lpszDriver,
 	drv = lpszDriver ? _multi_string_alloc_and_copy( lpszDriver ) : (char*)NULL;
 	pth = lpszPathIn ? _single_string_alloc_and_copy( lpszPathIn ) : (char*)NULL;
 
-	if ( lpszPathOut ) 
+	if ( lpszPathOut )
 	{
 		if ( cbPathOutMax > 0 )
 		{

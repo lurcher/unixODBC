@@ -30,7 +30,7 @@ typedef struct {
 } SIMPLE_TIME;
 
 int copy_and_convert_field_bindinfo(StatementClass *stmt, Int4 field_type, void *value, int col);
-int copy_and_convert_field(StatementClass *stmt, Int4 field_type, void *value, Int2 fCType, 
+int copy_and_convert_field(StatementClass *stmt, Int4 field_type, void *value, Int2 fCType,
 						   PTR rgbValue, SDWORD cbValueMax, SQLLEN *pcbValue);
 
 int copy_statement_with_parameters(StatementClass *stmt);
@@ -45,7 +45,7 @@ int convert_from_pgbinary(unsigned char *value, unsigned char *rgbValue, int cbV
 int convert_to_pgbinary(unsigned char *in, char *out, int len);
 void encode(char *in, char *out);
 void decode(char *in, char *out);
-int convert_lo(StatementClass *stmt, void *value, Int2 fCType, PTR rgbValue, 
+int convert_lo(StatementClass *stmt, void *value, Int2 fCType, PTR rgbValue,
 		   SDWORD cbValueMax, SDWORD *pcbValue);
 
 #endif

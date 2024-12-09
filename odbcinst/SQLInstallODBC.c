@@ -40,7 +40,7 @@ BOOL INSTAPI SQLInstallTranslator( LPCSTR lpszInfFile,
 	return FALSE;
 }
 
-BOOL INSTAPI SQLRemoveDefaultDataSource( void ) 
+BOOL INSTAPI SQLRemoveDefaultDataSource( void )
 {
     inst_logClear();
 

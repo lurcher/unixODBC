@@ -59,7 +59,7 @@ SQLRETURN CLColAttributes( SQLHSTMT statement_handle,
            SQLSMALLINT  *string_length,
            SQLLEN   *numeric_attribute )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLCOLATTRIBUTES( cl_statement -> cl_connection,
            cl_statement -> driver_stmt,

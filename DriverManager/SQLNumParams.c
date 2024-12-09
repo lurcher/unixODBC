@@ -104,7 +104,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNumParams.c,v $ $Revision: 1.4 $";
 
 SQLRETURN SQLNumParams(
     SQLHSTMT           statement_handle,
@@ -121,10 +120,10 @@ SQLRETURN SQLNumParams(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -140,10 +139,10 @@ SQLRETURN SQLNumParams(
                 statement,
                 pcpar );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -160,10 +159,10 @@ SQLRETURN SQLNumParams(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -178,10 +177,10 @@ SQLRETURN SQLNumParams(
     {
         if ( statement -> interupted_func != SQL_API_SQLNUMPARAMS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -194,10 +193,10 @@ SQLRETURN SQLNumParams(
 
     if ( !CHECK_SQLNUMPARAMS( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -221,16 +220,16 @@ SQLRETURN SQLNumParams(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tCount = %s",
                     __get_return_status( ret, s2 ),
                     __sptr_as_string( s1, pcpar ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

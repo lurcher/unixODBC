@@ -135,7 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPrimaryKeys.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLPrimaryKeysA(
     SQLHSTMT           statement_handle,
@@ -174,10 +173,10 @@ SQLRETURN SQLPrimaryKeys(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -191,16 +190,16 @@ SQLRETURN SQLPrimaryKeys(
 \n\t\t\tStatement = %p\
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
-\n\t\t\tTable Type = %s", 
+\n\t\t\tTable Type = %s",
                 statement,
-                __string_with_length( s1, sz_catalog_name, cb_catalog_name ), 
-                __string_with_length( s2, sz_schema_name, cb_schema_name ), 
+                __string_with_length( s1, sz_catalog_name, cb_catalog_name ),
+                __string_with_length( s2, sz_schema_name, cb_schema_name ),
                 __string_with_length( s3, sz_table_name, cb_table_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -210,10 +209,10 @@ SQLRETURN SQLPrimaryKeys(
             ( cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
             ( cb_table_name < 0 && cb_table_name != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -236,10 +235,10 @@ SQLRETURN SQLPrimaryKeys(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -255,10 +254,10 @@ SQLRETURN SQLPrimaryKeys(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -273,10 +272,10 @@ SQLRETURN SQLPrimaryKeys(
     {
         if ( statement -> interupted_func != SQL_API_SQLPRIMARYKEYS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -287,12 +286,12 @@ SQLRETURN SQLPrimaryKeys(
         }
     }
 
-    if ( sz_table_name == NULL ) 
+    if ( sz_table_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -313,10 +312,10 @@ SQLRETURN SQLPrimaryKeys(
 
         if ( !CHECK_SQLPRIMARYKEYSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -350,10 +349,10 @@ SQLRETURN SQLPrimaryKeys(
     {
         if ( !CHECK_SQLPRIMARYKEYS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -412,14 +411,14 @@ SQLRETURN SQLPrimaryKeys(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

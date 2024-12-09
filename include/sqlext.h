@@ -17,7 +17,7 @@
 #define SQLTables_TABLE_TYPE 4
 #define SQLTables_REMARKS 5
 
-/* COLUMNS IN SQLColumns() RESULT SET */                     
+/* COLUMNS IN SQLColumns() RESULT SET */
 #define SQLColumns_TABLE_CAT 1
 #define SQLColumns_TABLE_SCHEM 2
 #define SQLColumns_TABLE_NAME 3
@@ -232,7 +232,7 @@ extern "C" {                         /* Assume C declarations for C++ */
 #define SQL_ASYNC_DBC_ENABLE_ON         1UL
 #define SQL_ASYNC_DBC_ENABLE_OFF        0UL
 #define SQL_ASYNC_DBC_ENABLE_DEFAULT    SQL_ASYNC_DBC_ENABLE_OFF
-#endif 
+#endif
 
 /* statement attributes */
 #define SQL_QUERY_TIMEOUT		0
@@ -592,7 +592,7 @@ extern "C" {                         /* Assume C declarations for C++ */
 #define SQL_DRIVER_DESC_FIELD_BASE  0x4000
 #define SQL_DRIVER_DIAG_FIELD_BASE  0x4000
 #define SQL_DRIVER_INFO_TYPE_BASE   0x4000
-#define SQL_DRIVER_CONN_ATTR_BASE   0x00004000 
+#define SQL_DRIVER_CONN_ATTR_BASE   0x00004000
 #define SQL_DRIVER_STMT_ATTR_BASE   0x00004000
 #endif
 
@@ -948,7 +948,7 @@ extern "C" {                         /* Assume C declarations for C++ */
 #if (ODBCVER >= 0x0380)
 /* Info Types */
 #define SQL_ASYNC_DBC_FUNCTIONS                 10023
-#endif 
+#endif
 
 #define SQL_DRIVER_AWARE_POOLING_SUPPORTED      10024
 
@@ -1713,7 +1713,7 @@ extern "C" {                         /* Assume C declarations for C++ */
 /* possible values for SQL_ASYNC_DBC_FUNCTIONS */
 #define SQL_ASYNC_DBC_NOT_CAPABLE               0x00000000L
 #define SQL_ASYNC_DBC_CAPABLE                   0x00000001L
-#endif 
+#endif
 
 /* additional SQLDataSources fetch directions */
 #if (ODBCVER >= 0x0300)
@@ -2110,26 +2110,26 @@ SQLRETURN SQL_API SQLSetScrollOptions(    /*      Use SQLSetStmtOptions */
 /*!
  * \defgroup    Tracing.
  *
- *              unixODBC implements a slight variation of the tracing mechanism used 
+ *              unixODBC implements a slight variation of the tracing mechanism used
  *              on MS platforms. The unixODBC method loses the ability to produce trace
  *              output for invalid handles but gains the following;
  *
- *              - better concurrency 
+ *              - better concurrency
  *              - allows tracing to be turned on/off and configured at finer granularity
  *              - hopefully; better performance
  *
  *              unixODBC provides a cross-platform helper library called 'trace' and an
- *              example/default trace plugin called 'odbctrac'. Those writing an ODBC 
+ *              example/default trace plugin called 'odbctrac'. Those writing an ODBC
  *              driver can use the 'trace' helper library (a static library). Those wanting
  *              to create custom trace output can implement a different version of the
  *              'odbctrac' plugin.
  *
- *              The text file driver (odbctxt) included with unixODBC is an example of a 
+ *              The text file driver (odbctxt) included with unixODBC is an example of a
  *              driver using the 'trace' helper library.
  *
- *              The 'trace' library and the example plugin 'odbctrac' are designed to be 
+ *              The 'trace' library and the example plugin 'odbctrac' are designed to be
  *              portable on all platforms where unixODBC is available and on MS platforms.
- *              This will allow drivers using 'trace' and 'odbctrac' plugin to equilly 
+ *              This will allow drivers using 'trace' and 'odbctrac' plugin to equilly
  *              portable. On MS platforms - this compliments traditional tracing (mostly
  *              just used by the Driver Manager).
  *

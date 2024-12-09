@@ -76,7 +76,7 @@ int ODBCINSTGetProperties(
     strncpy( hLastProperty->szValue, "", INI_MAX_PROPERTY_VALUE );
     hLastProperty->pszHelp = (char*)strdup( "Password" );
 
-    hLastProperty->pNext = 
+    hLastProperty->pNext =
     (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );
     hLastProperty = hLastProperty->pNext;
     memset( hLastProperty, 0, sizeof(ODBCINSTPROPERTY) );

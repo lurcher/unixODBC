@@ -8,20 +8,20 @@
  * \license Copyright unixODBC Project 2007-2008, LGPL
  */
 
-/*! 
+/*!
  * \mainpage    ODBC Trace PlugIn
  *
  * \section intro_sec Introduction
  *
- *              This library provides a Driver with a cross-platform (including MS Windows) means of producing trace output. 
+ *              This library provides a Driver with a cross-platform (including MS Windows) means of producing trace output.
  *              This may also be used by Driver Managers. This is compat. with MS approach but not the same.
  *
  *              This concept is based upon the MS odbctrac method of producing ODBC trace output. The main principle of this
- *              is that the trace library can be swapped out with a custom trace library allowing the trace output to be 
+ *              is that the trace library can be swapped out with a custom trace library allowing the trace output to be
  *              tailored to an organizations needs. It also allows trace code to be shared among Drivers and even the
  *              Driver Manager.
  *
- *              This library differs from the MS implementation in some significant ways. 
+ *              This library differs from the MS implementation in some significant ways.
  *
  *              - all TraceSQL* functions return SQLPOINTER for call context... not SQLRETURN (this improves perf.)
  *              - TraceReturn accepts an SQLPOINTER for call context... not SQLRETURN (this improves perf.)
@@ -35,10 +35,10 @@
  *              option, make a global HTRACE and thereby allow trace output even when the ODBC handles are invalid - but
  *              this is not recommended.
  *
- *              If an application is getting back an SQL_INVALID_HANDLE and no trace... then we can pretty much assume that 
+ *              If an application is getting back an SQL_INVALID_HANDLE and no trace... then we can pretty much assume that
  *              the application is providing an invalid handle :)
  *
- *              unixODBC provides a cross-platform (including MS platforms) helper library called 'trace'. This is the 
+ *              unixODBC provides a cross-platform (including MS platforms) helper library called 'trace'. This is the
  *              recommended method to use tracing. The text file driver (odbctxt) included with unixODBC demonstrates
  *              how to use the 'trace' helper library.
  *

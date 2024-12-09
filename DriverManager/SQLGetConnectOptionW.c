@@ -92,7 +92,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetConnectOptionW.c,v $";
 
 SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
            SQLUSMALLINT option,
@@ -137,10 +136,10 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -150,21 +149,21 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
 			parent_connection = find_parent_handle( connection, SQL_HANDLE_DBC );
 
 			if ( parent_connection ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLGETCONNECTOPTIONW( parent_connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
-					return SQLGETCONNECTOPTIONW( parent_connection, 
+					return SQLGETCONNECTOPTIONW( parent_connection,
 							connection,
 							option,
 							value );
@@ -187,10 +186,10 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                 __con_attr_as_string( s1, option ),
                 value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -198,10 +197,10 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
 
     if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -222,10 +221,10 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
             break;
 
           default:
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -299,14 +298,14 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
      */
     if ( type )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
@@ -359,7 +358,7 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                         &len );
 
                 /*
-                 * not much else we can do here, lets assume that 
+                 * not much else we can do here, lets assume that
                  * there is enough space
                  */
 
@@ -394,7 +393,7 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                   case SQL_ATTR_TRANSLATE_LIB:
                     if ( SQL_SUCCEEDED( ret ) && value )
                     {
-                        /* 
+                        /*
                          * we need to chance out arm here, as we dont know
                          */
 
@@ -455,7 +454,7 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
                         &len );
 
                 /*
-                 * not much else we can do here, lets assume that 
+                 * not much else we can do here, lets assume that
                  * there is enough space
                  */
 
@@ -488,14 +487,14 @@ SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 

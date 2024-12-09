@@ -89,7 +89,7 @@ int free_bound_columns( CLHSTMT cl_statement )
     while( bcol )
     {
         CLBCOL *next;
-        
+
         if ( bcol -> local_buffer )
         {
             free( bcol -> local_buffer );
@@ -177,7 +177,7 @@ SQLRETURN CLBindCol( SQLHSTMT statement_handle,
            SQLLEN buffer_length,
 	   	   SQLLEN *strlen_or_ind )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     CLBCOL *bcol;
     int b_len;
     SQLRETURN ret;
@@ -218,7 +218,7 @@ SQLRETURN CLBindCol( SQLHSTMT statement_handle,
         {
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_HY001, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
 
             return SQL_ERROR;
@@ -285,7 +285,7 @@ SQLRETURN CLBindCol( SQLHSTMT statement_handle,
         {
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_HY001, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
 
             return SQL_ERROR;

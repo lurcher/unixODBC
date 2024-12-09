@@ -145,7 +145,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTransact.c,v $ $Revision: 1.11 $";
 
 SQLRETURN SQLTransact( SQLHENV environment_handle,
            SQLHDBC connection_handle,
@@ -163,10 +162,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
         if ( !__validate_dbc( connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
@@ -179,10 +178,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
         if ( !__validate_env( environment ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
@@ -206,10 +205,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     (void*)connection_handle,
                     (int)completion_type );
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 
@@ -219,10 +218,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
             connection -> state == STATE_C2 ||
             connection -> state == STATE_C3 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -238,10 +237,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
         if( __check_stmt_from_dbc_v( connection, 8, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12, STATE_S13, STATE_S14, STATE_S15 )) {
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &connection -> error,
@@ -254,10 +253,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
         if ( completion_type != SQL_COMMIT &&
                 completion_type != SQL_ROLLBACK )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY012" );
 
             __post_internal_error( &connection -> error,
@@ -283,10 +282,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
         }
         else
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &connection -> error,
@@ -301,29 +300,29 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
             SQLSMALLINT cb_value;
             SQLSMALLINT cb_value_length = sizeof(SQLSMALLINT);
             SQLRETURN ret1;
-	    
+	
             /*
-             * for each statement belonging to this connection set its state 
+             * for each statement belonging to this connection set its state
              * relative to the commit or rollback behavior
              */
 
-			if ( connection -> cbs_found == 0 ) 
+			if ( connection -> cbs_found == 0 )
 			{
             	/* release thread so we can get the info */
             	thread_release( SQL_HANDLE_DBC, connection );
-            
-				ret1 = SQLGetInfo(connection, 
-                      	SQL_CURSOR_COMMIT_BEHAVIOR, 
-                      	&connection -> ccb_value, 
+
+				ret1 = SQLGetInfo(connection,
+                      	SQL_CURSOR_COMMIT_BEHAVIOR,
+                      	&connection -> ccb_value,
                       	sizeof( SQLSMALLINT ),
                       	&cb_value_length);
 
 				if ( SQL_SUCCEEDED( ret1 ))
 				{
-					ret1 = SQLGetInfo(connection, 
+					ret1 = SQLGetInfo(connection,
                       	SQL_CURSOR_ROLLBACK_BEHAVIOR,
-                      	&connection -> crb_value, 
-                      	sizeof( SQLSMALLINT ), 
+                      	&connection -> crb_value,
+                      	sizeof( SQLSMALLINT ),
                       	&cb_value_length);
 				}
 
@@ -352,14 +351,14 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 
@@ -383,10 +382,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     (void*)connection_handle,
                     (int)completion_type );
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     environment -> msg );
         }
 
@@ -395,10 +394,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
         if ( completion_type != SQL_COMMIT &&
                 completion_type != SQL_ROLLBACK )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY012" );
 
             __post_internal_error( &environment -> error,
@@ -423,16 +422,16 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                 {
                     if( __check_stmt_from_dbc_v( connection, 8, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12, STATE_S13, STATE_S14, STATE_S15 )) {
 
-                        dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                        dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY010" );
-            
+
                         __post_internal_error( &environment -> error,
                                 ERROR_HY010, NULL,
                                 environment -> requested_version );
-            
+
                         return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                     }
                 }
@@ -460,10 +459,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
                         if ( !SQL_SUCCEEDED( ret ))
                         {
-                            dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                    LOG_INFO, 
-                                    LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                    __LINE__,
+                                    LOG_INFO,
+                                    LOG_INFO,
                                     "Error: 24S01" );
 
                             __post_internal_error( &environment -> error,
@@ -484,10 +483,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
                         if ( !SQL_SUCCEEDED( ret ))
                         {
-                            dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                    LOG_INFO, 
-                                    LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                    __LINE__,
+                                    LOG_INFO,
+                                    LOG_INFO,
                                     "Error: 24S01" );
 
                             __post_internal_error( &environment -> error,
@@ -499,10 +498,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
                     }
                     else
                     {
-                        dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                        dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM001" );
 
                         __post_internal_error( &environment -> error,
@@ -519,14 +518,14 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( environment -> msg, 
+            sprintf( environment -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( SQL_SUCCESS, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     environment -> msg );
         }
 
@@ -536,10 +535,10 @@ SQLRETURN SQLTransact( SQLHENV environment_handle,
     }
     else
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;

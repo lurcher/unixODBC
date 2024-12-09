@@ -11,7 +11,7 @@
 #define __CONNECTION_H__
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -49,7 +49,7 @@ typedef enum {
 #define CONN_INIREAD_ERROR 201
 #define CONN_OPENDB_ERROR 202
 #define CONN_STMT_ALLOC_ERROR 203
-#define CONN_IN_USE 204 
+#define CONN_IN_USE 204
 #define CONN_UNSUPPORTED_OPTION 205
 /* Used by SetConnectoption to indicate unsupported options */
 #define CONN_INVALID_ARGUMENT_NO 206
@@ -193,7 +193,7 @@ typedef struct {
  *	Simplified macros to compare the server's version with a
  *		specified version
  *	Note: Never pass a variable as the second parameter.
- *	      It must be a decimal constant of the form %d.%d . 
+ *	      It must be a decimal constant of the form %d.%d .
  */
 #define PG_VERSION_GT(conn, ver) \
  (SERVER_VERSION_GT(conn, (int) ver, atoi(STRING_AFTER_DOT(ver))))
@@ -302,7 +302,7 @@ struct ConnectionClass_ {
 
 /*  for CC_DSN_info */
 #define CONN_DONT_OVERWRITE		0
-#define CONN_OVERWRITE			1 
+#define CONN_OVERWRITE			1
 
 
 /*	prototypes */

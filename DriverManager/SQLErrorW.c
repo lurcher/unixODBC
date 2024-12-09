@@ -88,7 +88,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLErrorW.c,v $";
 
 SQLRETURN extract_parent_handle_err( int handle_type,
         SQLHENV environment_handle,

@@ -1,7 +1,7 @@
 
 /* Module:          drvconn.c
  *
- * Description:     This module contains only routines related to 
+ * Description:     This module contains only routines related to
  *                  implementing SQLDriverConnect.
  *
  * Classes:         n/a
@@ -13,7 +13,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <stdio.h>
@@ -143,7 +143,7 @@ dialog:
 			ci->server[0] == '\0' ||
 			ci->database[0] == '\0' ||
 			ci->port[0] == '\0' ||
-			password_required) { 
+			password_required) {
 
 			dialog_result = dconn_DoDialog(hwnd, ci);
 			if(dialog_result != SQL_SUCCESS) {
@@ -166,7 +166,7 @@ dialog:
 	*/
 	if( ci->username[0] == '\0' ||
 		ci->server[0] == '\0' ||
-		ci->database[0] == '\0' || 
+		ci->database[0] == '\0' ||
 		ci->port[0] == '\0') {
 /*		(password_required && ci->password[0] == '\0')) */
 
@@ -206,12 +206,12 @@ dialog:
 
 	if(szConnStrOut) {
 
-		/*	Return the completed string to the caller. The correct method is to 
-			only construct the connect string if a dialog was put up, otherwise, 
-			it should just copy the connection input string to the output.  
+		/*	Return the completed string to the caller. The correct method is to
+			only construct the connect string if a dialog was put up, otherwise,
+			it should just copy the connection input string to the output.
 			However, it seems ok to just always	construct an output string.  There
-			are possible bad side effects on working applications (Access) by 
-			implementing the correct behavior, anyway. 
+			are possible bad side effects on working applications (Access) by
+			implementing the correct behavior, anyway.
 		*/
 		strncpy_null((char*)szConnStrOut, connStrOut, cbConnStrOutMax);
 
@@ -292,7 +292,7 @@ ConnInfo *ci;
 			SetFocus(GetDlgItem(hdlg, IDC_PASSWORD));
 
 
-		break; 
+		break;
 
 	case WM_COMMAND:
 		switch (GET_WM_COMMAND_ID(wParam, lParam)) {
@@ -363,7 +363,7 @@ char *strtok_arg;
 		mylog("attribute = '%s', value = '%s'\n", attribute, value);
 
 		if( !attribute || !value)
-			continue;          
+			continue;
 
 		/*	Copy the appropriate value to the conninfo  */
 		copyAttributes(ci, attribute, value);

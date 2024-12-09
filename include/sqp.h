@@ -53,7 +53,7 @@ typedef struct tSQPCOMPARISON
 typedef struct tSQPASSIGNMENT
 {
     char *pszColumn;
-    char *pszValue;         
+    char *pszValue;
 
     int  nColumn;               /* index into row data for col value	*/
 
@@ -62,8 +62,8 @@ typedef struct tSQPASSIGNMENT
 typedef struct tSQPDATATYPE
 {
     char *pszType;
-    short nType;          
-    int  nPrecision;            
+    short nType;
+    int  nPrecision;
     int  nScale;
 
 } SQPDATATYPE, *HSQPDATATYPE;
@@ -78,7 +78,7 @@ typedef struct tSQPCOLUMNDEF
 
 typedef struct tSQPPARAM
 {
-    char *pszValue;         
+    char *pszValue;
 
 } SQPPARAM, *HSQPPARAM;
 
@@ -114,7 +114,7 @@ typedef SQPDROPTABLE * HSQPDROPTABLE;
 typedef struct tSQPSELECT
 {
     HLST        hColumns;       /* list of HSQPCOLUMN                   */
-    char        *pszTable;      
+    char        *pszTable;
     HSQPCOND    hWhere;         /* tree of HSQPCOND                     */
     HLST        hOrderBy;       /* list of HSQPCOLUMN                   */
     sqpOrder    nOrderDirection;
@@ -213,7 +213,7 @@ void sqpOpen( char *pszFirstChar, char *pszLastChar, HLST hParams );
 /***********************
  * sqpParse
  *
- * Attempts to parse the sql given in sqpOpen. 
+ * Attempts to parse the sql given in sqpOpen.
  * Returns true if success else error. Use sqpError to get exact error after call.
  * Only call this once per sqpOpen.
  *

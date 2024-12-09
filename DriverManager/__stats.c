@@ -99,7 +99,7 @@
 #include <config.h>
 
 #ifdef HAVE_SYS_SEM_H
- 
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -119,7 +119,6 @@
 #include <uodbc_stats.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __stats.c,v $ $Revision: 1.4 $";
 
 #ifdef COLLECT_STATS
 #ifdef HAVE_LIBPTHREAD
@@ -195,7 +194,7 @@ int uodbc_open_stats(
     lh.shm_id = -1;
     lh.sem_id = -1;
     lh.pid = getpid();
-    
+
     /*
      * Check the odbc.ini file used in ftok() exists.
      */
@@ -204,7 +203,7 @@ int uodbc_open_stats(
         snprintf(errmsg, sizeof(errmsg), "Cannot locate %s", odbcini);
         return -1;
     }
-    
+
     /*
      *  Get a unique IPC key.
      */
@@ -214,7 +213,7 @@ int uodbc_open_stats(
                  "Failed to obtain IPC key - %s", strerror(errno));
         return -1;
     }
-    
+
     /*
      *  See if the semaphore exists and create if it doesn't.
      */
@@ -228,7 +227,7 @@ int uodbc_open_stats(
                      strerror(errno));
             return -1;
         }
-        
+
         lh.sem_id = semget(ipc_key, 1, IPC_ACCESS_MODE | IPC_CREAT);
         if (lh.sem_id < 0)
         {
@@ -243,8 +242,8 @@ int uodbc_open_stats(
     if (mode & UODBC_STATS_WRITE)
         shmflg = IPC_ACCESS_MODE | IPC_CREAT | IPC_EXCL;
     else
-        shmflg = IPC_ACCESS_MODE;        
-    
+        shmflg = IPC_ACCESS_MODE;
+
     lh.shm_id = shmget(ipc_key, sizeof(uodbc_stats_t), shmflg);
     if (lh.shm_id < 0)
     {
@@ -255,7 +254,7 @@ int uodbc_open_stats(
             return -1;
         }
         if (errno == EEXIST)
-        { 
+        {
             lh.shm_id = shmget(ipc_key, sizeof(uodbc_stats_t), IPC_ACCESS_MODE);
             if (lh.shm_id < 0)
             {
@@ -277,7 +276,7 @@ int uodbc_open_stats(
     {
         if (mode & UODBC_STATS_WRITE) shm_created = 1;
     }
-    
+
     lh.stats = (uodbc_stats_t *)shmat(lh.shm_id, 0, 0);
     if (lh.stats == (uodbc_stats_t *)-1)
     {
@@ -289,7 +288,7 @@ int uodbc_open_stats(
     {
         unsigned int    i;
         int lk;
-        
+
         lk = acquire_sem_lock(lh.sem_id);
         memset(lh.stats, '\0', sizeof(uodbc_stats_t));
         for (i = 0; i < (sizeof(lh.stats->perpid) / sizeof(lh.stats->perpid[0])); i++)
@@ -307,7 +306,7 @@ int uodbc_open_stats(
     if (mode & UODBC_STATS_WRITE)
     {
         int lk;
-        
+
         lk = acquire_sem_lock(lh.sem_id);
         for (i = 0;
              i < (sizeof(h->stats->perpid) / sizeof(h->stats->perpid[0]));
@@ -325,7 +324,7 @@ int uodbc_open_stats(
         }
         if (lk == 0) release_sem_lock(lh.sem_id);
     }
-    
+
     *(uodbc_stats_handle_t **)rh = h;
     return 0;
 }
@@ -356,7 +355,7 @@ int uodbc_close_stats(
     if ((sh->shm_id != -1) && (sh->stats))
     {
         unsigned int    i;
-        
+
         for (i = 0;
              i < (sizeof(sh->stats->perpid) / sizeof(sh->stats->perpid[0]));
              i++)
@@ -367,7 +366,7 @@ int uodbc_close_stats(
                 break;
             }
         }
-        
+
         shmdt((char *)sh->stats);
         sh->stats = NULL;
         sh->shm_id = -1;
@@ -395,7 +394,7 @@ int uodbc_update_stats(void *h,
     unsigned int                i;
     uodbc_stats_handle_t        *sh;
     int lk;
-    
+
     sh = (uodbc_stats_handle_t *)h;
     if (!sh)
     {
@@ -464,7 +463,7 @@ int uodbc_update_stats(void *h,
       }
     }
     if (lk == 0) release_sem_lock(sh->sem_id);
-    
+
     return 0;
 }
 
@@ -492,7 +491,7 @@ char *uodbc_stats_error(
 
     return buf;
 }
-    
+
 
 /************************************************************************/
 /*                                                                      */
@@ -577,7 +576,7 @@ int uodbc_get_stats(
                 sh->stats->perpid[i].n_desc = 0;
             }
         }
-        
+
         if (((request_pid == (pid_t)-1) && (sh->stats->perpid[i].pid > 0)) ||
             (sh->stats->perpid[i].pid == request_pid))
         {
@@ -596,27 +595,27 @@ int uodbc_get_stats(
     }
 
     if (request_pid == (pid_t)0) return cur_stat;
-    
+
     s[cur_stat].type = UODBC_STAT_LONG;
     s[cur_stat].value.l_value = n_env;
     strcpy(s[cur_stat].name, "Environments");
     if (++cur_stat > n_stats) return cur_stat;
-    
+
     s[cur_stat].type = UODBC_STAT_LONG;
     s[cur_stat].value.l_value = n_dbc;
     strcpy(s[cur_stat].name, "Connections");
     if (++cur_stat > n_stats) return cur_stat;
-    
+
     s[cur_stat].type = UODBC_STAT_LONG;
     s[cur_stat].value.l_value = n_stmt;
     strcpy(s[cur_stat].name, "Statements");
     if (++cur_stat > n_stats) return cur_stat;
-    
+
     s[cur_stat].type = UODBC_STAT_LONG;
     s[cur_stat].value.l_value = n_desc;
     strcpy(s[cur_stat].name, "Descriptors");
     if (++cur_stat > n_stats) return cur_stat;
-    
+
     return cur_stat;
 }
 
@@ -714,7 +713,7 @@ char *uodbc_stats_error(
     size_t buflen)
 {
     const char *notbuilt="unixODBC not built with statistics code";
-    
+
     if (!buf) return NULL;
 
     if (strlen(notbuilt) > buflen)

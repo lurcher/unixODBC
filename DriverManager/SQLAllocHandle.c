@@ -252,7 +252,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: SQLAllocHandle.c,v $ $Revision: 1.13 $";
 
 /*
  * connection pooling stuff
@@ -283,7 +282,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             char pool_max_size_string [ 128 ];
             char pool_wait_timeout_string [ 128 ];
 
-            if ( !output_handle ) 
+            if ( !output_handle )
             {
                 return SQL_ERROR;
             }
@@ -298,7 +297,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
              */
 
             SQLGetPrivateProfileString( "ODBC", "Pooling", "0",
-				pooling_string, sizeof( pooling_string ), 
+				pooling_string, sizeof( pooling_string ),
                 "ODBCINST.INI" );
 
             if ( pooling_string[ 0 ] == '1' ||
@@ -313,7 +312,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             if ( pooling_enabled )
             {
                 int first;
-            
+
                 SQLGetPrivateProfileString( "ODBC", "PoolMaxSize", "0",
                     pool_max_size_string, sizeof( pool_max_size_string ),
                     "ODBCINST.INI" );
@@ -361,16 +360,16 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                     return SQL_ERROR;
                 }
                 *output_handle = (SQLHANDLE) environment;
-    
+
                 /*
                 * setup environment state
                 */
-    
+
                 environment -> state = STATE_E1;
                 environment -> requested_version = requested_version;
                 environment -> version_set = !!requested_version;
         	    environment -> sql_driver_count = -1;
-    
+
                 /*
                 * if SQLAllocEnv is called then it's probable that
                 * the application wants ODBC2.X type behaviour
@@ -379,15 +378,13 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 * SQLSetEnvAttr()
                 *
                 */
-    
+
                 environment -> connection_count = 0;
            }
 #else
 
             if ( pooling_enabled )
             {
-                int first;
-            
                 SQLGetPrivateProfileString( "ODBC", "PoolMaxSize", "0",
                     pool_max_size_string, sizeof( pool_max_size_string ),
                     "ODBCINST.INI" );
@@ -423,10 +420,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             * SQLSetEnvAttr()
             *
             */
-    
+
             environment -> connection_count = 0;
 #endif
-    
+
            return SQL_SUCCESS;
         }
         break;
@@ -438,10 +435,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( !__validate_env( environment ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: SQL_INVALID_HANDLE" );
 
                 return SQL_INVALID_HANDLE;
@@ -455,33 +452,33 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             function_entry(( void * ) input_handle );
 
             if ( log_info.log_flag )
-            { 
+            {
                 /*
                  * log that we are here
                  */
 
-                sprintf( environment -> msg, 
+                sprintf( environment -> msg,
                         "\n\t\tEntry:\n\t\t\tHandle Type = %d\n\t\t\tInput Handle = %p",
                         handle_type,
                         (void*)input_handle );
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         environment -> msg );
             }
 
             if ( !output_handle )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY009" );
 
                 __post_internal_error( &environment -> error,
-                        ERROR_HY009, NULL, 
+                        ERROR_HY009, NULL,
                         SQL_OV_ODBC3 );
 
                 return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
@@ -493,10 +490,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( environment -> requested_version == 0 )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY010" );
 
                 __post_internal_error( &environment -> error,
@@ -511,10 +508,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             connection = __alloc_dbc();
             if ( !connection )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY013" );
 
                 __post_internal_error( &environment -> error,
@@ -577,14 +574,14 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( log_info.log_flag )
             {
-                sprintf( environment -> msg, 
+                sprintf( environment -> msg,
                         "\n\t\tExit:[SQL_SUCCESS]\n\t\t\tOutput Handle = %p",
                             connection );
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         environment -> msg );
             }
 #if defined ( COLLECT_STATS ) && defined( HAVE_SYS_SEM_H )
@@ -605,10 +602,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( !__validate_dbc( connection ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: SQL_INVALID_HANDLE" );
 
                 return SQL_INVALID_HANDLE;
@@ -623,28 +620,28 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( log_info.log_flag )
             {
-                sprintf( connection -> msg, 
+                sprintf( connection -> msg,
                     "\n\t\tEntry:\n\t\t\tHandle Type = %d\n\t\t\tInput Handle = %p",
                     handle_type,
                     (void*)input_handle );
 
-                dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+                dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
             }
 
             if ( !output_handle )
             {
-                dm_log_write( __FILE__, 
-                       __LINE__, 
-                       LOG_INFO, 
-                       LOG_INFO, 
+                dm_log_write( __FILE__,
+                       __LINE__,
+                       LOG_INFO,
+                       LOG_INFO,
                        "Error: HY009" );
 
                 __post_internal_error( &connection -> error,
-                        ERROR_HY009, NULL, 
+                        ERROR_HY009, NULL,
                         connection -> environment -> requested_version  );
 
                 return function_return_nodrv( SQL_HANDLE_DBC, connection , SQL_ERROR );
@@ -654,10 +651,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                     connection -> state == STATE_C2 ||
                     connection -> state == STATE_C3 )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: 08003" );
 
                 __post_internal_error( &connection -> error,
@@ -672,10 +669,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
             statement = __alloc_stmt();
             if ( !statement )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY013" );
 
                 __post_internal_error( &connection -> error,
@@ -716,10 +713,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM003" );
 
                     __post_internal_error( &connection -> error,
@@ -758,10 +755,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM003" );
 
                     __post_internal_error( &connection -> error,
@@ -771,7 +768,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                     __release_stmt( statement );
 
                     *output_handle = SQL_NULL_HSTMT;
-                
+
                     return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
             }
@@ -823,10 +820,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ard = __alloc_desc();
                         if ( !statement -> ard )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
@@ -865,16 +862,16 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> apd = __alloc_desc();
                         if ( !statement -> apd )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
-        
+
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -909,14 +906,14 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ird = __alloc_desc();
                         if ( !statement -> ird )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
-                                    ERROR_HY013, NULL, 
+                                    ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
 
                             __release_stmt( statement );
@@ -953,10 +950,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ipd = __alloc_desc();
                         if ( !statement -> ipd )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
@@ -1002,10 +999,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ard = __alloc_desc();
                         if ( !statement -> ard )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
@@ -1044,16 +1041,16 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> apd = __alloc_desc();
                         if ( !statement -> apd )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
                                     ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
-        
+
                             __release_stmt( statement );
 
                             *output_handle = SQL_NULL_HSTMT;
@@ -1088,14 +1085,14 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ird = __alloc_desc();
                         if ( !statement -> ird )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
-                                    ERROR_HY013, NULL, 
+                                    ERROR_HY013, NULL,
                                     connection -> environment -> requested_version );
 
                             __release_stmt( statement );
@@ -1132,10 +1129,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ipd = __alloc_desc();
                         if ( !statement -> ipd )
                         {
-                            dm_log_write( __FILE__, 
-                                __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                            dm_log_write( __FILE__,
+                                __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY013" );
 
                             __post_internal_error( &connection -> error,
@@ -1155,7 +1152,7 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                         statement -> ipd -> driver_desc = desc;
                         statement -> ipd -> connection = connection;
                     }
-                } 
+                }
             }
 
             /*
@@ -1169,14 +1166,14 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
             if ( log_info.log_flag )
             {
-                sprintf( connection -> msg, 
+                sprintf( connection -> msg,
                         "\n\t\tExit:[SQL_SUCCESS]\n\t\t\tOutput Handle = %p",
                         statement );
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         connection -> msg );
             }
 #if defined ( COLLECT_STATS ) && defined( HAVE_SYS_SEM_H )
@@ -1196,10 +1193,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
         if ( !__validate_dbc( connection ))
         {
-            dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+            dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: SQL_INVALID_HANDLE" );
 
             return SQL_INVALID_HANDLE;
@@ -1214,28 +1211,28 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                 "\n\t\tEntry:\n\t\t\tHandle Type = %d\n\t\t\tInput Handle = %p",
                 handle_type,
                 (void*)input_handle );
 
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
         }
 
         if ( !output_handle )
         {
-            dm_log_write( __FILE__, 
-                   __LINE__, 
-                   LOG_INFO, 
-                   LOG_INFO, 
+            dm_log_write( __FILE__,
+                   __LINE__,
+                   LOG_INFO,
+                   LOG_INFO,
                    "Error: HY009" );
 
             __post_internal_error( &connection -> error,
-                    ERROR_HY009, NULL, 
+                    ERROR_HY009, NULL,
                     connection -> environment -> requested_version  );
 
             return function_return_nodrv( SQL_HANDLE_DBC, connection , SQL_ERROR );
@@ -1245,10 +1242,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
                 connection -> state == STATE_C2 ||
                 connection -> state == STATE_C3 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -1263,10 +1260,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
         descriptor = __alloc_desc();
         if ( !descriptor )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY013" );
 
             __post_internal_error( &connection -> error,
@@ -1295,10 +1292,10 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
         }
         else
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM003" );
 
             __post_internal_error( &connection -> error,
@@ -1331,14 +1328,14 @@ SQLRETURN __SQLAllocHandle( SQLSMALLINT handle_type,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[SQL_SUCCESS]\n\t\t\tOutput Handle = %p",
                     descriptor );
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 #if defined ( COLLECT_STATS ) && defined( HAVE_SYS_SEM_H )

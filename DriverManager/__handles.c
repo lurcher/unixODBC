@@ -226,7 +226,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: __handles.c,v $ $Revision: 1.13 $";
 
 /*
  * these are used to enable us to check if a handle is
@@ -253,7 +252,7 @@ static DMHDESC descriptor_root;
  * The driver is assumed to take care of itself
  *
  * Level 1 - The driver is protected down to the statement level.
- * Each statement will be protected, and the same for the connect 
+ * Each statement will be protected, and the same for the connect
  * level for connect functions. Note that descriptors are considered
  * equal to statements when it comes to thread protection.
  *
@@ -269,9 +268,9 @@ static DMHDESC descriptor_root;
  *
  * Threading = N
  *
- * to the driver entry in odbcinst.ini, where N is the locking level 
+ * to the driver entry in odbcinst.ini, where N is the locking level
  * (0-3)
- * 
+ *
  */
 
 #ifdef HAVE_LIBPTH
@@ -412,7 +411,7 @@ void mutex_iconv_exit( void )
 }
 
 /*
- * protection for lib loading and counting, reuse the lists mutex as this 
+ * protection for lib loading and counting, reuse the lists mutex as this
  * is the lowest level protection the DM uses
  */
 
@@ -444,7 +443,7 @@ static DMHENV __locked_alloc_env()
         }
         uodbc_update_stats(environment->sh, UODBC_STATS_TYPE_HENV, (void *)1);
 #endif
-        
+
         /*
          * add to list of env handles
          */
@@ -454,7 +453,7 @@ static DMHENV __locked_alloc_env()
         environment -> type = HENV_MAGIC;
 
         SQLGetPrivateProfileString( "ODBC", "Trace", "No",
-                    tracing_string, sizeof( tracing_string ), 
+                    tracing_string, sizeof( tracing_string ),
                     "odbcinst.ini" );
 
         if ( tracing_string[ 0 ] == '1' ||
@@ -463,7 +462,7 @@ static DMHENV __locked_alloc_env()
                     toupper( tracing_string[ 1 ] ) == 'N' ))
         {
             SQLGetPrivateProfileString( "ODBC", "TraceFile", "/tmp/sql.log",
-                    tracing_file, sizeof( tracing_file ), 
+                    tracing_file, sizeof( tracing_file ),
                     "odbcinst.ini" );
 
             /*
@@ -471,7 +470,7 @@ static DMHENV __locked_alloc_env()
              */
 
             SQLGetPrivateProfileString( "ODBC", "TracePid", "No",
-                    tracing_string, sizeof( tracing_string ), 
+                    tracing_string, sizeof( tracing_string ),
                     "odbcinst.ini" );
 
             if ( tracing_string[ 0 ] == '1' ||
@@ -618,12 +617,12 @@ int __validate_env( DMHENV env )
     {
         if ( ptr == env )
         {
-            if ( env -> released ) 
+            if ( env -> released )
             {
                 fprintf( stderr, "unixODBC: API Error, env handle used after being free\n" );
                 ret = 0;
             }
-            else 
+            else
             {
                 ret = 1;
             }
@@ -651,7 +650,7 @@ void __release_env( DMHENV environment )
 
     if ( shared_environment && environment == shared_environment ) {
         return;
-    } 
+    }
 
     local_mutex_entry( &mutex_lists );
 
@@ -691,7 +690,7 @@ void __release_env( DMHENV environment )
     if (environment->sh)
         uodbc_close_stats(environment->sh);
 #endif
-    
+
     /*
      * clear just to make sure
      */
@@ -905,7 +904,7 @@ void __release_dbc( DMHDBC connection )
         }
     }
 
-    if ( connection -> _driver_connect_string ) 
+    if ( connection -> _driver_connect_string )
     {
         free( connection -> _driver_connect_string );
     }
@@ -945,7 +944,7 @@ DMHSTMT __alloc_stmt( void )
         {
             statement_root -> prev_class_list = statement;
         }
-#endif    
+#endif
         statement_root = statement;
         statement -> type = HSTMT_MAGIC;
 
@@ -986,7 +985,7 @@ void __register_stmt ( DMHDBC connection, DMHSTMT statement )
 
 /*
  * Sets statement state after commit or rollback transaction
- */ 
+ */
 void __set_stmt_state ( DMHDBC connection, SQLSMALLINT cb_value )
 {
     DMHSTMT         statement;
@@ -1009,7 +1008,7 @@ void __set_stmt_state ( DMHDBC connection, SQLSMALLINT cb_value )
               statement -> state == STATE_S6 ||
               statement -> state == STATE_S7 )
         {
-            if( !statement -> prepared && 
+            if( !statement -> prepared &&
                 (cb_value == SQL_CB_DELETE ||
                  cb_value == SQL_CB_CLOSE) )
             {
@@ -1053,7 +1052,7 @@ void __set_stmt_state ( DMHDBC connection, SQLSMALLINT cb_value )
                   statement -> state == STATE_S6 ||
                   statement -> state == STATE_S7 )
             {
-                if( !statement -> prepared && 
+                if( !statement -> prepared &&
                     (cb_value == SQL_CB_DELETE ||
                      cb_value == SQL_CB_CLOSE) )
                 {
@@ -1100,7 +1099,7 @@ int __clean_stmt_from_dbc( DMHDBC connection )
     {
         ptr  = connection -> statements;
         last = connection -> statements -> prev_class_list;
-        
+
         connection -> statements = ptr -> next_conn_list;
         if ( last )
         {
@@ -1127,7 +1126,7 @@ int __clean_stmt_from_dbc( DMHDBC connection )
         mutex_destroy( &ptr -> mutex );
 #endif
         free( ptr );
-    }        
+    }
 #else
     last = NULL;
     ptr  = statement_root;
@@ -1198,7 +1197,7 @@ int __check_stmt_from_dbc_v( DMHDBC connection, int statecount, ... )
                 break;
             }
        }
-    
+
         ptr = ptr -> next_conn_list;
     }
 #else
@@ -1237,12 +1236,12 @@ int __check_stmt_from_dbc( DMHDBC connection, int state )
     ptr = connection -> statements;
     while( ptr )
     {
-        if ( ptr -> state == state ) 
+        if ( ptr -> state == state )
         {
             found = 1;
             break;
         }
-    
+
         ptr = ptr -> next_conn_list;
     }
 #else
@@ -1251,7 +1250,7 @@ int __check_stmt_from_dbc( DMHDBC connection, int state )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> state == state ) 
+            if ( ptr -> state == state )
             {
                 found = 1;
                 break;
@@ -1278,15 +1277,15 @@ int __check_stmt_from_desc( DMHDESC desc, int state )
     ptr = connection -> statements;
     while( ptr )
     {
-        if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc ) 
+        if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc )
         {
-            if ( ptr -> state == state ) 
+            if ( ptr -> state == state )
             {
                 found = 1;
                 break;
             }
         }
-    
+
         ptr = ptr -> next_conn_list;
     }
 #else
@@ -1295,9 +1294,9 @@ int __check_stmt_from_desc( DMHDESC desc, int state )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc ) 
+            if ( ptr -> ipd == desc || ptr -> ird == desc || ptr -> apd == desc || ptr -> ard == desc )
             {
-                if ( ptr -> state == state ) 
+                if ( ptr -> state == state )
                 {
                     found = 1;
                     break;
@@ -1325,15 +1324,15 @@ int __check_stmt_from_desc_ird( DMHDESC desc, int state )
     ptr = connection -> statements;
     while( ptr )
     {
-        if ( ptr -> ird == desc ) 
+        if ( ptr -> ird == desc )
         {
-            if ( ptr -> state == state ) 
+            if ( ptr -> state == state )
             {
                 found = 1;
                 break;
             }
         }
-    
+
         ptr = ptr -> next_conn_list;
     }
 #else
@@ -1342,9 +1341,9 @@ int __check_stmt_from_desc_ird( DMHDESC desc, int state )
     {
         if ( ptr -> connection == connection )
         {
-            if ( ptr -> ird == desc ) 
+            if ( ptr -> ird == desc )
             {
-                if ( ptr -> state == state ) 
+                if ( ptr -> state == state )
                 {
                     found = 1;
                     break;
@@ -1422,7 +1421,7 @@ void __release_stmt( DMHSTMT statement )
     {
         ptr  = statement;
         last = statement->prev_class_list;
-        
+
         if ( statement -> connection )
         {
             DMHDBC connection = statement -> connection;
@@ -1478,7 +1477,7 @@ void __release_stmt( DMHSTMT statement )
             {
                 last -> next_class_list -> prev_class_list = last;
             }
-#endif            
+#endif
         }
         else
         {
@@ -1488,7 +1487,7 @@ void __release_stmt( DMHSTMT statement )
             {
                 statement_root -> prev_class_list = NULL;
             }
-#endif            
+#endif
         }
     }
 
@@ -1536,7 +1535,7 @@ DMHDESC __alloc_desc( void )
         {
             descriptor_root -> prev_class_list = descriptor;
         }
-#endif    
+#endif
         descriptor_root = descriptor;
         descriptor -> type = HDESC_MAGIC;
 
@@ -1621,7 +1620,7 @@ int __clean_desc_from_dbc( DMHDBC connection )
                 {
                     last -> next_class_list -> prev_class_list = last;
                 }
-#endif            
+#endif
             }
             else
             {
@@ -1631,7 +1630,7 @@ int __clean_desc_from_dbc( DMHDBC connection )
                 {
                     descriptor_root -> prev_class_list = NULL;
                 }
-#endif            
+#endif
             }
             clear_error_head( &ptr -> error );
 
@@ -1712,7 +1711,7 @@ void __release_desc( DMHDESC descriptor )
             {
                 last -> next_class_list -> prev_class_list = last;
             }
-#endif            
+#endif
         }
         else
         {
@@ -1722,7 +1721,7 @@ void __release_desc( DMHDESC descriptor )
             {
                 descriptor_root -> prev_class_list = NULL;
             }
-#endif            
+#endif
         }
     }
 
@@ -1948,7 +1947,7 @@ void pool_signal()
 
 /*
  * try and find a handle that has the suplied handle as the driver handle
- * there will be threading issues with this, so be carefull. 
+ * there will be threading issues with this, so be carefull.
  * However it will normally only get used with "broken" drivers.
  */
 

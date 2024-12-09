@@ -63,7 +63,7 @@ SQLRETURN CLProcedureColumns(
     SQLCHAR            *sz_column_name,
     SQLSMALLINT        cb_column_name )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLPROCEDURECOLUMNS( cl_statement -> cl_connection,

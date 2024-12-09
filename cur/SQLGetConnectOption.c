@@ -52,7 +52,7 @@ SQLRETURN CLGetConnectOption( SQLHDBC connection_handle,
            SQLUSMALLINT option,
            SQLPOINTER value )
 {
-    CLHDBC cl_connection = (CLHDBC) connection_handle; 
+    CLHDBC cl_connection = (CLHDBC) connection_handle;
 
     return SQLGETCONNECTOPTION( cl_connection,
            cl_connection -> driver_dbc,

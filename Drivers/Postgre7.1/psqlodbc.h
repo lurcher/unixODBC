@@ -13,13 +13,13 @@
 #define __PSQLODBC_H__
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <stdio.h>	/* for FILE* pointers: see GLOBAL_VALUES */
 
 #ifndef WIN32
-#include <stdlib.h>     /* for prototype of atof() etc */ 
+#include <stdlib.h>     /* for prototype of atof() etc */
 
 #define Int4 int
 #define UInt4 unsigned int

@@ -51,7 +51,7 @@
 SQLRETURN CLNumResultCols( SQLHSTMT statement_handle,
            SQLSMALLINT *column_count )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLNUMRESULTCOLS( cl_statement -> cl_connection,
            cl_statement -> driver_stmt,

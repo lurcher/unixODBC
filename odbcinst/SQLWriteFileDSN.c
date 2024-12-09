@@ -19,7 +19,7 @@ BOOL SQLWriteFileDSN(			LPCSTR	pszFileName,
 	HINI	hIni;
 	char	szFileName[ODBC_FILENAME_MAX+7];
 
-    if ( pszFileName == NULL ) 
+    if ( pszFileName == NULL )
     {
         inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_INVALID_PATH, "" );
 		return FALSE;

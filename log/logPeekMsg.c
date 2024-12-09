@@ -12,27 +12,27 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Returns a specific message.
- * 
- *          This returns a reference to a specific message and does 
- *          NOT delete the message or remove it from the log. This is 
+ *
+ *          This returns a reference to a specific message and does
+ *          NOT delete the message or remove it from the log. This is
  *          good for 'peeking' at messages in the stack.
  *
  * \param   hLog    Input. Viable log handle.
  * \param   nMsg    Input. This is the index to the desired message. The
  *                  index is 1 based with 1 being the oldest message.
  * \param   phMsg   Output. A reference to the message in the log. This
- *                  message is still maintained/owned by the log. The 
+ *                  message is still maintained/owned by the log. The
  *                  reference is only valid until some other code modifies
  *                  the log.
- * 
+ *
  * \return  int
  * \retval  LOG_NO_DATA No message at nMsg.
- * \retval  LOG_ERROR   
+ * \retval  LOG_ERROR
  * \retval  LOG_SUCCESS
  *
- * \sa      logPopMsg  
+ * \sa      logPopMsg
  */
 int logPeekMsg( HLOG hLog, long nMsg, HLOGMSG *phMsg )
 {
@@ -48,7 +48,7 @@ int logPeekMsg( HLOG hLog, long nMsg, HLOGMSG *phMsg )
     if ( lstEOL( hLog->hMessages ) )
         return LOG_NO_DATA;
 
-	return LOG_SUCCESS;
+    return LOG_SUCCESS;
 }
 
 

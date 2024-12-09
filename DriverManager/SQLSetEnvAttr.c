@@ -135,7 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetEnvAttr.c,v $ $Revision: 1.9 $";
 
 extern int pooling_enabled;
 
@@ -147,8 +146,8 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
     DMHENV environment = (DMHENV) environment_handle;
     SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
 
-    if ( !environment_handle && 
-            ( attribute == SQL_ATTR_CONNECTION_POOLING || 
+    if ( !environment_handle &&
+            ( attribute == SQL_ATTR_CONNECTION_POOLING ||
               attribute == SQL_ATTR_CP_MATCH ))
     {
         if ( attribute == SQL_ATTR_CONNECTION_POOLING ) {
@@ -165,10 +164,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
     if ( !__validate_env( environment ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -185,13 +184,13 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 \n\t\t\tStrLen = %d",
                 environment,
                 __env_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 
@@ -211,10 +210,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                 ptr != SQL_CP_ONE_PER_DRIVER &&
                 ptr != SQL_CP_ONE_PER_HENV )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &environment -> error,
@@ -239,10 +238,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
             if ( ptr != SQL_CP_STRICT_MATCH &&
                 ptr != SQL_CP_RELAXED_MATCH )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &environment -> error,
@@ -268,10 +267,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
                     ptr != SQL_OV_ODBC3 &&
                     ptr != SQL_OV_ODBC3_80 )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 __post_internal_error( &environment -> error,
@@ -284,10 +283,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
             {
                 if ( environment -> connection_count > 0 )
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: S1010" );
 
                     __post_internal_error( &environment -> error,
@@ -320,10 +319,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
             if ( ptr == SQL_FALSE )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HYC00" );
 
                 __post_internal_error( &environment -> error,
@@ -361,10 +360,10 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
         break;
 
       default:
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY092" );
 
         __post_internal_error( &environment -> error,
@@ -376,14 +375,14 @@ SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( environment -> msg, 
+        sprintf( environment -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 

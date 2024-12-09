@@ -1,10 +1,10 @@
 /*-----------------------------------------------------------------------------
  File:            sqlspi.h
 
- Contents:        This is the header for driver writers to support new ODBC 
-                  features. Application writers should not include 
+ Contents:        This is the header for driver writers to support new ODBC
+                  features. Application writers should not include
                   this header file
-                  Please include <sql.h> and <sqlext.h> before including this 
+                  Please include <sql.h> and <sqlext.h> before including this
                   file
 
  Based on the sqlspi.h provided by Microsoft
@@ -16,7 +16,7 @@
 
 #ifdef __cplusplus
 extern "C" {           // Assume C declarations for C++
-#endif                 // End of __cplusplus 
+#endif                 // End of __cplusplus
 
 /* SQL_SPI is just a marker for "Service Provider Interface", otherwise it is the same as API
    Application should not call functions that are marked as SQL_SPI directly */
@@ -91,7 +91,7 @@ SQLRETURN SQL_SPI SQLRateConnection(
 SQLRETURN SQL_SPI SQLPoolConnectW(
     SQLHDBC             hdbc,
     SQLHDBC_INFO_TOKEN  hDbcInfoToken,
-    SQLWCHAR            *szConnStrOut, 
+    SQLWCHAR            *szConnStrOut,
     SQLSMALLINT         cchConnStrOutMax,
     SQLSMALLINT         *pcchConnStrOut);
 
@@ -135,7 +135,7 @@ SQLRETURN SQL_SPI SQLSetConnectInfoA
 SQLRETURN SQL_SPI SQLPoolConnectA(
     SQLHDBC             hdbc,
     SQLHDBC_INFO_TOKEN  hDbcInfoToken,
-    SQLCHAR             *szConnStrOut, 
+    SQLCHAR             *szConnStrOut,
     SQLSMALLINT         cchConnStrOutMax,
     SQLSMALLINT         *pcchConnStrOut);
 
@@ -152,7 +152,7 @@ SQLRETURN SQL_SPI SQLPoolConnectA(
 #define SQLSetDriverConnectInfo         SQLSetDriverConnectInfoA
 #define SQLSetConnectInfo               SQLSetConnectInfoA
 #define SQLPoolConnect                  SQLPoolConnectA
-#endif 
+#endif
 /*------------------------------------------------------------------------------*/
 
 /*-------------------- Async Notification --------------------------*/

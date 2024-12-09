@@ -13,7 +13,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "socket.h"
@@ -42,11 +42,11 @@ extern GLOBAL_VALUES globals;
 void
 SOCK_clear_error(SocketClass *self)
 {
-	self->errornumber = 0; 
-	self->errormsg = NULL; 
+	self->errornumber = 0;
+	self->errormsg = NULL;
 }
 
-SocketClass * 
+SocketClass *
 SOCK_Constructor()
 {
 SocketClass *rv;
@@ -71,7 +71,7 @@ SocketClass *rv;
         rv->errornumber = 0;
 
 		rv->reverse = FALSE;
-    } 
+    }
     return rv;
 
 }
@@ -95,7 +95,7 @@ SOCK_Destructor(SocketClass *self)
 
 }
 
-static char 
+static char
 SOCK_connect_to_ip(SocketClass *self, unsigned short port, char *hostname)
 {
 struct hostent *host;
@@ -111,7 +111,7 @@ struct in_addr iaddr;
 	memset((char *)&sadr, 0, sizeof(sadr));
 
 	/*	If it is a valid IP address, use it.
-		Otherwise use hostname lookup. 
+		Otherwise use hostname lookup.
 	*/
 	iaddr.s_addr = inet_addr(hostname);
 	if (iaddr.s_addr == INADDR_NONE) {
@@ -150,7 +150,7 @@ struct in_addr iaddr;
 
 #ifndef VMS
 
-char 
+char
 SOCK_connect_to_unix_port(SocketClass *self, unsigned short port, char *path )
 {
 struct sockaddr_un sadr;
@@ -189,7 +189,7 @@ struct sockaddr_un sadr;
  * cope with different path for debian distrib
  */
 
-int 
+int
 SOCK_connect_to_unix(SocketClass *self, unsigned short port, char *path )
     {
     if ( strlen( path ) > 0 )
@@ -217,7 +217,7 @@ SOCK_connect_to_unix(SocketClass *self, unsigned short port, char *path )
 
 #endif
 
-char 
+char
 SOCK_connect_to(SocketClass *self, unsigned short port, char *hostname, char *uds)
 {
 #ifndef VMS
@@ -228,7 +228,7 @@ SOCK_connect_to(SocketClass *self, unsigned short port, char *hostname, char *ud
 		return SOCK_connect_to_ip( self, port, hostname );
 }
 
-void 
+void
 SOCK_get_n_char(SocketClass *self, char *buffer, int len)
 {
 	int lf;
@@ -244,7 +244,7 @@ SOCK_get_n_char(SocketClass *self, char *buffer, int len)
 }
 
 
-void 
+void
 SOCK_put_n_char(SocketClass *self, char *buffer, int len)
 {
 	int lf;
@@ -260,8 +260,8 @@ SOCK_put_n_char(SocketClass *self, char *buffer, int len)
 }
 
 
-/*  bufsize must include room for the null terminator 
-	will read at most bufsize-1 characters + null. 
+/*  bufsize must include room for the null terminator
+	will read at most bufsize-1 characters + null.
 */
 BOOL
 SOCK_get_string(SocketClass *self, char *buffer, int bufsize)
@@ -277,7 +277,7 @@ SOCK_get_string(SocketClass *self, char *buffer, int bufsize)
 }
 
 
-void 
+void
 SOCK_put_string(SocketClass *self, char *string)
 {
 	register int lf;
@@ -290,7 +290,7 @@ SOCK_put_string(SocketClass *self, char *string)
 }
 
 
-int 
+int
 SOCK_get_int(SocketClass *self, short len)
 {
 char buf[4];
@@ -318,7 +318,7 @@ char buf[4];
 }
 
 
-void 
+void
 SOCK_put_int(SocketClass *self, int value, short len)
 {
 unsigned int rv;
@@ -342,7 +342,7 @@ unsigned int rv;
 }
 
 
-void 
+void
 SOCK_flush_output(SocketClass *self)
 {
 int written;
@@ -359,7 +359,7 @@ int written;
 	self->buffer_filled_out = 0;
 }
 
-UCHAR 
+UCHAR
 SOCK_get_next_byte(SocketClass *self)
 {
 
@@ -388,7 +388,7 @@ SOCK_get_next_byte(SocketClass *self)
 	return self->buffer_in[self->buffer_read_in++];
 }
 
-void 
+void
 SOCK_put_next_byte(SocketClass *self, unsigned char next_byte)
 {
 int bytes_sent;

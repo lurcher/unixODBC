@@ -12,10 +12,10 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Turn logging on/off.
  *
- *          Logging is turned OFF by default. Turn it on when you want 
+ *          Logging is turned OFF by default. Turn it on when you want
  *          logged messages to be stored. Turn it back off when you want to
  *          'pause' logging.
  *
@@ -24,7 +24,7 @@
  *
  * \param   hLog
  * \param   bOn
- * 
+ *
  * \return  int
  * \retval  LOG_SUCCESS
  *

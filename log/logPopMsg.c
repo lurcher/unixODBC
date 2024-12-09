@@ -12,16 +12,16 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Removes the oldest message from the log.
- * 
+ *
  *          The log is a FIFO stack and we implement a possible max on the
  *          number of messages we can store. When we hot the max we 'pop'
- *          a message out. The mem used by the message is automatically 
+ *          a message out. The mem used by the message is automatically
  *          freed with a call to \sa _logFreeMsg.
  *
  * \param   hLog
- * 
+ *
  * \return  int
  * \retval  LOG_NO_DATA
  * \retval  LOG_ERROR

@@ -1,13 +1,13 @@
 
 /* Module:          qresult.c
  *
- * Description:     This module contains functions related to 
+ * Description:     This module contains functions related to
  *                  managing result information (i.e, fetching rows from the backend,
  *                  managing the tuple cache, etc.) and retrieving it.
  *                  Depending on the situation, a QResultClass will hold either data
  *                  from the backend or a manually built result (see "qresult.h" to
  *                  see which functions/macros are for manual or backend results.
- *                  For manually built results, the QResultClass simply points to 
+ *                  For manually built results, the QResultClass simply points to
  *                  TupleList and ColumnInfo structures, which actually hold the data.
  *
  * Classes:         QResultClass (Functions prefix: "QR_")
@@ -19,7 +19,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "qresult.h"
@@ -38,13 +38,13 @@ extern GLOBAL_VALUES globals;
 
 /*  Used for building a Manual Result only */
 /*	All info functions call this function to create the manual result set. */
-void 
+void
 QR_set_num_fields(QResultClass *self, int new_num_fields)
 {
 	mylog("in QR_set_num_fields\n");
 
     CI_set_num_fields(self->fields, new_num_fields);
-    if(self->manual_tuples) 
+    if(self->manual_tuples)
         TL_Destructor(self->manual_tuples);
 
     self->manual_tuples = TL_Constructor(new_num_fields);
@@ -52,7 +52,7 @@ QR_set_num_fields(QResultClass *self, int new_num_fields)
 	mylog("exit QR_set_num_fields\n");
 }
 
-void 
+void
 QR_set_position(QResultClass *self, int pos)
 {
 	self->tupleField = self->backend_tuples + ((self->base + pos) * self->num_fields);
@@ -64,7 +64,7 @@ QR_set_cache_size(QResultClass *self, int cache_size)
 	self->cache_size = cache_size;
 }
 
-void 
+void
 QR_set_rowset_size(QResultClass *self, int rowset_size)
 {
 	self->rowset_size = rowset_size;
@@ -168,7 +168,7 @@ QR_set_command(QResultClass *self, char *msg)
 	self->command = msg ? strdup(msg) : NULL;
 }
 
-void 
+void
 QR_set_notice(QResultClass *self, char *msg)
 {
 	if (self->notice)
@@ -177,7 +177,7 @@ QR_set_notice(QResultClass *self, char *msg)
 	self->notice = msg ? strdup(msg) : NULL;
 }
 
-void 
+void
 QR_free_memory(QResultClass *self)
 {
 register int lf, row;
@@ -236,7 +236,7 @@ int tuple_size;
 			}
 			self->cursor = strdup(cursor);
 		}
- 
+
 		/*	Read the field attributes. */
 		/*	$$$$ Should do some error control HERE! $$$$ */
 		if ( CI_read_fields(self->fields, self->conn)) {
@@ -251,7 +251,7 @@ int tuple_size;
 
 		mylog("QR_fetch_tuples: past CI_read_fields: num_fields = %d\n", self->num_fields);
 
-		if (globals.use_declarefetch) 
+		if (globals.use_declarefetch)
 			tuple_size = self->cache_size;
 		else
 			tuple_size = TUPLE_MALLOC_INC;
@@ -260,7 +260,7 @@ int tuple_size;
 		mylog("MALLOC: tuple_size = %d, size = %d\n", tuple_size, self->num_fields * sizeof(TupleField) * tuple_size);
 		self->backend_tuples = (TupleField *) malloc(self->num_fields * sizeof(TupleField) * tuple_size);
 		if ( ! self->backend_tuples) {
-			self->status = PGRES_FATAL_ERROR; 
+			self->status = PGRES_FATAL_ERROR;
 			QR_set_message(self, "Could not get memory for tuple cache.");
 			return FALSE;
 		}
@@ -397,7 +397,7 @@ QueryInfo qi;
 
 				self->cache_size = fetch_size;
 				self->fetch_count = 1;		
-			} 
+			}
 			else {	/* need to correct */
 
 				corrected = TRUE;
@@ -414,7 +414,7 @@ QueryInfo qi;
 
 			self->backend_tuples = (TupleField *) realloc(self->backend_tuples, self->num_fields * sizeof(TupleField) * self->cache_size);
 			if ( ! self->backend_tuples) {
-				self->status = PGRES_FATAL_ERROR; 
+				self->status = PGRES_FATAL_ERROR;
 				QR_set_message(self, "Out of memory while reading tuples.");
 				return FALSE;
 			}
@@ -471,7 +471,7 @@ QueryInfo qi;
 
 				self->backend_tuples = (TupleField *) realloc(self->backend_tuples, old_size + (self->num_fields * sizeof(TupleField) * TUPLE_MALLOC_INC));
 				if ( ! self->backend_tuples) {
-					self->status = PGRES_FATAL_ERROR; 
+					self->status = PGRES_FATAL_ERROR;
 					QR_set_message(self, "Out of memory while reading tuples.");
 					return FALSE;
 				}
@@ -502,7 +502,7 @@ QueryInfo qi;
 				/*  set to first row */
 				self->tupleField = self->backend_tuples + (offset * self->num_fields);
 				return TRUE;
-			} 
+			}
 			else { /*	We are surely done here (we read 0 tuples) */
 				qlog("    [ fetched 0 rows ]\n");
 				mylog("_next_tuple: 'C': DONE (fcount == 0)\n");

@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -83,12 +83,11 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetDescFieldW.c,v $";
 
 SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length )
 {
     /*
@@ -109,10 +108,10 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
     if ( !__validate_desc( descriptor ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -122,18 +121,18 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 			parent_desc = find_parent_handle( descriptor, SQL_HANDLE_DESC );
 
 			if ( parent_desc ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLSETDESCFIELDW( parent_desc -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLSETDESCFIELDW( parent_desc -> connection,
@@ -162,13 +161,13 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
                 descriptor,
                 rec_number,
                 __desc_attr_as_string( s1, field_identifier ),
-                value, 
+                value,
                 (int)buffer_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 descriptor -> msg );
     }
 
@@ -176,10 +175,10 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
     if ( descriptor -> connection -> state < STATE_C4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -202,10 +201,10 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
         __check_stmt_from_desc( descriptor, STATE_S14 ) ||
         __check_stmt_from_desc( descriptor, STATE_S15 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -278,7 +277,7 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
             && buffer_length != SQL_IS_UINTEGER && buffer_length != SQL_IS_SMALLINT &&
             buffer_length != SQL_IS_USMALLINT;
     }
-    
+
     if ( isStrField && buffer_length < 0 && buffer_length != SQL_NTS)
     {
         __post_internal_error( &descriptor -> error,
@@ -313,10 +312,10 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 	{
     	if ( !CHECK_SQLSETDESCFIELDW( descriptor -> connection ))
     	{
-        	dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        	dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         	__post_internal_error( &descriptor -> error,
@@ -328,21 +327,21 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
     	ret = SQLSETDESCFIELDW( descriptor -> connection,
             	descriptor -> driver_desc,
-            	rec_number, 
+            	rec_number,
             	field_identifier,
-            	value, 
+            	value,
             	buffer_length );
 	
     	if ( log_info.log_flag )
     	{
-        	sprintf( descriptor -> msg, 
+        	sprintf( descriptor -> msg,
                 	"\n\t\tExit:[%s]",
                     	__get_return_status( ret, s1 ));
 	
-        	dm_log_write( __FILE__, 
-                	__LINE__, 
-                	LOG_INFO, 
-                	LOG_INFO, 
+        	dm_log_write( __FILE__,
+                	__LINE__,
+                	LOG_INFO,
+                	LOG_INFO,
                 	descriptor -> msg );
     	}
 	}
@@ -352,10 +351,10 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
     	if ( !CHECK_SQLSETDESCFIELD( descriptor -> connection ))
     	{
-        	dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        	dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         	__post_internal_error( &descriptor -> error,
@@ -383,25 +382,25 @@ SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
 
     	ret = SQLSETDESCFIELD( descriptor -> connection,
             	descriptor -> driver_desc,
-            	rec_number, 
+            	rec_number,
             	field_identifier,
-            	value, 
+            	value,
             	buffer_length );
 	
     	if ( log_info.log_flag )
     	{
-        	sprintf( descriptor -> msg, 
+        	sprintf( descriptor -> msg,
                 	"\n\t\tExit:[%s]",
                     	__get_return_status( ret, s1 ));
 	
-        	dm_log_write( __FILE__, 
-                	__LINE__, 
-                	LOG_INFO, 
-                	LOG_INFO, 
+        	dm_log_write( __FILE__,
+                	__LINE__,
+                	LOG_INFO,
+                	LOG_INFO,
                 	descriptor -> msg );
     	}
 
-		if ( ascii_str ) 
+		if ( ascii_str )
 		{
 			free( ascii_str );
 		}

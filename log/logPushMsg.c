@@ -36,7 +36,7 @@
     #endif
 #endif
 
-#ifndef HAVE_VSNPRINTF 
+#ifndef HAVE_VSNPRINTF
 int uodbc_vsnprintf (char *str, size_t count, const char *fmt, va_list args);
 #endif
 

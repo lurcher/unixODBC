@@ -143,8 +143,8 @@ typedef struct tSTMTEXTRAS
  * Shadow functions
  *
  * There are times when a function needs to call another function to use common functionality. When the
- * called function is part of the ODBC API (an entry point to the driver) bad things can happen. The 
- * linker will get confused and call the same-named function elsewhere in the namespace (ie the Driver 
+ * called function is part of the ODBC API (an entry point to the driver) bad things can happen. The
+ * linker will get confused and call the same-named function elsewhere in the namespace (ie the Driver
  * Manager). To get around this you create a shadow function - a function with a slightly different name
  * that will not be confused with others - and then put most if not all of the functionality in there for
  * common use.

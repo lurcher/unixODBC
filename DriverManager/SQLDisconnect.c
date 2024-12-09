@@ -171,7 +171,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDisconnect.c,v $ $Revision: 1.9 $";
 
 extern int pooling_enabled;
 
@@ -187,10 +186,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -204,10 +203,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 \n\t\t\tConnection = %p",
                 connection );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -219,10 +218,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if ( connection -> state == STATE_C6 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 25000" );
 
         __post_internal_error( &connection -> error,
@@ -233,10 +232,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
     }
     else if ( connection -> state == STATE_C2 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 08003" );
 
         __post_internal_error( &connection -> error,
@@ -252,10 +251,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if( __check_stmt_from_dbc( connection, STATE_S8 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -267,10 +266,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if( __check_stmt_from_dbc( connection, STATE_S13 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -281,7 +280,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
     }
 
     /*
-     * is it a pooled connection, or can it go back 
+     * is it a pooled connection, or can it go back
      */
 
     if ( connection -> pooled_connection ||
@@ -294,14 +293,14 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( SQL_SUCCESS, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 
@@ -314,10 +313,10 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if ( !CHECK_SQLDISCONNECT( connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &connection -> error,
@@ -340,7 +339,7 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 	    {
 	        function_return_ex( IGNORE_THREAD, connection, ret, TRUE, DEFER_R0 );
         }
-        
+
         /*
          * complete disconnection from driver
          */
@@ -350,14 +349,14 @@ SQLRETURN SQLDisconnect( SQLHDBC connection_handle )
 
     if ( log_info.log_flag )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 

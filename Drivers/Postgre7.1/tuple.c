@@ -4,7 +4,7 @@
  * Description:     This module contains functions for setting the data for individual
  *                  fields (TupleField structure) of a manual result set.
  *
- * Important Note:  These functions are ONLY used in building manual result sets for 
+ * Important Note:  These functions are ONLY used in building manual result sets for
  *                  info functions (SQLTables, SQLColumns, etc.)
  *
  * Classes:         n/a
@@ -16,7 +16,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "tuple.h"

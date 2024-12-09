@@ -59,7 +59,7 @@ SQLRETURN _AllocConnect(	SQLHENV    hDrvEnv,
     (*phDbc)->pNext			= NULL;
     (*phDbc)->pPrev			= NULL;
     (*phDbc)->hEnv			= (SQLPOINTER)hEnv;
-    
+
 
 	/* start logging		*/
     if ( !logOpen( &(*phDbc)->hLog, "[template]", NULL, 50 ) )

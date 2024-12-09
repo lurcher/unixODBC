@@ -20,7 +20,7 @@ extern "C" {
 #define SQL_C_TCHAR		SQL_C_WCHAR
 #else
 #define SQL_C_TCHAR		SQL_C_CHAR
-#endif 
+#endif
 
 #define SQL_SQLSTATE_SIZEW	10	/* size of SQLSTATE for unicode */
 
@@ -96,9 +96,9 @@ SQLRETURN SQL_API SQLGetCursorNameW(
 
 #if (ODBCVER >= 0x0300)
 SQLRETURN  SQL_API SQLSetDescFieldW(SQLHDESC DescriptorHandle,
-           						   SQLSMALLINT RecNumber, 
+           						   SQLSMALLINT RecNumber,
 								   SQLSMALLINT FieldIdentifier,
-           						   SQLPOINTER Value, 
+           						   SQLPOINTER Value,
 								   SQLINTEGER BufferLength);
 
 
@@ -120,7 +120,7 @@ SQLRETURN SQL_API SQLGetDescRecW(
     SQLSMALLINT    *pfType,
     SQLSMALLINT    *pfSubType,
     SQLLEN         *pLength,
-    SQLSMALLINT    *pPrecision, 
+    SQLSMALLINT    *pPrecision,
     SQLSMALLINT    *pScale,
     SQLSMALLINT    *pNullable);
 
@@ -165,7 +165,7 @@ SQLRETURN SQL_API SQLSetCursorNameW(
 
 
 
-    
+
 
 
 
@@ -460,7 +460,7 @@ SQLRETURN SQL_API SQLGetDescRecA(
     SQLSMALLINT    *pfType,
     SQLSMALLINT    *pfSubType,
     SQLLEN     *pLength,
-    SQLSMALLINT    *pPrecision, 
+    SQLSMALLINT    *pPrecision,
     SQLSMALLINT    *pScale,
     SQLSMALLINT    *pNullable);
 
@@ -515,7 +515,7 @@ SQLRETURN SQL_API SQLSetCursorNameA(
 
 
 
-    
+
 
 
 

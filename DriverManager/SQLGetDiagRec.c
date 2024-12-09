@@ -183,7 +183,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagRec.c,v $ $Revision: 1.21 $";
 
 int __is_env( EHEAD * head )
 {
@@ -264,7 +263,7 @@ int __get_version( EHEAD * head )
     }
     return 0;
 }
-    
+
 
 DRV_SQLHANDLE __get_driver_handle( EHEAD * head )
 {
@@ -323,7 +322,7 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
             rec_number --;
         }
 
-		if ( !ptr ) 
+		if ( !ptr )
 		{
 	    	return SQL_NO_DATA;
 		}
@@ -453,7 +452,7 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
                 rec_number --;
             }
 
-			if ( !ptr ) 
+			if ( !ptr )
 			{
                 if ( s1 )
                     free( s1 );
@@ -523,7 +522,7 @@ static SQLRETURN extract_sql_error_rec( EHEAD *head,
 
         return ret;
     }
-    else 
+    else
     {
 	    return SQL_NO_DATA;
     }

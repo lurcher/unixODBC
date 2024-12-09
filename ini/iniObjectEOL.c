@@ -20,10 +20,10 @@ int iniObjectEOL( HINI hIni )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
-		return TRUE;
+    if ( hIni->hCurObject == NULL )
+	return TRUE;
 
-	return FALSE;
+    return FALSE;
 }
 
 

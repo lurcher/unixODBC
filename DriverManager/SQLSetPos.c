@@ -118,7 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetPos.c,v $ $Revision: 1.6 $";
 
 SQLRETURN SQLSetPos(
     SQLHSTMT           statement_handle,
@@ -136,10 +135,10 @@ SQLRETURN SQLSetPos(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -159,10 +158,10 @@ SQLRETURN SQLSetPos(
                 foption,
                 flock );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -174,10 +173,10 @@ SQLRETURN SQLSetPos(
             foption != SQL_DELETE &&
             foption != SQL_ADD )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY092" );
 
         __post_internal_error( &statement -> error,
@@ -191,17 +190,17 @@ SQLRETURN SQLSetPos(
             flock != SQL_LOCK_EXCLUSIVE &&
             flock != SQL_LOCK_UNLOCK )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY092" );
 
         __post_internal_error( &statement -> error,
                 ERROR_HY092, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -212,10 +211,10 @@ SQLRETURN SQLSetPos(
             statement -> state == STATE_S2 ||
             statement -> state == STATE_S3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -228,10 +227,10 @@ SQLRETURN SQLSetPos(
     if ( statement -> state == STATE_S4 || statement -> state == STATE_S5 ||
          (foption != SQL_ADD && statement -> state == STATE_S7 && statement -> eod ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -248,10 +247,10 @@ SQLRETURN SQLSetPos(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -274,10 +273,10 @@ SQLRETURN SQLSetPos(
 
         if ( statement -> interupted_func != SQL_API_SQLSETPOS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -290,10 +289,10 @@ SQLRETURN SQLSetPos(
 
     if ( !CHECK_SQLSETPOS( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -336,14 +335,14 @@ SQLRETURN SQLSetPos(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

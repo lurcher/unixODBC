@@ -1,9 +1,9 @@
 /**********************************************************************************
  * .
- * 
+ *
  *
  **************************************************
- * This code was created by Peter Harvey @ CodeByDesign. 
+ * This code was created by Peter Harvey @ CodeByDesign.
  * Released under LGPL 28.JAN.99
  *
  * Contributions from...
@@ -20,14 +20,11 @@ int iniObjectUpdate( HINI hIni, char *pszObject )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
+    if ( hIni->hCurObject == NULL )
         return INI_ERROR;
-	
+
     /* Ok */
     strncpy( hIni->hCurObject->szName, pszObject, INI_MAX_OBJECT_NAME );
 
     return INI_SUCCESS;
 }
-
-
-

@@ -30,11 +30,11 @@ static const char *vUser[] =
 	NULL
 };
 
-static const char *vDescr[] =
-{
-	"Mimer SQL",
-	NULL
-};
+/* static const char *vDescr[] = */
+/* { */
+/* 	"Mimer SQL", */
+/* 	NULL */
+/* }; */
 
 static const char *vYesNo[] =
 {
@@ -66,7 +66,7 @@ int ODBCINSTGetProperties(HODBCINSTPROPERTY hLastProperty)
 	memcpy(hLastProperty->aPromptData, vHost, sizeof(vHost));
 	strncpy(hLastProperty->szName, "Host", INI_MAX_PROPERTY_NAME);
 	strncpy(hLastProperty->szValue, "", INI_MAX_PROPERTY_VALUE);
-	hLastProperty->pszHelp = strdup("Hostname or IP address of computer running the Mimer SQL database server"); 
+	hLastProperty->pszHelp = strdup("Hostname or IP address of computer running the Mimer SQL database server");
 /*
  *   Port number
  */

@@ -54,7 +54,7 @@
 
 SQLRETURN CLExecute( SQLHSTMT statement_handle )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLEXECUTE( cl_statement -> cl_connection,

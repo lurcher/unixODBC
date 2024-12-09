@@ -87,7 +87,7 @@
  * Revision 1.3  2000/12/19 10:28:29  martin
  *
  * Return "not built with stats" in uodbc_error() if stats function called
- * 	when stats not built.
+ *      when stats not built.
  * Add uodbc_update_stats() calls to SQLFreeHandle.
  *
  * Revision 1.2  2000/11/23 09:43:29  nick
@@ -180,8 +180,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: SQLFreeHandle.c,v $ $Revision: 1.12 $";
-
 extern int pooling_enabled;
 
 SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
@@ -195,23 +193,23 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
             DMHENV environment = (DMHENV)handle;
 
             /*
-             * check environment, the mark_released addition is to catch what seems to be a 
+             * check environment, the mark_released addition is to catch what seems to be a
              * race error in SQLAPI where it uses a env handle in one thread while its being released
-             * in another. releasing the handle at the end of this function is not fast enough for 
+             * in another. releasing the handle at the end of this function is not fast enough for
              * the normal validation process to catch it.
              */
 
             if ( !__validate_env_mark_released( environment ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: SQL_INVALID_HANDLE" );
 
                 return SQL_INVALID_HANDLE;
             }
-            
+
             function_entry( environment );
 
             if ( log_info.log_flag )
@@ -242,11 +240,11 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                             LOG_INFO,
                             LOG_INFO,
                             "Error: HY010" );
-    
+
                     __post_internal_error( &environment -> error,
                             ERROR_HY010, NULL,
                             environment -> requested_version );
-    
+
                     return function_return_nodrv( SQL_HANDLE_ENV, environment, SQL_ERROR );
                 }
             }
@@ -300,10 +298,10 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
 
             if ( !__validate_dbc( connection ))
             {
-                dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: SQL_INVALID_HANDLE" );
 
                 return SQL_INVALID_HANDLE;
@@ -397,10 +395,10 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
              */
             if ( !__validate_stmt( statement ))
             {
-                dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: SQL_INVALID_HANDLE" );
 
                 return SQL_INVALID_HANDLE;
@@ -484,12 +482,12 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
             if ( SQL_SUCCEEDED( ret ))
             {
                 /*
-                 * release the implicit descriptors, 
-				 * this matches the tests in SQLAllocHandle
+                 * release the implicit descriptors,
+                                 * this matches the tests in SQLAllocHandle
                  */
                 if (( statement -> connection -> driver_act_ver == 3 &&
-						CHECK_SQLGETSTMTATTR( connection )) ||
-						CHECK_SQLGETSTMTATTRW( connection ))
+                                                CHECK_SQLGETSTMTATTR( connection )) ||
+                                                CHECK_SQLGETSTMTATTRW( connection ))
                 {
                     if ( statement -> implicit_ard )
                         __release_desc( statement -> implicit_ard );
@@ -563,21 +561,21 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                         descriptor -> msg );
             }
 
-			if ( descriptor -> implicit )
-			{
-				dm_log_write( __FILE__,
-						__LINE__,
-						LOG_INFO,
-						LOG_INFO,
-						"Error: HY017" );
-		
-				__post_internal_error( &descriptor -> error,
-						ERROR_HY017, NULL,
-						connection -> environment -> requested_version );
-		
-				return function_return_nodrv( IGNORE_THREAD, descriptor, SQL_ERROR );
-			}
-		
+                        if ( descriptor -> implicit )
+                        {
+                                dm_log_write( __FILE__,
+                                                __LINE__,
+                                                LOG_INFO,
+                                                LOG_INFO,
+                                                "Error: HY017" );
+
+                                __post_internal_error( &descriptor -> error,
+                                                ERROR_HY017, NULL,
+                                                connection -> environment -> requested_version );
+
+                                return function_return_nodrv( IGNORE_THREAD, descriptor, SQL_ERROR );
+                        }
+
             thread_protect( SQL_HANDLE_DESC, descriptor );
 
             if ( !CHECK_SQLFREEHANDLE( connection ))
@@ -611,10 +609,10 @@ SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,
                 __check_stmt_from_desc( descriptor, STATE_S11 ) ||
                 __check_stmt_from_desc( descriptor, STATE_S12 )) {
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY010" );
 
                 __post_internal_error( &descriptor -> error,
@@ -662,4 +660,3 @@ SQLRETURN SQLFreeHandle( SQLSMALLINT handle_type,
     return __SQLFreeHandle( handle_type,
             handle );
 }
-

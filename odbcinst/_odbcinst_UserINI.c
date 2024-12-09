@@ -66,7 +66,7 @@ BOOL _odbcinst_UserINI( char *pszFileName, BOOL bVerify )
     struct passwd   *pwentp;
 #endif
 
-    pHomeDir    = "/home";                              
+    pHomeDir    = "/home";
 #ifdef HAVE_GETPWUID_R
 #ifdef HAVE_FUNC_GETPWUID_R_4
     pPasswd = getpwuid_r( nUserID, &pwent, buf, sizeof( buf ));
@@ -78,7 +78,7 @@ BOOL _odbcinst_UserINI( char *pszFileName, BOOL bVerify )
     }
 #endif
 #elif HAVE_GETPWUID
-    pPasswd     = (struct passwd *)getpwuid(nUserID);   
+    pPasswd     = (struct passwd *)getpwuid(nUserID);
 #endif
 
     pszFileName[0] = '\0';

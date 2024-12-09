@@ -89,7 +89,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTablePrivilegesW.c,v $";
 
 SQLRETURN SQLTablePrivilegesW(
     SQLHSTMT           statement_handle,
@@ -110,10 +109,10 @@ SQLRETURN SQLTablePrivilegesW(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -123,18 +122,18 @@ SQLRETURN SQLTablePrivilegesW(
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLTABLEPRIVILEGESW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLTABLEPRIVILEGESW( parent_statement -> connection,
@@ -160,16 +159,16 @@ SQLRETURN SQLTablePrivilegesW(
 \n\t\t\tStatement = %p\
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
-\n\t\t\tTable Name = %s", 
+\n\t\t\tTable Name = %s",
                 statement,
-                __wstring_with_length( s1, sz_catalog_name, cb_catalog_name ), 
-                __wstring_with_length( s2, sz_schema_name, cb_schema_name ), 
+                __wstring_with_length( s1, sz_catalog_name, cb_catalog_name ),
+                __wstring_with_length( s2, sz_schema_name, cb_schema_name ),
                 __wstring_with_length( s3, sz_table_name, cb_table_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -179,10 +178,10 @@ SQLRETURN SQLTablePrivilegesW(
             ( sz_schema_name && cb_schema_name < 0 && cb_schema_name != SQL_NTS ) ||
             ( sz_table_name && cb_table_name < 0 && cb_table_name != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -205,10 +204,10 @@ SQLRETURN SQLTablePrivilegesW(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -224,10 +223,10 @@ SQLRETURN SQLTablePrivilegesW(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -242,10 +241,10 @@ SQLRETURN SQLTablePrivilegesW(
     {
         if ( statement -> interupted_func != SQL_API_SQLTABLEPRIVILEGES )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -265,10 +264,10 @@ SQLRETURN SQLTablePrivilegesW(
     {
         if ( !CHECK_SQLTABLEPRIVILEGESW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -294,10 +293,10 @@ SQLRETURN SQLTablePrivilegesW(
 
         if ( !CHECK_SQLTABLEPRIVILEGES( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -347,14 +346,14 @@ SQLRETURN SQLTablePrivilegesW(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

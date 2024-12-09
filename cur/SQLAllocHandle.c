@@ -84,7 +84,7 @@ SQLRETURN CLAllocHandle( SQLSMALLINT handle_type,
     {
         case SQL_HANDLE_ENV:
         case SQL_HANDLE_DBC:
-          /* 
+          /*
            * shouldn't be here
            */
 
@@ -121,11 +121,11 @@ SQLRETURN CLAllocHandle( SQLSMALLINT handle_type,
 
             memset( cl_statement, 0, sizeof( *cl_statement ));
             cl_statement -> cl_connection = cl_connection;
-            cl_statement -> dm_statement = ( DMHSTMT ) dm_handle; 
+            cl_statement -> dm_statement = ( DMHSTMT ) dm_handle;
             cl_statement -> error_count = 0;
 	    cl_statement -> fetch_statement = SQL_NULL_HSTMT;
 
-            ret = SQLALLOCHANDLE( cl_connection, 
+            ret = SQLALLOCHANDLE( cl_connection,
                     handle_type,
                     cl_connection -> driver_dbc,
                     &cl_statement -> driver_stmt,

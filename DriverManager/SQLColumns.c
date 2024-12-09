@@ -144,7 +144,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumns.c,v $ $Revision: 1.8 $";
 
 SQLRETURN SQLColumnsA( SQLHSTMT statement_handle,
            SQLCHAR *catalog_name,
@@ -186,10 +185,10 @@ SQLRETURN SQLColumns( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -394,7 +393,7 @@ SQLRETURN SQLColumns( SQLHSTMT statement_handle,
         {
             function_return_ex( IGNORE_THREAD, statement, ret, TRUE, DEFER_R1 );
         }
-        
+
         SQLNUMRESULTCOLS( statement -> connection,
                 statement -> driver_stmt, &statement -> numcols );
 		/******/

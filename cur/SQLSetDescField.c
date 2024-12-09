@@ -49,9 +49,9 @@
 #include "cursorlibrary.h"
 
 SQLRETURN CLSetDescField( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length )
 {
     /*

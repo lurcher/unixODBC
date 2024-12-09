@@ -42,14 +42,14 @@ int ODBCINSTGetProperties( HODBCINSTPROPERTY hLastProperty )
     memcpy( hLastProperty->aPromptData, aHost, sizeof( aHost ) );
     strncpy( hLastProperty->szName, "Server", INI_MAX_PROPERTY_NAME );
     strncpy( hLastProperty->szValue, "", INI_MAX_PROPERTY_VALUE );
-    hLastProperty->pszHelp              = strdup( "Host name or IP address of the machine running the MySQL server." ); 
+    hLastProperty->pszHelp              = strdup( "Host name or IP address of the machine running the MySQL server." );
 
     hLastProperty->pNext                = (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );
     hLastProperty                       = hLastProperty->pNext;
     memset( hLastProperty, 0, sizeof(ODBCINSTPROPERTY) );
     hLastProperty->nPromptType          = ODBCINST_PROMPTTYPE_COMBOBOX;
     hLastProperty->aPromptData          = malloc( sizeof( aDatabase ) );
-    memcpy( hLastProperty->aPromptData, aDatabase, sizeof( aDatabase ) ); 
+    memcpy( hLastProperty->aPromptData, aDatabase, sizeof( aDatabase ) );
     strncpy( hLastProperty->szName, "Database", INI_MAX_PROPERTY_NAME );
     strncpy( hLastProperty->szValue, "test", INI_MAX_PROPERTY_VALUE );
     hLastProperty->pszHelp              = strdup( "The database you want to connect to.\nYou can use test or mysql to test this DSN." );

@@ -27,42 +27,42 @@
  *  \brief  Our generic window handle.
  *
  *  This is used wherever a HWND is needed. The caller inits this according
- *  to which UI the caller has (or simply desires). This may be a; console, xlib, qt3, qt4, 
+ *  to which UI the caller has (or simply desires). This may be a; console, xlib, qt3, qt4,
  *  gtk, mono, carbon, etc.
  *
  *  SQLCreateDataSource
  *  (maps to ODBCCreateDataSource entry point in UI plugin)
  *
- *      This function requires a HWND (and it must NOT be NULL as per ODBC spec.). So 
- *      the caller should *always* init an ODBCINSTWND and cast it to HWND as it is passed to 
- *      SQLCreateDataSource. 
+ *      This function requires a HWND (and it must NOT be NULL as per ODBC spec.). So
+ *      the caller should *always* init an ODBCINSTWND and cast it to HWND as it is passed to
+ *      SQLCreateDataSource.
  *
- *  SQLManageDataSources 
+ *  SQLManageDataSources
  *  (maps to ODBCManageDataSources entry point in UI plugin)
  *
- *      This function requires a HWND (and it must NOT be NULL as per ODBC spec.). So 
- *      the caller should *always* init an ODBCINSTWND and cast it to HWND as it is passed to 
- *      SQLManageDataSources. However; it may make sense to have a NULL hWnd... this is what 
+ *      This function requires a HWND (and it must NOT be NULL as per ODBC spec.). So
+ *      the caller should *always* init an ODBCINSTWND and cast it to HWND as it is passed to
+ *      SQLManageDataSources. However; it may make sense to have a NULL hWnd... this is what
  *      an ODBC Administrator program would typically do.
  *
  *  Plugin Selection
  *
  *      1. Passing a NULL to a function instead of a valid HODBCINSTWND may result in an error
- *      (this is the case with SQLCreateDataSource). In anycase; passing a NULL in this way 
+ *      (this is the case with SQLCreateDataSource). In anycase; passing a NULL in this way
  *      negates the use of any UI plugin.
- *      
+ *
  *      2. szUI has a value and it is the file name (no path and no extension) of the UI
- *      plugin. The plugin is loaded and the appropriate function is called with hWnd. The 
+ *      plugin. The plugin is loaded and the appropriate function is called with hWnd. The
  *      caller must have init hWnd in a manner which is appropriate for the UI plugin.
- *      
- *      3. Passing an empty szUI indicates that the UI plugin should be determined by other 
- *      means (see 4). In such a case it is dangerous to use hWnd because it may not match 
+ *
+ *      3. Passing an empty szUI indicates that the UI plugin should be determined by other
+ *      means (see 4). In such a case it is dangerous to use hWnd because it may not match
  *      the type expected by the plugin. hWnd will be ignored and a NULL will be passed to the UI
  *      plugin.
- *      
+ *
  *      4. The fallback logic for determining the UI plugin is as follows;
  *          - use the ODBCINSTUI environment variable to get the UI plugin file name
- *          - use the ODBCINSTUI value in odbcinst.ini to get the UI plugin file name 
+ *          - use the ODBCINSTUI value in odbcinst.ini to get the UI plugin file name
  *
  *  NOTE:   In the future we may want to consider making HWND of this type instead of having
  *          two different types and having to cast HODBCINSTWND into a HWND.
@@ -71,7 +71,7 @@ typedef struct  tODBCINSTWND
 {
     char szUI[FILENAME_MAX];    /*!< Plugin file name (no path and no extension) ie "odbcinstQ4".                       */
     HWND hWnd;                  /*!< this is passed to the UI plugin - caller must know what the plugin is expecting    */
-		 
+		
 } ODBCINSTWND, *HODBCINSTWND;
 
 
@@ -424,17 +424,17 @@ BOOL INSTAPI ConfigDriverW(HWND hwndParent,
 #ifndef SQL_NOUNICODEMAP    /* define this to disable the mapping */
 #ifdef  UNICODE
 
-#define  SQLInstallODBC                 SQLInstallODBCW          
-#define  SQLCreateDataSource            SQLCreateDataSourceW 
-#define  SQLGetTranslator               SQLGetTranslatorW     
-#define  SQLInstallDriver               SQLInstallDriverW      
+#define  SQLInstallODBC                 SQLInstallODBCW
+#define  SQLCreateDataSource            SQLCreateDataSourceW
+#define  SQLGetTranslator               SQLGetTranslatorW
+#define  SQLInstallDriver               SQLInstallDriverW
 #define  SQLInstallDriverManager        SQLInstallDriverManagerW
 #define  SQLGetInstalledDrivers         SQLGetInstalledDriversW
-#define  SQLGetAvailableDrivers         SQLGetAvailableDriversW 
+#define  SQLGetAvailableDrivers         SQLGetAvailableDriversW
 #define  SQLConfigDataSource            SQLConfigDataSourceW
-#define  SQLWriteDSNToIni               SQLWriteDSNToIniW    
-#define  SQLRemoveDSNFromIni            SQLRemoveDSNFromIniW  
-#define  SQLValidDSN                    SQLValidDSNW           
+#define  SQLWriteDSNToIni               SQLWriteDSNToIniW
+#define  SQLRemoveDSNFromIni            SQLRemoveDSNFromIniW
+#define  SQLValidDSN                    SQLValidDSNW
 #define  SQLWritePrivateProfileString   SQLWritePrivateProfileStringW
 #define  SQLGetPrivateProfileString     SQLGetPrivateProfileStringW
 #define  SQLInstallTranslator           SQLInstallTranslatorW
@@ -448,7 +448,7 @@ BOOL INSTAPI ConfigDriverW(HWND hwndParent,
 #define  SQLInstallDriverEx             SQLInstallDriverExW
 #define  SQLInstallTranslatorEx         SQLInstallTranslatorExW
 
-#endif 
+#endif
 #endif
 
 #ifdef __cplusplus

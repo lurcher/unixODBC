@@ -54,7 +54,7 @@ SQLRETURN CLGetConnectAttr( SQLHDBC connection_handle,
            SQLINTEGER buffer_length,
            SQLINTEGER *string_length )
 {
-    CLHDBC cl_connection = (CLHDBC) connection_handle; 
+    CLHDBC cl_connection = (CLHDBC) connection_handle;
 
     return SQLGETCONNECTATTR( cl_connection,
            cl_connection -> driver_dbc,

@@ -13,7 +13,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "lobj.h"
@@ -63,7 +63,7 @@ LO_ARG argv[2];
 	return fd;
 }
 
-int 
+int
 odbc_lo_close(ConnectionClass *conn, int fd)
 {
 LO_ARG argv[1];
@@ -174,7 +174,7 @@ int retval, result_len;
 		return retval;
 }
 
-int 
+int
 odbc_lo_unlink(ConnectionClass *conn, Oid lobjId)
 {
 LO_ARG argv[1];

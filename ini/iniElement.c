@@ -7,7 +7,7 @@
  * 3. performance is less important than simplicity and the above (feel free to improve on this)
  *
  **************************************************
- * This code was created by Peter Harvey @ CodeByDesign. 
+ * This code was created by Peter Harvey @ CodeByDesign.
  * Released under LGPL 28.JAN.99
  *
  * Contributions from...

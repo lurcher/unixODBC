@@ -99,14 +99,14 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
            SQLLEN buffer_length,
            SQLLEN *strlen_or_ind )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     CLHDBC cl_connection = cl_statement -> cl_connection;
     SQLRETURN ret;
     SQLCHAR sql[ 4095 ];
     CLBCOL *bound_columns;
 	int next_bind, first;
 
-	if ( cl_statement -> cursor_type == SQL_CURSOR_FORWARD_ONLY ) 
+	if ( cl_statement -> cursor_type == SQL_CURSOR_FORWARD_ONLY )
 	{
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                 ERROR_SL008, NULL,
@@ -119,7 +119,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
     if ( cl_statement -> not_from_select )
     {
     	return SQLGETDATA( cl_connection,
-                cl_statement -> driver_stmt, 
+                cl_statement -> driver_stmt,
                 column_number,
                 target_type,
                 target_value,
@@ -131,7 +131,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
      * check we have what we need
      */
 
-    if ( !CHECK_SQLBINDPARAM( cl_connection ) && 
+    if ( !CHECK_SQLBINDPARAM( cl_connection ) &&
                 !CHECK_SQLBINDPARAMETER( cl_connection ))
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
@@ -142,7 +142,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
         return SQL_ERROR;
     }
     if ( !CHECK_SQLEXECDIRECT( cl_connection ) &&
-            !( CHECK_SQLPREPARE( cl_connection ) && 
+            !( CHECK_SQLPREPARE( cl_connection ) &&
                 CHECK_SQLEXECUTE( cl_connection )))
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
@@ -172,8 +172,8 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
     }
 
     /*
-     * if it's not and closed resultset, and the driver 
-     * can only support one active statement, then close 
+     * if it's not and closed resultset, and the driver
+     * can only support one active statement, then close
      * the result set first
      */
 
@@ -186,7 +186,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
         sav_pos = cl_statement -> rowset_position;
 
         complete_rowset( cl_statement, 0 );
-        
+
         SQLFREESTMT( cl_connection,
                 cl_statement -> driver_stmt,
                 SQL_DROP );
@@ -244,7 +244,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
                 case SQL_C_TIME:
                 case SQL_C_TYPE_TIMESTAMP:
                 case SQL_C_TIMESTAMP:
-                    cl_statement -> cl_connection -> dh.__post_internal_error( 
+                    cl_statement -> cl_connection -> dh.__post_internal_error(
                                 &cl_statement -> dm_statement -> error,
                                 ERROR_S1003, NULL,
                                 cl_statement -> dm_statement -> connection -> environment -> requested_version );
@@ -254,7 +254,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
         }
         else
         {
-            cl_statement -> cl_connection -> dh.__post_internal_error( 
+            cl_statement -> cl_connection -> dh.__post_internal_error(
                                 &cl_statement -> dm_statement -> error,
                             ERROR_07009, NULL,
                             cl_statement -> dm_statement -> connection -> environment -> requested_version );
@@ -270,7 +270,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 	if ( !cl_statement -> fetch_done )
 	{
     	ret = SQLGETDATA( cl_connection,
-                cl_statement -> fetch_statement, 
+                cl_statement -> fetch_statement,
                 column_number,
                 target_type,
                 target_value,
@@ -346,7 +346,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 
 	cl_statement -> fetch_done = 0;
 
-    ret = fetch_row( cl_statement, 
+    ret = fetch_row( cl_statement,
             cl_statement -> curr_rowset_start +
                 cl_statement -> cursor_pos - 1,
             -1 );
@@ -360,13 +360,13 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 		cl_statement -> fetch_statement = SQL_NULL_HSTMT;
 	}
 
-	ret = SQLALLOCSTMT( cl_connection, 
+	ret = SQLALLOCSTMT( cl_connection,
             cl_connection -> driver_dbc,
             (SQLHSTMT) &cl_statement -> fetch_statement,
             NULL );
 
     if ( !SQL_SUCCEEDED( ret ))
-    {       
+    {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                 ERROR_S1000, "SQLAllocStmt failed in driver",
                 cl_statement -> dm_statement -> connection ->
@@ -404,7 +404,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 	first = 1;
 	next_bind = 0;
 
-	while( bound_columns ) 
+	while( bound_columns )
     {
         char addon[ 256 ];
 		int col = bound_columns -> column_number;
@@ -413,7 +413,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 		 * Don't bind long types
 		 */
 
-		if ( cl_statement -> data_type[ col ] == SQL_LONGVARCHAR || 
+		if ( cl_statement -> data_type[ col ] == SQL_LONGVARCHAR ||
 						cl_statement -> data_type[ col ] == SQL_LONGVARBINARY )
 		{
 		}
@@ -533,7 +533,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
 					}
 		
             		SQLFREESTMT( cl_connection,
-                    		cl_statement -> fetch_statement, 
+                    		cl_statement -> fetch_statement,
                     		SQL_DROP );
 		
 					cl_statement -> fetch_statement = SQL_NULL_HSTMT;
@@ -716,7 +716,7 @@ SQLRETURN CLGetData( SQLHSTMT statement_handle,
     }
 
     ret = SQLGETDATA( cl_connection,
-                cl_statement -> fetch_statement, 
+                cl_statement -> fetch_statement,
                 column_number,
                 target_type,
                 target_value,

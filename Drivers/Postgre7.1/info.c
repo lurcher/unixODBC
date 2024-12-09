@@ -6,10 +6,10 @@
  *
  * Classes:         n/a
  *
- * API functions:   SQLGetInfo, SQLGetTypeInfo, SQLGetFunctions, 
+ * API functions:   SQLGetInfo, SQLGetTypeInfo, SQLGetFunctions,
  *                  SQLTables, SQLColumns, SQLStatistics, SQLSpecialColumns,
- *                  SQLPrimaryKeys, SQLForeignKeys, 
- *                  SQLProcedureColumns(NI), SQLProcedures(NI), 
+ *                  SQLPrimaryKeys, SQLForeignKeys,
+ *                  SQLProcedureColumns(NI), SQLProcedures(NI),
  *                  SQLTablePrivileges(NI), SQLColumnPrivileges(NI)
  *
  * Comments:        See "notice.txt" for copyright and license information.
@@ -17,7 +17,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <string.h>
@@ -30,7 +30,7 @@
 #include <ctype.h>
 #else
 #include <windows.h>
-#include <sql.h> 
+#include <sql.h>
 #include <sqlext.h>
 #endif
 
@@ -106,7 +106,7 @@ RETCODE result;
         break;
 
     case SQL_BOOKMARK_PERSISTENCE: /* ODBC 2.0 */
-		/* very simple bookmark support */        
+		/* very simple bookmark support */
 		len = 4;
         value = globals.use_declarefetch ? 0 : (SQL_BP_SCROLL);		
         break;
@@ -182,7 +182,7 @@ RETCODE result;
 
 			p = CC_get_database(conn);
 		*/
-		p = "";    
+		p = "";
 		break;
 
     case SQL_DBMS_NAME: /* ODBC 1.0 */
@@ -228,7 +228,7 @@ RETCODE result;
                                    SQL_FD_FETCH_LAST |
                                    SQL_FD_FETCH_PRIOR |
                                    SQL_FD_FETCH_ABSOLUTE |
-								   SQL_FD_FETCH_RELATIVE | 
+								   SQL_FD_FETCH_RELATIVE |
 								   SQL_FD_FETCH_BOOKMARK);
         break;
 
@@ -477,8 +477,8 @@ RETCODE result;
 
     case SQL_POSITIONED_STATEMENTS: /* ODBC 2.0 */
 		len = 4;
-        value = globals.lie ? (SQL_PS_POSITIONED_DELETE | 
-								SQL_PS_POSITIONED_UPDATE | 
+        value = globals.lie ? (SQL_PS_POSITIONED_DELETE |
+								SQL_PS_POSITIONED_UPDATE |
 								SQL_PS_SELECT_FOR_UPDATE) : 0;
         break;
 
@@ -523,18 +523,18 @@ RETCODE result;
 
     case SQL_SCROLL_CONCURRENCY: /* ODBC 1.0 */
 		len = 4;
-        value = globals.lie ? (SQL_SCCO_READ_ONLY | 
-								SQL_SCCO_LOCK | 
-								SQL_SCCO_OPT_ROWVER | 
+        value = globals.lie ? (SQL_SCCO_READ_ONLY |
+								SQL_SCCO_LOCK |
+								SQL_SCCO_OPT_ROWVER |
 								SQL_SCCO_OPT_VALUES) : (SQL_SCCO_READ_ONLY);
         break;
 
     case SQL_SCROLL_OPTIONS: /* ODBC 1.0 */
 		len = 4;
-        value = globals.lie ? (SQL_SO_FORWARD_ONLY | 
-								SQL_SO_STATIC | 
-								SQL_SO_KEYSET_DRIVEN | 
-								SQL_SO_DYNAMIC | 
+        value = globals.lie ? (SQL_SO_FORWARD_ONLY |
+								SQL_SO_STATIC |
+								SQL_SO_KEYSET_DRIVEN |
+								SQL_SO_DYNAMIC |
 								SQL_SO_MIXED) : (globals.use_declarefetch ? SQL_SO_FORWARD_ONLY : (SQL_SO_FORWARD_ONLY | SQL_SO_STATIC));
         break;
 
@@ -558,10 +558,10 @@ RETCODE result;
     case SQL_STRING_FUNCTIONS: /* ODBC 1.0 */
 		len = 4;
         value = (SQL_FN_STR_CONCAT |
-				SQL_FN_STR_LCASE | 
-				SQL_FN_STR_LENGTH | 
-				SQL_FN_STR_LOCATE | 
-				SQL_FN_STR_LTRIM | 
+				SQL_FN_STR_LCASE |
+				SQL_FN_STR_LENGTH |
+				SQL_FN_STR_LOCATE |
+				SQL_FN_STR_LTRIM |
 				SQL_FN_STR_RTRIM |
 				SQL_FN_STR_SUBSTRING |
 				SQL_FN_STR_UCASE);
@@ -621,7 +621,7 @@ RETCODE result;
 		p = CC_get_username(conn);
         break;
 
-    /* 
+    /*
      * These have been added even though they are ODBC 3 attributes to enable
      * StarOffice 6.0 and OpenOffice to work, its a problem in the app, but
      * we do what we can...
@@ -649,7 +649,7 @@ RETCODE result;
 	mylog("SQLGetInfo: p='%s', len=%d, value=%d, cbMax=%d\n", p?p:"<NULL>", len, value, cbInfoValueMax);
 
 	/*	NOTE, that if rgbInfoValue is NULL, then no warnings or errors should
-		result and just pcbInfoValue is returned, which indicates what length 
+		result and just pcbInfoValue is returned, which indicates what length
 		would be required if a real buffer had been passed in.
 	*/
 	if (p) {  /* char/binary data */
@@ -669,14 +669,14 @@ RETCODE result;
 		
 		if (rgbInfoValue) {
 		
-			if (len == 2 ) 
+			if (len == 2 )
 				*((WORD *)rgbInfoValue) = (WORD) value;
 			else if (len == 4)
 				*((DWORD *)rgbInfoValue) = (DWORD) value;
 		}
 	}
 
-	if (pcbInfoValue) 
+	if (pcbInfoValue)
 		*pcbInfoValue = len;
 
 	return result;
@@ -694,7 +694,7 @@ StatementClass *stmt = (StatementClass *) hstmt;
 TupleNode *row;
 int i;
 /* Int4 type; */
-Int4 pgType; 
+Int4 pgType;
 Int2 sqlType;
 
 	mylog("%s: entering...fSqlType = %d\n", func, fSqlType);
@@ -802,7 +802,7 @@ static char* const func="SQLGetFunctions";
 			pfExists[SQL_API_SQLALLOCCONNECT]     = TRUE;
 			pfExists[SQL_API_SQLALLOCENV]         = TRUE;
 			pfExists[SQL_API_SQLALLOCSTMT]        = TRUE;
-			pfExists[SQL_API_SQLBINDCOL]          = TRUE;  
+			pfExists[SQL_API_SQLBINDCOL]          = TRUE;
 			pfExists[SQL_API_SQLCANCEL]           = TRUE;
 			pfExists[SQL_API_SQLCOLATTRIBUTES]    = TRUE;
 			pfExists[SQL_API_SQLCONNECT]          = TRUE;
@@ -829,7 +829,7 @@ static char* const func="SQLGetFunctions";
 			pfExists[SQL_API_SQLDRIVERCONNECT]    = TRUE;
 			pfExists[SQL_API_SQLGETCONNECTOPTION] = TRUE;  /* partial */
 			pfExists[SQL_API_SQLGETDATA]          = TRUE;
-			pfExists[SQL_API_SQLGETFUNCTIONS]     = TRUE;                                                       
+			pfExists[SQL_API_SQLGETFUNCTIONS]     = TRUE;
 			pfExists[SQL_API_SQLGETINFO]          = TRUE;
 			pfExists[SQL_API_SQLGETSTMTOPTION]    = TRUE;  /* partial */
 			pfExists[SQL_API_SQLGETTYPEINFO]      = TRUE;
@@ -1065,8 +1065,8 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 
 
 	/* match users */
-	if (PG_VERSION_LT(conn, 7.1)) /* filter out large objects in older versions */ 
-		strcat(tables_query, " and relname !~ '^xinv[0-9]+'"); 
+	if (PG_VERSION_LT(conn, 7.1)) /* filter out large objects in older versions */
+		strcat(tables_query, " and relname !~ '^xinv[0-9]+'");
 
 	strcat(tables_query, " and usesysid = relowner");
 	strcat(tables_query, " order by relname");
@@ -1132,7 +1132,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 	while((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO)) {
 
 		/*	Determine if this table name is a system table.
-			If treating system tables as regular tables, then 
+			If treating system tables as regular tables, then
 			no need to do this test.
 		*/		
 		systable = FALSE;
@@ -1168,7 +1168,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 		/*	NOTE: Unsupported table types (i.e., LOCAL TEMPORARY, ALIAS, etc)
 					will return nothing */
 		if ( (systable && show_system_tables) ||
-			 (view && show_views) || 
+			 (view && show_views) ||
 			 (regular_table && show_regular_tables)) {
 
 			row = (TupleNode *)malloc(sizeof(TupleNode) + (5 - 1) * sizeof(TupleField));
@@ -1420,15 +1420,15 @@ ConnectionClass *conn;
 	result = PG_SQLFetch(hcol_stmt);
 
 
-	/*	Only show oid if option AND there are other columns AND 
+	/*	Only show oid if option AND there are other columns AND
 		it's not being called by SQLStatistics .
 		Always show OID if it's a system table
 	*/
 
 	if (result != SQL_ERROR && ! stmt->internal) {
 
-		if (relhasrules[0] != '1' && 
-		    (atoi(ci->show_oid_column) || 
+		if (relhasrules[0] != '1' &&
+		    (atoi(ci->show_oid_column) ||
 			 strncmp(table_name, POSTGRES_SYS_PREFIX, strlen(POSTGRES_SYS_PREFIX)) == 0)) {
 
 			/*	For OID fields */
@@ -1529,7 +1529,7 @@ ConnectionClass *conn;
 			set_tuplefield_int4(&row->tuple[6], mod_length);
 			set_tuplefield_int4(&row->tuple[12], mod_length);
 			set_nullfield_int2(&row->tuple[8], pgtype_scale(stmt, field_type, PG_STATIC));
-        } 
+        }
 		
 		if (useStaticPrecision) {
 			mylog("SQLColumns: field type is OTHER: field_type = %d, pgtype_length = %d\n", field_type, pgtype_length(stmt, field_type, PG_STATIC, PG_STATIC));
@@ -1610,14 +1610,14 @@ RETCODE SQL_API SQLColumns(
                            UCHAR FAR *  szColumnName,
                            SWORD        cbColumnName)
 {
-    return PG_SQLColumns( hstmt, 
-                        szTableQualifier, 
-                        cbTableQualifier, 
-                        szTableOwner, 
-                        cbTableOwner, 
-                        szTableName, 
-                        cbTableName, 
-                        szColumnName, 
+    return PG_SQLColumns( hstmt,
+                        szTableQualifier,
+                        cbTableQualifier,
+                        szTableOwner,
+                        cbTableOwner,
+                        szTableName,
+                        cbTableName,
+                        szColumnName,
                         cbColumnName );
 }
 
@@ -1855,7 +1855,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 		This would throw everything off.
 	*/
 	col_stmt->internal = TRUE;
-	result = PG_SQLColumns(hcol_stmt, (SQLCHAR*)"", 0, (SQLCHAR*)"", 0, 
+	result = PG_SQLColumns(hcol_stmt, (SQLCHAR*)"", 0, (SQLCHAR*)"", 0,
 				(SQLCHAR*)table_name, (SWORD) strlen(table_name), (SQLCHAR*)"", 0);
 	col_stmt->internal = FALSE;
 
@@ -1877,10 +1877,10 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 	while((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO)) {
 		total_columns++;
 
-		column_names = 
-		(char **)realloc(column_names, 
+		column_names =
+		(char **)realloc(column_names,
 				 total_columns * sizeof(char *));
-		column_names[total_columns-1] = 
+		column_names[total_columns-1] =
 		(char *)malloc(strlen(column_name)+1);
 		strcpy(column_names[total_columns-1], column_name);
 
@@ -1967,7 +1967,7 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
 
 	/*	fake index of OID */
 	if ( relhasrules[0] != '1' && atoi(ci->show_oid_column) && atoi(ci->fake_oid_index)) {
-		row = (TupleNode *)malloc(sizeof(TupleNode) + 
+		row = (TupleNode *)malloc(sizeof(TupleNode) +
 					  (13 - 1) * sizeof(TupleField));
 
 		/* no table qualifier */
@@ -2002,13 +2002,13 @@ mylog("%s: entering...stmt=%u\n", func, stmt);
     while((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO)) {
 
       /*	If only requesting unique indexs, then just return those. */
-		if (fUnique == SQL_INDEX_ALL || 
+		if (fUnique == SQL_INDEX_ALL ||
 			(fUnique == SQL_INDEX_UNIQUE && atoi(isunique))) {
 			i = 0;
 			/* add a row in this table for each field in the index */
 			while(i < 8 && fields_vector[i] != 0) {
 
-				row = (TupleNode *)malloc(sizeof(TupleNode) + 
+				row = (TupleNode *)malloc(sizeof(TupleNode) +
 							  (13 - 1) * sizeof(TupleField));
 
 				/* no table qualifier */
@@ -2283,12 +2283,12 @@ RETCODE SQL_API SQLPrimaryKeys(
                                UCHAR FAR *   szTableName,
                                SWORD         cbTableName)
 {
-    return PG_SQLPrimaryKeys( hstmt, 
-                            szTableQualifier, 
-                            cbTableQualifier, 
-                            szTableOwner, 
-                            cbTableOwner, 
-                            szTableName, 
+    return PG_SQLPrimaryKeys( hstmt,
+                            szTableQualifier,
+                            cbTableQualifier,
+                            szTableOwner,
+                            cbTableOwner,
+                            szTableName,
                             cbTableName );
 }
 
@@ -2398,7 +2398,7 @@ Int2 result_cols;
 	make_string((char*)szPkTableName, cbPkTableName, pk_table_needed);
 	make_string((char*)szFkTableName, cbFkTableName, fk_table_needed);
 
-	/*	Case #2 -- Get the foreign keys in the specified table (fktab) that 
+	/*	Case #2 -- Get the foreign keys in the specified table (fktab) that
 		refer to the primary keys of other table(s).
 	*/
 	if (fk_table_needed[0] != '\0') {
@@ -2429,7 +2429,7 @@ Int2 result_cols;
 								"AND (pg_trigger.tgrelid=pt.tgconstrrelid) "
 								"AND (pg_trigger.tgconstrname=pt.tgconstrname) "
 								"AND (pg_trigger_1.tgrelid=pt.tgconstrrelid) "
-								"AND (pg_trigger_1.tgconstrname=pt.tgconstrname))", 
+								"AND (pg_trigger_1.tgconstrname=pt.tgconstrname))",
 				fk_table_needed);		
 
 		result = PG_SQLExecDirect(htbl_stmt, tables_query, strlen(tables_query));
@@ -2826,7 +2826,7 @@ Int2 result_cols;
 
 			/* Get to first foreign key */
 			fkey_ptr = trig_args;
-			for (k = 0; k < 4; k++) 
+			for (k = 0; k < 4; k++)
 				fkey_ptr += strlen(fkey_ptr) + 1;
 
 			for (k = 0; k < num_keys; k++) {

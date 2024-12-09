@@ -128,9 +128,8 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBindCol.c,v $ $Revision: 1.8 $";
 
-int check_target_type( int c_type, int connection_mode) 
+int check_target_type( int c_type, int connection_mode)
 {
     /*
      * driver defined types
@@ -213,10 +212,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -232,7 +231,7 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
 \n\t\t\tTarget Type = %d %s\
 \n\t\t\tTarget Value = %p\
 \n\t\t\tBuffer Length = %d\
-\n\t\t\tStrLen Or Ind = %p", 
+\n\t\t\tStrLen Or Ind = %p",
                 statement,
                 column_number,
                 target_type,
@@ -241,10 +240,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
                 (int)buffer_length,
                 (void*)strlen_or_ind );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -252,10 +251,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
 
     if ( buffer_length < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -285,10 +284,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S12 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -305,10 +304,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
 
 	if (( target_value || strlen_or_ind ) && !check_target_type( target_type, statement -> connection -> environment -> requested_version ))
 	{
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY003" );
 
         __post_internal_error( &statement -> error,
@@ -320,10 +319,10 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
 
     if ( !CHECK_SQLBINDCOL( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -345,14 +344,14 @@ SQLRETURN SQLBindCol( SQLHSTMT statement_handle,
     {
         SQLCHAR buf[ 128 ];
 
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, buf ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

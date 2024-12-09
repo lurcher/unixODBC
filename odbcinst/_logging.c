@@ -132,7 +132,7 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
 
     if ( !log_tried )
     {
-        long nMaxMessages = 10; /* \todo ODBC spec says 8 max. We would make it 0 (unlimited) but at the moment logPeekMsg 
+        long nMaxMessages = 10; /* \todo ODBC spec says 8 max. We would make it 0 (unlimited) but at the moment logPeekMsg
                                    would be slow if many messages. Revisit when opt is made to log storage. */
 
         log_tried = 1;
@@ -148,11 +148,11 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
     if ( hODBCINSTLog )
     {
         ret = logPushMsg( hODBCINSTLog,
-                pszModule, 
-                pszFunctionName, 
-                nLine, 
-                nSeverity, 
-                nCode, 
+                pszModule,
+                pszFunctionName,
+                nLine,
+                nSeverity,
+                nCode,
                 pszMessage );
     }
 
@@ -161,16 +161,16 @@ int inst_logPushMsg( char *pszModule, char *pszFunctionName, int nLine, int nSev
     return ret;
 }
 
-/*! 
+/*!
  * \brief   Get a reference to a message in the log.
  *
  *          The caller (SQLInstallerError) could call logPeekMsg directly
  *          but we would have to extern hODBCINSTLog and I have not given
  *          any thought to that at this time.
- * 
+ *
  * \param   nMsg
  * \param   phMsg
- * 
+ *
  * \return  int
  */
 int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg )
@@ -193,7 +193,7 @@ int inst_logClear( void )
 
     local_mutex_entry();
 
-    if ( hODBCINSTLog ) 
+    if ( hODBCINSTLog )
         ret = logClear( hODBCINSTLog );
 
     local_mutex_exit();

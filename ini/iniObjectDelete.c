@@ -20,47 +20,45 @@
  ******************************/
 int iniObjectDelete( HINI hIni )
 {
-	HINIOBJECT		hObject;
+        HINIOBJECT		hObject;
 
     /* SANITY CHECKS */
     if ( hIni == NULL )
         return INI_ERROR;
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
-	
-	hObject	= hIni->hCurObject;
+    if ( hIni->hCurObject == NULL )
+        return INI_NO_DATA;
 
-	/* REMOVE ALL SUBORDINATE INFO */
-	hIni->hCurProperty = hObject->hFirstProperty;
-	while ( iniPropertyDelete( hIni ) == INI_SUCCESS )
-	{
-	}
+    hObject	= hIni->hCurObject;
 
-	/* REMOVE FROM LIST */
-	if ( hIni->hFirstObject == hObject )
-		hIni->hFirstObject = hObject->pNext;
-	if ( hIni->hLastObject == hObject )
-		hIni->hLastObject = hObject->pPrev;
+    /* REMOVE ALL SUBORDINATE INFO */
+    hIni->hCurProperty = hObject->hFirstProperty;
+    while ( iniPropertyDelete( hIni ) == INI_SUCCESS )
+    {
+    }
 
-	hIni->hCurObject		= NULL;
-	if ( hObject->pNext )
-	{
-		hObject->pNext->pPrev	= hObject->pPrev;
-		hIni->hCurObject		= hObject->pNext;
-	}
-	if ( hObject->pPrev )
-	{
-		hObject->pPrev->pNext 	= hObject->pNext;
-		hIni->hCurObject		= hObject->pPrev;
-	}
-	hIni->nObjects--;
+    /* REMOVE FROM LIST */
+    if ( hIni->hFirstObject == hObject )
+        hIni->hFirstObject = hObject->pNext;
+    if ( hIni->hLastObject == hObject )
+        hIni->hLastObject = hObject->pPrev;
 
-	/* FREE MEMORY */
-	free( hObject );
+    hIni->hCurObject		= NULL;
+    if ( hObject->pNext )
+    {
+        hObject->pNext->pPrev	= hObject->pPrev;
+        hIni->hCurObject		= hObject->pNext;
+    }
+    if ( hObject->pPrev )
+    {
+        hObject->pPrev->pNext   = hObject->pNext;
+        hIni->hCurObject		= hObject->pPrev;
+    }
+    hIni->nObjects--;
 
-	iniPropertyFirst( hIni );
+    /* FREE MEMORY */
+    free( hObject );
 
-	return INI_SUCCESS;
+    iniPropertyFirst( hIni );
+
+    return INI_SUCCESS;
 }
-
-

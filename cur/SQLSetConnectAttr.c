@@ -53,11 +53,11 @@ SQLRETURN CLSetConnectAttr( SQLHDBC connection_handle,
            SQLPOINTER value,
            SQLINTEGER string_length )
 {
-    CLHDBC cl_connection = (CLHDBC) connection_handle; 
+    CLHDBC cl_connection = (CLHDBC) connection_handle;
 
     if ( attribute == SQL_ATTR_RESET_CONNECTION && value == (SQLPOINTER)(intptr_t) 2 ) {
         cl_connection -> dm_connection = NULL;
-        
+
         return SQL_SUCCESS;
     }
 

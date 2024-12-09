@@ -77,7 +77,7 @@ int _iniDump( HINI hIni, FILE *hStream )
             else
             {
                 iniOS2Write( hStream,  hIni->hCurObject->szName,  hIni->hCurProperty->szName, hIni->hCurProperty->szValue);
-            }  
+            }
 #endif
             iniPropertyNext( hIni );
         }

@@ -20,13 +20,13 @@ typedef struct tODBCINSTErrorMsg
 	char *  szMsg;  /*!< error text */
 } ODBCINSTErrorMsg;
 
-/*! 
- * \brief   A lookup for all standard installer (odbcinst) error codes and 
+/*!
+ * \brief   A lookup for all standard installer (odbcinst) error codes and
  *          corresponding message text.
  *
  *          An odd thing that we do here is that we assume the values of error codes
  *          (ODBC_ERROR_GENERAL_ERR, ODBC_ERROR_INVALID_BUFF_LEN, etc) are in the same
- *          sequence we have layed out here... ascending order starting at 1. We then 
+ *          sequence we have layed out here... ascending order starting at 1. We then
  *          can index into here using the standard error code and get the standard error
  *          text. This is why we have 0,"Filler" in here.
  */
@@ -57,9 +57,9 @@ static ODBCINSTErrorMsg aODBCINSTErrorMsgs[] =
 	{ ODBC_ERROR_OUTPUT_STRING_TRUNCATED,		"String right truncated" }
 };
 
-/*! 
+/*!
  * \brief   Returns error information from odbcinst.
- * 
+ *
  *          All calls to odbcinst, except SQLInstallerError and SQLPostInstallerError, may
  *          post/log messages. An application checks the return value of a call and then
  *          calls SQLInstallerError, as needed, to get any error information.
@@ -76,7 +76,7 @@ static ODBCINSTErrorMsg aODBCINSTErrorMsgs[] =
  *                          meaningfull text.
  * \param   nErrorMsgMax    Input. Max chars which can be returned in pszErrorMsg.
  * \param   pnErrorMsg      Output. strlen of error text available to be returned.
- * 
+ *
  * \return  RETCODE
  * \retval  SQL_NO_DATA             No data to be returned for nError.
  * \retval  SQL_ERROR               Something went wrong - most likley bad args in call.
@@ -129,9 +129,9 @@ RETCODE SQLInstallerError( WORD nError, DWORD *pnErrorCode, LPSTR pszErrorMsg, W
     return SQL_SUCCESS;
 }
 
-/*! 
+/*!
  * \brief   A wide char version of SQLInstallerError.
- * 
+ *
  * \sa      SQLInstallerError
  */
 SQLRETURN   INSTAPI SQLInstallerErrorW(WORD iError,
@@ -144,7 +144,7 @@ SQLRETURN   INSTAPI SQLInstallerErrorW(WORD iError,
 	SQLRETURN ret;
 	WORD len;
 
-	if ( lpszErrorMsg ) 
+	if ( lpszErrorMsg )
 	{
 		if ( cbErrorMsgMax > 0 )
 		{
@@ -160,7 +160,7 @@ SQLRETURN   INSTAPI SQLInstallerErrorW(WORD iError,
 		msg = NULL;
 	}
 
-	ret = SQLInstallerError( iError, 
+	ret = SQLInstallerError( iError,
 							pfErrorCode,
 							msg,
 							cbErrorMsgMax,

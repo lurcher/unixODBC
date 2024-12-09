@@ -256,7 +256,7 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
     SQLRETURN ret;
 
     /*
-     * Allocated a cursor connection structure 
+     * Allocated a cursor connection structure
      */
 
     cl_connection = malloc( sizeof( struct cl_connection ));
@@ -310,19 +310,19 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
      * cursor lib
      */
 
-    for ( i = 0; 
-            i < sizeof( cl_template_func ) / sizeof( cl_template_func[ 0 ] ); 
+    for ( i = 0;
+            i < sizeof( cl_template_func ) / sizeof( cl_template_func[ 0 ] );
             i ++ )
     {
         cl_connection -> functions[ i ] =
             connection -> functions[ i ];
 
         /*
-         * if set replace the driver function with the function in 
+         * if set replace the driver function with the function in
          * the template
          */
 
-        if ( cl_template_func[ i ].func && 
+        if ( cl_template_func[ i ].func &&
                 connection -> functions[ i ].func )
         {
             connection -> functions[ i ] =
@@ -336,7 +336,7 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
                 cl_connection -> functions[ i ].can_supply;
         }
         /*
-         * prevent the DM from tring to get via the W functions, the cursor lib is 
+         * prevent the DM from tring to get via the W functions, the cursor lib is
          * ascii only
          */
 
@@ -348,19 +348,19 @@ SQLRETURN CLConnect( DMHDBC connection, struct driver_helper_funcs *dh )
      */
 
     connection -> functions[ DM_SQLSETPOS ].can_supply = 1;
-    connection -> functions[ DM_SQLSETPOS ].func = 
+    connection -> functions[ DM_SQLSETPOS ].func =
         cl_template_func[ DM_SQLSETPOS ].func;
 
     connection -> functions[ DM_SQLSETSCROLLOPTIONS ].can_supply = 1;
-    connection -> functions[ DM_SQLSETSCROLLOPTIONS ].func = 
+    connection -> functions[ DM_SQLSETSCROLLOPTIONS ].func =
         cl_template_func[ DM_SQLSETSCROLLOPTIONS ].func;
 
     connection -> functions[ DM_SQLFETCHSCROLL ].can_supply = 1;
-    connection -> functions[ DM_SQLFETCHSCROLL ].func = 
+    connection -> functions[ DM_SQLFETCHSCROLL ].func =
         cl_template_func[ DM_SQLFETCHSCROLL ].func;
 
     connection -> functions[ DM_SQLEXTENDEDFETCH ].can_supply = 1;
-    connection -> functions[ DM_SQLEXTENDEDFETCH ].func = 
+    connection -> functions[ DM_SQLEXTENDEDFETCH ].func =
         cl_template_func[ DM_SQLEXTENDEDFETCH ].func;
 
     /*
@@ -414,7 +414,7 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
     CLHDBC cl_connection = (CLHDBC)connection_handle;
     DMHDBC connection = cl_connection -> dm_connection;
 
-    /* 
+    /*
      * disconnect from the driver
      */
 
@@ -430,8 +430,8 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
          */
 
         if ( connection ) {
-            for ( i = 0; 
-                i < sizeof( cl_template_func ) / sizeof( cl_template_func[ 0 ] ); 
+            for ( i = 0;
+                i < sizeof( cl_template_func ) / sizeof( cl_template_func[ 0 ] );
                 i ++ )
             {
                 connection -> functions[ i ] =
@@ -441,8 +441,8 @@ SQLRETURN CLDisconnect( SQLHDBC connection_handle )
             /*
              * replace the driver dbc
              */
-    
-            connection -> driver_dbc = 
+
+            connection -> driver_dbc =
                 cl_connection -> driver_dbc;
         }
 

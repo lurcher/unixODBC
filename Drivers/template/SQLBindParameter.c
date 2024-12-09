@@ -31,12 +31,12 @@ SQLRETURN  SQLBindParameter( SQLHSTMT           hDrvStmt,
     if( NULL == hStmt )
         return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hStmt->szSqlMsg, "hStmt=$%08lX nParameterNumber=%d nIOType=%d nBufferType=%d nParamType=%d nParamLength=%ld nScale=%d pData=$%08lX nBufferLength=%ld *pnLengthOrIndicator=$%08lX",(long) hStmt,nParameterNumber,nIOType,nBufferType,nParamType,(long) nParamLength,nScale,(long) pData,(long) nBufferLength, *pnLengthOrIndicator );
+    sprintf((char*) hStmt->szSqlMsg, "hStmt=$%08lX nParameterNumber=%d nIOType=%d nBufferType=%d nParamType=%d nParamLength=%ld nScale=%d pData=$%08lX nBufferLength=%ld *pnLengthOrIndicator=$%08lX",(long) hStmt,nParameterNumber,nIOType,nBufferType,nParamType,(long) nParamLength,nScale,(long) pData,(long) nBufferLength, *pnLengthOrIndicator );
 
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
 
     /************************
-     * REPLACE THIS COMMENT WITH SOMETHING USEFULL
+     * REPLACE THIS COMMENT WITH SOMETHING USEFUL
      ************************/
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR This function not currently supported" );
 

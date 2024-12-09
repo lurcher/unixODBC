@@ -135,7 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDataSources.c,v $ $Revision: 1.9 $";
 
 #define BUFFERSIZE      1024*4
 
@@ -177,10 +176,10 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
 
     if ( !__validate_env( environment ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -193,16 +192,16 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
 #ifdef HAVE_SNPRINTF
             snprintf( environment -> msg, sizeof(  environment -> msg ),
 #else
-            sprintf( environment -> msg, 
+            sprintf( environment -> msg,
 #endif
                 "\n\t\tEntry:\
 \n\t\t\tEnvironment = %p",
                 environment );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 
@@ -214,10 +213,10 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
 
     if ( environment -> requested_version == 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &environment -> error,
@@ -229,10 +228,10 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
 
     if ( buffer_length1 < 0 || buffer_length2 < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &environment -> error,
@@ -247,10 +246,10 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
             direction != SQL_FETCH_FIRST_SYSTEM &&
             direction != SQL_FETCH_NEXT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY103" );
 
         __post_internal_error( &environment -> error,
@@ -320,7 +319,7 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
              */
 
             /*
-             * even though the string is called description, it should 
+             * even though the string is called description, it should
              * actually be the driver name entry from odbcinst.ini on windows
              * there is no separate Description line
              */
@@ -395,15 +394,15 @@ SQLRETURN SQLDataSources( SQLHENV environment_handle,
 #ifdef HAVE_SNPRINTF
         snprintf( environment -> msg, sizeof(  environment -> msg ),
 #else
-        sprintf( environment -> msg, 
+        sprintf( environment -> msg,
 #endif
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 

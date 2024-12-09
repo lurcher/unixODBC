@@ -181,7 +181,7 @@ BOOL _odbcinst_SystemINI( char *pszFileName, BOOL bVerify )
         {
             if ( ( !hFile ) &&
                 ( errno != ENFILE ) && ( errno != EMFILE ) &&
-                ( errno != ENOMEM ) && ( errno != EACCES ) && 
+                ( errno != ENOMEM ) && ( errno != EACCES ) &&
                 ( errno != EFBIG ) && ( errno != EINTR ) &&
                 ( errno != ENOSPC ) && ( errno != EOVERFLOW ) &&
                 ( errno != EWOULDBLOCK ))

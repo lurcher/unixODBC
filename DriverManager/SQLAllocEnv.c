@@ -59,7 +59,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLAllocEnv.c,v $ $Revision: 1.2 $";
 
 SQLRETURN SQLAllocEnv( SQLHENV *environment_handle )
 {

@@ -56,7 +56,7 @@ SQLRETURN CLParamOptions(
     SQLULEN        crow,
     SQLULEN        *pirow )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLPARAMOPTIONS( cl_statement -> cl_connection,
             cl_statement -> driver_stmt,

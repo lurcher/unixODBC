@@ -17,13 +17,13 @@
 #include <time.h>
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h> 
+#include <unistd.h>
 #endif
 
 #ifdef HAVE_SYNCH_H
 #include <synch.h>
 #endif
-    
+
 #ifdef HAVE_LIBPTH
 #include <pth.h>
 #elif HAVE_LIBPTHREAD
@@ -54,7 +54,7 @@
 #endif
 
 #ifdef UNICODE_ENCODING
-#define DEFAULT_ICONV_ENCODING      UNICODE_ENCODING 
+#define DEFAULT_ICONV_ENCODING      UNICODE_ENCODING
 #else
 #define DEFAULT_ICONV_ENCODING      "auto-search"
 #endif
@@ -281,7 +281,7 @@ struct env_lib_struct
     char            *lib_name;
     DRV_SQLHANDLE   env_handle;
     int             count;
-    int             driver_act_ver;     /* real version of the driver, keep in the list instead of the env, as 
+    int             driver_act_ver;     /* real version of the driver, keep in the list instead of the env, as
                                          * we may have both V2 and V3 drivers in use */
     struct env_lib_struct   *next;
 };
@@ -324,10 +324,10 @@ typedef struct connection
     DMHENV          environment;        /* environment that own's the
                                            connection */
 #ifdef FAST_HANDLE_VALIDATE
-    struct statement *statements;       /* List of statements owned by this 
+    struct statement *statements;       /* List of statements owned by this
                                            connection */
 #endif
-    
+
     void            *dl_handle;         /* handle of the loaded lib */
     char            dl_name[ 256 ];     /* name of loaded lib */
     struct driver_func *functions;      /* entry points */
@@ -344,7 +344,7 @@ typedef struct connection
     EHEAD           error;              /* keep track of errors */
     char            dsn[ SQL_MAX_DSN_LENGTH + 1 ];  /* where we are connected */
     int             access_mode;        /* variables set via SQLSetConnectAttr */
-    int             access_mode_set;      
+    int             access_mode_set;
     int             login_timeout;
     int             login_timeout_set;
     int             auto_commit;
@@ -453,7 +453,7 @@ typedef struct descriptor
 
 #ifdef FAST_HANDLE_VALIDATE
     struct descriptor *prev_class_list;/* static list of all desc handles */
-#endif    
+#endif
 
     EHEAD           error;              /* keep track of errors */
     DRV_SQLHDESC    driver_desc;        /* driver descriptor */
@@ -477,7 +477,7 @@ typedef struct statement
     int             state;              /* state of statement */
 #ifdef FAST_HANDLE_VALIDATE
     struct statement *prev_class_list;  /* static list of all stmt handles */
-    struct statement *next_conn_list;   /* Single linked list storing statements 
+    struct statement *next_conn_list;   /* Single linked list storing statements
                                            owned by "connection" connection */
 #endif
     DMHDBC          connection;         /* DM connection that owns this */
@@ -499,7 +499,7 @@ typedef struct statement
     DMHDESC         implicit_apd;
     DMHDESC         implicit_ird;
     DMHDESC         implicit_ard;
-    SQLULEN		    *fetch_bm_ptr;      /* Saved for ODBC3 to ODBC2 mapping */ 
+    SQLULEN		    *fetch_bm_ptr;      /* Saved for ODBC3 to ODBC2 mapping */
     SQLULEN     	*row_ct_ptr;        /* row count ptr */
     SQLUSMALLINT    *row_st_arr;        /* row status array */
     SQLULEN     	row_array_size;
@@ -755,11 +755,11 @@ char * __ptr_as_string( SQLCHAR *s, SQLLEN *ptr );
 char * __sptr_as_string( SQLCHAR *s, SQLSMALLINT *ptr );
 char * __info_as_string( SQLCHAR *s, SQLINTEGER typ );
 void __clear_internal_error( struct error *error_handle );
-char * __data_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __data_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLLEN *ptr, SQLPOINTER buf );
-char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __sdata_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLSMALLINT *ptr, SQLPOINTER buf );
-char * __idata_as_string( SQLCHAR *s, SQLINTEGER type, 
+char * __idata_as_string( SQLCHAR *s, SQLINTEGER type,
         SQLINTEGER *ptr, SQLPOINTER buf );
 char * __col_attr_as_string( SQLCHAR *s, SQLINTEGER type );
 char * __fid_as_string( SQLCHAR *s, SQLINTEGER fid );
@@ -780,7 +780,7 @@ int __check_stmt_from_dbc_v( DMHDBC connection, int statecount, ... );
 int __check_stmt_from_desc( DMHDESC desc, int state );
 int __check_stmt_from_desc_ird( DMHDESC desc, int state );
 
-/* 
+/*
  * These are passed to the cursor lib as helper functions
  */
 
@@ -888,14 +888,14 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
-                            EHEAD *head, 
+                            EHEAD *head,
                             int return_code );
 
 void extract_sql_error( DRV_SQLHANDLE henv,
                             DRV_SQLHANDLE hdbc,
                             DRV_SQLHANDLE hstmt,
                             DMHDBC connection,
-                            EHEAD *head, 
+                            EHEAD *head,
                             int return_code );
 /*
  * the following two are part of a effort to get a particular unicode driver working
@@ -1031,7 +1031,7 @@ int add_to_pool( DMHDBC connection, CPOOLHEAD *pooh );
                                       SQLWCHAR*, SQLSMALLINT, SQLSMALLINT*))\
                                     con->functions[8].funcW)\
                                     (dbc,ics,sl1,ocs,bl,sl2)
-    
+
 #define DM_SQLBULKOPERATIONS        9
 #define CHECK_SQLBULKOPERATIONS(con)    (con->functions[9].func!=NULL)
 #define SQLBULKOPERATIONS(con,stmt,op)\
@@ -1082,7 +1082,7 @@ int add_to_pool( DMHDBC connection, CPOOLHEAD *pooh );
                                     con->functions[13].funcW)\
                                         (stmt,cn,fi,cap,bl,slp,nap)
 
-#define DM_SQLCOLUMNPRIVILEGES      14 
+#define DM_SQLCOLUMNPRIVILEGES      14
 #define CHECK_SQLCOLUMNPRIVILEGES(con)  (con->functions[14].func!=NULL)
 #define SQLCOLUMNPRIVILEGES(con,stmt,cn,nl1,sn,nl2,tn,nl3,col,nl4)\
                                     ((SQLRETURN (*)(SQLHSTMT,\

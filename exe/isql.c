@@ -25,7 +25,7 @@
 #ifdef HAVE_SETLOCALE
     #ifdef HAVE_LOCALE_H
         #include <locale.h>
-    #endif 
+    #endif
 #endif
 
 static int OpenDatabase( SQLHENV *phEnv, SQLHDBC *phDbc, char *szDSN, char *szUID, char *szPWD );
@@ -292,7 +292,7 @@ int main( int argc, char *argv[] )
                 malloced = 0;
             }
 
-            if ( strcmp(line, "quit") && strcmp(line, "\\quit") ) 
+            if ( strcmp(line, "quit") && strcmp(line, "\\quit") )
             {
                 add_history(line);
             }
@@ -314,7 +314,7 @@ int main( int argc, char *argv[] )
             }
             else
             {
-				if ( line[ 0 ] == '\n' ) 
+				if ( line[ 0 ] == '\n' )
 				{
 					malloced = 1;
                     if ( bNewStyle )
@@ -326,7 +326,7 @@ int main( int argc, char *argv[] )
 					    line = strdup( "quit" );
                     }
 				}
-				else 
+				else
 				{
 					malloced = 0;
 				}
@@ -350,7 +350,7 @@ int main( int argc, char *argv[] )
             }
             else
             {
-				if ( line[ 0 ] == '\n' ) 
+				if ( line[ 0 ] == '\n' )
 				{
 					malloced = 1;
                     if ( bNewStyle )
@@ -362,7 +362,7 @@ int main( int argc, char *argv[] )
 					    line = strdup( "quit" );
                     }
 				}
-				else 
+				else
 				{
 					malloced = 0;
 				}
@@ -387,27 +387,27 @@ int main( int argc, char *argv[] )
 
         /* remove trailing spaces */
 
-        while( len > 0 ) 
+        while( len > 0 )
         {
-            if ( line[ len - 1 ] == ' ' ) 
+            if ( line[ len - 1 ] == ' ' )
             {
                 len --;
             }
-            else 
+            else
             {
                 break;
             }
         }
 
         /*
-         * is it a comment? 
+         * is it a comment?
          */
 
         if ( bNewStyle )
         {
             if ( len >= 2 && line[ 0 ] == '-' && line[ 1 ] == '-' )
             {
-                /* 
+                /*
                  * it can't have been malloc'd
                  */
                 continue;
@@ -480,7 +480,7 @@ int main( int argc, char *argv[] )
 
             /*
              * insert space between the lines
-             * the above length check will make sure there is room for 
+             * the above length check will make sure there is room for
              * the extra space
              */
             if ( linen > 1 )
@@ -544,7 +544,7 @@ int main( int argc, char *argv[] )
     exit( 0 );
 }
 
-static void mem_error( int line ) 
+static void mem_error( int line )
 {
     if ( bVerbose ) DumpODBCLog( hEnv, 0, 0 );
     fprintf( stderr, "[ISQL]ERROR: memory allocation fail before line %d\n", line );
@@ -560,7 +560,7 @@ OptimalDisplayWidth( SQLHSTMT hStmt, SQLINTEGER nCol, int nUserWidth )
     SQLUINTEGER nLabelWidth                     = 10;
     SQLULEN nDataWidth                      = 10;
     SQLUINTEGER nOptimalDisplayWidth            = 10;
-    SQLCHAR     szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLCHAR     szColumnName[MAX_DATA_WIDTH+1];
 
     *szColumnName = '\0';
 
@@ -888,7 +888,7 @@ ExecuteSlash( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int 
     {
         if ( version3 )
         {
-            ret = SQLSetConnectAttr( hDbc, SQL_ATTR_AUTOCOMMIT, 
+            ret = SQLSetConnectAttr( hDbc, SQL_ATTR_AUTOCOMMIT,
                                      (SQLPOINTER)SQL_AUTOCOMMIT_ON, 0 );
 
             if ( SQL_SUCCEEDED( ret ) )
@@ -898,7 +898,7 @@ ExecuteSlash( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int 
         }
         else
         {
-            ret = SQLSetConnectOption( hDbc, SQL_ATTR_AUTOCOMMIT, 
+            ret = SQLSetConnectOption( hDbc, SQL_ATTR_AUTOCOMMIT,
                                        SQL_AUTOCOMMIT_ON );
 
             if ( SQL_SUCCEEDED( ret ) )
@@ -921,7 +921,7 @@ ExecuteSlash( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int 
     {
         if ( version3 )
         {
-            ret = SQLSetConnectAttr( hDbc, SQL_ATTR_AUTOCOMMIT, 
+            ret = SQLSetConnectAttr( hDbc, SQL_ATTR_AUTOCOMMIT,
                                      (SQLPOINTER)SQL_AUTOCOMMIT_OFF, 0 );
 
             if ( SQL_SUCCEEDED( ret ) )
@@ -931,7 +931,7 @@ ExecuteSlash( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int 
         }
         else
         {
-            ret = SQLSetConnectOption( hDbc, SQL_ATTR_AUTOCOMMIT, 
+            ret = SQLSetConnectOption( hDbc, SQL_ATTR_AUTOCOMMIT,
                                        SQL_AUTOCOMMIT_OFF );
 
             if ( SQL_SUCCEEDED( ret ) )
@@ -1094,7 +1094,7 @@ ExecuteSQL( SQLHDBC hDbc, char *szSQL, char cDelimiter, int bColumnNames, int bH
             free(szSepLine);
             return 0;
         }
-    
+
         ret =  SQLExecute( hStmt );
 
         if ( ret == SQL_NO_DATA )
@@ -1374,7 +1374,7 @@ static void WriteHeaderHTMLTable( SQLHSTMT hStmt )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLCHAR         szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLCHAR         szColumnName[MAX_DATA_WIDTH+1];
 
     *szColumnName = '\0';
 
@@ -1466,7 +1466,7 @@ static void WriteHeaderDelimited( SQLHSTMT hStmt, char cDelimiter )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLCHAR         szColumnName[MAX_DATA_WIDTH+1]; 
+    SQLCHAR         szColumnName[MAX_DATA_WIDTH+1];
 
     *szColumnName = '\0';
 
@@ -1553,7 +1553,7 @@ static void WriteBodyDelimited( SQLHSTMT hStmt, char cDelimiter )
                     putchar( cDelimiter );
                 }
             }
-            else if ( nReturn == SQL_SUCCESS_WITH_INFO ) 
+            else if ( nReturn == SQL_SUCCESS_WITH_INFO )
             {
                 szColumnValue[ max_col_size ] = '\0';
                 if ( types && types[ nCol - 1 ] )
@@ -1612,8 +1612,8 @@ static void WriteHeaderNormal( SQLHSTMT hStmt, SQLCHAR **szSepLine )
 {
     SQLINTEGER      nCol                            = 0;
     SQLSMALLINT     nColumns                        = 0;
-    SQLCHAR         *szColumn;    
-    SQLCHAR         *szColumnName; 
+    SQLCHAR         *szColumn;
+    SQLCHAR         *szColumnName;
     SQLCHAR         *szHdrLine;
     SQLUINTEGER     nOptimalDisplayWidth            = 10;
 

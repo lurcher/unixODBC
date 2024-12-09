@@ -54,7 +54,7 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
            SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length )
 {
-    CLHDBC cl_connection = (CLHDBC) connection_handle; 
+    CLHDBC cl_connection = (CLHDBC) connection_handle;
     int do_it_here = 1;
     SQLUINTEGER value;
     SQLRETURN ret;
@@ -75,29 +75,29 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
         break;
 
       case SQL_FETCH_DIRECTION:
-        value = SQL_FD_FETCH_ABSOLUTE | 
-                    SQL_FD_FETCH_FIRST | 
-                    SQL_FD_FETCH_LAST | 
+        value = SQL_FD_FETCH_ABSOLUTE |
+                    SQL_FD_FETCH_FIRST |
+                    SQL_FD_FETCH_LAST |
                     SQL_FD_FETCH_NEXT |
-                    SQL_FD_FETCH_PRIOR | 
+                    SQL_FD_FETCH_PRIOR |
                     SQL_FD_FETCH_RELATIVE |
                     SQL_FD_FETCH_BOOKMARK;
         break;
 
       case SQL_FORWARD_ONLY_CURSOR_ATTRIBUTES1:
-        value = SQL_CA1_NEXT | 
+        value = SQL_CA1_NEXT |
                     SQL_CA1_ABSOLUTE |
-                    SQL_CA1_RELATIVE | 
+                    SQL_CA1_RELATIVE |
                     SQL_CA1_LOCK_NO_CHANGE |
-                    SQL_CA1_POS_POSITION | 
+                    SQL_CA1_POS_POSITION |
                     SQL_CA1_POSITIONED_DELETE |
-                    SQL_CA1_POSITIONED_UPDATE | 
+                    SQL_CA1_POSITIONED_UPDATE |
                     SQL_CA1_SELECT_FOR_UPDATE;
         break;
 
       case SQL_FORWARD_ONLY_CURSOR_ATTRIBUTES2:
-        value = SQL_CA2_READ_ONLY_CONCURRENCY | 
-                    SQL_CA2_OPT_VALUES_CONCURRENCY | 
+        value = SQL_CA2_READ_ONLY_CONCURRENCY |
+                    SQL_CA2_OPT_VALUES_CONCURRENCY |
                     SQL_CA2_SENSITIVITY_UPDATES;
         break;
 
@@ -114,20 +114,20 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
         break;
 
       case SQL_STATIC_CURSOR_ATTRIBUTES1:
-        value = SQL_CA1_NEXT | 
+        value = SQL_CA1_NEXT |
                     SQL_CA1_ABSOLUTE |
                     SQL_CA1_RELATIVE |
                     SQL_CA1_BOOKMARK |
-                    SQL_CA1_LOCK_NO_CHANGE | 
-                    SQL_CA1_POS_POSITION | 
+                    SQL_CA1_LOCK_NO_CHANGE |
+                    SQL_CA1_POS_POSITION |
                     SQL_CA1_POSITIONED_DELETE |
-                    SQL_CA1_POSITIONED_UPDATE | 
+                    SQL_CA1_POSITIONED_UPDATE |
                     SQL_CA1_SELECT_FOR_UPDATE;
         break;
 
       case SQL_STATIC_CURSOR_ATTRIBUTES2:
-        value = SQL_CA2_READ_ONLY_CONCURRENCY | 
-                    SQL_CA2_OPT_VALUES_CONCURRENCY | 
+        value = SQL_CA2_READ_ONLY_CONCURRENCY |
+                    SQL_CA2_OPT_VALUES_CONCURRENCY |
                     SQL_CA2_SENSITIVITY_UPDATES;
 
         break;
@@ -138,7 +138,7 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
 
       case SQL_POSITIONED_STATEMENTS:
         value = SQL_PS_POSITIONED_DELETE |
-                    SQL_PS_POSITIONED_UPDATE | 
+                    SQL_PS_POSITIONED_UPDATE |
                     SQL_PS_SELECT_FOR_UPDATE;
         break;
 
@@ -147,7 +147,7 @@ SQLRETURN CLGetInfo( SQLHDBC connection_handle,
         break;
 
       case SQL_SCROLL_CONCURRENCY:
-        value = SQL_SCCO_READ_ONLY | 
+        value = SQL_SCCO_READ_ONLY |
                     SQL_SCCO_OPT_VALUES;
         break;
 

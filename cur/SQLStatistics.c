@@ -62,7 +62,7 @@ SQLRETURN CLStatistics( SQLHSTMT statement_handle,
            SQLUSMALLINT unique,
            SQLUSMALLINT reserved )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLSTATISTICS( cl_statement -> cl_connection,

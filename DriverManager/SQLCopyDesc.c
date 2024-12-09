@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -118,7 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLCopyDesc.c,v $ $Revision: 1.8 $";
 
 struct cdesc
 {
@@ -130,7 +129,7 @@ struct cdesc
  * note that SQL_VARCHAR indicates a pointer type, not a string
  */
 
-static struct cdesc header_fields[] = 
+static struct cdesc header_fields[] =
 {
         { SQL_DESC_ARRAY_SIZE,          SQL_INTEGER },
         { SQL_DESC_ARRAY_STATUS_PTR,    SQL_VARCHAR },
@@ -140,7 +139,7 @@ static struct cdesc header_fields[] =
         { SQL_DESC_ROWS_PROCESSED_PTR,  SQL_VARCHAR }
 };
 
-static struct cdesc rec_fields[] = 
+static struct cdesc rec_fields[] =
 {
         { SQL_DESC_CONCISE_TYPE,                SQL_SMALLINT },
         { SQL_DESC_LENGTH,                      SQL_INTEGER },
@@ -169,20 +168,20 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
     if ( !__validate_desc( src_descriptor ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
     }
     if ( !__validate_desc( target_descriptor ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -195,14 +194,14 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
     {
         sprintf( src_descriptor -> msg, "\n\t\tEntry:\
 \n\t\t\tSource Descriptor = %p\
-\n\t\t\tTarget Descriptor = %p", 
+\n\t\t\tTarget Descriptor = %p",
                 src_descriptor,
                 target_descriptor );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 src_descriptor -> msg );
     }
 
@@ -218,10 +217,10 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     	{
-       	 	dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+       	 	dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         	__post_internal_error( &src_descriptor -> error,
@@ -242,10 +241,10 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
             statement -> state == STATE_S11 ||
             statement -> state == STATE_S12 )
     	{
-       	 	dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+       	 	dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         	__post_internal_error( &target_descriptor -> error,
@@ -263,7 +262,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
     if ( (src_descriptor -> connection == target_descriptor -> connection ||
           !strcmp(src_descriptor -> connection -> dl_name,
-                  target_descriptor -> connection -> dl_name) ) && 
+                  target_descriptor -> connection -> dl_name) ) &&
             CHECK_SQLCOPYDESC( src_descriptor -> connection ))
     {
         SQLRETURN ret;
@@ -280,14 +279,14 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( target_descriptor -> msg, 
+            sprintf( target_descriptor -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     target_descriptor -> msg );
         }
 
@@ -316,10 +315,10 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
         if ( !CHECK_SQLGETDESCFIELD( src_descriptor -> connection ) ||
                 !CHECK_SQLSETDESCFIELD( src_descriptor -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &target_descriptor -> error,
@@ -340,7 +339,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
         ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                 src_descriptor -> driver_desc,
-                                0, 
+                                0,
                                 SQL_DESC_COUNT,
                                 &count,
                                 sizeof( count ),
@@ -359,7 +358,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 {
                     ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                 src_descriptor -> driver_desc,
-                                0, 
+                                0,
                                 header_fields[ i ].field_identifier,
                                 &ival,
                                 sizeof( ival ),
@@ -369,7 +368,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 {
                     ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                 src_descriptor -> driver_desc,
-                                0, 
+                                0,
                                 header_fields[ i ].field_identifier,
                                 &sval,
                                 sizeof( sval ),
@@ -379,7 +378,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                 {
                     ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                 src_descriptor -> driver_desc,
-                                0, 
+                                0,
                                 header_fields[ i ].field_identifier,
                                 &pval,
                                 sizeof( pval ),
@@ -392,7 +391,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                         target_descriptor -> driver_desc,
-                                        0, 
+                                        0,
                                         header_fields[ i ].field_identifier,
                                         (SQLPOINTER)(intptr_t) ival,
                                         sizeof( ival ));
@@ -401,7 +400,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                         target_descriptor -> driver_desc,
-                                        0, 
+                                        0,
                                         header_fields[ i ].field_identifier,
                                         (SQLPOINTER)(intptr_t) sval,
                                         sizeof( sval ));
@@ -410,7 +409,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                         target_descriptor -> driver_desc,
-                                        0, 
+                                        0,
                                         header_fields[ i ].field_identifier,
                                         pval,
                                         sizeof( pval ));
@@ -437,7 +436,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                     src_descriptor -> driver_desc,
-                                    rec, 
+                                    rec,
                                     rec_fields[ i ].field_identifier,
                                     &ival,
                                     sizeof( ival ),
@@ -447,7 +446,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                     src_descriptor -> driver_desc,
-                                    rec, 
+                                    rec,
                                     rec_fields[ i ].field_identifier,
                                     &sval,
                                     sizeof( sval ),
@@ -457,7 +456,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                     {
                         ret = SQLGETDESCFIELD( src_descriptor -> connection,
                                     src_descriptor -> driver_desc,
-                                    rec, 
+                                    rec,
                                     rec_fields[ i ].field_identifier,
                                     &pval,
                                     sizeof( pval ),
@@ -470,7 +469,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                         {
                             ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                             target_descriptor -> driver_desc,
-                                            rec, 
+                                            rec,
                                             rec_fields[ i ].field_identifier,
                                             (SQLPOINTER)(intptr_t) ival,
                                             sizeof( ival ));
@@ -479,7 +478,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                         {
                             ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                             target_descriptor -> driver_desc,
-                                            rec, 
+                                            rec,
                                             rec_fields[ i ].field_identifier,
                                             (SQLPOINTER)(intptr_t) sval,
                                             sizeof( sval ));
@@ -488,7 +487,7 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
                         {
                             ret = SQLSETDESCFIELD( target_descriptor -> connection,
                                             target_descriptor -> driver_desc,
-                                            rec, 
+                                            rec,
                                             rec_fields[ i ].field_identifier,
                                             pval,
                                             sizeof( pval ));
@@ -505,14 +504,14 @@ SQLRETURN SQLCopyDesc( SQLHDESC source_desc_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( src_descriptor -> msg, 
+            sprintf( src_descriptor -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     src_descriptor -> msg );
         }
 

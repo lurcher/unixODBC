@@ -30,8 +30,8 @@
  * if this is set, then use a 4 byte unicode definition, instead of the 2 byte definition that MS use
  */
 
-#ifdef SQL_WCHART_CONVERT  
-/* 
+#ifdef SQL_WCHART_CONVERT
+/*
  * Use this if you want to use the C/C++ portable definition of  a wide char, wchar_t
  *  Microsoft hardcoded a definition of  unsigned short which may not be compatible with
  *  your platform specific wide char definition.
@@ -79,8 +79,8 @@ typedef void*				HWND;
 typedef char				CHAR;
 #ifdef UNICODE
 
-/* 
- * NOTE: The Microsoft unicode define is only for apps that want to use TCHARs and 
+/*
+ * NOTE: The Microsoft unicode define is only for apps that want to use TCHARs and
  *  be able to compile for both unicode and non-unicode with the same source.
  *  This is not recommended for linux applications and is not supported
  * 	by the standard linux string header files.
@@ -142,7 +142,7 @@ typedef double          SQLFLOAT;
 /*
  * Hopefully by now it should be safe to assume most drivers know about SQLLEN now
  * and the default is now sizeof( SQLLEN ) = 8 on 64 bit platforms
- * 
+ *
  */
 
 #if (SIZEOF_LONG_INT == 8)
@@ -152,7 +152,7 @@ typedef unsigned int    SQLUINTEGER;
 #define SQLLEN          SQLINTEGER
 #define SQLULEN         SQLUINTEGER
 #define SQLSETPOSIROW   SQLUSMALLINT
-/* 
+/*
  * These are not supprted on 64bit ODBC according to MS, removed, so use at your peril
  *
  typedef SQLULEN         SQLROWCOUNT;
@@ -166,7 +166,7 @@ typedef unsigned int    SQLUINTEGER;
 typedef long            SQLLEN;
 typedef unsigned long   SQLULEN;
 typedef unsigned long   SQLSETPOSIROW;
-/* 
+/*
  * These are not supprted on 64bit ODBC according to MS, removed, so use at your peril
  *
  typedef SQLULEN 		SQLTRANSID;
@@ -219,7 +219,7 @@ typedef unsigned char   SQLVARCHAR;
 typedef SQLSMALLINT     SQLRETURN;
 
 #if (ODBCVER >= 0x0300)
-typedef void * 			        SQLHANDLE; 
+typedef void * 			        SQLHANDLE;
 typedef SQLHANDLE               SQLHENV;
 typedef SQLHANDLE               SQLHDBC;
 typedef SQLHANDLE               SQLHSTMT;
@@ -231,7 +231,7 @@ typedef void *                  SQLHSTMT;
 /*
  * some things like PHP won't build without this
  */
-typedef void * 			        SQLHANDLE; 
+typedef void * 			        SQLHANDLE;
 #endif
 
 /****************************

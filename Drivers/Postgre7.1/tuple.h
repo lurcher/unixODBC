@@ -5,7 +5,7 @@
  *
  * Important NOTE:  The TupleField structure is used both to hold backend data and
  *                  manual result set data.  The "set_" functions and the TupleNode
- *                  structure are only used for manual result sets by info routines.  
+ *                  structure are only used for manual result sets by info routines.
  *
  * Comments:        See "notice.txt" for copyright and license information.
  *

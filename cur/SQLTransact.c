@@ -64,7 +64,7 @@ SQLRETURN CLTransact( SQLHENV environment_handle,
     }
     else if ( connection_handle )
     {
-        CLHDBC cl_connection = (CLHDBC) connection_handle; 
+        CLHDBC cl_connection = (CLHDBC) connection_handle;
 
             return SQLTRANSACT( cl_connection,
                 SQL_NULL_HENV,

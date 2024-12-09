@@ -16,7 +16,7 @@
 SQLRETURN _AllocEnv( SQLHENV *phDrvEnv )
 {
     HDRVENV *phEnv	= (HDRVENV*)phDrvEnv;
-    
+
 
     /* SANITY CHECKS */
     if( NULL == phEnv )

@@ -109,7 +109,7 @@ typedef struct tLSTBOOKMARK
 
 
 #if defined(__cplusplus)
-         extern  "C" { 
+         extern  "C" {
 #endif
 
 /*********[ PRIMARY INTERFACE ]*****************************************************/
@@ -348,7 +348,7 @@ int _lstAppend( HLST hLst, HLSTITEM hItem );
 int _lstInsert( HLST hLst, HLSTITEM hItem );
 
 #if defined(__cplusplus)
-         } 
+         }
 #endif
 
 #endif

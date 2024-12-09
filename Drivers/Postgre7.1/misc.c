@@ -12,7 +12,7 @@
  *
  */
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <stdio.h>
@@ -115,7 +115,7 @@ qlog(char * fmt, ...)
 /*  Undefine these because windows.h will redefine and cause a warning */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #ifdef WIN32
@@ -226,7 +226,7 @@ int
 my_strlen(char *s, int len)
 {
 	int length = 0;
- 
+
 	if(s && (len > 0 || (len == SQL_NTS && strlen(s) > 0))) {
 	    length = (len > 0) ? len : strlen(s);
 	}

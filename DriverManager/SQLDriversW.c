@@ -107,7 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDriversW.c,v $";
 
 #define BUFFERSIZE  1024
 
@@ -129,10 +128,10 @@ SQLRETURN SQLDriversW(
 
     if ( !__validate_env( environment ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -148,10 +147,10 @@ SQLRETURN SQLDriversW(
                 environment,
                 (int)fdirection );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 
@@ -163,10 +162,10 @@ SQLRETURN SQLDriversW(
 
     if ( ! environment -> version_set )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &environment -> error,
@@ -178,10 +177,10 @@ SQLRETURN SQLDriversW(
 
     if ( cb_driver_desc_max < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &environment -> error,
@@ -194,10 +193,10 @@ SQLRETURN SQLDriversW(
     if ( cb_drvr_attr_max < 0
             || cb_drvr_attr_max == 1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &environment -> error,
@@ -210,10 +209,10 @@ SQLRETURN SQLDriversW(
     if ( fdirection != SQL_FETCH_FIRST &&
             fdirection != SQL_FETCH_NEXT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY103" );
 
         __post_internal_error( &environment -> error,
@@ -232,7 +231,7 @@ try_again:
 
 	memset( buffer, '\0', sizeof( buffer ));
 	memset( object, '\0', sizeof( object ));
-	SQLGetPrivateProfileString( NULL, NULL, 
+	SQLGetPrivateProfileString( NULL, NULL,
             NULL, buffer, sizeof( buffer ), "ODBCINST.INI" );
 
 	if ( iniElement( buffer, '\0', '\0',
@@ -242,7 +241,7 @@ try_again:
 		/*
 		 * Set up for the next time
 		 */
-        environment -> sql_driver_count = -1; 
+        environment -> sql_driver_count = -1;
 		ret = SQL_NO_DATA;
 	}
 	else
@@ -307,10 +306,10 @@ try_again:
 
 			memset( buffer, '\0', sizeof( buffer ));
 #ifdef __OS2__
-            if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE, 1L ) == 
+            if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE, 1L ) ==
                     INI_SUCCESS )
 #else
-            if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE ) == 
+            if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE ) ==
                     INI_SUCCESS )
 #endif
             {
@@ -320,7 +319,7 @@ try_again:
                 {
                     iniProperty( hIni, szPropertyName );
                     iniValue( hIni, szValue );
-                    sprintf( buffer, "%s=%s", szPropertyName, 
+                    sprintf( buffer, "%s=%s", szPropertyName,
                             szValue );
 
                     found = 1;
@@ -334,9 +333,9 @@ try_again:
                         else
                         {
                             SQLWCHAR *s1;
-    
+
                             s1 = ansi_to_unicode_alloc((SQLCHAR*) buffer, SQL_NTS, NULL, NULL );
-    
+
                             if ( s1 )
                             {
                                 wide_strcpy( sz_driver_attributes, s1 );
@@ -351,7 +350,7 @@ try_again:
                     iniPropertyNext( hIni );
                 }
                 /*
-                 * add extra null 
+                 * add extra null
                  */
                 if ( sz_driver_attributes )
                     *sz_driver_attributes = '\0';
@@ -364,16 +363,16 @@ try_again:
                 iniClose( hIni );
             }
 
-            if ( !found ) 
+            if ( !found )
             {
                 sprintf( szIniName, "%s/%s", odbcinst_user_file_path( b1 ), odbcinst_user_file_name( b2 ));
 
                 memset( buffer, '\0', sizeof( buffer ));
     #ifdef __OS2__
-                if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE, 1L ) == 
+                if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE, 1L ) ==
                         INI_SUCCESS )
     #else
-                if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE ) == 
+                if ( iniOpen( &hIni, szIniName, "#;", '[', ']', '=', FALSE ) ==
                         INI_SUCCESS )
     #endif
                 {
@@ -383,7 +382,7 @@ try_again:
                     {
                         iniProperty( hIni, szPropertyName );
                         iniValue( hIni, szValue );
-                        sprintf( buffer, "%s=%s", szPropertyName, 
+                        sprintf( buffer, "%s=%s", szPropertyName,
                                 szValue );
 
                         if ( sz_driver_attributes ) {
@@ -395,9 +394,9 @@ try_again:
                             else
                             {
                                 SQLWCHAR *s1;
-        
+
                                 s1 = ansi_to_unicode_alloc((SQLCHAR*) buffer, SQL_NTS, NULL, NULL );
-        
+
                                 if ( s1 )
                                 {
                                     wide_strcpy( sz_driver_attributes, s1 );
@@ -412,7 +411,7 @@ try_again:
                         iniPropertyNext( hIni );
                     }
                     /*
-                     * add extra null 
+                     * add extra null
                      */
                     if ( sz_driver_attributes )
                         *sz_driver_attributes = '\0';
@@ -430,10 +429,10 @@ try_again:
 
     if ( ret == SQL_SUCCESS_WITH_INFO )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 01004" );
 
         __post_internal_error( &environment -> error,
@@ -443,14 +442,14 @@ try_again:
 
     if ( log_info.log_flag )
     {
-        sprintf( environment -> msg, 
+        sprintf( environment -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 

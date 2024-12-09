@@ -196,14 +196,14 @@ BOOL _SQLWriteInstalledDrivers(
 	LPCSTR	pszEntry,
 	LPCSTR	pszString );
 
-BOOL _SQLDriverConnectPrompt( 
-	HWND hwnd, 
-	SQLCHAR *dsn, 
+BOOL _SQLDriverConnectPrompt(
+	HWND hwnd,
+	SQLCHAR *dsn,
 	SQLSMALLINT len_dsn );
 
-BOOL _SQLDriverConnectPromptW( 
-	HWND hwnd, 
-	SQLWCHAR *dsn, 
+BOOL _SQLDriverConnectPromptW(
+	HWND hwnd,
+	SQLWCHAR *dsn,
 	SQLSMALLINT len_dsn );
 
 void __set_config_mode( int mode );
@@ -211,12 +211,12 @@ int __get_config_mode( void );
 void __lock_config_mode( void );
 void __unlock_config_mode( void );
 
-int inst_logPushMsg( 
-        char *pszModule, 
-        char *pszFunctionName, 
-        int nLine, 
-        int nSeverity, 
-        int nCode, 
+int inst_logPushMsg(
+        char *pszModule,
+        char *pszFunctionName,
+        int nLine,
+        int nSeverity,
+        int nCode,
         char *pszMessage );
 
 int inst_logPeekMsg( long nMsg, HLOGMSG *phMsg );
@@ -309,7 +309,7 @@ struct ini_cache
 #define	ODBCINST_PROMPTTYPE_LISTBOX		2
 #define	ODBCINST_PROMPTTYPE_COMBOBOX	3
 #define	ODBCINST_PROMPTTYPE_FILENAME	4
-#define	ODBCINST_PROMPTTYPE_HIDDEN	    5 
+#define	ODBCINST_PROMPTTYPE_HIDDEN	    5
 #define ODBCINST_PROMPTTYPE_TEXTEDIT_PASSWORD 6
 
 typedef struct	tODBCINSTPROPERTY

@@ -1,9 +1,9 @@
 /**********************************************************************************
  * .
- * 
+ *
  *
  **************************************************
- * This code was created by Peter Harvey @ CodeByDesign. 
+ * This code was created by Peter Harvey @ CodeByDesign.
  * Released under LGPL 28.JAN.99
  *
  * Contributions from...

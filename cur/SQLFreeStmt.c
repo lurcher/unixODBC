@@ -58,7 +58,7 @@
 SQLRETURN CLFreeStmt( SQLHSTMT statement_handle,
            SQLUSMALLINT option )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret = SQL_SUCCESS;
 
     /*

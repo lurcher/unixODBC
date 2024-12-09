@@ -75,7 +75,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetStmtAttrW.c,v $";
 
 SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
            SQLINTEGER attribute,
@@ -93,10 +92,10 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -106,18 +105,18 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLGETSTMTATTRW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLGETSTMTATTRW( parent_statement -> connection,
@@ -145,14 +144,14 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
 \n\t\t\tStrLen = %p",
                 statement,
                 __stmt_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)buffer_length,
                 (void*)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -172,10 +171,10 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
                 (( statement -> state == STATE_S6 ||
                   statement -> state == STATE_S7 )  && statement -> eod ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 24000" );
 
             __post_internal_error( &statement -> error,
@@ -195,10 +194,10 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -217,10 +216,10 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLGETSTMTATTRW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -234,10 +233,10 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLGETSTMTATTR( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -312,7 +311,7 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
 
         ret = SQL_SUCCESS;
     }
-    else 
+    else
     {
         if ( statement -> connection -> unicode_driver )
         {
@@ -340,14 +339,14 @@ SQLRETURN SQLGetStmtAttrW( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

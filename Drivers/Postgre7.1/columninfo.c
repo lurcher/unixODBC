@@ -1,7 +1,7 @@
 
 /* Module:          columninfo.c
  *
- * Description:     This module contains routines related to 
+ * Description:     This module contains routines related to
  *                  reading and storing the field information from a query.
  *
  * Classes:         ColumnInfoClass (Functions prefix: "CI_")
@@ -157,17 +157,17 @@ CI_set_num_fields(ColumnInfoClass *self, int new_num_fields)
 }
 
 void
-CI_set_field_info(ColumnInfoClass *self, int field_num, char *new_name, 
+CI_set_field_info(ColumnInfoClass *self, int field_num, char *new_name,
                                       Oid new_adtid, Int2 new_adtsize, Int4 new_atttypmod)
 {
-    
+
 	/* check bounds */
 	if((field_num < 0) || (field_num >= self->num_fields)) {
 		return;
 	}
 
 	/* store the info */
-	self->name[field_num] = strdup(new_name);  
+	self->name[field_num] = strdup(new_name);
 	self->adtid[field_num] = new_adtid;
 	self->adtsize[field_num] = new_adtsize;
 	self->atttypmod[field_num] = new_atttypmod;

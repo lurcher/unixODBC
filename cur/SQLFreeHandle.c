@@ -65,7 +65,7 @@ SQLRETURN CLFreeHandle( SQLSMALLINT handle_type,
 
       case SQL_HANDLE_STMT:
         {
-            CLHSTMT cl_statement = (CLHSTMT) handle; 
+            CLHSTMT cl_statement = (CLHSTMT) handle;
             SQLRETURN ret = SQL_SUCCESS;
 
             /*
@@ -111,7 +111,7 @@ SQLRETURN CLFreeHandle( SQLSMALLINT handle_type,
                  * free any bound columns
                  */
                 free_bound_columns( cl_statement );
-                
+
                 /*
                  * free up any rowset
                  */

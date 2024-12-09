@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTablesW.c,v $";
 
 SQLRETURN SQLTablesW( SQLHSTMT statement_handle,
            SQLWCHAR *catalog_name,
@@ -106,10 +105,10 @@ SQLRETURN SQLTablesW( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -119,18 +118,18 @@ SQLRETURN SQLTablesW( SQLHSTMT statement_handle,
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLTABLESW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLTABLESW( parent_statement -> connection,
@@ -382,7 +381,7 @@ SQLRETURN SQLTablesW( SQLHSTMT statement_handle,
         statement -> state = STATE_S1;
     }
 
-    if ( log_info.log_flag ) 
+    if ( log_info.log_flag )
     {
         sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",

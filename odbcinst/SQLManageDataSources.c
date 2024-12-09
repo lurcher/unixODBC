@@ -17,16 +17,16 @@
 
 #include <odbcinstext.h>
 
-/*! 
+/*!
  * \brief   Get the short name of the UI plugin.
- * 
+ *
  *          The short name is the file name without path or file extension.
  *
  *          We silently prepend "lib" here as well.
  *
- * \param   pszName     Place to put short name. Should be FILENAME_MAX bytes. 
+ * \param   pszName     Place to put short name. Should be FILENAME_MAX bytes.
  * \param   pszUI       Our generic window handle.
- * 
+ *
  * \return  char*       pszName returned for convenience.
  */
 char *_getUIPluginName( char *pszName, char *pszUI )
@@ -68,14 +68,14 @@ char *_getUIPluginName( char *pszName, char *pszUI )
     return pszName;
 }
 
-/*! 
+/*!
  * \brief   Append the file extension used by the OS for plugins.
- * 
+ *
  *          We use SHLIBEXT which is picked up at configure/build time.
  *
  * \param   pszNameAndExtension   Output. Needs to be FILENAME_MAX bytes.
  * \param   pszName               Input.
- * 
+ *
  * \return  char*   pszNameAndExtension returned for convenience.
  */
 char *_appendUIPluginExtension( char *pszNameAndExtension, char *pszName )
@@ -88,15 +88,15 @@ char *_appendUIPluginExtension( char *pszNameAndExtension, char *pszName )
     return pszName;
 }
 
-/*! 
+/*!
  * \brief   Prepends the path used for the plugins.
- * 
+ *
  *          We use DEFLIB_PATH and if it is not available...
  *          path may not get prepended.
  *
  * \param   pszPathAndName    Output. Needs to be FILENAME_MAX bytes.
  * \param   pszName           Input.
- * 
+ *
  * \return  char*   pszPathAndName is returned for convenience.
  */
 char *_prependUIPluginPath( char *pszPathAndName, char *pszName )
@@ -109,17 +109,17 @@ char *_prependUIPluginPath( char *pszPathAndName, char *pszName )
     return pszPathAndName;
 }
 
-/*! 
+/*!
  * \brief   UI to manage most ODBC system information.
- * 
+ *
  *          This calls into the UI plugin library to do our work for us. The caller can provide
  *          the name (base name) of the library or let us determine which library to use.
  *          See \sa _getUIPluginName for details on how the choice is made.
- *          
+ *
  * \param   hWnd    Input. Parent window handle. This is HWND as per the ODBC
  *                  specification but in unixODBC we use a generic window
- *                  handle. Caller must cast a HODBCINSTWND to HWND at call. 
- * 
+ *                  handle. Caller must cast a HODBCINSTWND to HWND at call.
+ *
  * \return  BOOL
  *
  * \sa      ODBCINSTWND

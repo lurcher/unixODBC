@@ -14,7 +14,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -37,15 +37,15 @@
 
 extern GLOBAL_VALUES globals;
 
-RETCODE set_statement_option(ConnectionClass *conn, 
-							 StatementClass *stmt, 
+RETCODE set_statement_option(ConnectionClass *conn,
+							 StatementClass *stmt,
 							 UWORD   fOption,
 							 UDWORD  vParam);
 
 
 
-RETCODE set_statement_option(ConnectionClass *conn, 
-							 StatementClass *stmt, 
+RETCODE set_statement_option(ConnectionClass *conn,
+							 StatementClass *stmt,
 							 UWORD   fOption,
 							 UDWORD  vParam)
 {
@@ -104,7 +104,7 @@ char changed = FALSE;
 				if (conn) conn->stmtOptions.cursor_type = SQL_CURSOR_FORWARD_ONLY;
 				if (stmt) stmt->options.cursor_type = SQL_CURSOR_FORWARD_ONLY;
 
-				if (vParam != SQL_CURSOR_FORWARD_ONLY) 
+				if (vParam != SQL_CURSOR_FORWARD_ONLY)
 					changed = TRUE;
 			}
 			else {
@@ -173,7 +173,7 @@ char changed = FALSE;
 		mylog("SetStmtOption(): SQL_ROWSET_SIZE, vParam = %d\n", vParam);
 
 
-		/*	Save old rowset size for SQLExtendedFetch purposes 
+		/*	Save old rowset size for SQLExtendedFetch purposes
 			If the rowset_size is being changed since the last call
 			to fetch rows.
 		*/
@@ -270,17 +270,17 @@ int i;
 
 
 	switch (fOption) {
-	/* Statement Options 
+	/* Statement Options
 	   (apply to all stmts on the connection and become defaults for new stmts)
 	*/
 	case SQL_ASYNC_ENABLE:
 	case SQL_BIND_TYPE:		
 	case SQL_CONCURRENCY:
 	case SQL_CURSOR_TYPE:
-	case SQL_KEYSET_SIZE: 
+	case SQL_KEYSET_SIZE:
 	case SQL_MAX_LENGTH:
 	case SQL_MAX_ROWS:
-	case SQL_NOSCAN: 
+	case SQL_NOSCAN:
 	case SQL_QUERY_TIMEOUT:
 	case SQL_RETRIEVE_DATA:
 	case SQL_ROWSET_SIZE:
@@ -363,7 +363,7 @@ int i;
 		break;
 
 	default:
-		{ 
+		{
 		char option[64];
 		CC_set_error(conn, CONN_UNSUPPORTED_OPTION, "Unknown connect option (Set)");
 		sprintf(option, "fOption=%d, vParam=%ld", fOption, vParam);
@@ -371,7 +371,7 @@ int i;
 		return SQL_ERROR;
 		}
 
-	}    
+	}
 
 	if (changed) {
 		CC_set_error(conn, CONN_OPTION_VALUE_CHANGED, "Requested value changed.");
@@ -450,7 +450,7 @@ ConnectionClass *conn = (ConnectionClass *) hdbc;
 		break;
 		}
 
-	}    
+	}
 
 	return SQL_SUCCESS;
 }

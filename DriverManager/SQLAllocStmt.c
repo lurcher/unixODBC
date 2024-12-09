@@ -63,7 +63,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLAllocStmt.c,v $ $Revision: 1.2 $";
 
 SQLRETURN SQLAllocStmt( SQLHDBC connection_handle,
            SQLHSTMT *statement_handle )

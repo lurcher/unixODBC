@@ -52,13 +52,13 @@
 #include "cursorlibrary.h"
 
 SQLRETURN CLSetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT type,
-           SQLSMALLINT subtype, 
+           SQLSMALLINT subtype,
            SQLLEN length,
-           SQLSMALLINT precision, 
+           SQLSMALLINT precision,
            SQLSMALLINT scale,
-           SQLPOINTER data, 
+           SQLPOINTER data,
            SQLLEN *string_length,
            SQLLEN *indicator )
 {

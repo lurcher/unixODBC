@@ -1,11 +1,11 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Clear all log messages.
  *
  * \param   hLog
- * 
+ *
  * \return  int
  * \retval  LOG_ERROR
  * \retval  LOG_SUCCESS

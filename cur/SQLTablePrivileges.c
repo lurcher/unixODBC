@@ -61,7 +61,7 @@ SQLRETURN CLTablePrivileges(
     SQLCHAR            *sz_table_name,
     SQLSMALLINT        cb_table_name )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLTABLEPRIVILEGES( cl_statement -> cl_connection,

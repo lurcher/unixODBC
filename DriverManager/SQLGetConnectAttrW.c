@@ -120,8 +120,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetConnectAttrW.c,v $";
-
 SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,
@@ -207,10 +205,10 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -228,14 +226,14 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
 \n\t\t\tStrLen = %p",
                 connection,
                 __con_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)buffer_length,
                 (void*)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -243,10 +241,10 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
 
     if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -352,10 +350,10 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                     sa = sa -> next;
                 }
             }
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -572,14 +570,14 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
             }
         }
 
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, ret );
@@ -603,13 +601,13 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                      * Is it in the legal range of values
                      */
 
-                    if ( attribute < SQL_CONN_DRIVER_MIN && 
+                    if ( attribute < SQL_CONN_DRIVER_MIN &&
                             ( attribute > SQL_PACKET_SIZE || attribute < SQL_ACCESS_MODE ))
                     {
-                        dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                        dm_log_write( __FILE__,
+                                    __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY092" );
 
                         __post_internal_error( &connection -> error,
@@ -626,10 +624,10 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM001" );
 
                     __post_internal_error( &connection -> error,
@@ -661,13 +659,13 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                      * Is it in the legal range of values
                      */
 
-                    if ( attribute < SQL_CONN_DRIVER_MIN && 
+                    if ( attribute < SQL_CONN_DRIVER_MIN &&
                             ( attribute > SQL_PACKET_SIZE || attribute < SQL_ACCESS_MODE ))
                     {
-                        dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                        dm_log_write( __FILE__,
+                                    __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY092" );
 
                         __post_internal_error( &connection -> error,
@@ -716,10 +714,10 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM001" );
 
                     __post_internal_error( &connection -> error,
@@ -777,14 +775,14 @@ SQLRETURN SQLGetConnectAttrW( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 

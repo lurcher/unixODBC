@@ -20,7 +20,7 @@ static int	error_status = SS$_NORMAL;
 static char	error_buffer[256];
 static char	getenv_buffer[256];
 
-typedef struct 
+typedef struct
 {
     struct dsc$descriptor_s	fnmdes;
     struct dsc$descriptor_s	imgdes;
@@ -49,25 +49,25 @@ int to_vms_callback(char *name, int type)
 void * lt_dlopen (const char *filename)
 {
 
-   /* 
-    * Locates and validates a shareable image.  If the caller supplies a 
+   /*
+    * Locates and validates a shareable image.  If the caller supplies a
     * path as part of the image name, that's where we look.  Note that this
     * includes cases where the image name is a logical name pointing to a full
     * file spec including path.  If there is no path,  we look at wherever the
     * logical name LTDL_LIBRARY_PATH points (if it exists); it'd normally be a
     * search list logical defined in lt_dladdsearchdir, so it could point to a
-    * number of places.   As a last resort we look in SYS$SHARE. 
+    * number of places.   As a last resort we look in SYS$SHARE.
     */
 
     vms_dl	*dh;
-    int		status;  
-    struct FAB	imgfab;  
+    int		status;
+    struct FAB	imgfab;
     struct NAM  imgnam;
     char defimg[NAM$C_MAXRSS+1];
     char *defpath;
 	char local_fspec[NAM$C_MAXRSS+1];
 
-    if (filename == NULL) 
+    if (filename == NULL)
     {
 	error_status = SS$_UNSUPPORTED;
 	return NULL;
@@ -75,7 +75,7 @@ void * lt_dlopen (const char *filename)
 
 	strcpy(local_fspec, filename);
 
-    /* 
+    /*
      * The driver manager will handle a hard-coded path from a .ini file, but
      * only if it's an absolute path in unix syntax.  To make those acceptable
      * to lib$find_image_symbol, we have to convert to VMS syntax.  N.B. Because
@@ -88,9 +88,9 @@ void * lt_dlopen (const char *filename)
         if (num_translated == 1) strcpy(local_fspec, translate_buffer);
     }
 
-    dh = (vms_dl *)malloc (sizeof (vms_dl));  
+    dh = (vms_dl *)malloc (sizeof (vms_dl));
     memset( dh, 0, sizeof(vms_dl) );
-    if (dh == NULL) 
+    if (dh == NULL)
     {
 	error_status = SS$_INSFMEM;
 	return NULL;
@@ -99,7 +99,7 @@ void * lt_dlopen (const char *filename)
     imgfab = cc$rms_fab;
 	imgfab.fab$l_fna = local_fspec;
 	imgfab.fab$b_fns = (int) strlen (local_fspec);
-    imgfab.fab$w_ifi = 0;  
+    imgfab.fab$w_ifi = 0;
 
    /* If the logical name LTDL_LIBRARY_PATH does not exist, we'll depend
     * on the image name being a logical name or on the image residing in
@@ -109,19 +109,19 @@ void * lt_dlopen (const char *filename)
     {
         strcpy( defimg, ".EXE" );
     }
-    else 
+    else
     {
         strcpy( defimg, "LTDL_LIBRARY_PATH:.EXE" );
     }
     imgfab.fab$l_dna = defimg;
     imgfab.fab$b_dns = strlen(defimg);
     imgfab.fab$l_fop = FAB$M_NAM;
-    imgfab.fab$l_nam = &imgnam;  
+    imgfab.fab$l_nam = &imgnam;
     imgnam = cc$rms_nam;
-    imgnam.nam$l_esa = dh->filename;  
+    imgnam.nam$l_esa = dh->filename;
     imgnam.nam$b_ess = NAM$C_MAXRSS;
-  
-    status = sys$parse (&imgfab);  
+
+    status = sys$parse (&imgfab);
     if (!($VMS_STATUS_SUCCESS(status)))
     {
         /* No luck with LTDL_LIBRARY_PATH; try SYS$SHARE */
@@ -143,7 +143,7 @@ void * lt_dlopen (const char *filename)
     dh->imgdes.dsc$b_dtype = DSC$K_DTYPE_T;
     dh->imgdes.dsc$b_class = DSC$K_CLASS_S;
     dh->imgdes.dsc$a_pointer = dh->filename;
-    dh->imgdes.dsc$w_length = imgnam.nam$b_esl;  
+    dh->imgdes.dsc$w_length = imgnam.nam$b_esl;
 
     /*
     ** Attempt to load a symbol at this stage to
@@ -157,7 +157,7 @@ void * lt_dlopen (const char *filename)
 	free (dh);
 	return NULL;
     }
- 
+
     return dh;
 }
 
@@ -176,7 +176,7 @@ void * lt_dlsym (void *handle, const char *name)
     dh = (vms_dl *)handle;
     if (!dh) return NULL;
 
-    dh->symdes.dsc$b_dtype = DSC$K_DTYPE_T;  
+    dh->symdes.dsc$b_dtype = DSC$K_DTYPE_T;
     dh->symdes.dsc$b_class = DSC$K_CLASS_S;
     dh->symdes.dsc$a_pointer = (char *) name;
     dh->symdes.dsc$w_length = strlen (name);
@@ -187,7 +187,7 @@ void * lt_dlsym (void *handle, const char *name)
     if (!($VMS_STATUS_SUCCESS(status)))
     {
 	/*
-	** Try again with mixed case flag set 
+	** Try again with mixed case flag set
 	*/
         flags = LIB$M_FIS_MIXEDCASE;
 
@@ -219,17 +219,17 @@ const char *lt_dlerror (void)
     int			    status;
 
     if (($VMS_STATUS_SUCCESS(error_status))) return NULL;
-    
+
     desc.dsc$b_dtype = DSC$K_DTYPE_T;
-    desc.dsc$b_class = DSC$K_CLASS_S;  
+    desc.dsc$b_class = DSC$K_CLASS_S;
     desc.dsc$a_pointer = error_buffer;
     desc.dsc$w_length = sizeof (error_buffer);
 
-    status = sys$getmsg (error_status, &outlen, &desc, 15, 0);  
-    if ($VMS_STATUS_SUCCESS(status)) error_buffer[outlen] = '\0';    
+    status = sys$getmsg (error_status, &outlen, &desc, 15, 0);
+    if ($VMS_STATUS_SUCCESS(status)) error_buffer[outlen] = '\0';
     else sprintf (error_buffer, "OpenVMS exit status %8X", error_status);
 
-    error_status = SS$_NORMAL;  
+    error_status = SS$_NORMAL;
 
     return (error_buffer);
 }

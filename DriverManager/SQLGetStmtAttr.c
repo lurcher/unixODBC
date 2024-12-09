@@ -163,8 +163,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetStmtAttr.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLGetStmtAttrA( SQLHSTMT statement_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,
@@ -194,10 +192,10 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -215,14 +213,14 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
 \n\t\t\tStrLen = %p",
                 statement,
                 __stmt_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)buffer_length,
                 (void*)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -242,10 +240,10 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
                 (( statement -> state == STATE_S6 ||
                   statement -> state == STATE_S7 ) && statement -> eod ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 24000" );
 
             __post_internal_error( &statement -> error,
@@ -265,10 +263,10 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -289,10 +287,10 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
             !CHECK_SQLGETSTMTATTR( statement -> connection ) &&
             !CHECK_SQLGETSTMTOPTION( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -307,10 +305,10 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
         if ( !CHECK_SQLGETSTMTATTR( statement -> connection ) &&
             !CHECK_SQLGETSTMTOPTION( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -410,7 +408,7 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
     }
     else if ( !statement -> connection -> unicode_driver &&
             attribute == SQL_ATTR_ROW_ARRAY_SIZE &&
-            statement -> connection -> driver_act_ver == SQL_OV_ODBC2 && 
+            statement -> connection -> driver_act_ver == SQL_OV_ODBC2 &&
             CHECK_SQLGETSTMTATTR( statement -> connection ))
     {
         ret = SQLGETSTMTATTR( statement -> connection,
@@ -423,7 +421,7 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
     else if ( attribute == SQL_ATTR_ROW_ARRAY_SIZE &&
             statement -> connection -> driver_act_ver == SQL_OV_ODBC2 )
     {
-        if ( statement -> connection -> unicode_driver && 
+        if ( statement -> connection -> unicode_driver &&
                 CHECK_SQLGETSTMTOPTIONW( statement -> connection ))
         {
             ret = SQLGETSTMTOPTIONW( statement -> connection,
@@ -440,7 +438,7 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
         }
     }
     else if ( statement -> connection -> unicode_driver &&
-            ( CHECK_SQLGETSTMTATTRW( statement -> connection ) || 
+            ( CHECK_SQLGETSTMTATTRW( statement -> connection ) ||
             CHECK_SQLGETSTMTATTR( statement -> connection )))
     {
         if ( CHECK_SQLGETSTMTATTR( statement -> connection ))
@@ -479,13 +477,13 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
          * Is it in the legal range of values
          */
 
-        if ( attribute < SQL_STMT_DRIVER_MIN && 
+        if ( attribute < SQL_STMT_DRIVER_MIN &&
                 ( attribute > SQL_ROW_NUMBER || attribute < SQL_QUERY_TIMEOUT ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY092" );
 
             __post_internal_error( &statement -> error,
@@ -506,13 +504,13 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
          * Is it in the legal range of values
          */
 
-        if ( attribute < SQL_STMT_DRIVER_MIN && 
+        if ( attribute < SQL_STMT_DRIVER_MIN &&
                 ( attribute > SQL_ROW_NUMBER || attribute < SQL_QUERY_TIMEOUT ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY092" );
 
             __post_internal_error( &statement -> error,
@@ -530,14 +528,14 @@ SQLRETURN SQLGetStmtAttr( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

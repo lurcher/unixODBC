@@ -118,7 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetStmtOption.c,v $ $Revision: 1.4 $";
 
 SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
            SQLUSMALLINT option,
@@ -134,10 +133,10 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -155,10 +154,10 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
                 __stmt_attr_as_string( s1, option ),
                 value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -174,10 +173,10 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
                 (( statement -> state == STATE_S6 ||
                   statement -> state == STATE_S7 ) && statement -> eod ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 24000" );
 
             __post_internal_error( &statement -> error,
@@ -187,7 +186,7 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
-    
+
     if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 ||
@@ -197,10 +196,10 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -306,10 +305,10 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
     }
     else
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -321,14 +320,14 @@ SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

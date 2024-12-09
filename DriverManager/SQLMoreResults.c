@@ -127,7 +127,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLMoreResults.c,v $ $Revision: 1.8 $";
 
 SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
 {
@@ -141,10 +140,10 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -158,10 +157,10 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
 \n\t\t\tStatement = %p",
                 statement );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -174,14 +173,14 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
             /* statement -> state == STATE_S2 || */
             statement -> state == STATE_S3 )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_NO_DATA, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
 
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_NO_DATA );
@@ -190,10 +189,10 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S10 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -207,10 +206,10 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
     {
         if ( statement -> interupted_func != SQL_API_SQLMORERESULTS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -228,10 +227,10 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
     if ( !CHECK_SQLMORERESULTS( statement -> connection ))
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -245,7 +244,7 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
             statement -> driver_stmt );
 
     if ( SQL_SUCCEEDED( ret ))
-    { 
+    {
 #ifdef NR_PROBE
         /*
          * grab any errors
@@ -315,20 +314,20 @@ SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
     else
     {
         /*
-         * Leave the state where it is 
+         * Leave the state where it is
          */
     }
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

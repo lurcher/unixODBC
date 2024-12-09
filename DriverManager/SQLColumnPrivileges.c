@@ -126,7 +126,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumnPrivileges.c,v $ $Revision: 1.8 $";
 
 SQLRETURN SQLColumnPrivilegesA(
     SQLHSTMT            statement_handle,
@@ -171,10 +170,10 @@ SQLRETURN SQLColumnPrivileges(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -189,28 +188,28 @@ SQLRETURN SQLColumnPrivileges(
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
 \n\t\t\tTable Name = %s\
-\n\t\t\tColumn Name = %s", 
+\n\t\t\tColumn Name = %s",
                 statement,
-                __string_with_length( s1, catalog_name, name_length1 ), 
-                __string_with_length( s2, schema_name, name_length2 ), 
-                __string_with_length( s3, table_name, name_length3 ), 
+                __string_with_length( s1, catalog_name, name_length1 ),
+                __string_with_length( s2, schema_name, name_length2 ),
+                __string_with_length( s3, table_name, name_length3 ),
                 __string_with_length( s4, column_name, name_length4 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if ( table_name == NULL ) 
+    if ( table_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -219,16 +218,16 @@ SQLRETURN SQLColumnPrivileges(
 
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
-    
+
     if (( name_length1 < 0 && name_length1 != SQL_NTS ) ||
             ( name_length2 < 0 && name_length2 != SQL_NTS ) ||
             ( name_length3 < 0 && name_length3 != SQL_NTS ) ||
             ( name_length4 < 0 && name_length4 != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -251,10 +250,10 @@ SQLRETURN SQLColumnPrivileges(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -270,10 +269,10 @@ SQLRETURN SQLColumnPrivileges(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -288,10 +287,10 @@ SQLRETURN SQLColumnPrivileges(
     {
         if ( statement -> interupted_func != SQL_API_SQLCOLUMNPRIVILEGES )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -313,10 +312,10 @@ SQLRETURN SQLColumnPrivileges(
 
         if ( !CHECK_SQLCOLUMNPRIVILEGESW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -359,10 +358,10 @@ SQLRETURN SQLColumnPrivileges(
     {
         if ( !CHECK_SQLCOLUMNPRIVILEGES( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -403,14 +402,14 @@ SQLRETURN SQLColumnPrivileges(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

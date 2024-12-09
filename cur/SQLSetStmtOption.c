@@ -65,7 +65,7 @@ SQLRETURN CLSetStmtOption( SQLHSTMT statement_handle,
            SQLUSMALLINT option,
            SQLULEN value )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLUINTEGER val;
     SQLRETURN ret = SQL_SUCCESS;
 
@@ -93,7 +93,7 @@ SQLRETURN CLSetStmtOption( SQLHSTMT statement_handle,
             cl_statement -> concurrency = ( SQLUINTEGER ) value;
         }
         break;
-        
+
       case SQL_CURSOR_TYPE:
         val = ( SQLUINTEGER ) value;
         if ( val != SQL_CURSOR_FORWARD_ONLY &&
@@ -168,10 +168,10 @@ SQLRETURN CLSetStmtOption( SQLHSTMT statement_handle,
 
     if ( ret == SQL_SUCCESS_WITH_INFO )
     {
-        cl_statement -> cl_connection -> dh.__post_internal_error( 
+        cl_statement -> cl_connection -> dh.__post_internal_error(
 					&cl_statement -> dm_statement -> error,
                     ERROR_01S02, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
     }
     return ret;

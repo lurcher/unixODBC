@@ -149,7 +149,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetStmtOption.c,v $ $Revision: 1.10 $";
 
 SQLRETURN SQLSetStmtOptionA( SQLHSTMT statement_handle,
            SQLUSMALLINT option,
@@ -172,10 +171,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -193,10 +192,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 __stmt_attr_as_string( s1, option ),
                 (int)value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -214,10 +213,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
         if ( statement -> state == STATE_S2 ||
                 statement -> state == STATE_S3 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: S1011" );
 
             __post_internal_error( &statement -> error,
@@ -231,10 +230,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 statement -> state == STATE_S6 ||
                 statement -> state == STATE_S7 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 24000" );
 
             __post_internal_error( &statement -> error,
@@ -254,10 +253,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
         {
             if ( statement -> prepared )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: S1011" );
 
                 __post_internal_error( &statement -> error,
@@ -268,10 +267,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: S1010" );
 
                 __post_internal_error( &statement -> error,
@@ -290,10 +289,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
                 statement -> state == STATE_S11 ||
                 statement -> state == STATE_S12 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: S1010" );
 
             __post_internal_error( &statement -> error,
@@ -304,13 +303,13 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
         }
     }
 
-    if ( option == SQL_ATTR_IMP_ROW_DESC || 
+    if ( option == SQL_ATTR_IMP_ROW_DESC ||
         option == SQL_ATTR_IMP_PARAM_DESC )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY017" );
 
         __post_internal_error( &statement -> error,
@@ -325,12 +324,12 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
      */
     ret = dm_check_statement_attrs( statement, option, (SQLPOINTER)value );
 
-    if ( ret != SQL_SUCCESS ) 
+    if ( ret != SQL_SUCCESS )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY011" );
 
         __post_internal_error( &statement -> error,
@@ -359,7 +358,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
         {
           case SQL_ATTR_APP_PARAM_DESC:
             if ( value )
-                memcpy( &statement -> apd, (void*)value, 
+                memcpy( &statement -> apd, (void*)value,
                         sizeof( statement -> apd ));
 
             ret = SQL_SUCCESS;
@@ -367,7 +366,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_APP_ROW_DESC:
             if ( value )
-                memcpy( &statement -> ard, (void*)value, 
+                memcpy( &statement -> ard, (void*)value,
                         sizeof( statement -> ard ));
 
             ret = SQL_SUCCESS;
@@ -375,7 +374,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_IMP_PARAM_DESC:
             if ( value )
-                memcpy( &statement -> ipd, (void*)value, 
+                memcpy( &statement -> ipd, (void*)value,
                         sizeof( statement -> ipd ));
 
             ret = SQL_SUCCESS;
@@ -383,7 +382,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_IMP_ROW_DESC:
             if ( value )
-                memcpy( &statement -> ird, (void*)value, 
+                memcpy( &statement -> ird, (void*)value,
                         sizeof( statement -> ird ));
 
             ret = SQL_SUCCESS;
@@ -404,7 +403,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
         {
           case SQL_ATTR_APP_PARAM_DESC:
             if ( value )
-                memcpy( &statement -> apd, (void*)value, 
+                memcpy( &statement -> apd, (void*)value,
                         sizeof( statement -> apd ));
 
             ret = SQL_SUCCESS;
@@ -412,7 +411,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_APP_ROW_DESC:
             if ( value )
-                memcpy( &statement -> ard, (void*)value, 
+                memcpy( &statement -> ard, (void*)value,
                         sizeof( statement -> ard ));
 
             ret = SQL_SUCCESS;
@@ -420,7 +419,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_IMP_PARAM_DESC:
             if ( value )
-                memcpy( &statement -> ipd, (void*)value, 
+                memcpy( &statement -> ipd, (void*)value,
                         sizeof( statement -> ipd ));
 
             ret = SQL_SUCCESS;
@@ -428,7 +427,7 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
           case SQL_ATTR_IMP_ROW_DESC:
             if ( value )
-                memcpy( &statement -> ird, (void*)value, 
+                memcpy( &statement -> ird, (void*)value,
                         sizeof( statement -> ird ));
 
             ret = SQL_SUCCESS;
@@ -445,10 +444,10 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
     }
     else
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -469,14 +468,14 @@ SQLRETURN SQLSetStmtOption( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

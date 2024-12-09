@@ -163,7 +163,7 @@ int calculate_buffers( CLHSTMT cl_statement, int column_count )
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_HY001, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
 
         return SQL_ERROR;
@@ -205,22 +205,22 @@ SQLRETURN get_column_names( CLHSTMT cl_statement )
      * get the names of all the columns
      */
 
-    cl_statement -> column_names = malloc( sizeof(char *) 
+    cl_statement -> column_names = malloc( sizeof(char *)
             * cl_statement -> column_count );
     if ( !cl_statement->column_names )
         return SQL_ERROR;
 
-    cl_statement -> data_type = malloc( sizeof( SQLSMALLINT ) 
+    cl_statement -> data_type = malloc( sizeof( SQLSMALLINT )
             * cl_statement -> column_count );
     if ( !cl_statement->data_type )
         return SQL_ERROR;
 
-    cl_statement -> column_size = malloc( sizeof( SQLULEN ) 
+    cl_statement -> column_size = malloc( sizeof( SQLULEN )
             * cl_statement -> column_count );
     if ( !cl_statement->column_size )
         return SQL_ERROR;
 
-    cl_statement -> decimal_digits = malloc( sizeof( SQLSMALLINT ) 
+    cl_statement -> decimal_digits = malloc( sizeof( SQLSMALLINT )
             * cl_statement -> column_count );
     if ( !cl_statement->decimal_digits )
         return SQL_ERROR;
@@ -228,10 +228,10 @@ SQLRETURN get_column_names( CLHSTMT cl_statement )
     for ( i = 1; i <= cl_statement -> column_count; i ++ )
     {
         SQLRETURN ret;
-    
+
         if ( !CHECK_SQLDESCRIBECOL( cl_statement -> cl_connection ))
         {
-            cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> 
+            cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement ->
                     dm_statement -> error,
                     ERROR_01000, "Driver does not support SQLDescribeCol",
                     cl_statement -> dm_statement -> connection ->
@@ -245,14 +245,14 @@ SQLRETURN get_column_names( CLHSTMT cl_statement )
                 (SQLCHAR*) cname,
                 sizeof( cname ),
                 NULL,
-                &cl_statement -> data_type[ i - 1 ], 
+                &cl_statement -> data_type[ i - 1 ],
                 &cl_statement -> column_size[ i - 1 ],
                 &cl_statement -> decimal_digits[ i - 1 ],
                 NULL );
 
         if ( !SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> 
+            cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement ->
                     dm_statement -> error,
                     ERROR_01000, "SQLDescribeCol failed in driver",
                     cl_statement -> dm_statement -> connection ->
@@ -271,7 +271,7 @@ SQLRETURN CLExecDirect( SQLHSTMT statement_handle,
            SQLCHAR *statement_text,
            SQLINTEGER text_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     /*

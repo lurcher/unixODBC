@@ -134,22 +134,22 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
 #endif
         {
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
-                ERROR_S1000, 
+                ERROR_S1000,
                 "General error: fseek fails",
-                cl_statement -> dm_statement -> connection -> 
+                cl_statement -> dm_statement -> connection ->
                     environment -> requested_version );
             return SQL_ERROR;
         }
 
         if ( fread( cl_statement -> rowset_buffer,
-                cl_statement -> buffer_length, 
-                1, 
+                cl_statement -> buffer_length,
+                1,
                 cl_statement -> rowset_file ) != 1 )
         {
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
-                ERROR_S1000, 
+                ERROR_S1000,
                 "General error: Unable to read from file buffer",
-                cl_statement -> dm_statement -> connection -> 
+                cl_statement -> dm_statement -> connection ->
                     environment -> requested_version );
             return SQL_ERROR;
         }
@@ -160,7 +160,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
          * status ptr
          */
 
-        memcpy( &ret, cl_statement -> rowset_buffer, 
+        memcpy( &ret, cl_statement -> rowset_buffer,
                 sizeof( SQLUSMALLINT ));
 
         /*
@@ -179,7 +179,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
              */
 
             memcpy( cbuf -> local_buffer,
-                    cl_statement -> rowset_buffer + 
+                    cl_statement -> rowset_buffer +
                     cbuf -> rs_buffer_offset,
                     cbuf -> bound_length );
 
@@ -278,7 +278,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
              * status ptr
              */
 
-            memcpy( cl_statement -> rowset_buffer, 
+            memcpy( cl_statement -> rowset_buffer,
                     &ret, sizeof( SQLUSMALLINT ));
 
             /*
@@ -296,7 +296,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
                  * copy to the file buffer
                  */
 
-                memcpy( cl_statement -> rowset_buffer + 
+                memcpy( cl_statement -> rowset_buffer +
                         cbuf -> rs_buffer_offset,
                         cbuf -> local_buffer,
                         cbuf -> bound_length );
@@ -342,7 +342,7 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
                     /*
                      * Not quite sure if the check is valid, I think I can see where
                      * I got it from, but not sure if it's correct
-                     * 
+                     *
                     if ( buffer && cbuf -> bound_ind && *cbuf -> bound_ind >= 0 )
                     */
                     if ( buffer && cbuf -> bound_ind )
@@ -386,22 +386,22 @@ SQLRETURN fetch_row( CLHSTMT cl_statement, int row_number, int offset )
 #endif
             {
                 cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
-                    ERROR_S1000, 
+                    ERROR_S1000,
                     "General error: fseek fails",
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
                 return SQL_ERROR;
             }
 
             if ( fwrite( cl_statement -> rowset_buffer,
-                    cl_statement -> buffer_length, 
-                    1, 
+                    cl_statement -> buffer_length,
+                    1,
                     cl_statement -> rowset_file ) != 1 )
             {
                 cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
-                    ERROR_S1000, 
+                    ERROR_S1000,
                     "General error: Unable to write to file buffer",
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
                 return SQL_ERROR;
             }
@@ -427,7 +427,7 @@ SQLRETURN complete_rowset( CLHSTMT cl_statement, int complete_to )
 
         do
         {
-            ret = fetch_row( cl_statement, 
+            ret = fetch_row( cl_statement,
                     row,
                     -1 );
 
@@ -450,7 +450,7 @@ SQLRETURN complete_rowset( CLHSTMT cl_statement, int complete_to )
 
         do
         {
-            ret = fetch_row( cl_statement, 
+            ret = fetch_row( cl_statement,
                     row,
                     -1 );
 
@@ -476,7 +476,7 @@ SQLRETURN complete_rowset( CLHSTMT cl_statement, int complete_to )
  * row_offset is the row number of the first row
  */
 
-static SQLRETURN fetch_rowset( CLHSTMT cl_statement, 
+static SQLRETURN fetch_rowset( CLHSTMT cl_statement,
         int rows_in_set,
         int row_offset,
         int *fetched_rows,
@@ -489,7 +489,7 @@ static SQLRETURN fetch_rowset( CLHSTMT cl_statement,
 
     for ( row = 0; row < rows_in_set; row ++ )
     {
-        ret = fetch_row( cl_statement, 
+        ret = fetch_row( cl_statement,
                 row + row_offset,
                 row );
 
@@ -501,7 +501,7 @@ static SQLRETURN fetch_rowset( CLHSTMT cl_statement,
         {
             row_count ++;
         }
-        else 
+        else
         {
             break;
         }
@@ -545,7 +545,7 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
     if ( !cl_statement -> first_fetch_done )
     {
-        if ( cl_statement -> column_count > 0 && 
+        if ( cl_statement -> column_count > 0 &&
                 calculate_buffers( cl_statement,
                     cl_statement -> column_count ) == SQL_ERROR )
         {
@@ -562,18 +562,18 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
         cl_statement -> first_fetch_done = 1;
     }
 
-	if ( ext_fetch ) 
+	if ( ext_fetch )
 	{
     	if ( cl_statement -> rowset_size < 1 )
        	 	rows_in_set = 1;
-    	else 
+    	else
         	rows_in_set = cl_statement -> rowset_size;
 	}
-	else 
+	else
 	{
     	if ( cl_statement -> rowset_array_size < 1 )
        	 	rows_in_set = 1;
-    	else 
+    	else
         	rows_in_set = cl_statement -> rowset_array_size;
 	}
 
@@ -592,11 +592,11 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
                 &fetched_rows, row_status_ptr, rows_fetched_ptr );
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position;
             cl_statement -> rowset_position += fetched_rows;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
 			ret = SQL_SUCCESS;
 		}
@@ -625,11 +625,11 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position;
             cl_statement -> rowset_position += fetched_rows;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
         	cl_statement -> rowset_position = CL_AFTER_END;
 			ret = SQL_SUCCESS;
@@ -685,27 +685,27 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position;
             cl_statement -> rowset_position += fetched_rows;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
 			ret = SQL_SUCCESS;
 		}
         break;
 
       case SQL_FETCH_RELATIVE:
-        if (( cl_statement -> rowset_position == CL_BEFORE_START && 
+        if (( cl_statement -> rowset_position == CL_BEFORE_START &&
                 fetch_offset > 0 ) ||
-            ( cl_statement -> rowset_position == CL_AFTER_END && 
+            ( cl_statement -> rowset_position == CL_AFTER_END &&
                 fetch_offset < 0 ))
         {
             return do_fetch_scroll( cl_statement,
                     SQL_FETCH_ABSOLUTE,
                     fetch_offset,
                     row_status_ptr,
-                    rows_fetched_ptr, 
+                    rows_fetched_ptr,
 					ext_fetch );
         }
         else if ( cl_statement -> rowset_position == CL_BEFORE_START &&
@@ -748,14 +748,14 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
                     break;
             }
             if ( 1 <= cl_statement -> curr_rowset_start + fetch_offset &&
-                    cl_statement -> curr_rowset_start + fetch_offset <= 
+                    cl_statement -> curr_rowset_start + fetch_offset <=
                     cl_statement -> rowset_count )
             {
-                cl_statement -> curr_rowset_start = 
-                    cl_statement -> rowset_position = 
+                cl_statement -> curr_rowset_start =
+                    cl_statement -> rowset_position =
                         cl_statement -> curr_rowset_start + fetch_offset;
             }
-            else if ( cl_statement -> curr_rowset_start + fetch_offset > 
+            else if ( cl_statement -> curr_rowset_start + fetch_offset >
                     cl_statement -> rowset_count )
             {
                 ret = SQL_NO_DATA;
@@ -779,11 +779,11 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position;
             cl_statement -> rowset_position += fetched_rows;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
 			ret = SQL_SUCCESS;
 		}
@@ -805,15 +805,15 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
                 break;
         }
 
-        if ( fetch_offset < 0 && 
+        if ( fetch_offset < 0 &&
                 ABS( fetch_offset ) <= cl_statement -> rowset_count )
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_count + fetch_offset;
-            cl_statement -> rowset_position = 
+            cl_statement -> rowset_position =
                 cl_statement -> curr_rowset_start;
         }
-        else if ( fetch_offset < 0 && 
+        else if ( fetch_offset < 0 &&
                     ABS( fetch_offset ) >  cl_statement -> rowset_count &&
                     ABS( fetch_offset ) > rows_in_set )
         {
@@ -821,12 +821,12 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
             ret = SQL_NO_DATA;
             break;
         }
-        else if ( fetch_offset < 0 && 
+        else if ( fetch_offset < 0 &&
                     ABS( fetch_offset ) >  cl_statement -> rowset_count &&
                     ABS( fetch_offset ) <= rows_in_set )
         {
             cl_statement -> curr_rowset_start = 0;
-            cl_statement -> rowset_position = 
+            cl_statement -> rowset_position =
                 cl_statement -> curr_rowset_start;
 
             cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
@@ -856,14 +856,14 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
             else
             {
                 cl_statement -> curr_rowset_start = fetch_offset;
-                cl_statement -> rowset_position = 
+                cl_statement -> rowset_position =
                     cl_statement -> curr_rowset_start;
             }
         }
         else
         {
             cl_statement -> curr_rowset_start = fetch_offset;
-            cl_statement -> rowset_position = 
+            cl_statement -> rowset_position =
                 cl_statement -> curr_rowset_start;
         }
 
@@ -875,11 +875,11 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position;
             cl_statement -> rowset_position += fetched_rows;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
 			ret = SQL_SUCCESS;
 		}
@@ -899,13 +899,13 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( cl_statement -> rowset_count <= rows_in_set )
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position = 0;
         }
         else
         {
-            cl_statement -> curr_rowset_start = 
-                cl_statement -> rowset_position = 
+            cl_statement -> curr_rowset_start =
+                cl_statement -> rowset_position =
                 cl_statement -> rowset_count - rows_in_set;
         }
         row_offset = cl_statement -> rowset_position;
@@ -916,14 +916,14 @@ SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
 
         if ( SQL_SUCCEEDED( ret ))
         {
-            cl_statement -> curr_rowset_start = 
+            cl_statement -> curr_rowset_start =
                 cl_statement -> rowset_position = CL_AFTER_END;
         }
-		else if ( ret == SQL_FETCH_PART_ROWSET ) 
+		else if ( ret == SQL_FETCH_PART_ROWSET )
 		{
 			ret = SQL_SUCCESS;
 		}
-        
+
         break;
     }
 
@@ -940,7 +940,7 @@ SQLRETURN CLExtendedFetch(
     SQLULEN            *pcrow,
     SQLUSMALLINT       *rgf_row_status )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     if ( !cl_statement -> bound_columns )
     {
@@ -953,7 +953,7 @@ SQLRETURN CLExtendedFetch(
     }
 
     return do_fetch_scroll( cl_statement,
-            f_fetch_type, 
+            f_fetch_type,
             irow,
             rgf_row_status,
             pcrow,

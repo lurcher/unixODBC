@@ -59,7 +59,7 @@ SQLRETURN CLDescribeParam(
     SQLSMALLINT        *pib_scale,
     SQLSMALLINT        *pf_nullable )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLDESCRIBEPARAM( cl_statement -> cl_connection,
             cl_statement -> driver_stmt,

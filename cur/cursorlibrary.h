@@ -29,7 +29,7 @@
 #define CL_BEFORE_START         -1
 #define CL_AFTER_END            -2
 
-#include "drivermanager.h"
+#include <drivermanager.h>
 
 typedef struct bound_column
 {
@@ -52,7 +52,7 @@ typedef struct cl_connection
     struct driver_func *functions;      /* entry points, from the original */
                                         /* driver */
     DRV_SQLHANDLE       driver_dbc;     /* HDBC of the driver */
-    DMHDBC              dm_connection;  /* driver manager connection str */ 
+    DMHDBC              dm_connection;  /* driver manager connection str */
     DMHSTMT             cl_handle;      /* dummy to make the macro valid */
     SQLUSMALLINT        active_statement_allowed;
                                         /* can we have more than one active */
@@ -162,7 +162,7 @@ SQLRETURN SQL_API CLBindParameter(
            SQLPOINTER         rgb_value,
            SQLLEN             cb_value_max,
            SQLLEN             *pcb_value );
-       
+
 SQLRETURN SQL_API CLBulkOperations(
            SQLHSTMT        statement_handle,
            SQLSMALLINT     operation );
@@ -307,22 +307,22 @@ SQLRETURN SQL_API CLGetData( SQLHSTMT statement_handle,
            SQLLEN *strlen_or_ind );
 
 SQLRETURN SQL_API CLGetDescField( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length,
            SQLINTEGER *string_length );
 
 SQLRETURN SQL_API CLGetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLCHAR *name,
-           SQLSMALLINT buffer_length, 
+           SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length,
-           SQLSMALLINT *type, 
-           SQLSMALLINT *sub_type, 
-           SQLINTEGER *length, 
-           SQLSMALLINT *precision, 
-           SQLSMALLINT *scale, 
+           SQLSMALLINT *type,
+           SQLSMALLINT *sub_type,
+           SQLINTEGER *length,
+           SQLSMALLINT *precision,
+           SQLSMALLINT *scale,
            SQLSMALLINT *nullable );
 
 SQLRETURN SQL_API CLGetDiagField( SQLSMALLINT handle_type,
@@ -440,19 +440,19 @@ SQLRETURN SQL_API CLSetCursorName( SQLHSTMT statement_handle,
            SQLSMALLINT name_length );
 
 SQLRETURN SQL_API CLSetDescField( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT field_identifier,
-           SQLPOINTER value, 
+           SQLPOINTER value,
            SQLINTEGER buffer_length );
 
 SQLRETURN SQL_API CLSetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT type,
-           SQLSMALLINT subtype, 
+           SQLSMALLINT subtype,
            SQLLEN length,
-           SQLSMALLINT precision, 
+           SQLSMALLINT precision,
            SQLSMALLINT scale,
-           SQLPOINTER data, 
+           SQLPOINTER data,
            SQLLEN *string_length,
            SQLLEN *indicator );
 
@@ -538,7 +538,7 @@ void free_rowset( CLHSTMT cl_statement );
 int calculate_buffers( CLHSTMT cl_statement, int column_count );
 int free_bound_columns( CLHSTMT cl_statement );
 SQLRETURN do_fetch_scroll( CLHSTMT cl_statement,
-            int fetch_orientation, 
+            int fetch_orientation,
             SQLLEN fetch_offset,
             SQLUSMALLINT *row_status_ptr,
             SQLULEN *rows_fetched_ptr,

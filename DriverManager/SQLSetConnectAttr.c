@@ -210,7 +210,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetConnectAttr.c,v $ $Revision: 1.17 $";
 
 SQLRETURN SQLSetConnectAttrA( SQLHDBC connection_handle,
            SQLINTEGER attribute,
@@ -237,26 +236,26 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
      */
     if ( attribute == SQL_ATTR_TRACE )
     {
-        if ((SQLLEN) value != SQL_OPT_TRACE_OFF && 
-            (SQLLEN) value != SQL_OPT_TRACE_ON ) 
+        if ((SQLLEN) value != SQL_OPT_TRACE_OFF &&
+            (SQLLEN) value != SQL_OPT_TRACE_ON )
         {
             if ( __validate_dbc( connection ))
             {
                 thread_protect( SQL_HANDLE_DBC, connection );
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 function_entry( connection );
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
-        
+
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
-            else 
+            else
             {
                 return SQL_INVALID_HANDLE;
             }
@@ -267,7 +266,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
             char force_string[ 30 ];
 
             SQLGetPrivateProfileString( "ODBC", "ForceTrace", "0",
-				force_string, sizeof( force_string ), 
+				force_string, sizeof( force_string ),
                 "ODBCINST.INI" );
 
             if ( force_string[ 0 ] == '1' ||
@@ -277,10 +276,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
             {
                 if ( log_info.log_flag )
                 {
-                    dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                    dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Application tried to turn logging off" );
                 }
             }
@@ -288,10 +287,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
             {
                 if ( log_info.log_flag )
                 {
-                    dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                    dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Application turning logging off" );
                 }
                 log_info.log_flag = 0;
@@ -308,30 +307,30 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
     {
         if ( value )
         {
-            if (((SQLCHAR*)value)[ 0 ] == '\0' ) 
+            if (((SQLCHAR*)value)[ 0 ] == '\0' )
             {
                 if ( __validate_dbc( connection ))
                 {
                     thread_protect( SQL_HANDLE_DBC, connection );
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: HY024" );
 
                     function_entry( connection );
                     __post_internal_error( &connection -> error,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
-            
+
                     return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
-                else 
+                else
                 {
                     return SQL_INVALID_HANDLE;
                 }
             }
-            else 
+            else
             {
                 if ( log_info.log_file_name )
                 {
@@ -340,25 +339,25 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 log_info.log_file_name = strdup( value );
             }
         }
-        else 
+        else
         {
             if ( __validate_dbc( connection ))
             {
                 thread_protect( SQL_HANDLE_DBC, connection );
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
 
                 function_entry( connection );
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
-        
+
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
-            else 
+            else
             {
                 return SQL_INVALID_HANDLE;
             }
@@ -372,10 +371,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -392,13 +391,13 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
 \n\t\t\tStrLen = %d",
                 connection,
                 __con_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -409,10 +408,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
         if ( attribute == SQL_ATTR_TRANSLATE_OPTION ||
                 attribute == SQL_ATTR_TRANSLATE_LIB )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -424,10 +423,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
     }
     else if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -442,10 +441,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
     {
         if ( attribute == SQL_ATTR_ODBC_CURSORS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08002" );
 
             __post_internal_error( &connection -> error,
@@ -456,10 +455,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
         }
         else if ( attribute == SQL_ATTR_PACKET_SIZE )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY011" );
 
             __post_internal_error( &connection -> error,
@@ -475,12 +474,12 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
      */
     ret = dm_check_connection_attrs( connection, attribute, value );
 
-    if ( ret != SQL_SUCCESS ) 
+    if ( ret != SQL_SUCCESS )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
         __post_internal_error( &connection -> error,
@@ -494,7 +493,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
      * is it a connection attribute or statement, check state of any active connections
      */
 
-    switch( attribute ) 
+    switch( attribute )
     {
         /* ODBC 3.x statement attributes are not settable at the connection level */
         case SQL_ATTR_APP_PARAM_DESC:
@@ -528,7 +527,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
       	case SQL_ATTR_MAX_LENGTH:
       	case SQL_MAX_ROWS:
       	case SQL_ATTR_KEYSET_SIZE:
-      	case SQL_ROWSET_SIZE: 
+      	case SQL_ROWSET_SIZE:
       	case SQL_ATTR_NOSCAN:
       	case SQL_ATTR_QUERY_TIMEOUT:
       	case SQL_ATTR_RETRIEVE_DATA:
@@ -536,10 +535,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
       	case SQL_ATTR_USE_BOOKMARKS:
             if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: 24000" );
 
                 __post_internal_error( &connection -> error,
@@ -554,10 +553,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
 
             if( __check_stmt_from_dbc_v( connection, 5, STATE_S8, STATE_S9, STATE_S10, STATE_S11, STATE_S12 )) {
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY010" );
 
                 __post_internal_error( &connection -> error,
@@ -681,9 +680,9 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 sa.intptr_attr = (intptr_t) value;
                 sa.str_len = string_length;
             }
-            
+
             sap = connection -> save_attr;
-            
+
             while ( sap )
             {
                 if ( sap -> attr_type == attribute )
@@ -693,7 +692,7 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 }
                 sap = sap -> next;
             }
-            
+
             if ( sap ) /* replace existing attribute */
             {
                 *sap = sa;
@@ -708,14 +707,14 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
             }
         }
 
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
 
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_SUCCESS );
@@ -732,13 +731,13 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                      * Is it in the legal range of values
                      */
 
-                    if ( attribute < SQL_CONN_DRIVER_MIN && 
+                    if ( attribute < SQL_CONN_DRIVER_MIN &&
                             ( attribute > SQL_PACKET_SIZE || attribute < SQL_ACCESS_MODE ))
                     {
-                        dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                        dm_log_write( __FILE__,
+                                    __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY092" );
 
                         __post_internal_error( &connection -> error,
@@ -755,10 +754,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM001" );
 
                     __post_internal_error( &connection -> error,
@@ -789,13 +788,13 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                      * Is it in the legal range of values
                      */
 
-                    if ( attribute < SQL_CONN_DRIVER_MIN && 
+                    if ( attribute < SQL_CONN_DRIVER_MIN &&
                             ( attribute > SQL_PACKET_SIZE || attribute < SQL_ACCESS_MODE ))
                     {
-                        dm_log_write( __FILE__, 
-                                    __LINE__, 
-                                LOG_INFO, 
-                                LOG_INFO, 
+                        dm_log_write( __FILE__,
+                                    __LINE__,
+                                LOG_INFO,
+                                LOG_INFO,
                                 "Error: HY092" );
 
                         __post_internal_error( &connection -> error,
@@ -832,10 +831,10 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
                 }
                 else
                 {
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: IM001" );
 
                     __post_internal_error( &connection -> error,
@@ -879,20 +878,20 @@ SQLRETURN SQLSetConnectAttr( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
     }
 
     /*
-     * catch this 
+     * catch this
      */
 
     if ( attribute == SQL_ATTR_USE_BOOKMARKS && SQL_SUCCEEDED( ret ))

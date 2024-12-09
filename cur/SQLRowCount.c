@@ -61,7 +61,7 @@
 SQLRETURN CLRowCount( SQLHSTMT statement_handle,
        SQLLEN *rowcount )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     if ( cl_statement -> first_fetch_done )
     {

@@ -88,7 +88,7 @@ char qc, in_escape = FALSE;
 			}
 
 			i++;		/* dont return the quote */
-			while (s[i] != '\0' && out != smax) {  
+			while (s[i] != '\0' && out != smax) {
 				if (s[i] == qc && ! in_escape) {
 					break;
 				}
@@ -278,9 +278,9 @@ RETCODE result;
 		}
 
 		if ( unquoted && (! stricmp(token, "where") ||
-			! stricmp(token, "union") || 
-			! stricmp(token, "order") || 
-			! stricmp(token, "group") || 
+			! stricmp(token, "union") ||
+			! stricmp(token, "order") ||
+			! stricmp(token, "group") ||
 			! stricmp(token, "having"))) {
 
 			in_select = FALSE;
@@ -526,7 +526,7 @@ RETCODE result;
 			fi[i]->type = PG_TYPE_TEXT;
 			fi[i]->precision = 0;
 			continue;
-		} 
+		}
 
 		/*	it's a dot, resolve to table or alias */
 		else if (fi[i]->dot[0]) {
@@ -591,7 +591,7 @@ RETCODE result;
 			col_stmt = (StatementClass *) hcol_stmt;
 			col_stmt->internal = TRUE;
 
-			result = PG_SQLColumns(hcol_stmt, "", 0, "", 0, 
+			result = PG_SQLColumns(hcol_stmt, "", 0, "", 0,
 						ti[i]->name, (SWORD) strlen(ti[i]->name), "", 0);
 		
 			mylog("        Past SQLColumns\n");
@@ -620,7 +620,7 @@ RETCODE result;
 				conn->col_info[conn->ntables]->result = col_stmt->result;
 
 				/*	The connection will now free the result structures, so make
-					sure that the statement doesn't free it 
+					sure that the statement doesn't free it
 				*/
 				col_stmt->result = NULL;
 
@@ -753,7 +753,7 @@ RETCODE result;
 			/*------------------------------------------------------------- */
 		}
 
-		/*	We either know which table the field was in because it was qualified 
+		/*	We either know which table the field was in because it was qualified
 			with a table name or alias -OR- there was only 1 table.
 		*/
 		else if (fi[i]->ti) {

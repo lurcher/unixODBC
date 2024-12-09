@@ -23,16 +23,14 @@ int iniObjectNext( HINI hIni )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
-	
-	hIni->hCurObject 	= hIni->hCurObject->pNext;
-	iniPropertyFirst( hIni );
+    if ( hIni->hCurObject == NULL )
+        return INI_NO_DATA;
 
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
+    hIni->hCurObject        = hIni->hCurObject->pNext;
+    iniPropertyFirst( hIni );
 
-	return INI_SUCCESS;
+    if ( hIni->hCurObject == NULL )
+            return INI_NO_DATA;
+
+    return INI_SUCCESS;
 }
-
-

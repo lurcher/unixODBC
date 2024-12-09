@@ -128,7 +128,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLParamData.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLParamData( SQLHSTMT statement_handle,
            SQLPOINTER *value )
@@ -143,10 +142,10 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -162,10 +161,10 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
                 statement,
                 value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -185,10 +184,10 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
             statement -> state == STATE_S9 ||
             statement -> state == STATE_S14 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -203,10 +202,10 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLPARAMDATA )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -219,10 +218,10 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
 
     if ( !CHECK_SQLPARAMDATA( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -232,7 +231,7 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
-	/* 
+	/*
 	 * When a NULL is passed, driver tries to access this memory and dumps core,
 	 * so pass a vaild pointer to the driver. This mirrors what the MS DM does
 	 */
@@ -258,7 +257,7 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
     else if ( SQL_SUCCEEDED( ret ))
     {
         if ( statement -> interupted_func == SQL_API_SQLEXECDIRECT ||
-                statement -> interupted_func == SQL_API_SQLEXECUTE || 
+                statement -> interupted_func == SQL_API_SQLEXECUTE ||
                 statement -> interupted_func == SQL_API_SQLMORERESULTS )
         {
 #ifdef NR_PROBE
@@ -352,16 +351,16 @@ SQLRETURN SQLParamData( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tValue = %p",
                     __get_return_status( ret, s1 ),
                     *value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

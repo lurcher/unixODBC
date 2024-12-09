@@ -135,7 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLForeignKeys.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLForeignKeysA(
     SQLHSTMT           statement_handle,
@@ -193,15 +192,15 @@ SQLRETURN SQLForeignKeys(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
     }
-    
+
     function_entry( statement );
 
     if ( log_info.log_flag )
@@ -215,17 +214,17 @@ SQLRETURN SQLForeignKeys(
 \n\t\t\tFK Schema Name = %s\
 \n\t\t\tFK Table Name = %s",
                 statement,
-                __string_with_length( s1, szpk_catalog_name, cbpk_catalog_name ), 
-                __string_with_length( s2, szpk_schema_name, cbpk_schema_name ), 
-                __string_with_length( s3, szpk_table_name, cbpk_table_name ), 
-                __string_with_length( s4, szfk_catalog_name, cbfk_catalog_name ), 
-                __string_with_length( s5, szfk_schema_name, cbfk_schema_name ), 
+                __string_with_length( s1, szpk_catalog_name, cbpk_catalog_name ),
+                __string_with_length( s2, szpk_schema_name, cbpk_schema_name ),
+                __string_with_length( s3, szpk_table_name, cbpk_table_name ),
+                __string_with_length( s4, szfk_catalog_name, cbfk_catalog_name ),
+                __string_with_length( s5, szfk_schema_name, cbfk_schema_name ),
                 __string_with_length( s6, szfk_table_name, cbfk_table_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -239,7 +238,7 @@ SQLRETURN SQLForeignKeys(
 
         return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
-    
+
     if (( cbpk_catalog_name < 0 && cbpk_catalog_name != SQL_NTS ) ||
             ( cbpk_schema_name < 0 && cbpk_schema_name != SQL_NTS ) ||
             ( cbpk_table_name < 0 && cbpk_table_name != SQL_NTS ) ||
@@ -267,17 +266,17 @@ SQLRETURN SQLForeignKeys(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
                 ERROR_24000, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
     else if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
@@ -286,10 +285,10 @@ SQLRETURN SQLForeignKeys(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -304,10 +303,10 @@ SQLRETURN SQLForeignKeys(
     {
         if ( statement -> interupted_func != SQL_API_SQLFOREIGNKEYS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -329,10 +328,10 @@ SQLRETURN SQLForeignKeys(
 
         if ( !CHECK_SQLFOREIGNKEYSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -387,10 +386,10 @@ SQLRETURN SQLForeignKeys(
     {
         if ( !CHECK_SQLFOREIGNKEYS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -455,14 +454,14 @@ SQLRETURN SQLForeignKeys(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

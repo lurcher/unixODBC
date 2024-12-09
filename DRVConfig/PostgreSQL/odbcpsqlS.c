@@ -56,7 +56,7 @@ static const char *aTrueFalse[] =
 };
 
 int ODBCINSTGetProperties( HODBCINSTPROPERTY hLastProperty )
-{ 
+{
     hLastProperty->pNext                = (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );
     hLastProperty                       = hLastProperty->pNext;
     memset( hLastProperty, 0, sizeof(ODBCINSTPROPERTY) );

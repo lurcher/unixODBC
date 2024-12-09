@@ -73,7 +73,7 @@ SQLRETURN CLFetchScroll( SQLHSTMT statement_handle,
            SQLSMALLINT fetch_orientation,
            SQLLEN fetch_offset )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     if ( !cl_statement -> bound_columns )
     {
@@ -106,7 +106,7 @@ SQLRETURN CLFetchScroll( SQLHSTMT statement_handle,
     }
 
     return do_fetch_scroll( cl_statement,
-            fetch_orientation, 
+            fetch_orientation,
             fetch_offset,
             cl_statement -> row_status_ptr,
             cl_statement -> rows_fetched_ptr,

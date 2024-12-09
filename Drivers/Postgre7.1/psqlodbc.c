@@ -14,7 +14,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -38,26 +38,26 @@ RETCODE SQL_API SQLDummyOrdinal(void);
 HINSTANCE NEAR s_hModule;               /* Saved module handle. */
 
 /*	This is where the Driver Manager attaches to this Driver */
-BOOL WINAPI DllMain(HANDLE hInst, ULONG ul_reason_for_call, LPVOID lpReserved) 
+BOOL WINAPI DllMain(HANDLE hInst, ULONG ul_reason_for_call, LPVOID lpReserved)
 {
-WORD wVersionRequested; 
-WSADATA wsaData; 
+WORD wVersionRequested;
+WSADATA wsaData;
 
 	switch (ul_reason_for_call) {
 	case DLL_PROCESS_ATTACH:
 		s_hModule = hInst;				/* Save for dialog boxes */
 
 		/*	Load the WinSock Library */
-		wVersionRequested = MAKEWORD(1, 1); 
+		wVersionRequested = MAKEWORD(1, 1);
 
 		if ( WSAStartup(wVersionRequested, &wsaData))
 			return FALSE;
 
 		/*	Verify that this is the minimum version of WinSock */
-		if ( LOBYTE( wsaData.wVersion ) != 1 || 
-			HIBYTE( wsaData.wVersion ) != 1 ) { 
+		if ( LOBYTE( wsaData.wVersion ) != 1 ||
+			HIBYTE( wsaData.wVersion ) != 1 ) {
 
-			WSACleanup(); 
+			WSACleanup();
 			return FALSE;
 		}
 
@@ -80,9 +80,9 @@ WSADATA wsaData;
 		break;
 	}
 
-	return TRUE;                                                                
-                                                                                
-	UNREFERENCED_PARAMETER(lpReserved);                                         
+	return TRUE;
+
+	UNREFERENCED_PARAMETER(lpReserved);
 }
 
 #else	/* not WIN32 */

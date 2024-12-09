@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -97,16 +97,15 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetDescRec.c,v $ $Revision: 1.4 $";
 
 SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLSMALLINT type,
-           SQLSMALLINT subtype, 
+           SQLSMALLINT subtype,
            SQLLEN length,
-           SQLSMALLINT precision, 
+           SQLSMALLINT precision,
            SQLSMALLINT scale,
-           SQLPOINTER data, 
+           SQLPOINTER data,
            SQLLEN *string_length,
            SQLLEN *indicator )
 {
@@ -126,10 +125,10 @@ SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
 
     if ( !__validate_desc( descriptor ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -141,10 +140,10 @@ SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
 
     if ( descriptor -> connection -> state < STATE_C4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -167,10 +166,10 @@ SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
         __check_stmt_from_desc( descriptor, STATE_S14 ) ||
         __check_stmt_from_desc( descriptor, STATE_S15 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -186,18 +185,18 @@ SQLRETURN SQLSetDescRec( SQLHDESC descriptor_handle,
                 ERROR_IM001, NULL,
                 descriptor -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_DESC, descriptor, SQL_ERROR );
     }
 
     ret = SQLSETDESCREC( descriptor -> connection,
             descriptor -> driver_desc,
-            rec_number, 
+            rec_number,
             type,
-            subtype, 
+            subtype,
             length,
-            precision, 
+            precision,
             scale,
-            data, 
+            data,
             string_length,
             indicator );
 

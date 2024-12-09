@@ -18,12 +18,12 @@
  ***************************/
 enum nSQLTables
 {
-	TABLE_CAT		= 1,
-	TABLE_SCHEM,
-	TABLE_NAME,
-	TABLE_TYPE,
-	REMARKS,
-	COL_MAX
+        TABLE_CAT		= 1,
+        TABLE_SCHEM,
+        TABLE_NAME,
+        TABLE_TYPE,
+        REMARKS,
+        COL_MAX
 };
 
 /****************************
@@ -34,67 +34,64 @@ enum nSQLTables
  * replace this with init of some struct (see same func for MiniSQL driver) */
 char *aSQLTables[] =
 {
-	"one",
-	"two"
+        "one",
+        "two"
 };
 /****************************/
 
-SQLRETURN SQLTables(  	SQLHSTMT    hDrvStmt,
-						SQLCHAR     *szCatalogName,
-						SQLSMALLINT nCatalogNameLength,
-						SQLCHAR     *szSchemaName,
-						SQLSMALLINT nSchemaNameLength,
-						SQLCHAR     *szTableName,
-						SQLSMALLINT nTableNameLength,
-						SQLCHAR     *szTableType,
-						SQLSMALLINT nTableTypeLength )
+SQLRETURN SQLTables(    SQLHSTMT    hDrvStmt,
+                                                SQLCHAR     *szCatalogName,
+                                                SQLSMALLINT nCatalogNameLength,
+                                                SQLCHAR     *szSchemaName,
+                                                SQLSMALLINT nSchemaNameLength,
+                                                SQLCHAR     *szTableName,
+                                                SQLSMALLINT nTableNameLength,
+                                                SQLCHAR     *szTableType,
+                                                SQLSMALLINT nTableTypeLength )
 {
     HDRVSTMT hStmt	= (HDRVSTMT)hDrvStmt;
-	COLUMNHDR	*pColumnHeader;			
-	int			nColumn;
-	long		nResultMemory;
+        COLUMNHDR	*pColumnHeader;
+        int			nColumn;
+        long		nResultMemory;
 
-	/* SANITY CHECKS */
+        /* SANITY CHECKS */
     if( hStmt == SQL_NULL_HSTMT )
         return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt );
+    sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt );
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
 
     /**************************
-	 * close any existing result
+         * close any existing result
      **************************/
-	if ( hStmt->hStmtExtras->aResults )
-		_FreeResults( hStmt->hStmtExtras );
+    if ( hStmt->hStmtExtras->aResults )
+            _FreeResults( hStmt->hStmtExtras );
 
-	if ( hStmt->pszQuery != NULL )
-		free( hStmt->pszQuery );
+    if ( hStmt->pszQuery != NULL )
+            free( hStmt->pszQuery );
 
-	hStmt->pszQuery							= NULL;
-	
+    hStmt->pszQuery							= NULL;
+
     /************************
      * generate a result set listing tables
      ************************/
 
     /**************************
-	 * allocate memory for columns headers and result data (row 0 is column header while col 0 is reserved for bookmarks)
+         * allocate memory for columns headers and result data (row 0 is column header while col 0 is reserved for bookmarks)
      **************************/
 
     /**************************
-	 * gather column header information (save col 0 for bookmarks)
+         * gather column header information (save col 0 for bookmarks)
      **************************/
 
-	/************************
-	 * gather data (save col 0 for bookmarks)
-	 ************************/
+    /************************
+     * gather data (save col 0 for bookmarks)
+     ************************/
 
     /**************************
-	 * free the snapshot
+         * free the snapshot
      **************************/
 
-	logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_INFO, LOG_INFO, "SQL_SUCCESS" );
-	return SQL_SUCCESS;
+    logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_INFO, LOG_INFO, "SQL_SUCCESS" );
+    return SQL_SUCCESS;
 }
-
-
-

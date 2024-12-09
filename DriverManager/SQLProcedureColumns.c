@@ -123,7 +123,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLProcedureColumns.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLProcedureColumnsA(
     SQLHSTMT           statement_handle,
@@ -168,10 +167,10 @@ SQLRETURN SQLProcedureColumns(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -186,17 +185,17 @@ SQLRETURN SQLProcedureColumns(
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
 \n\t\t\tProc Name = %s\
-\n\t\t\tColumn Type = %s", 
+\n\t\t\tColumn Type = %s",
                 statement,
-                __string_with_length( s1, sz_catalog_name, cb_catalog_name ), 
-                __string_with_length( s2, sz_schema_name, cb_schema_name ), 
-                __string_with_length( s3, sz_proc_name, cb_proc_name ), 
+                __string_with_length( s1, sz_catalog_name, cb_catalog_name ),
+                __string_with_length( s2, sz_schema_name, cb_schema_name ),
+                __string_with_length( s3, sz_proc_name, cb_proc_name ),
                 __string_with_length( s4, sz_column_name, cb_column_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -207,10 +206,10 @@ SQLRETURN SQLProcedureColumns(
             ( sz_proc_name && cb_proc_name < 0 && cb_proc_name != SQL_NTS ) ||
             ( sz_column_name && cb_column_name < 0 && cb_column_name != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -233,10 +232,10 @@ SQLRETURN SQLProcedureColumns(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -252,10 +251,10 @@ SQLRETURN SQLProcedureColumns(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -270,10 +269,10 @@ SQLRETURN SQLProcedureColumns(
     {
         if ( statement -> interupted_func != SQL_API_SQLPROCEDURECOLUMNS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -295,10 +294,10 @@ SQLRETURN SQLProcedureColumns(
 
         if ( !CHECK_SQLPROCEDURECOLUMNSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -341,10 +340,10 @@ SQLRETURN SQLProcedureColumns(
     {
         if ( !CHECK_SQLPROCEDURECOLUMNS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -386,14 +385,14 @@ SQLRETURN SQLProcedureColumns(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

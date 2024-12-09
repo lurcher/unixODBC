@@ -2,12 +2,12 @@
 #include <sql.h>
 #include <sqlext.h>
 
-#define ROWS 20 
+#define ROWS 20
 #define STATUS_LEN 6
 #define OPENDATE_LEN 11
 #define DONE -1
 
-int res[][ 3 ] = 
+int res[][ 3 ] =
 {
     { SQL_FETCH_NEXT, 0, 0 },
     { SQL_FETCH_NEXT, 0, 0 },
@@ -132,7 +132,7 @@ void create_file( SQLHANDLE hstmt )
 {
     SQLRETURN ret;
     int i;
-    
+
     ret = SQLExecDirect( hstmt, "drop table ctest", SQL_NTS );
     ret = SQLExecDirect( hstmt, "create table ctest ( id integer, dt character( 10 ), status character( 5 ), other character varying( 40 ))", SQL_NTS );
 
@@ -194,7 +194,7 @@ void cursor_test()
         SQLSetStmtAttr( hstmt1, SQL_ATTR_ROW_STATUS_PTR, RowStatusArray, 0 );
         SQLSetStmtAttr( hstmt1, SQL_ATTR_ROWS_FETCHED_PTR, &crow, 0 );
         SQLSetCursorName( hstmt1, "ORDERCURSOR", SQL_NTS );
-        SQLPrepare( hstmt1, 
+        SQLPrepare( hstmt1,
                     "select id, dt, status from ctest",
                     SQL_NTS );
 
@@ -220,9 +220,9 @@ void cursor_test()
             int count;
 
             printf( "fetch %d %d\n", FetchOrientation, FetchOffset );
-            
-            ret = SQLFetchScroll( hstmt1, 
-                    FetchOrientation, 
+
+            ret = SQLFetchScroll( hstmt1,
+                    FetchOrientation,
                     FetchOffset );
 
             SQLRowCount( hstmt1, &count );
@@ -245,7 +245,7 @@ void cursor_test()
                 printf( "ret = %d %s:%d\n", ret, txt, len );
             }
 
-        } while( PromptScroll( &FetchOrientation, &FetchOffset ) != DONE ); 
+        } while( PromptScroll( &FetchOrientation, &FetchOffset ) != DONE );
 
         SQLCloseCursor( hstmt1 );
         SQLFreeStmt( hstmt1, SQL_DROP );

@@ -68,14 +68,14 @@ SQLRETURN CLGetStmtAttr( SQLHSTMT statement_handle,
            SQLINTEGER buffer_length,
            SQLINTEGER *string_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     switch( attribute )
     {
       case SQL_ATTR_CONCURRENCY:
         *(( SQLUINTEGER * ) value ) = cl_statement -> concurrency;
         break;
-        
+
       case SQL_ATTR_CURSOR_TYPE:
         *(( SQLUINTEGER * ) value ) = cl_statement -> cursor_type;
         break;
@@ -107,7 +107,7 @@ SQLRETURN CLGetStmtAttr( SQLHSTMT statement_handle,
       case SQL_ATTR_SIMULATE_CURSOR:
         *(( SQLUINTEGER * ) value ) = cl_statement -> simulate_cursor;
         break;
-            
+
       case SQL_ATTR_USE_BOOKMARKS:
         *(( SQLULEN * ) value ) = cl_statement -> use_bookmarks;
         break;

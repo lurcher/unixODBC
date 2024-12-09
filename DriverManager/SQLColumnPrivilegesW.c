@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumnPrivilegesW.c,v $";
 
 SQLRETURN SQLColumnPrivilegesW(
     SQLHSTMT            statement_handle,
@@ -108,10 +107,10 @@ SQLRETURN SQLColumnPrivilegesW(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -121,18 +120,18 @@ SQLRETURN SQLColumnPrivilegesW(
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLCOLUMNPRIVILEGESW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLCOLUMNPRIVILEGESW( parent_statement -> connection,
@@ -161,28 +160,28 @@ SQLRETURN SQLColumnPrivilegesW(
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
 \n\t\t\tTable Name = %s\
-\n\t\t\tColumn Name = %s", 
+\n\t\t\tColumn Name = %s",
                 statement,
-                __wstring_with_length( s1, catalog_name, name_length1 ), 
-                __wstring_with_length( s2, schema_name, name_length2 ), 
-                __wstring_with_length( s3, table_name, name_length3 ), 
+                __wstring_with_length( s1, catalog_name, name_length1 ),
+                __wstring_with_length( s2, schema_name, name_length2 ),
+                __wstring_with_length( s3, table_name, name_length3 ),
                 __wstring_with_length( s4, column_name, name_length4 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
     thread_protect( SQL_HANDLE_STMT, statement );
 
-    if ( table_name == NULL ) 
+    if ( table_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -197,10 +196,10 @@ SQLRETURN SQLColumnPrivilegesW(
             ( name_length3 < 0 && name_length3 != SQL_NTS ) ||
             ( name_length4 < 0 && name_length4 != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -223,10 +222,10 @@ SQLRETURN SQLColumnPrivilegesW(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -242,10 +241,10 @@ SQLRETURN SQLColumnPrivilegesW(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -260,10 +259,10 @@ SQLRETURN SQLColumnPrivilegesW(
     {
         if ( statement -> interupted_func != SQL_API_SQLCOLUMNPRIVILEGES )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -283,10 +282,10 @@ SQLRETURN SQLColumnPrivilegesW(
     {
         if ( !CHECK_SQLCOLUMNPRIVILEGESW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -314,10 +313,10 @@ SQLRETURN SQLColumnPrivilegesW(
 
         if ( !CHECK_SQLCOLUMNPRIVILEGES( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -377,14 +376,14 @@ SQLRETURN SQLColumnPrivilegesW(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

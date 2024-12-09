@@ -11,7 +11,7 @@
 #define __DLG_SPECIFIC_H__
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -57,7 +57,7 @@
 #define INI_DSN           DBMS_NAME         /* Name of default Datasource in ini file (not used?) */
 #define INI_KDESC         "Description"     /* Data source description */
 #define INI_SERVER        "Servername"      /* Name of Server running the Postgres service */
-#define INI_PORT          "Port"            /* Port on which the Postmaster is listening */ 
+#define INI_PORT          "Port"            /* Port on which the Postmaster is listening */
 #define INI_UDS           "Uds"             /* Unix Domain socket path */
 #define INI_DATABASE      "Database"        /* Database Name */
 #define INI_USER          "Username"        /* Default User Name */

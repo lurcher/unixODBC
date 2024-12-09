@@ -56,7 +56,7 @@ SQLRETURN CLNativeSql(
     SQLINTEGER         cb_sql_str_max,
     SQLINTEGER         *pcb_sql_str )
 {
-    CLHDBC cl_connection = (CLHDBC) connection_handle; 
+    CLHDBC cl_connection = (CLHDBC) connection_handle;
 
     /*
      * the cursor lib will take a part in this

@@ -96,7 +96,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 #endif
 
 #ifdef PLATFORM64
-	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup64", "" ) == INI_SUCCESS || 
+	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup64", "" ) == INI_SUCCESS ||
 				iniPropertySeek( hIni, (char *)pszDriver, "Setup", "" ) == INI_SUCCESS )
 #else
 	if ( iniPropertySeek( hIni, (char *)pszDriver, "Setup", "" ) == INI_SUCCESS )
@@ -106,7 +106,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
 
 		iniClose( hIni );
 
-		if ( szDriverSetup[ 0 ] == '\0' ) 
+		if ( szDriverSetup[ 0 ] == '\0' )
 		{
 			char szError[ 512 ];
 			sprintf( szError, "Could not find Setup property for (%.400s) in system information", pszDriver );
@@ -152,7 +152,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
                 }
 				nReturn = pFunc( hWnd, nRequest, pszDriver, pszAttributes );
             }
-			else if ( pFuncW ) 
+			else if ( pFuncW )
 			{
                	/*
                	* set the mode
@@ -183,7 +183,7 @@ static BOOL SQLConfigDataSourceWide(	HWND	hWnd,
                	}
 				nReturn = pFuncW( hWnd, nRequest, pszDriverW, pszAttributesW );
 			}
-			else 
+			else
 			{
 				inst_logPushMsg( __FILE__, __FILE__, __LINE__, LOG_CRITICAL, ODBC_ERROR_GENERAL_ERR, "" );
 			}

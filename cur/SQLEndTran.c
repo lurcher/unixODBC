@@ -66,7 +66,7 @@ SQLRETURN CLEndTran( SQLSMALLINT handle_type,
 
       case SQL_HANDLE_DBC:
         {
-        CLHDBC cl_connection = (CLHDBC) handle; 
+        CLHDBC cl_connection = (CLHDBC) handle;
 
             return SQLENDTRAN( cl_connection,
                 SQL_HANDLE_DBC,

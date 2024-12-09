@@ -96,7 +96,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagRecW.c,v $";
 
 extern int __is_env( EHEAD * head );        /* in SQLGetDiagRec.c */
 
@@ -215,7 +214,7 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
             rec_number --;
         }
 
-		if ( !ptr ) 
+		if ( !ptr )
 		{
 	    	return SQL_NO_DATA;
 		}
@@ -309,7 +308,7 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
             {
                 as2 = malloc( buffer_length + 1 );
             }
-                
+
             ret = SQLGETDIAGREC( __get_connection( head ),
                     head -> handle_type,
                     __get_driver_handle( head ),
@@ -354,7 +353,7 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
                 rec_number --;
             }
 
-			if ( !ptr ) 
+			if ( !ptr )
 			{
 	    		return SQL_NO_DATA;
 			}

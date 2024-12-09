@@ -3,33 +3,30 @@
 
 void *lstSet( HLST hLst, void *pData )
 {
-	HLSTITEM	hItem;
-	HLST		hLstRoot;
+        HLSTITEM	hItem;
+        HLST		hLstRoot;
 
     if ( !hLst )
         return NULL;
 
-	if ( !hLst->hCurrent )
-		return NULL;
-	
+    if ( !hLst->hCurrent )
+        return NULL;
 
-	if ( hLst->hLstBase )
-		hItem = (HLSTITEM)hLst->hCurrent->pData;
-	else
-		hItem = hLst->hCurrent;
 
-	hLstRoot = (HLST)hItem->hLst;
+    if ( hLst->hLstBase )
+            hItem = (HLSTITEM)hLst->hCurrent->pData;
+    else
+            hItem = hLst->hCurrent;
 
-	/**************************
-	 * SET VALUE
-	 **************************/
-	if ( hItem->pData && hLstRoot->pFree )
-		hLstRoot->pFree( hItem->pData );
+    hLstRoot = (HLST)hItem->hLst;
 
-	hItem->pData = pData;
+    /**************************
+     * SET VALUE
+     **************************/
+    if ( hItem->pData && hLstRoot->pFree )
+            hLstRoot->pFree( hItem->pData );
+
+    hItem->pData = pData;
 
     return pData;
 }
-
-
-

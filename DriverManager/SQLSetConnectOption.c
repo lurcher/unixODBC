@@ -195,7 +195,6 @@
 #endif
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetConnectOption.c,v $ $Revision: 1.12 $";
 
 SQLRETURN SQLSetConnectOptionA( SQLHDBC connection_handle,
            SQLUSMALLINT option,
@@ -220,26 +219,26 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
 
     if ( option == SQL_ATTR_TRACE )
     {
-        if ((SQLLEN) value != SQL_OPT_TRACE_OFF && 
-            (SQLLEN) value != SQL_OPT_TRACE_ON ) 
+        if ((SQLLEN) value != SQL_OPT_TRACE_OFF &&
+            (SQLLEN) value != SQL_OPT_TRACE_ON )
         {
             if ( __validate_dbc( connection ))
             {
                 thread_protect( SQL_HANDLE_DBC, connection );
                 function_entry( connection );
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
-        
+
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
 
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
-            else 
+            else
             {
                 return SQL_INVALID_HANDLE;
             }
@@ -260,30 +259,30 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
     {
         if ( value )
         {
-            if (((SQLCHAR*)value)[ 0 ] == '\0' ) 
+            if (((SQLCHAR*)value)[ 0 ] == '\0' )
             {
                 if ( __validate_dbc( connection ))
                 {
                     thread_protect( SQL_HANDLE_DBC, connection );
                     function_entry( connection );
-                    dm_log_write( __FILE__, 
-                            __LINE__, 
-                            LOG_INFO, 
-                            LOG_INFO, 
+                    dm_log_write( __FILE__,
+                            __LINE__,
+                            LOG_INFO,
+                            LOG_INFO,
                             "Error: HY024" );
-            
+
                     __post_internal_error( &connection -> error,
                         ERROR_HY024, NULL,
                         connection -> environment -> requested_version );
-            
+
                     return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
                 }
-                else 
+                else
                 {
                     return SQL_INVALID_HANDLE;
                 }
             }
-            else 
+            else
             {
                 if ( log_info.log_file_name )
                 {
@@ -292,25 +291,25 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                 log_info.log_file_name = strdup((char*) value );
             }
         }
-        else 
+        else
         {
             if ( __validate_dbc( connection ))
             {
                 thread_protect( SQL_HANDLE_DBC, connection );
                 function_entry( connection );
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY024" );
-        
+
                 __post_internal_error( &connection -> error,
                     ERROR_HY024, NULL,
                     connection -> environment -> requested_version );
-        
+
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
-            else 
+            else
             {
                 return SQL_INVALID_HANDLE;
             }
@@ -324,10 +323,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -345,10 +344,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
                 __con_attr_as_string( s1, option ),
                 (int)value );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -359,10 +358,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
         if ( option == SQL_TRANSLATE_OPTION ||
                 option == SQL_TRANSLATE_DLL )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08003" );
 
             __post_internal_error( &connection -> error,
@@ -374,10 +373,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
     }
     else if ( connection -> state == STATE_C3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -391,10 +390,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
     {
         if ( option == SQL_ODBC_CURSORS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08002" );
 
             __post_internal_error( &connection -> error,
@@ -408,10 +407,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
     {
         if ( option == SQL_ODBC_CURSORS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 08002" );
 
             __post_internal_error( &connection -> error,
@@ -422,10 +421,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
         }
         else if ( option == SQL_TXN_ISOLATION )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: S1011" );
 
             __post_internal_error( &connection -> error,
@@ -441,12 +440,12 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
      */
     ret = dm_check_connection_attrs( connection, option, (SQLPOINTER)value );
 
-    if ( ret != SQL_SUCCESS ) 
+    if ( ret != SQL_SUCCESS )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
         __post_internal_error( &connection -> error,
@@ -510,14 +509,14 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
              */
 
             struct save_attr sa, *sap;
-            
+
             memset( &sa, 0, sizeof( sa ));
-            
+
             sa.attr_type = option;
             sa.intptr_attr = value;
-            
+
             sap = connection -> save_attr;
-            
+
             while ( sap )
             {
                 if ( sap -> attr_type == option )
@@ -544,14 +543,14 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( SQL_SUCCESS, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
 
@@ -602,10 +601,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -648,10 +647,10 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &connection -> error,
@@ -664,20 +663,20 @@ SQLRETURN SQLSetConnectOption( SQLHDBC connection_handle,
 
         if ( log_info.log_flag )
         {
-            sprintf( connection -> msg, 
+            sprintf( connection -> msg,
                     "\n\t\tExit:[%s]",
                         __get_return_status( ret, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     connection -> msg );
         }
     }
 
     /*
-     * catch this 
+     * catch this
      */
 
     if ( option == SQL_ATTR_USE_BOOKMARKS && SQL_SUCCEEDED( ret ))

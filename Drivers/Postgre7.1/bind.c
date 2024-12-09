@@ -1,7 +1,7 @@
 
 /* Module:          bind.c
  *
- * Description:     This module contains routines related to binding 
+ * Description:     This module contains routines related to binding
  *                  columns and parameters.
  *
  * Classes:         BindInfoClass, ParameterInfoClass
@@ -14,7 +14,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "bind.h"
@@ -148,7 +148,7 @@ StatementClass *stmt = (StatementClass *) hstmt;
 static char* const func="SQLBindCol";
 
 	mylog( "%s: entering...\n", func);
-    
+
 mylog("**** SQLBindCol: stmt = %u, icol = %d\n", stmt, icol);
 
 	if ( ! stmt) {
@@ -158,7 +158,7 @@ mylog("**** SQLBindCol: stmt = %u, icol = %d\n", stmt, icol);
 
 
 	SC_clear_error(stmt);
-    
+
 	if( stmt->status == STMT_EXECUTING) {
 		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't bind columns while statement is still executing.");
 		SC_log_error(func, "", stmt);
@@ -230,11 +230,11 @@ SQLRETURN   SQLBindCol(SQLHSTMT hstmt,
 		   SQLPOINTER rgbValue, SQLLEN cbValueMax,
 	   	   SQLLEN *pcbValue)
 {
-    return PG_SQLBindCol( hstmt, 
-                        icol, 
-                        fCType, 
-                        rgbValue, 
-                        cbValueMax, 
+    return PG_SQLBindCol( hstmt,
+                        icol,
+                        fCType,
+                        rgbValue,
+                        cbValueMax,
                         pcbValue );
 }
 
@@ -421,7 +421,7 @@ mylog("%s: entering ... stmt=%u, bindings_allocated=%d, num_columns=%d\n", func,
 		stmt->bindings = new_bindings;
 		stmt->bindings_allocated = num_columns;
 
-    } 
+    }
 	/*	There is no reason to zero out extra bindings if there are */
 	/*	more than needed.  If an app has allocated extra bindings,  */
 	/*	let it worry about it by unbinding those columns. */

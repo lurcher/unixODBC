@@ -8,7 +8,7 @@
  * \license Copyright unixODBC Project 2007-2008, LGPL
  */
 
-/*! 
+/*!
  * \mainpage    ODBC Trace Manager
  *
  * \section intro_sec Introduction
@@ -32,11 +32,11 @@ typedef SQLHANDLE *HTRACECALL;                  /*!< internal call handle of tra
 /*!
  * \brief   Trace handle.
  *
- *          Create an instance of this at the desired scope. The scope could be 1 for driver or 
+ *          Create an instance of this at the desired scope. The scope could be 1 for driver or
  *          1 for each driver handle (env, dbc, stmt, desc) or some other scope.
  *
  *          Use #traceAlloc to allocate the instance or otherwise init the struct. Then use #traceOpen
- *          and #traceClose to open/close the trace plugin. Use #traceFree when your done with the 
+ *          and #traceClose to open/close the trace plugin. Use #traceFree when your done with the
  *          trace handle.
  *
 \code
@@ -79,149 +79,149 @@ typedef struct tTRACE
     RETCODE     (*pTraceOpenLogFile)();
     RETCODE     (*pTraceCloseLogFile)();
 
-    HTRACECALL (*pTraceSQLAlloConnect)();       
-    HTRACECALL (*pTraceSQLAllocEnv)();          
-    HTRACECALL (*pTraceSQLAllocHandle)();       
-    HTRACECALL (*pTraceSQLAllocHandleStd)();    
-    HTRACECALL (*pTraceSQLAllocStmt)();         
-    HTRACECALL (*pTraceSQLBindCol)();           
-    HTRACECALL (*pTraceSQLBindParam)();         
-    HTRACECALL (*pTraceSQLBindParameter)();     
-    HTRACECALL (*pTraceSQLBrowseConnect)();     
-    HTRACECALL (*pTraceSQLBrowseConnectw)();    
-    HTRACECALL (*pTraceSQLBulkOperations)();    
-    HTRACECALL (*pTraceSQLCancel)();            
-    HTRACECALL (*pTraceSQLCloseCursor)();       
-    HTRACECALL (*pTraceSQLColAttribute)();      
-    HTRACECALL (*pTraceSQLColAttributes)();     
-    HTRACECALL (*pTraceSQLColAttributesW)();    
-    HTRACECALL (*pTraceSQLColAttributeW)();     
-    HTRACECALL (*pTraceSQLColumnPrivileges)();  
-    HTRACECALL (*pTraceSQLColumnPrivilegesW)(); 
-    HTRACECALL (*pTraceSQLColumns)();           
-    HTRACECALL (*pTraceSQLColumnsW)();          
-    HTRACECALL (*pTraceSQLConnect)();           
-    HTRACECALL (*pTraceSQLConnectW)();           
-    HTRACECALL (*pTraceSQLCopyDesc)();          
-    HTRACECALL (*pTraceSQLDataSources)();       
-    HTRACECALL (*pTraceSQLDataSourcesW)();      
-    HTRACECALL (*pTraceSQLDescribeCol)();       
-    HTRACECALL (*pTraceSQLDescribeColW)();      
-    HTRACECALL (*pTraceSQLDescribeParam)();     
-    HTRACECALL (*pTraceSQLDisconnect)();        
-    HTRACECALL (*pTraceSQLDriverConnect)();     
-    HTRACECALL (*pTraceSQLDriverConnectW)();    
-    HTRACECALL (*pTraceSQLDrivers)();           
-    HTRACECALL (*pTraceSQLDriversW)();          
-    HTRACECALL (*pTraceSQLEndTran)();           
-    HTRACECALL (*pTraceSQLError)();             
-    HTRACECALL (*pTraceSQLErrorW)();            
-    HTRACECALL (*pTraceSQLExecDirect)();        
-    HTRACECALL (*pTraceSQLExecDirectW)();       
-    HTRACECALL (*pTraceSQLExecute)();           
-    HTRACECALL (*pTraceSQLExtendedFetch)();     
-    HTRACECALL (*pTraceSQLFetch)();             
-    HTRACECALL (*pTraceSQLFetchScroll)();       
-    HTRACECALL (*pTraceSQLForeignKeys)();       
-    HTRACECALL (*pTraceSQLForeignKeysW)();      
-    HTRACECALL (*pTraceSQLFreeConnect)();       
-    HTRACECALL (*pTraceSQLFreeEnv)();           
-    HTRACECALL (*pTraceSQLFreeHandle)();        
-    HTRACECALL (*pTraceSQLFreeStmt)();          
-    HTRACECALL (*pTraceSQLGetConnectAttr)();    
-    HTRACECALL (*pTraceSQLGetConnectAttrW)();   
-    HTRACECALL (*pTraceSQLGetConnectOption)();  
-    HTRACECALL (*pTraceSQLGetConnectOptionW)(); 
-    HTRACECALL (*pTraceSQLGetCursorName)();     
-    HTRACECALL (*pTraceSQLGetCursorNameW)();    
-    HTRACECALL (*pTraceSQLGetData)();           
-    HTRACECALL (*pTraceSQLGetDescField)();      
-    HTRACECALL (*pTraceSQLGetDescFieldw)();     
-    HTRACECALL (*pTraceSQLGetDescRec)();        
-    HTRACECALL (*pTraceSQLGetDescRecW)();       
-    HTRACECALL (*pTraceSQLGetDiagField)();      
-    HTRACECALL (*pTraceSQLGetDiagFieldW)();     
-    HTRACECALL (*pTraceSQLGetDiagRec)();        
-    HTRACECALL (*pTraceSQLGetDiagRecW)();       
-    HTRACECALL (*pTraceSQLGetEnvAttr)();        
-    HTRACECALL (*pTraceSQLGetFunctions)();      
-    HTRACECALL (*pTraceSQLGetInfo)();           
-    HTRACECALL (*pTraceSQLGetInfoW)();          
-    HTRACECALL (*pTraceSQLGetStmtAttr)();       
-    HTRACECALL (*pTraceSQLGetStmtAttrW)();      
-    HTRACECALL (*pTraceSQLGetStmtOption)();     
-    HTRACECALL (*pTraceSQLGetTypeInfo)();       
-    HTRACECALL (*pTraceSQLGetTypeInfoW)();      
-    HTRACECALL (*pTraceSQLMoreResults)();       
-    HTRACECALL (*pTraceSQLNativeSql)();         
-    HTRACECALL (*pTraceSQLNativeSqlW)();        
-    HTRACECALL (*pTraceSQLNumParams)();         
-    HTRACECALL (*pTraceSQLNumResultCols)();     
-    HTRACECALL (*pTraceSQLParamData)();         
-    HTRACECALL (*pTraceSQLParamOptions)();      
-    HTRACECALL (*pTraceSQLPrepare)();           
-    HTRACECALL (*pTraceSQLPrepareW)();          
-    HTRACECALL (*pTraceSQLPrimaryKeys)();       
-    HTRACECALL (*pTraceSQLPrimaryKeysw)();      
-    HTRACECALL (*pTraceSQLProcedureColumns)();  
-    HTRACECALL (*pTraceSQLProcedureColumnsw)(); 
-    HTRACECALL (*pTraceSQLProcedures)();        
-    HTRACECALL (*pTraceSQLProceduresW)();       
-    HTRACECALL (*pTraceSQLPutData)();           
-    HTRACECALL (*pTraceSQLRowCount)();          
-    HTRACECALL (*pTraceSQLSetConnectAttr)();    
-    HTRACECALL (*pTraceSQLSetConnectAttrW)();   
-    HTRACECALL (*pTraceSQLSetConnectoption)();  
-    HTRACECALL (*pTraceSQLSetConnectoptionW)(); 
-    HTRACECALL (*pTraceSQLSetCursorName)();     
-    HTRACECALL (*pTraceSQLSetCursorNameW)();    
-    HTRACECALL (*pTraceSQLSetDescField)();      
-    HTRACECALL (*pTraceSQLSetDescFieldW)();     
-    HTRACECALL (*pTraceSQLSetDescRec)();        
-    HTRACECALL (*pTraceSQLSetDescRecW)();       
-    HTRACECALL (*pTraceSQLSetEnvAttr)();        
-    HTRACECALL (*pTraceSQLSetParam)();          
-    HTRACECALL (*pTraceSQLSetPos)();            
-    HTRACECALL (*pTraceSQLSetScrollOptions)();  
-    HTRACECALL (*pTraceSQLSetStmtAttr)();       
-    HTRACECALL (*pTraceSQLSetStmtAttrW)();      
-    HTRACECALL (*pTraceSQLSetStmtOption)();     
-    HTRACECALL (*pTraceSQLSetStmtOptionW)();    
-    HTRACECALL (*pTraceSQLSpecialColumns)();    
-    HTRACECALL (*pTraceSQLSpecialColumnsW)();   
-    HTRACECALL (*pTraceSQLStatistics)();        
-    HTRACECALL (*pTraceSQLStatisticsW)();       
-    HTRACECALL (*pTraceSQLTablePrivileges)();   
-    HTRACECALL (*pTraceSQLTablePrivilegesW)();  
-    HTRACECALL (*pTraceSQLTables)();            
-    HTRACECALL (*pTraceSQLTablesW)();           
-    HTRACECALL (*pTraceSQLTransact)();          
+    HTRACECALL (*pTraceSQLAlloConnect)();
+    HTRACECALL (*pTraceSQLAllocEnv)();
+    HTRACECALL (*pTraceSQLAllocHandle)();
+    HTRACECALL (*pTraceSQLAllocHandleStd)();
+    HTRACECALL (*pTraceSQLAllocStmt)();
+    HTRACECALL (*pTraceSQLBindCol)();
+    HTRACECALL (*pTraceSQLBindParam)();
+    HTRACECALL (*pTraceSQLBindParameter)();
+    HTRACECALL (*pTraceSQLBrowseConnect)();
+    HTRACECALL (*pTraceSQLBrowseConnectw)();
+    HTRACECALL (*pTraceSQLBulkOperations)();
+    HTRACECALL (*pTraceSQLCancel)();
+    HTRACECALL (*pTraceSQLCloseCursor)();
+    HTRACECALL (*pTraceSQLColAttribute)();
+    HTRACECALL (*pTraceSQLColAttributes)();
+    HTRACECALL (*pTraceSQLColAttributesW)();
+    HTRACECALL (*pTraceSQLColAttributeW)();
+    HTRACECALL (*pTraceSQLColumnPrivileges)();
+    HTRACECALL (*pTraceSQLColumnPrivilegesW)();
+    HTRACECALL (*pTraceSQLColumns)();
+    HTRACECALL (*pTraceSQLColumnsW)();
+    HTRACECALL (*pTraceSQLConnect)();
+    HTRACECALL (*pTraceSQLConnectW)();
+    HTRACECALL (*pTraceSQLCopyDesc)();
+    HTRACECALL (*pTraceSQLDataSources)();
+    HTRACECALL (*pTraceSQLDataSourcesW)();
+    HTRACECALL (*pTraceSQLDescribeCol)();
+    HTRACECALL (*pTraceSQLDescribeColW)();
+    HTRACECALL (*pTraceSQLDescribeParam)();
+    HTRACECALL (*pTraceSQLDisconnect)();
+    HTRACECALL (*pTraceSQLDriverConnect)();
+    HTRACECALL (*pTraceSQLDriverConnectW)();
+    HTRACECALL (*pTraceSQLDrivers)();
+    HTRACECALL (*pTraceSQLDriversW)();
+    HTRACECALL (*pTraceSQLEndTran)();
+    HTRACECALL (*pTraceSQLError)();
+    HTRACECALL (*pTraceSQLErrorW)();
+    HTRACECALL (*pTraceSQLExecDirect)();
+    HTRACECALL (*pTraceSQLExecDirectW)();
+    HTRACECALL (*pTraceSQLExecute)();
+    HTRACECALL (*pTraceSQLExtendedFetch)();
+    HTRACECALL (*pTraceSQLFetch)();
+    HTRACECALL (*pTraceSQLFetchScroll)();
+    HTRACECALL (*pTraceSQLForeignKeys)();
+    HTRACECALL (*pTraceSQLForeignKeysW)();
+    HTRACECALL (*pTraceSQLFreeConnect)();
+    HTRACECALL (*pTraceSQLFreeEnv)();
+    HTRACECALL (*pTraceSQLFreeHandle)();
+    HTRACECALL (*pTraceSQLFreeStmt)();
+    HTRACECALL (*pTraceSQLGetConnectAttr)();
+    HTRACECALL (*pTraceSQLGetConnectAttrW)();
+    HTRACECALL (*pTraceSQLGetConnectOption)();
+    HTRACECALL (*pTraceSQLGetConnectOptionW)();
+    HTRACECALL (*pTraceSQLGetCursorName)();
+    HTRACECALL (*pTraceSQLGetCursorNameW)();
+    HTRACECALL (*pTraceSQLGetData)();
+    HTRACECALL (*pTraceSQLGetDescField)();
+    HTRACECALL (*pTraceSQLGetDescFieldw)();
+    HTRACECALL (*pTraceSQLGetDescRec)();
+    HTRACECALL (*pTraceSQLGetDescRecW)();
+    HTRACECALL (*pTraceSQLGetDiagField)();
+    HTRACECALL (*pTraceSQLGetDiagFieldW)();
+    HTRACECALL (*pTraceSQLGetDiagRec)();
+    HTRACECALL (*pTraceSQLGetDiagRecW)();
+    HTRACECALL (*pTraceSQLGetEnvAttr)();
+    HTRACECALL (*pTraceSQLGetFunctions)();
+    HTRACECALL (*pTraceSQLGetInfo)();
+    HTRACECALL (*pTraceSQLGetInfoW)();
+    HTRACECALL (*pTraceSQLGetStmtAttr)();
+    HTRACECALL (*pTraceSQLGetStmtAttrW)();
+    HTRACECALL (*pTraceSQLGetStmtOption)();
+    HTRACECALL (*pTraceSQLGetTypeInfo)();
+    HTRACECALL (*pTraceSQLGetTypeInfoW)();
+    HTRACECALL (*pTraceSQLMoreResults)();
+    HTRACECALL (*pTraceSQLNativeSql)();
+    HTRACECALL (*pTraceSQLNativeSqlW)();
+    HTRACECALL (*pTraceSQLNumParams)();
+    HTRACECALL (*pTraceSQLNumResultCols)();
+    HTRACECALL (*pTraceSQLParamData)();
+    HTRACECALL (*pTraceSQLParamOptions)();
+    HTRACECALL (*pTraceSQLPrepare)();
+    HTRACECALL (*pTraceSQLPrepareW)();
+    HTRACECALL (*pTraceSQLPrimaryKeys)();
+    HTRACECALL (*pTraceSQLPrimaryKeysw)();
+    HTRACECALL (*pTraceSQLProcedureColumns)();
+    HTRACECALL (*pTraceSQLProcedureColumnsw)();
+    HTRACECALL (*pTraceSQLProcedures)();
+    HTRACECALL (*pTraceSQLProceduresW)();
+    HTRACECALL (*pTraceSQLPutData)();
+    HTRACECALL (*pTraceSQLRowCount)();
+    HTRACECALL (*pTraceSQLSetConnectAttr)();
+    HTRACECALL (*pTraceSQLSetConnectAttrW)();
+    HTRACECALL (*pTraceSQLSetConnectoption)();
+    HTRACECALL (*pTraceSQLSetConnectoptionW)();
+    HTRACECALL (*pTraceSQLSetCursorName)();
+    HTRACECALL (*pTraceSQLSetCursorNameW)();
+    HTRACECALL (*pTraceSQLSetDescField)();
+    HTRACECALL (*pTraceSQLSetDescFieldW)();
+    HTRACECALL (*pTraceSQLSetDescRec)();
+    HTRACECALL (*pTraceSQLSetDescRecW)();
+    HTRACECALL (*pTraceSQLSetEnvAttr)();
+    HTRACECALL (*pTraceSQLSetParam)();
+    HTRACECALL (*pTraceSQLSetPos)();
+    HTRACECALL (*pTraceSQLSetScrollOptions)();
+    HTRACECALL (*pTraceSQLSetStmtAttr)();
+    HTRACECALL (*pTraceSQLSetStmtAttrW)();
+    HTRACECALL (*pTraceSQLSetStmtOption)();
+    HTRACECALL (*pTraceSQLSetStmtOptionW)();
+    HTRACECALL (*pTraceSQLSpecialColumns)();
+    HTRACECALL (*pTraceSQLSpecialColumnsW)();
+    HTRACECALL (*pTraceSQLStatistics)();
+    HTRACECALL (*pTraceSQLStatisticsW)();
+    HTRACECALL (*pTraceSQLTablePrivileges)();
+    HTRACECALL (*pTraceSQLTablePrivilegesW)();
+    HTRACECALL (*pTraceSQLTables)();
+    HTRACECALL (*pTraceSQLTablesW)();
+    HTRACECALL (*pTraceSQLTransact)();
 
 } TRACE, *HTRACE;
 
-/*! 
+/*!
  * \brief   Allocates a trace handle.
- * 
+ *
  *          Tracing is turned off and no trace plugin is loaded.
  *
  * \return  HTRACE
  */
 HTRACE traceAlloc();
 
-/*! 
+/*!
  * \brief   Frees trace handle.
  *
  *          Compliments #traceAlloc. Will call #traceClose as needed.
  *
  *          This will call #traceClose as needed.
- * 
+ *
  * \param   pTrace
  */
 void traceFree( HTRACE pTrace );
 
-/*! 
+/*!
  * \brief   Opens trace plugin.
- * 
+ *
  *          This will open/load the trace plugin/library specified in pTrace->szFileName. The
  *          trace output will go to pTrace->szTraceFile. pTrace->nTrace is set to
  *          SQL_OPT_TRACE_ON but can be set to SQL_OPT_TRACE_OFF at any time to 'pause' tracing.
@@ -229,14 +229,14 @@ void traceFree( HTRACE pTrace );
  *
  * \param   pTrace
  * \param   pszApplication
- * 
+ *
  * \return  int
  */
 int traceOpen( HTRACE pTrace, char *pszApplication );
 
-/*! 
+/*!
  * \brief   Close trace plugin.
- * 
+ *
  *          This will close/unload the trace plugin/library. pTrace->nTrace is set to SQL_OPT_TRACE_OFF
  *          but pTrace->szTraceFile and pTrace->szFileName remain unchanged.
  *

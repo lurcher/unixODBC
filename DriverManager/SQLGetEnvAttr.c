@@ -111,8 +111,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetEnvAttr.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,
@@ -128,10 +126,10 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
 
     if ( !__validate_env( environment ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -149,14 +147,14 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
 \n\t\t\tStrLen = %p",
                 environment,
                 __env_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)buffer_length,
                 (void*)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 
@@ -212,7 +210,7 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
       case SQL_ATTR_UNIXODBC_VERSION:
         if ( value )
         {
-            if ( buffer_length >= strlen( VERSION )) 
+            if ( buffer_length >= strlen( VERSION ))
             {
                 strcpy( value, VERSION );
             }
@@ -233,7 +231,7 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
         {
             char b1[ ODBC_FILENAME_MAX + 1 ];
 
-            if ( buffer_length >= strlen( odbcinst_system_file_path( b1 ))) 
+            if ( buffer_length >= strlen( odbcinst_system_file_path( b1 )))
             {
                 strcpy( value, odbcinst_system_file_path( b1 ));
             }
@@ -250,10 +248,10 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
         break;
 
       default:
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY092" );
 
         __post_internal_error( &environment -> error,
@@ -265,14 +263,14 @@ SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( environment -> msg, 
+        sprintf( environment -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( SQL_SUCCESS, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 environment -> msg );
     }
 

@@ -12,22 +12,22 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Open (init) a log (hLog).
  *
- *          This function must be called before any other in this API. 
+ *          This function must be called before any other in this API.
  *          _logFreeMsg is applied to the log to ensure that all message
  *          mem is freed.
- * 
+ *
  * \param   phLog           Output. Log handle returned here.
  * \param   pszProgramName  Input. Default program name. This is attached to
- *                          each message when written to file. It is only used 
+ *                          each message when written to file. It is only used
  *                          if a viable pszLogFile given. Can be NULL.
  * \param   pszLogFile      Input. File name of log file. Can be NULL.
  * \param   nMaxMsgs        Input. Max messages to store. When this limit is
  *                          reached - oldest message will be deleted. This
  *                          can be set to 0 to remove any limit.
- * 
+ *
  * \return  int
  * \retval  LOG_ERROR
  * \retval  LOG_SUCCESS

@@ -133,7 +133,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDescribeParam.c,v $ $Revision: 1.7 $";
 
 SQLRETURN SQLDescribeParam(
     SQLHSTMT           statement_handle,
@@ -154,10 +153,10 @@ SQLRETURN SQLDescribeParam(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -181,10 +180,10 @@ SQLRETURN SQLDescribeParam(
                 pib_scale,
                 pf_nullable );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -192,10 +191,10 @@ SQLRETURN SQLDescribeParam(
 
     if ( ipar < 1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error( &statement -> error,
@@ -211,10 +210,10 @@ SQLRETURN SQLDescribeParam(
 
     if ( statement -> state == STATE_S1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -232,10 +231,10 @@ SQLRETURN SQLDescribeParam(
             statement -> state == STATE_S15 ) &&
             statement -> connection -> environment -> requested_version >= SQL_OV_ODBC3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -252,10 +251,10 @@ SQLRETURN SQLDescribeParam(
             statement -> state == STATE_S15 ) &&
             statement -> connection -> environment -> requested_version == SQL_OV_ODBC2 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -269,10 +268,10 @@ SQLRETURN SQLDescribeParam(
     {
         if ( statement -> interupted_func != SQL_API_SQLDESCRIBEPARAM )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -285,10 +284,10 @@ SQLRETURN SQLDescribeParam(
 
     if ( !CHECK_SQLDESCRIBEPARAM( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -312,17 +311,17 @@ SQLRETURN SQLDescribeParam(
         if ( statement -> state != STATE_S11 &&
                 statement -> state != STATE_S12 )
             statement -> state = STATE_S11;
-    } 
-    
-    if ( (ret == SQL_SUCCESS || ret == SQL_SUCCESS_WITH_INFO) 
-            && pf_sql_type ) 
+    }
+
+    if ( (ret == SQL_SUCCESS || ret == SQL_SUCCESS_WITH_INFO)
+            && pf_sql_type )
     {
         *pf_sql_type = __map_type(MAP_SQL_D2DM,statement->connection, *pf_sql_type);
     }
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
                 \n\t\t\tSQL Type = %p\
                 \n\t\t\tParam Def = %p\
@@ -334,10 +333,10 @@ SQLRETURN SQLDescribeParam(
                     __sptr_as_string( s3, pib_scale ),
                     __sptr_as_string( s4, pf_nullable ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

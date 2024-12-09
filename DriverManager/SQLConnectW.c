@@ -118,7 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLConnectW.c,v $";
 
 /*
  * connection pooling stuff
@@ -154,10 +153,10 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
      */
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -167,23 +166,23 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
 			parent_connection = find_parent_handle( connection, SQL_HANDLE_DBC );
 
 			if ( parent_connection ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLCONNECTW( parent_connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
-					return SQLCONNECTW( parent_connection, 
-							connection_handle, 
-							server_name, 
+					return SQLCONNECTW( parent_connection,
+							connection_handle,
+							server_name,
 							name_length1,
 							user_name,
 							name_length2,
@@ -361,7 +360,7 @@ SQLRETURN SQLConnectW( SQLHDBC connection_handle,
         }
 
 retry:
-        retpool = search_for_pool( connection, 
+        retpool = search_for_pool( connection,
                                         ansi_server_name, ansi_name_length1,
                                         ansi_user_name, ansi_name_length2,
                                         ansi_authentication, ansi_name_length3,
@@ -625,7 +624,7 @@ retry:
         if ( CHECK_SQLSETCONNECTATTR( connection ))
         {
             int lret;
-                
+
             lret = SQLSETCONNECTATTR( connection,
                     connection -> driver_dbc,
                     SQL_ATTR_ANSI_APP,
@@ -647,7 +646,7 @@ retry:
     {
         /*
          * get the errors from the driver before
-         * loseing the connection 
+         * loseing the connection
          */
 
         if ( connection -> unicode_driver )
@@ -818,7 +817,7 @@ retry:
         }
 
 
-        /* 
+        /*
          * if it was a error then return now
          */
 
@@ -871,7 +870,7 @@ retry:
         return function_return( SQL_HANDLE_DBC, connection, SQL_ERROR, DEFER_R0 );
     }
 
-    if ( log_info.log_flag ) 
+    if ( log_info.log_flag )
     {
         sprintf( connection -> msg,
                 "\n\t\tExit:[%s]",

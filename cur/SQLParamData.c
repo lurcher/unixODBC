@@ -55,7 +55,7 @@
 SQLRETURN CLParamData( SQLHSTMT statement_handle,
            SQLPOINTER *value )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLPARAMDATA( cl_statement -> cl_connection,
            cl_statement -> driver_stmt,

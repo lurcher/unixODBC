@@ -71,7 +71,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLAllocHandleStd.c,v $ $Revision: 1.2 $";
 
 SQLRETURN SQLAllocHandleStd(
     SQLSMALLINT        handle_type,

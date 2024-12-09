@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumnsW.c,v $";
 
 SQLRETURN SQLColumnsW( SQLHSTMT statement_handle,
            SQLWCHAR *catalog_name,
@@ -106,10 +105,10 @@ SQLRETURN SQLColumnsW( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -119,18 +118,18 @@ SQLRETURN SQLColumnsW( SQLHSTMT statement_handle,
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLCOLUMNSW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLCOLUMNSW( parent_statement -> connection,
@@ -340,7 +339,7 @@ SQLRETURN SQLColumnsW( SQLHSTMT statement_handle,
         {
             function_return_ex( IGNORE_THREAD, statement, ret, TRUE, DEFER_R1 );
         }
-        
+
         SQLNUMRESULTCOLS( statement -> connection,
                 statement -> driver_stmt, &statement -> numcols );
         /******/

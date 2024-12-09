@@ -78,7 +78,7 @@ SQLRETURN CLSetStmtAttr( SQLHSTMT statement_handle,
            SQLPOINTER value,
            SQLINTEGER string_length )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLUINTEGER val;
     SQLRETURN ret = SQL_SUCCESS;
 
@@ -106,7 +106,7 @@ SQLRETURN CLSetStmtAttr( SQLHSTMT statement_handle,
             cl_statement -> concurrency = ( SQLULEN ) value;
         }
         break;
-        
+
       case SQL_ATTR_CURSOR_TYPE:
         val = ( SQLULEN ) value;
         if ( val != SQL_CURSOR_FORWARD_ONLY &&
@@ -163,7 +163,7 @@ SQLRETURN CLSetStmtAttr( SQLHSTMT statement_handle,
             cl_statement -> simulate_cursor = ( SQLULEN ) value;
         }
         break;
-            
+
       case SQL_ATTR_USE_BOOKMARKS:
         cl_statement -> use_bookmarks = ( SQLULEN ) value;
         break;
@@ -184,7 +184,7 @@ SQLRETURN CLSetStmtAttr( SQLHSTMT statement_handle,
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,
                     ERROR_01S02, NULL,
-                    cl_statement -> dm_statement -> connection -> 
+                    cl_statement -> dm_statement -> connection ->
                         environment -> requested_version );
     }
     return ret;

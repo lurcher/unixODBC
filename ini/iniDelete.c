@@ -25,13 +25,13 @@ int iniDelete( HINI hIni )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	/* REMOVE ALL SUBORDINATE INFO */
-	iniObjectFirst( hIni );
-	while ( iniObjectDelete( hIni ) == INI_SUCCESS )
-	{
-	}
+    /* REMOVE ALL SUBORDINATE INFO */
+    iniObjectFirst( hIni );
+    while ( iniObjectDelete( hIni ) == INI_SUCCESS )
+    {
+    }
 
-	return INI_SUCCESS;
+    return INI_SUCCESS;
 }
 
 

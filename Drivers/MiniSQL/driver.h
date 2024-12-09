@@ -14,7 +14,7 @@
  * distributions and uses of this code (thats about all I get out of it).
  * - Peter Harvey pharvey@codebydesign.com
  *
- **********************************************/		
+ **********************************************/
 #ifndef _H_DRIVER
 #define _H_DRIVER
 
@@ -36,17 +36,17 @@
  *****************************************************************************/
 typedef struct     tDRVSTMT
 {
-	struct tDRVSTMT	*pPrev;									/* prev struct or null		*/
-	struct tDRVSTMT	*pNext;									/* next struct or null		*/
-    SQLPOINTER 		hDbc;									/* pointer to DB context    */
+        struct tDRVSTMT	*pPrev;									/* prev struct or null		*/
+        struct tDRVSTMT	*pNext;									/* next struct or null		*/
+    SQLPOINTER          hDbc;									/* pointer to DB context    */
 
-    SQLCHAR    		szCursorName[SQL_MAX_CURSOR_NAME];		/* name of cursor           */
-    SQLCHAR    		*pszQuery;								/* query string             */
+    SQLCHAR             szCursorName[SQL_MAX_CURSOR_NAME];		/* name of cursor           */
+    SQLCHAR             *pszQuery;								/* query string             */
 
-	SQLCHAR     	szSqlMsg[LOG_MSG_MAX];					/* buff to format msgs		*/
-	HLOG			hLog;									/* handle to msg logs		*/
+        SQLCHAR         szSqlMsg[LOG_MSG_MAX];					/* buff to format msgs		*/
+        HLOG			hLog;									/* handle to msg logs		*/
 
-    HSTMTEXTRAS 	hStmtExtras;							/* DRIVER SPECIFIC STORAGE  */
+    HSTMTEXTRAS         hStmtExtras;							/* DRIVER SPECIFIC STORAGE  */
 
 } DRVSTMT, *HDRVSTMT;
 
@@ -55,17 +55,17 @@ typedef struct     tDRVSTMT
  *****************************************************************************/
 typedef struct     tDRVDBC
 {
-	struct tDRVDBC	*pPrev;								/* prev struct or null		*/
-	struct tDRVDBC	*pNext;								/* next struct or null		*/
-    SQLPOINTER		hEnv; 	                           	/* pointer to ENV structure */
-	HDRVSTMT		hFirstStmt;							/* first in list or null	*/
-	HDRVSTMT		hLastStmt;							/* last in list or null		*/
+        struct tDRVDBC	*pPrev;								/* prev struct or null		*/
+        struct tDRVDBC	*pNext;								/* next struct or null		*/
+    SQLPOINTER		hEnv;                                   /* pointer to ENV structure */
+        HDRVSTMT		hFirstStmt;							/* first in list or null	*/
+        HDRVSTMT		hLastStmt;							/* last in list or null		*/
 
-	SQLCHAR     	szSqlMsg[LOG_MSG_MAX];				/* buff to format msgs		*/
-	HLOG			hLog;								/* handle to msg logs		*/
+        SQLCHAR         szSqlMsg[LOG_MSG_MAX];				/* buff to format msgs		*/
+        HLOG			hLog;								/* handle to msg logs		*/
 
-    int	        	bConnected;                         /* TRUE on open connection  */
-    HDBCEXTRAS  	hDbcExtras;                         /* DRIVER SPECIFIC DATA     */
+    int                 bConnected;                         /* TRUE on open connection  */
+    HDBCEXTRAS          hDbcExtras;                         /* DRIVER SPECIFIC DATA     */
 
 } DRVDBC, *HDRVDBC;
 
@@ -74,11 +74,11 @@ typedef struct     tDRVDBC
  *****************************************************************************/
 typedef struct     tDRVENV
 {
-	HDRVDBC		hFirstDbc;							/* first in list or null	*/
-	HDRVDBC		hLastDbc;							/* last in list or null		*/
+        HDRVDBC		hFirstDbc;							/* first in list or null	*/
+        HDRVDBC		hLastDbc;							/* last in list or null		*/
 
     SQLCHAR     szSqlMsg[LOG_MSG_MAX];				/* buff to format msgs		*/
-	HLOG		hLog;								/* handle to msg logs		*/
+        HLOG		hLog;								/* handle to msg logs		*/
 
     HENVEXTRAS  hEnvExtras;
 
@@ -86,5 +86,3 @@ typedef struct     tDRVENV
 
 
 #endif
-
-

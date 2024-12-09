@@ -8,39 +8,36 @@
  ***************************/
 void *_lstAdjustCurrent( HLST hLst )
 {
-	HLSTITEM h;
+        HLSTITEM h;
 
-	if ( !hLst )
-		return NULL;
+        if ( !hLst )
+                return NULL;
 
-	if ( !hLst->hCurrent )
-		return NULL;
-	
-	if ( _lstVisible( hLst->hCurrent ) )
-		return hLst->hCurrent;
-	
-	h = hLst->hCurrent;
-	while ( !_lstVisible( hLst->hCurrent ) && hLst->hCurrent->pPrev )
-	{
+        if ( !hLst->hCurrent )
+                return NULL;
+
+        if ( _lstVisible( hLst->hCurrent ) )
+                return hLst->hCurrent;
+
+        h = hLst->hCurrent;
+        while ( !_lstVisible( hLst->hCurrent ) && hLst->hCurrent->pPrev )
+        {
         hLst->hCurrent = hLst->hCurrent->pPrev;
-	}
+        }
 
-	if ( _lstVisible( hLst->hCurrent ) )
-		return hLst->hCurrent;
-	
+        if ( _lstVisible( hLst->hCurrent ) )
+                return hLst->hCurrent;
+
     hLst->hCurrent = h;
-	while ( !_lstVisible( hLst->hCurrent ) && hLst->hCurrent->pNext )
-	{
+        while ( !_lstVisible( hLst->hCurrent ) && hLst->hCurrent->pNext )
+        {
         hLst->hCurrent = hLst->hCurrent->pNext;
-	}
+        }
 
-	if ( _lstVisible( hLst->hCurrent ) )
-		return hLst->hCurrent;
-	
+        if ( _lstVisible( hLst->hCurrent ) )
+                return hLst->hCurrent;
+
     hLst->hCurrent = NULL;
 
-	return NULL;
+        return NULL;
 }
-
-
-

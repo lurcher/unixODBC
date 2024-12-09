@@ -130,7 +130,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLRowCount.c,v $ $Revision: 1.8 $";
 
 SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
        SQLLEN *rowcount )
@@ -150,10 +149,10 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
             *rowcount = -1;
         }
 
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -169,10 +168,10 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
                 statement,
                 rowcount );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -198,10 +197,10 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
             *rowcount = -1;
         }
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -218,10 +217,10 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
             *rowcount = -1;
         }
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -237,16 +236,16 @@ SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tRow Count = %s",
                     __get_return_status( ret, s0 ),
                     __ptr_as_string( s1, rowcount ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

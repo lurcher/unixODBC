@@ -111,7 +111,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetFunctions.c,v $ $Revision: 1.5 $";
 
 SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
            SQLUSMALLINT function_id,
@@ -126,10 +125,10 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -147,10 +146,10 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
                 __fid_as_string( s1, function_id ),
                 supported );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -169,10 +168,10 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
     if ( connection -> state == STATE_C3 ||
             connection -> state == STATE_C2 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &connection -> error,
@@ -199,16 +198,16 @@ SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tSupported = %s",
                     __get_return_status( SQL_SUCCESS, s0 ),
                     __sptr_as_string( s1, (short*)supported ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 

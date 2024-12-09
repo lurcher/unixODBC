@@ -156,7 +156,7 @@ SQLWCHAR* _multi_string_alloc_and_expand( LPCSTR in )
     {
         return NULL;
     }
-    
+
     while ( in[ len ] != 0 || in[ len + 1 ] != 0 )
     {
         len ++;
@@ -372,14 +372,14 @@ int _multi_string_length( LPCSTR in )
 }
 
 
-/*! 
+/*!
  * \brief   Invokes a UI (a wizard) to walk User through creating a DSN.
- * 
+ *
  * \param   hWnd    Input. Parent window handle. This is HWND as per the ODBC
  *                  specification but in unixODBC we use a generic window
- *                  handle. Caller must cast a HODBCINSTWND to HWND at call. 
+ *                  handle. Caller must cast a HODBCINSTWND to HWND at call.
  * \param   pszDS   Input. Data Source Name. This can be a NULL pointer.
- * 
+ *
  * \return  BOOL
  *
  * \sa      ODBCINSTWND
@@ -465,9 +465,9 @@ BOOL SQLCreateDataSource( HWND hWnd, LPCSTR pszDS )
     return FALSE;
 }
 
-/*! 
+/*!
  * \brief   A wide char version of \sa SQLCreateDataSource.
- * 
+ *
  * \sa      SQLCreateDataSource
  */
 BOOL INSTAPI SQLCreateDataSourceW( HWND hwndParent, LPCWSTR lpszDSN )

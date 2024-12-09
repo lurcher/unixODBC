@@ -104,7 +104,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColAttributeW.c,v $";
 
 SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
            SQLUSMALLINT column_number,
@@ -123,10 +122,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
      */
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -152,10 +151,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
                 string_length,
                 numeric_attribute );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -165,10 +164,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF &&
             field_identifier != SQL_DESC_COUNT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error_api( &statement -> error,
@@ -200,10 +199,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
      */
     if ( statement -> state == STATE_S1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -216,10 +215,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
     else if ( statement -> state == STATE_S2 &&
             field_identifier != SQL_DESC_COUNT )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07005" );
 
         __post_internal_error( &statement -> error,
@@ -231,10 +230,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
     */
     else if ( statement -> state == STATE_S4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -250,10 +249,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -268,10 +267,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLCOLATTRIBUTE )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -331,10 +330,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &statement -> error,
@@ -423,7 +422,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
 					{
 						*string_length *= sizeof( SQLWCHAR );
 					}
-                    if ( as1 ) 
+                    if ( as1 )
                     {
                         free( as1 );
                     }
@@ -432,10 +431,10 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
                 __post_internal_error( &statement -> error,
@@ -503,7 +502,7 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
 					*string_length *= sizeof( SQLWCHAR );
                 }
 
-                if ( as1 ) 
+                if ( as1 )
                 {
                     free( as1 );
                 }
@@ -539,14 +538,14 @@ SQLRETURN SQLColAttributeW ( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

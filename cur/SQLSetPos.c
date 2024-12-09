@@ -61,14 +61,14 @@ SQLRETURN CLSetPos(
     SQLUSMALLINT       foption,
     SQLUSMALLINT       flock )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     /*
      * this is implemented by the cursor lib
      */
 
     if ( irow == 0 )
-    {        
+    {
         /*
          * one day maybe, but what do you want, blood ?
          */

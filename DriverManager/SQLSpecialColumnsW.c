@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSpecialColumnsW.c,v $";
 
 SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
            SQLUSMALLINT identifier_type,
@@ -108,10 +107,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -121,18 +120,18 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLSPECIALCOLUMNSW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLSPECIALCOLUMNSW( parent_statement -> connection,
@@ -167,16 +166,16 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 \n\t\t\tNullable = %d",
                 statement,
                 identifier_type,
-                __wstring_with_length( s1, catalog_name, name_length1 ), 
-                __wstring_with_length( s2, schema_name, name_length2 ), 
-                __wstring_with_length( s3, table_name, name_length3 ), 
+                __wstring_with_length( s1, catalog_name, name_length1 ),
+                __wstring_with_length( s2, schema_name, name_length2 ),
+                __wstring_with_length( s3, table_name, name_length3 ),
                 scope,
                 nullable );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -185,10 +184,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     if ( identifier_type != SQL_BEST_ROWID &&
             identifier_type != SQL_ROWVER )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY097" );
 
         __post_internal_error( &statement -> error,
@@ -201,10 +200,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     if (( name_length1 < 0 && name_length1 != SQL_NTS ) ||
         ( name_length2 < 0 && name_length2 != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -216,10 +215,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 
     if ( table_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -231,10 +230,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 
     if ( name_length3 < 0 && name_length3 != SQL_NTS )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -251,10 +250,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     if ( statement -> metadata_id == SQL_TRUE &&
             schema_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -268,26 +267,26 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
             scope != SQL_SCOPE_TRANSACTION &&
             scope != SQL_SCOPE_SESSION )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY098" );
 
         __post_internal_error( &statement -> error,
                 ERROR_HY098, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( nullable != SQL_NO_NULLS &&
             nullable != SQL_NULLABLE )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY099" );
 
         __post_internal_error( &statement -> error,
@@ -310,17 +309,17 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 2400" );
 
         __post_internal_error( &statement -> error,
                 ERROR_24000, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
     else if ( statement -> state == STATE_S8 ||
             statement -> state == STATE_S9 ||
@@ -329,10 +328,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -347,10 +346,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLSPECIALCOLUMNS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -366,10 +365,10 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLSPECIALCOLUMNSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -393,15 +392,15 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
     }
     else
     {
-        SQLCHAR *as1, *as2, *as3; 
+        SQLCHAR *as1, *as2, *as3;
         int clen;
 
         if ( !CHECK_SQLSPECIALCOLUMNS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -467,14 +466,14 @@ SQLRETURN SQLSpecialColumnsW( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

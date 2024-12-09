@@ -139,7 +139,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetScrollOptions.c,v $ $Revision: 1.9 $";
 
 SQLRETURN SQLSetScrollOptions(
     SQLHSTMT           statement_handle,
@@ -157,10 +156,10 @@ SQLRETURN SQLSetScrollOptions(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -180,10 +179,10 @@ SQLRETURN SQLSetScrollOptions(
                 (int)crow_keyset,
                 crow_rowset );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -195,10 +194,10 @@ SQLRETURN SQLSetScrollOptions(
 
     if ( statement -> state != STATE_S1 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1010" );
 
         __post_internal_error( &statement -> error,
@@ -214,10 +213,10 @@ SQLRETURN SQLSetScrollOptions(
             crow_keyset != SQL_SCROLL_DYNAMIC ) ||
             !crow_rowset)
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1107" );
 
         __post_internal_error( &statement -> error,
@@ -232,10 +231,10 @@ SQLRETURN SQLSetScrollOptions(
              f_concurrency != SQL_CONCUR_ROWVER &&
              f_concurrency != SQL_CONCUR_VALUES )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1108" );
 
         __post_internal_error( &statement -> error,
@@ -254,7 +253,7 @@ SQLRETURN SQLSetScrollOptions(
                 crow_rowset );
     }
     else if ( statement -> connection -> driver_act_ver >= SQL_OV_ODBC3 &&
-            (CHECK_SQLGETINFO( statement -> connection ) || 
+            (CHECK_SQLGETINFO( statement -> connection ) ||
 			CHECK_SQLGETINFOW( statement -> connection )) &&
             (CHECK_SQLSETSTMTATTR( statement -> connection ) ||
             CHECK_SQLSETSTMTATTRW( statement -> connection )))
@@ -286,10 +285,10 @@ SQLRETURN SQLSetScrollOptions(
             }
             else
             {
-                dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+                dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: S1107" );
 
                 __post_internal_error( &statement -> error,
@@ -309,73 +308,73 @@ SQLRETURN SQLSetScrollOptions(
 
         if( !SQL_SUCCEEDED( ret ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: SQLGetInfo fails" );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
         if ( f_concurrency == SQL_CONCUR_READ_ONLY &&
                 !( ivp & SQL_CA2_READ_ONLY_CONCURRENCY ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1C00" );
 
             __post_internal_error( &statement -> error,
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         else if ( f_concurrency == SQL_CONCUR_LOCK &&
                 !( ivp & SQL_CA2_LOCK_CONCURRENCY ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1C00" );
 
             __post_internal_error( &statement -> error,
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         else if ( f_concurrency == SQL_CONCUR_ROWVER &&
                 !( ivp & SQL_CA2_OPT_ROWVER_CONCURRENCY ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1C00" );
 
             __post_internal_error( &statement -> error,
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         if ( f_concurrency == SQL_CONCUR_VALUES &&
                 !( ivp & SQL_CA2_OPT_VALUES_CONCURRENCY ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1C00" );
 
             __post_internal_error( &statement -> error,
                     ERROR_S1C00, NULL,
                     statement -> connection -> environment -> requested_version );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
         if ( f_concurrency != SQL_CONCUR_READ_ONLY &&
@@ -383,16 +382,16 @@ SQLRETURN SQLSetScrollOptions(
             f_concurrency != SQL_CONCUR_ROWVER &&
             f_concurrency != SQL_CONCUR_VALUES )
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: S1108" );
 
             __post_internal_error( &statement -> error,
                     ERROR_S1108, NULL,
                     statement -> connection -> environment -> requested_version );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
@@ -415,12 +414,12 @@ SQLRETURN SQLSetScrollOptions(
 
         if ( !SQL_SUCCEEDED( ret ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: SQLSetStmtAttr fails" );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
@@ -450,10 +449,10 @@ SQLRETURN SQLSetScrollOptions(
             }
             else
             {
-                dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+                dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: S1107" );
 
                 __post_internal_error( &statement -> error,
@@ -484,12 +483,12 @@ SQLRETURN SQLSetScrollOptions(
 
         if ( !SQL_SUCCEEDED( ret ))
         {
-            dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+            dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: SQLSetStmtAttr fails" );
-            
+
             return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
         }
 
@@ -514,12 +513,12 @@ SQLRETURN SQLSetScrollOptions(
 
             if ( !SQL_SUCCEEDED( ret ))
             {
-                dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+                dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQLSetStmtAttr fails" );
-                
+
                 return function_return( SQL_HANDLE_STMT, statement, SQL_ERROR, DEFER_R3 );
             }
         }
@@ -542,10 +541,10 @@ SQLRETURN SQLSetScrollOptions(
     }
     else
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -557,14 +556,14 @@ SQLRETURN SQLSetScrollOptions(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

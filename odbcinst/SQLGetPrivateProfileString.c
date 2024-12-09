@@ -250,7 +250,7 @@ static void _save_ini_cache( int ret,
     ini_cache_head = ini_cache;
 }
 
-static void _clear_ini_cache( void ) 
+static void _clear_ini_cache( void )
 {
     struct ini_cache *ini_cache = ini_cache_head;
 
@@ -327,7 +327,7 @@ static void save_ini_cache( int ret,
 	mutex_exit( &mutex_ini );
 }
 
-void __clear_ini_cache( void ) 
+void __clear_ini_cache( void )
 {
 	mutex_entry( &mutex_ini );
 
@@ -359,7 +359,7 @@ static void save_ini_cache( int ret,
 {
 }
 
-void __clear_ini_cache( void ) 
+void __clear_ini_cache( void )
 {
 }
 
@@ -587,14 +587,14 @@ int __SQLGetPrivateProfileStringNL( LPCSTR  pszSection,
         else
         {
             iniValue( hIni, szValue );
-	        if ( pRetBuffer ) 
+	        if ( pRetBuffer )
 	        {
 	            strncpy( pRetBuffer, szValue, nRetBuffer );
 	            pRetBuffer[ nRetBuffer - 1 ] = '\0';
 	        }
             nBufPos = strlen( szValue );
         }
-        
+
         ret = strlen( pRetBuffer );
     }
 
@@ -643,7 +643,7 @@ int  INSTAPI SQLGetPrivateProfileStringW( LPCWSTR lpszSection,
 	def = lpszDefault ? _single_string_alloc_and_copy( lpszDefault ) : (char*)NULL;
 	name = lpszFilename ? _single_string_alloc_and_copy( lpszFilename ) : (char*)NULL;
 
-	if ( lpszRetBuffer ) 
+	if ( lpszRetBuffer )
 	{
 		if ( cbRetBuffer > 0 )
 		{

@@ -197,7 +197,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagField.c,v $ $Revision: 1.17 $";
 
 #define ODBC30_SUBCLASS        "01S00,01S01,01S02,01S06,01S07,07S01,08S01,21S01,\
 21S02,25S01,25S02,25S03,42S01,42S02,42S11,42S12,42S21,42S22,HY095,HY097,HY098,\
@@ -240,7 +239,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
     {
         return SQL_ERROR;
     }
-    
+
     /*
      * check the header fields first
      */
@@ -368,7 +367,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                 {
                     s1 = malloc( sizeof( SQLWCHAR ) * ( buffer_length + 1 ));
                 }
-                
+
                 ret = SQLGETDIAGFIELDW( __get_connection( head ),
                         SQL_HANDLE_STMT,
                         __get_driver_handle( head ),
@@ -481,12 +480,12 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
       case SQL_DIAG_NUMBER:
         {
             SQLINTEGER val;
-            
+
             if ( rec_number > 0 )
             {
                 return SQL_ERROR;
             }
-            val = head -> sql_diag_head.internal_count + 
+            val = head -> sql_diag_head.internal_count +
                 head -> sql_diag_head.error_count;
 
             if ( diag_info_ptr )
@@ -500,7 +499,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
         {
             if ( diag_info_ptr )
             {
-                memcpy( diag_info_ptr, &head -> return_code, 
+                memcpy( diag_info_ptr, &head -> return_code,
                         sizeof( head -> return_code ));
             }
         }
@@ -530,7 +529,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             ptr = ptr -> next;
             rec_number --;
         }
-		if ( !ptr ) 
+		if ( !ptr )
 		{
 			return SQL_NO_DATA;
 		}
@@ -563,7 +562,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
             {
                 unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
 
-                if ( string_length_ptr && *string_length_ptr > 0 ) 
+                if ( string_length_ptr && *string_length_ptr > 0 )
                 {
                     *string_length_ptr /= sizeof( SQLWCHAR );
                 }
@@ -618,13 +617,13 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
                 ptr = ptr -> next;
                 rec_number --;
             }
-			if ( !ptr ) 
+			if ( !ptr )
 			{
 	    		return SQL_NO_DATA;
 			}
         }
     }
-    else 
+    else
     {
 	    return SQL_NO_DATA;
     }

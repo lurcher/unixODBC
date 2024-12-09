@@ -1,7 +1,7 @@
 
 /* Module:          execute.c
  *
- * Description:     This module contains routines related to 
+ * Description:     This module contains routines related to
  *                  preparing and executing an SQL statement.
  *
  * Classes:         n/a
@@ -14,7 +14,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -57,7 +57,7 @@ StatementClass *self = (StatementClass *) hstmt;
 
 /* used for MAX_ROWS if specified */
  int limlen = 0;
- char buffer[32]; 
+ char buffer[32];
 
 	mylog( "%s: entering...\n", func);
 
@@ -65,9 +65,9 @@ StatementClass *self = (StatementClass *) hstmt;
 		SC_log_error(func, "", NULL);
 		return SQL_INVALID_HANDLE;
 	}
-    
+
 	/*	According to the ODBC specs it is valid to call SQLPrepare mulitple times.
-		In that case, the bound SQL statement is replaced by the new one 
+		In that case, the bound SQL statement is replaced by the new one
 	*/
 
 	switch(self->status) {
@@ -154,7 +154,7 @@ RETCODE result;
 static char* const func = "SQLExecDirect";
 
 	mylog( "%s: entering...\n", func);
-    
+
 	if ( ! stmt) {
 		SC_log_error(func, "", NULL);
 		return SQL_INVALID_HANDLE;
@@ -228,7 +228,7 @@ int i, retval;
 		just return success.
 	*/
 	if ( stmt->prepare && stmt->status == STMT_PREMATURE && !stmt->reexecute ) {
-		stmt->status = STMT_FINISHED;       
+		stmt->status = STMT_FINISHED;
 		if (NULL == SC_get_errormsg(stmt)) {
 			mylog("%s: premature statement but return SQL_SUCCESS\n", func);
 			return SQL_SUCCESS;
@@ -238,7 +238,7 @@ int i, retval;
 			mylog("%s: premature statement so return SQL_ERROR\n", func);
 			return SQL_ERROR;
 		}
-	}  
+	}
     else if ( stmt->prepare && stmt->status == STMT_PREMATURE && stmt->reexecute )
     {
         /*
@@ -281,7 +281,7 @@ int i, retval;
 	}
 
 	/*	Check if the statement is in the correct state */
-	if ((stmt->prepare && stmt->status != STMT_READY) || 
+	if ((stmt->prepare && stmt->status != STMT_READY) ||
 		(stmt->status != STMT_ALLOCATED && stmt->status != STMT_READY)) {
 		
 		SC_set_error(stmt, STMT_STATUS_ERROR, "The handle does not point to a statement that is ready to be executed");
@@ -353,7 +353,7 @@ int lf;
 	}
 
 	/* If hdbc is null and henv is valid,
-	it means transact all connections on that henv.  
+	it means transact all connections on that henv.
 	*/
 	if (hdbc == SQL_NULL_HDBC && henv != SQL_NULL_HENV) {
 		for (lf=0; lf <MAX_CONNECTIONS; lf++) {
@@ -364,7 +364,7 @@ int lf;
 					return SQL_ERROR;
 
 		}
-		return SQL_SUCCESS;       
+		return SQL_SUCCESS;
 	}
 
 	conn = (ConnectionClass *) hdbc;
@@ -379,7 +379,7 @@ int lf;
 		CC_set_error(conn, CONN_INVALID_ARGUMENT_NO, "SQLTransact can only be called with SQL_COMMIT or SQL_ROLLBACK as parameter");
 		CC_log_error(func, "", conn);
 		return SQL_ERROR;
-	}    
+	}
 
 	/*	If manual commit and in transaction, then proceed. */
 	if ( ! CC_is_in_autocommit(conn) &&  CC_is_in_trans(conn)) {
@@ -395,14 +395,14 @@ int lf;
 			return SQL_ERROR;
 		}
 
-		ok = QR_command_successful(res);   
+		ok = QR_command_successful(res);
 		QR_Destructor(res);
 
 		if (!ok) {
 			CC_log_error(func, "", conn);
 			return SQL_ERROR;
 		}
-	}    
+	}
 	return SQL_SUCCESS;
 }
 
@@ -434,9 +434,9 @@ FARPROC addr;
 		/*	MAJOR HACK for Windows to reset the driver manager's cursor state:
 			Because of what seems like a bug in the Odbc driver manager,
 			SQLCancel does not act like a SQLFreeStmt(CLOSE), as many
-			applications depend on this behavior.  So, this 
+			applications depend on this behavior.  So, this
 			brute force method calls the driver manager's function on
-			behalf of the application.  
+			behalf of the application.
 		*/
 
 #ifdef WIN32

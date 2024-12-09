@@ -52,15 +52,15 @@
 #include "cursorlibrary.h"
 
 SQLRETURN CLGetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLCHAR *name,
-           SQLSMALLINT buffer_length, 
+           SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length,
-           SQLSMALLINT *type, 
-           SQLSMALLINT *sub_type, 
-           SQLINTEGER *length, 
-           SQLSMALLINT *precision, 
-           SQLSMALLINT *scale, 
+           SQLSMALLINT *type,
+           SQLSMALLINT *sub_type,
+           SQLINTEGER *length,
+           SQLSMALLINT *precision,
+           SQLSMALLINT *scale,
            SQLSMALLINT *nullable )
 {
     return SQL_ERROR;

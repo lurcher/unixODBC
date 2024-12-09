@@ -13,16 +13,16 @@
 #include <config.h>
 #include "driver.h"
 
-/*! 
+/*!
  * \brief   Get oldest error for the given handle.
  *
  *          This is deprecated - use SQLGetDiagRec instead. This is mapped
- *          to SQLGetDiagRec. The main difference between this and 
+ *          to SQLGetDiagRec. The main difference between this and
  *          SQLGetDiagRec is that this call will delete the error message to
  *          allow multiple calls here to work their way through all of the
  *          errors even with the lack of an ability to pass a specific message
  *          number to be returned.
- * 
+ *
  * \param   hDrvEnv
  * \param   hDrvDbc
  * \param   hDrvStmt
@@ -31,7 +31,7 @@
  * \param   szErrorMsg
  * \param   nErrorMsgMax
  * \param   pcbErrorMsg
- * 
+ *
  * \return  SQLRETURN
  *
  * \sa      SQLGetDiagRec
@@ -72,7 +72,7 @@ SQLRETURN SQLError( SQLHENV     hDrvEnv,
     else
         return SQL_INVALID_HANDLE;
 
-    nReturn = SQLGetDiagRec_( nHandleType, hHandle, 1, szSqlState, pfNativeError, szErrorMsg, nErrorMsgMax, pcbErrorMsg ); 
+    nReturn = SQLGetDiagRec_( nHandleType, hHandle, 1, szSqlState, pfNativeError, szErrorMsg, nErrorMsgMax, pcbErrorMsg );
 
     /* unlike SQLGetDiagRec - we delete the message returned */
     if ( SQL_SUCCEEDED( nReturn ) )

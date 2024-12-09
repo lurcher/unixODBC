@@ -174,7 +174,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBrowseConnect.c,v $ $Revision: 1.15 $";
 
 #define BUFFER_LEN      4095
 
@@ -186,8 +185,8 @@ SQLRETURN SQLBrowseConnectA(
     SQLSMALLINT        conn_str_out_max,
     SQLSMALLINT        *ptr_conn_str_out )
 {
-    return SQLBrowseConnect( hdbc, 
-                            conn_str_in, 
+    return SQLBrowseConnect( hdbc,
+                            conn_str_in,
                             len_conn_str_in,
                             conn_str_out,
                             conn_str_out_max,
@@ -220,10 +219,10 @@ SQLRETURN SQLBrowseConnect(
 
     if ( !__validate_dbc( connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -240,15 +239,15 @@ SQLRETURN SQLBrowseConnect(
             \n\t\t\tStr Out Max = %d\
             \n\t\t\tPtr Conn Str Out = %p",
                 connection,
-                __string_with_length( s1, conn_str_in, len_conn_str_in ), 
-                conn_str_out, 
-				conn_str_out_max, 
+                __string_with_length( s1, conn_str_in, len_conn_str_in ),
+                conn_str_out,
+				conn_str_out_max,
                 ptr_conn_str_out );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 
@@ -260,14 +259,14 @@ SQLRETURN SQLBrowseConnect(
         connection -> state == STATE_C5 ||
         connection -> state == STATE_C6 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 08002" );
 
         __post_internal_error( &connection -> error,
-                ERROR_08002, NULL, 
+                ERROR_08002, NULL,
                 connection -> environment -> requested_version );
 
         return function_return_nodrv( IGNORE_THREAD, connection, SQL_ERROR );
@@ -277,10 +276,10 @@ SQLRETURN SQLBrowseConnect(
 
     if ( len_conn_str_in < 0  &&  len_conn_str_in != SQL_NTS)
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &connection -> error,
@@ -321,10 +320,10 @@ SQLRETURN SQLBrowseConnect(
 
             if ( lib_name[ 0 ] == '\0' )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM002" );
 
                 __post_internal_error( &connection -> error,
@@ -349,10 +348,10 @@ SQLRETURN SQLBrowseConnect(
 
             if ( strlen( dsn ) > SQL_MAX_DSN_LENGTH )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM012" );
 
                 __post_internal_error( &connection -> error,
@@ -368,10 +367,10 @@ SQLRETURN SQLBrowseConnect(
 
             if ( !__find_lib_name( dsn, lib_name, driver_name ))
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM002" );
 
                 __post_internal_error( &connection -> error,
@@ -408,10 +407,10 @@ SQLRETURN SQLBrowseConnect(
         if ( !CHECK_SQLBROWSECONNECTW( connection ) &&
             !CHECK_SQLBROWSECONNECT( connection ))
         {
-            dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+            dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: IM001" );
 
             __disconnect_part_one( connection );
@@ -456,7 +455,7 @@ SQLRETURN SQLBrowseConnect(
             uc_out_str,
             conn_str_out_max,
             ptr_conn_str_out );
-        
+
         if(uc_in_str)
             free(uc_in_str);
 
@@ -467,7 +466,7 @@ SQLRETURN SQLBrowseConnect(
                 *ptr_conn_str_out = strlen((char*)conn_str_out);
             free(uc_out_str);
         }
-        
+
         connection->unicode_driver = 1;
     }
     else
@@ -484,7 +483,7 @@ SQLRETURN SQLBrowseConnect(
                                ERROR_IM001, NULL,
                                connection -> environment -> requested_version );
         return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
-    } 
+    }
 
     if ( !SQL_SUCCEEDED( ret ) || ret == SQL_NEED_DATA )
     {
@@ -504,13 +503,13 @@ SQLRETURN SQLBrowseConnect(
                         ret,
                         1 );
             }
-            else if ( CHECK_SQLERRORW( connection )) 
+            else if ( CHECK_SQLERRORW( connection ))
             {
-                extract_sql_error_w( SQL_NULL_HENV, 
-                        connection -> driver_dbc, 
-                        SQL_NULL_HSTMT, 
+                extract_sql_error_w( SQL_NULL_HENV,
+                        connection -> driver_dbc,
+                        SQL_NULL_HSTMT,
                         connection,
-                        &connection -> error, 
+                        &connection -> error,
                         ret );
             }
             else if ( CHECK_SQLGETDIAGFIELD( connection ) &&
@@ -523,16 +522,16 @@ SQLRETURN SQLBrowseConnect(
                         ret,
                         1 );
             }
-            else if ( CHECK_SQLERROR( connection )) 
+            else if ( CHECK_SQLERROR( connection ))
             {
-                extract_sql_error( SQL_NULL_HENV, 
-                        connection -> driver_dbc, 
-                        SQL_NULL_HSTMT, 
+                extract_sql_error( SQL_NULL_HENV,
+                        connection -> driver_dbc,
+                        SQL_NULL_HSTMT,
                         connection,
-                        &connection -> error, 
+                        &connection -> error,
                         ret );
             }
-            else 
+            else
             {
                 __post_internal_error( &connection -> error,
                     ERROR_HY000, "Driver returned SQL_ERROR or SQL_SUCCESS_WITH_INFO but no error reporting API found",
@@ -551,13 +550,13 @@ SQLRETURN SQLBrowseConnect(
                         ret,
                         1 );
             }
-            else if ( CHECK_SQLERROR( connection )) 
+            else if ( CHECK_SQLERROR( connection ))
             {
-                extract_sql_error( SQL_NULL_HENV, 
-                        connection -> driver_dbc, 
-                        SQL_NULL_HSTMT, 
+                extract_sql_error( SQL_NULL_HENV,
+                        connection -> driver_dbc,
+                        SQL_NULL_HSTMT,
                         connection,
-                        &connection -> error, 
+                        &connection -> error,
                         ret );
             }
             else if ( CHECK_SQLGETDIAGFIELDW( connection ) &&
@@ -570,16 +569,16 @@ SQLRETURN SQLBrowseConnect(
                         ret,
                         1 );
             }
-            else if ( CHECK_SQLERRORW( connection )) 
+            else if ( CHECK_SQLERRORW( connection ))
             {
-                extract_sql_error_w( SQL_NULL_HENV, 
-                        connection -> driver_dbc, 
-                        SQL_NULL_HSTMT, 
+                extract_sql_error_w( SQL_NULL_HENV,
+                        connection -> driver_dbc,
+                        SQL_NULL_HSTMT,
                         connection,
-                        &connection -> error, 
+                        &connection -> error,
                         ret );
             }
-            else 
+            else
             {
                 __post_internal_error( &connection -> error,
                     ERROR_HY000, "Driver returned SQL_ERROR or SQL_SUCCESS_WITH_INFO but no error reporting API found",
@@ -587,7 +586,7 @@ SQLRETURN SQLBrowseConnect(
             }
         }
 
-    	if ( ret != SQL_NEED_DATA ) 
+    	if ( ret != SQL_NEED_DATA )
 		{
             /* If an error occurred during SQLBrowseConnect, we need to keep the
                connection in the same state (C2 or C3). This allows the application
@@ -602,7 +601,7 @@ SQLRETURN SQLBrowseConnect(
                 __disconnect_part_four( connection );  /* release unicode handles - also sets state to C2 */
             }
 		}
-		else 
+		else
 		{
        		connection -> state = STATE_C3;
 		}
@@ -627,15 +626,15 @@ SQLRETURN SQLBrowseConnect(
             __disconnect_part_four( connection );       /* release unicode handles */
             if ( log_info.log_flag )
             {
-                sprintf( connection -> msg, 
+                sprintf( connection -> msg,
                         "\n\t\tExit:[%s]\
                         \n\t\t\tconnect_part_two fails",
                             __get_return_status( SQL_ERROR, s1 ));
 
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         connection -> msg );
             }
 
@@ -645,16 +644,16 @@ SQLRETURN SQLBrowseConnect(
 
     if ( log_info.log_flag )
     {
-        sprintf( connection -> msg, 
+        sprintf( connection -> msg,
                 "\n\t\tExit:[%s]\
                 \n\t\t\tPtr Conn Str Out = %s",
                     __get_return_status( ret, s2 ),
                     __sptr_as_string( s1, ptr_conn_str_out ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 connection -> msg );
     }
 

@@ -129,7 +129,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetCursorName.c,v $ $Revision: 1.8 $";
 
 SQLRETURN SQLGetCursorNameA( SQLHSTMT statement_handle,
            SQLCHAR *cursor_name,
@@ -157,10 +156,10 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -177,13 +176,13 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 \n\t\t\tName Length= %p",
                 statement,
                 cursor_name,
-                buffer_length, 
+                buffer_length,
                 name_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -191,10 +190,10 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 
     if ( buffer_length < 0 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -217,17 +216,17 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
                 ERROR_HY010, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     if ( statement -> connection -> unicode_driver )
@@ -236,10 +235,10 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 
         if ( !CHECK_SQLGETCURSORNAMEW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -274,10 +273,10 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLGETCURSORNAME( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -296,17 +295,17 @@ SQLRETURN SQLGetCursorName( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
                 \n\t\t\tCursor Name = %s",
                     __get_return_status( ret, s1 ),
-                    __sdata_as_string( s1, SQL_CHAR, 
+                    __sdata_as_string( s1, SQL_CHAR,
                         name_length, cursor_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

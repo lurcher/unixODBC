@@ -6,9 +6,9 @@
 
 #include <odbcinstext.h>
 
-BOOL _SQLDriverConnectPrompt( 
-	HWND hwnd, 
-	SQLCHAR *dsn, 
+BOOL _SQLDriverConnectPrompt(
+	HWND hwnd,
+	SQLCHAR *dsn,
 	SQLSMALLINT len_dsn )
 {
     HODBCINSTWND  hODBCInstWnd = (HODBCINSTWND)hwnd;
@@ -27,11 +27,11 @@ BOOL _SQLDriverConnectPrompt(
 
     /* get plugin name */
 
-	if ( hODBCInstWnd ) 
+	if ( hODBCInstWnd )
 	{
     	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, hODBCInstWnd->szUI ) );
 	}
-	else 
+	else
 	{
     	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, NULL ) );
 	}
@@ -42,18 +42,18 @@ BOOL _SQLDriverConnectPrompt(
     {
         /* change the name, as it avoids it finding it in the calling lib */
         pODBCDriverConnectPrompt = (BOOL (*)( HWND, SQLCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPrompt" );
-        if ( pODBCDriverConnectPrompt ) 
+        if ( pODBCDriverConnectPrompt )
 		{
-			if ( hODBCInstWnd ) 
+			if ( hODBCInstWnd )
 			{
             	ret = pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 			}
-			else 
+			else
 			{
             	ret = pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
 			}
 		}
-		else 
+		else
 		{
 			ret = FALSE;
 		}
@@ -71,18 +71,18 @@ BOOL _SQLDriverConnectPrompt(
         {
             /* change the name, as it avoids linker finding it in the calling lib */
         	pODBCDriverConnectPrompt = (BOOL (*)(HWND, SQLCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPrompt" );
-        	if ( pODBCDriverConnectPrompt ) 
+        	if ( pODBCDriverConnectPrompt )
 			{
-				if ( hODBCInstWnd ) 
+				if ( hODBCInstWnd )
 				{
             		ret = pODBCDriverConnectPrompt(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 				}
-				else 
+				else
 				{
             		ret = pODBCDriverConnectPrompt( NULL, dsn, len_dsn );
 				}
 			}
-			else 
+			else
 			{
 				ret = FALSE;
 			}
@@ -95,9 +95,9 @@ BOOL _SQLDriverConnectPrompt(
     return FALSE;
 }
 
-BOOL _SQLDriverConnectPromptW( 
-	HWND hwnd, 
-	SQLWCHAR *dsn, 
+BOOL _SQLDriverConnectPromptW(
+	HWND hwnd,
+	SQLWCHAR *dsn,
 	SQLSMALLINT len_dsn )
 {
     HODBCINSTWND  hODBCInstWnd = (HODBCINSTWND)hwnd;
@@ -116,11 +116,11 @@ BOOL _SQLDriverConnectPromptW(
 
     /* get plugin name */
 
-	if ( hODBCInstWnd ) 
+	if ( hODBCInstWnd )
 	{
     	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, hODBCInstWnd->szUI ) );
 	}
-	else 
+	else
 	{
     	_appendUIPluginExtension( szNameAndExtension, _getUIPluginName( szName, NULL ) );
 	}
@@ -131,18 +131,18 @@ BOOL _SQLDriverConnectPromptW(
     {
         /* change the name, as it avoids it finding it in the calling lib */
         pODBCDriverConnectPromptW = (BOOL (*)( HWND, SQLWCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPromptW" );
-        if ( pODBCDriverConnectPromptW ) 
+        if ( pODBCDriverConnectPromptW )
 		{
-			if ( hODBCInstWnd ) 
+			if ( hODBCInstWnd )
 			{
             	ret = pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 			}
-			else 
+			else
 			{
             	ret = pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
 			}
 		}
-		else 
+		else
 		{
 			ret = FALSE;
 		}
@@ -160,18 +160,18 @@ BOOL _SQLDriverConnectPromptW(
         {
             /* change the name, as it avoids linker finding it in the calling lib */
         	pODBCDriverConnectPromptW = (BOOL (*)(HWND, SQLWCHAR *, SQLSMALLINT ))lt_dlsym( hDLL, "ODBCDriverConnectPromptW" );
-        	if ( pODBCDriverConnectPromptW ) 
+        	if ( pODBCDriverConnectPromptW )
 			{
-				if ( hODBCInstWnd ) 
+				if ( hODBCInstWnd )
 				{
             		ret = pODBCDriverConnectPromptW(( *(hODBCInstWnd->szUI) ? hODBCInstWnd->hWnd : NULL ), dsn, len_dsn );
 				}
-				else 
+				else
 				{
             		ret = pODBCDriverConnectPromptW( NULL, dsn, len_dsn );
 				}
 			}
-			else 
+			else
 			{
 				ret = FALSE;
 			}

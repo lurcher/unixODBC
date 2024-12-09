@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLStatisticsW.c,v $";
 
 SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
            SQLWCHAR *catalog_name,
@@ -107,10 +106,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -120,18 +119,18 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLSTATISTICSW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLSTATISTICSW( parent_statement -> connection,
@@ -163,16 +162,16 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
 \n\t\t\tUnique = %d\
 \n\t\t\tReserved = %d",
                 statement,
-                __wstring_with_length( s1, catalog_name, name_length1 ), 
-                __wstring_with_length( s2, schema_name, name_length2 ), 
-                __wstring_with_length( s3, table_name, name_length3 ), 
+                __wstring_with_length( s1, catalog_name, name_length1 ),
+                __wstring_with_length( s2, schema_name, name_length2 ),
+                __wstring_with_length( s3, table_name, name_length3 ),
                 unique,
                 reserved );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -182,10 +181,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
             ( name_length2 < 0 && name_length2 != SQL_NTS ) ||
             ( name_length3 < 0 && name_length3 != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -198,10 +197,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
     if ( reserved != SQL_ENSURE &&
             reserved != SQL_QUICK )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY101" );
 
         __post_internal_error( &statement -> error,
@@ -214,10 +213,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
     if ( unique != SQL_INDEX_UNIQUE &&
             unique != SQL_INDEX_ALL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY100" );
 
         __post_internal_error( &statement -> error,
@@ -240,10 +239,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -259,10 +258,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -277,10 +276,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLSTATISTICS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -291,12 +290,12 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
         }
     }
 
-    if ( table_name == NULL ) 
+    if ( table_name == NULL )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -307,18 +306,18 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
     }
 
     if ( statement -> metadata_id == SQL_TRUE ) {
-        if ( schema_name == NULL ) 
+        if ( schema_name == NULL )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY009" );
-    
+
             __post_internal_error( &statement -> error,
                     ERROR_HY009, NULL,
                     statement -> connection -> environment -> requested_version );
-    
+
             return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
         }
     }
@@ -328,10 +327,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLSTATISTICSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -359,10 +358,10 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
 
         if ( !CHECK_SQLSTATISTICS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -427,14 +426,14 @@ SQLRETURN SQLStatisticsW( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

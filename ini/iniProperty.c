@@ -20,17 +20,14 @@ int iniProperty( HINI hIni, char *pszProperty )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
-	
-	if ( hIni->hCurProperty == NULL )
-		return INI_NO_DATA;
+    if ( hIni->hCurObject == NULL )
+        return INI_NO_DATA;
+
+    if ( hIni->hCurProperty == NULL )
+        return INI_NO_DATA;
 
     /* Ok */
     strncpy( pszProperty, hIni->hCurProperty->szName, INI_MAX_PROPERTY_NAME );
 
     return INI_SUCCESS;
 }
-
-
-

@@ -40,7 +40,7 @@ extern "C" {
 #define SQL_SUCCEEDED(rc) (((rc)&(~1))==0)
 
 #if (ODBCVER >= 0x0380)
-#define SQL_PARAM_DATA_AVAILABLE    101  
+#define SQL_PARAM_DATA_AVAILABLE    101
 #endif
 
 /****************************
@@ -604,7 +604,7 @@ extern "C" {
 
 #if (ODBCVER >= 0x0380)
 SQLRETURN  SQL_API SQLCancelHandle(SQLSMALLINT HandleType, SQLHANDLE InputHandle);
-#endif 
+#endif
 
 
 #if (ODBCVER >= 0x0300)
@@ -616,7 +616,7 @@ SQLRETURN  SQL_API SQLCancelHandle(SQLSMALLINT HandleType, SQLHANDLE InputHandle
                                         SQLSMALLINT *StringLength, SQLLEN *NumericAttribute );
 
 										/* spec says (SQLPOINTER) not (SQLEN*) - PAH */
-										/* Ms now say SQLLEN* 
+										/* Ms now say SQLLEN*
                                            http://msdn.microsoft.com/library/en-us/odbc/htm/dasdkodbcoverview_64bit.asp - NG */
 										
 #endif

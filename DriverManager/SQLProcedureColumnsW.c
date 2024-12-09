@@ -85,7 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLProcedureColumnsW.c,v $";
 
 SQLRETURN SQLProcedureColumnsW(
     SQLHSTMT           statement_handle,
@@ -108,10 +107,10 @@ SQLRETURN SQLProcedureColumnsW(
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
 #ifdef WITH_HANDLE_REDIRECT
@@ -121,18 +120,18 @@ SQLRETURN SQLProcedureColumnsW(
 			parent_statement = find_parent_handle( statement, SQL_HANDLE_STMT );
 
 			if ( parent_statement ) {
-        		dm_log_write( __FILE__, 
-                	__LINE__, 
-                    	LOG_INFO, 
-                    	LOG_INFO, 
+        		dm_log_write( __FILE__,
+                	__LINE__,
+                    	LOG_INFO,
+                    	LOG_INFO,
                     	"Info: found parent handle" );
 
 				if ( CHECK_SQLPROCEDURECOLUMNSW( parent_statement -> connection ))
 				{
-        			dm_log_write( __FILE__, 
-                		__LINE__, 
-                   		 	LOG_INFO, 
-                   		 	LOG_INFO, 
+        			dm_log_write( __FILE__,
+                		__LINE__,
+                   		 	LOG_INFO,
+                   		 	LOG_INFO,
                    		 	"Info: calling redirected driver function" );
 
                 	return  SQLPROCEDURECOLUMNSW( parent_statement -> connection,
@@ -161,17 +160,17 @@ SQLRETURN SQLProcedureColumnsW(
 \n\t\t\tCatalog Name = %s\
 \n\t\t\tSchema Name = %s\
 \n\t\t\tProc Name = %s\
-\n\t\t\tColumn Type = %s", 
+\n\t\t\tColumn Type = %s",
                 statement,
-                __wstring_with_length( s1, sz_catalog_name, cb_catalog_name ), 
-                __wstring_with_length( s2, sz_schema_name, cb_schema_name ), 
-                __wstring_with_length( s3, sz_proc_name, cb_proc_name ), 
+                __wstring_with_length( s1, sz_catalog_name, cb_catalog_name ),
+                __wstring_with_length( s2, sz_schema_name, cb_schema_name ),
+                __wstring_with_length( s3, sz_proc_name, cb_proc_name ),
                 __wstring_with_length( s4, sz_column_name, cb_column_name ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -182,10 +181,10 @@ SQLRETURN SQLProcedureColumnsW(
             ( sz_proc_name && cb_proc_name < 0 && cb_proc_name != SQL_NTS ) ||
             ( sz_column_name && cb_column_name < 0 && cb_column_name != SQL_NTS ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -208,10 +207,10 @@ SQLRETURN SQLProcedureColumnsW(
             statement -> state == STATE_S7 )
 #endif
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -227,10 +226,10 @@ SQLRETURN SQLProcedureColumnsW(
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -245,10 +244,10 @@ SQLRETURN SQLProcedureColumnsW(
     {
         if ( statement -> interupted_func != SQL_API_SQLPROCEDURECOLUMNS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -268,10 +267,10 @@ SQLRETURN SQLProcedureColumnsW(
     {
         if ( !CHECK_SQLPROCEDURECOLUMNSW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -299,10 +298,10 @@ SQLRETURN SQLProcedureColumnsW(
 
         if ( !CHECK_SQLPROCEDURECOLUMNS( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -357,14 +356,14 @@ SQLRETURN SQLProcedureColumnsW(
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

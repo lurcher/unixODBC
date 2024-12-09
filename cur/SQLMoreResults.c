@@ -53,7 +53,7 @@
 
 SQLRETURN CLMoreResults( SQLHSTMT statement_handle )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 	SQLRETURN ret;
 
     ret = SQLMORERESULTS( cl_statement -> cl_connection,

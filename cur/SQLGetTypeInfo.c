@@ -60,7 +60,7 @@
 SQLRETURN CLGetTypeInfo( SQLHSTMT statement_handle,
            SQLSMALLINT data_type )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLGETTYPEINFO( cl_statement -> cl_connection,

@@ -1,13 +1,13 @@
 
 /* Module:          results.c
  *
- * Description:     This module contains functions related to 
+ * Description:     This module contains functions related to
  *                  retrieving result information through the ODBC API.
  *
  * Classes:         n/a
  *
  * API functions:   SQLRowCount, SQLNumResultCols, SQLDescribeCol, SQLColAttributes,
- *                  SQLGetData, SQLFetch, SQLExtendedFetch, 
+ *                  SQLGetData, SQLFetch, SQLExtendedFetch,
  *                  SQLMoreResults(NI), SQLSetPos, SQLSetScrollOptions(NI),
  *                  SQLSetCursorName, SQLGetCursorName
  *
@@ -16,7 +16,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include <string.h>
@@ -28,7 +28,7 @@
 #include "bind.h"
 #include "qresult.h"
 #include "convert.h"
-#include "pgtypes.h" 
+#include "pgtypes.h"
 #include "misc.h"
 
 #include <stdio.h>
@@ -95,7 +95,7 @@ char *msg, *ptr;
 	}
 
 	SC_log_error(func, "Bad return value", stmt);
-	return SQL_ERROR;     
+	return SQL_ERROR;
 }
 
 
@@ -106,7 +106,7 @@ char *msg, *ptr;
 RETCODE SQL_API SQLNumResultCols(
         HSTMT     hstmt,
         SWORD FAR *pccol)
-{       
+{
 static char* const func="SQLNumResultCols";
 StatementClass *stmt = (StatementClass *) hstmt;
 QResultClass *result;
@@ -117,7 +117,7 @@ char parse_ok;
 		return SQL_INVALID_HANDLE;
 	}
 
-	SC_clear_error(stmt);    
+	SC_clear_error(stmt);
 
 	parse_ok = FALSE;
 	if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
@@ -136,7 +136,7 @@ char parse_ok;
 
 	if ( ! parse_ok) {
 
-		SC_pre_execute(stmt);       
+		SC_pre_execute(stmt);
 		result = SC_get_Result(stmt);
 
 		mylog("SQLNumResultCols: result = %u, status = %d, numcols = %d\n", result, stmt->status, result != NULL ? QR_NumResultCols(result) : -1);
@@ -197,7 +197,7 @@ RETCODE result;
     SC_clear_error(stmt);
 
 	/*	Dont check for bookmark column.  This is the responsibility
-		of the driver manager.  
+		of the driver manager.
 	*/
 
 	icol--;		/* use zero based column numbers */
@@ -317,7 +317,7 @@ RETCODE result;
         Int2 scale;
         scale = pgtype_scale(stmt, fieldtype, icol);
         if(scale == -1) { scale = 0; }
-        
+
         *pibScale = scale;
 		mylog("describeCol: col %d  *pibScale = %d\n", icol, *pibScale);
     }
@@ -411,7 +411,7 @@ int len = 0, value = 0;
 	}
 
 	if ( ! parse_ok) {
-		SC_pre_execute(stmt);       
+		SC_pre_execute(stmt);
 
 		mylog("**** SQLColAtt: result = %u, status = %d, numcols = %d\n", stmt->result, stmt->status, stmt->result != NULL ? QR_NumResultCols(stmt->result) : -1);
 
@@ -458,7 +458,7 @@ int len = 0, value = 0;
 
 	/* 	This special case is handled above.
 
-	case SQL_COLUMN_COUNT: 
+	case SQL_COLUMN_COUNT:
 	*/
 
     case SQL_COLUMN_DISPLAY_SIZE:
@@ -485,7 +485,7 @@ int len = 0, value = 0;
 		break;
 
 	case SQL_COLUMN_LENGTH:
-		value = (parse_ok) ? stmt->fi[icol]->length :  pgtype_length(stmt, field_type, icol, unknown_sizes); 
+		value = (parse_ok) ? stmt->fi[icol]->length :  pgtype_length(stmt, field_type, icol, unknown_sizes);
 
 		mylog("SQLColAttributes: col %d, length = %d\n", icol, value);
         break;
@@ -570,7 +570,7 @@ int len = 0, value = 0;
 			}
 		}
 
-		if (pcbDesc) 
+		if (pcbDesc)
 			*pcbDesc = len;
 	}
 	else {	/* numeric data */
@@ -705,7 +705,7 @@ mylog("SQLGetData: enter, stmt=%u\n", stmt);
 
 	stmt->current_col = icol;
 
-    result = copy_and_convert_field(stmt, field_type, value, 
+    result = copy_and_convert_field(stmt, field_type, value,
                                     fCType, rgbValue, cbValueMax, (SQLLEN*)pcbValue);
 
 	stmt->current_col = -1;
@@ -748,11 +748,11 @@ SQLRETURN   SQLGetData(SQLHSTMT hstmt,
            SQLPOINTER rgbValue, SQLLEN cbValueMax,
            SQLLEN *pcbValue)
 {
-    return PG_SQLGetData( hstmt, 
-                        icol, 
-                        fCType, 
-                        rgbValue, 
-                        cbValueMax, 
+    return PG_SQLGetData( hstmt,
+                        icol,
+                        fCType,
+                        rgbValue,
+                        cbValueMax,
                         (SDWORD FAR *)pcbValue );
 }
 
@@ -763,7 +763,7 @@ RETCODE SQL_API PG_SQLFetch(
         HSTMT   hstmt)
 {
 static char* const func = "SQLFetch";
-StatementClass *stmt = (StatementClass *) hstmt;   
+StatementClass *stmt = (StatementClass *) hstmt;
 QResultClass *res;
 
 mylog("SQLFetch: stmt = %u, stmt->result= %u\n", stmt, stmt->result);
@@ -966,7 +966,7 @@ mylog("SQLExtendedFetch: stmt=%u\n", stmt);
 		/*	Position with respect to the end of the result set */
 		else {
 			stmt->rowset_start = num_tuples + irow;
-		}    
+		}
 
 		break;
 
@@ -989,9 +989,9 @@ mylog("SQLExtendedFetch: stmt=%u\n", stmt);
 
 	default:
 		SC_log_error(func, "Unsupported SQLExtendedFetch Direction", stmt);
-		return SQL_ERROR;   
+		return SQL_ERROR;
 
-	}           
+	}
 
 
 	/***********************************/
@@ -1049,7 +1049,7 @@ mylog("SQLExtendedFetch: stmt=%u\n", stmt);
 
 		/*	Determine Row Status */
 		if (rgfRowStatus) {
-			if (result == SQL_ERROR) 
+			if (result == SQL_ERROR)
 				*(rgfRowStatus + i) = SQL_ROW_ERROR;
 			else
 				*(rgfRowStatus + i)= SQL_ROW_SUCCESS;

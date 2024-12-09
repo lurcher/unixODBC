@@ -32,12 +32,12 @@
 
 static const char *aYesNo[] =
 {
-	"Yes",
-	"No",
-	NULL
+        "Yes",
+        "No",
+        NULL
 };
 
-static char *help_strings[] = 
+static char *help_strings[] =
 {
     "Name of the server to connect to.",
     "User name to connect with.",
@@ -88,14 +88,14 @@ int ODBCINSTGetProperties(
     strncpy( hLastProperty->szValue, "", INI_MAX_PROPERTY_VALUE );
     hLastProperty->pszHelp = malloc(strlen(help_strings[3]) + 1);
     strcpy(hLastProperty->pszHelp, help_strings[3]);
-    
+
     /* Idea for the future:
      * make the nPromptType an ODBCINST_PROMPTTYPE_COMBOBOX and
      * present the user with aPromptData containing
      * the current value of the ORACLE_HOME environment variable
      * same for TNS_ADMIN below
      */
-    
+
     hLastProperty->pNext =
         (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );
     hLastProperty = hLastProperty->pNext;
@@ -108,4 +108,3 @@ int ODBCINSTGetProperties(
 
     return 1;
 }
-

@@ -78,7 +78,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetCursorNameW.c,v $";
 
 SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
            SQLWCHAR *cursor_name,
@@ -94,10 +93,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -113,10 +112,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
                 statement,
                 __wstring_with_length( s1, cursor_name, name_length ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -125,17 +124,17 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
     if ( !cursor_name ||
          (name_length < 0 && name_length != SQL_NTS ) )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
                 ERROR_HY009, NULL,
                 statement -> connection -> environment -> requested_version );
 
-        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR ); 
+        return function_return_nodrv( SQL_HANDLE_STMT, statement, SQL_ERROR );
     }
 
     /*
@@ -147,10 +146,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
             statement -> state == STATE_S6 ||
             statement -> state == STATE_S7 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -169,10 +168,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -187,10 +186,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
     {
         if ( !CHECK_SQLSETCURSORNAMEW( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -212,10 +211,10 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
 
         if ( !CHECK_SQLSETCURSORNAME( statement -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &statement -> error,
@@ -239,14 +238,14 @@ SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

@@ -8,7 +8,7 @@
  *
  * Any bugs or problems should be considered the fault of Nick and not
  * Peter.
- * 
+ *
  * copyright (c) 1999 Nick Gorham
  *
  * This library is free software; you can redistribute it and/or
@@ -154,43 +154,41 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDescRec.c,v $ $Revision: 1.13 $";
-
 SQLRETURN SQLGetDescRecA( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLCHAR *name,
-           SQLSMALLINT buffer_length, 
+           SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length,
-           SQLSMALLINT *type, 
-           SQLSMALLINT *sub_type, 
-           SQLLEN *length, 
-           SQLSMALLINT *precision, 
-           SQLSMALLINT *scale, 
+           SQLSMALLINT *type,
+           SQLSMALLINT *sub_type,
+           SQLLEN *length,
+           SQLSMALLINT *precision,
+           SQLSMALLINT *scale,
            SQLSMALLINT *nullable )
 {
     return SQLGetDescRec( descriptor_handle,
-                        rec_number, 
+                        rec_number,
                         name,
-                        buffer_length, 
+                        buffer_length,
                         string_length,
-                        type, 
-                        sub_type, 
-                        length, 
-                        precision, 
-                        scale, 
+                        type,
+                        sub_type,
+                        length,
+                        precision,
+                        scale,
                         nullable );
 }
 
 SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
-           SQLSMALLINT rec_number, 
+           SQLSMALLINT rec_number,
            SQLCHAR *name,
-           SQLSMALLINT buffer_length, 
+           SQLSMALLINT buffer_length,
            SQLSMALLINT *string_length,
-           SQLSMALLINT *type, 
-           SQLSMALLINT *sub_type, 
-           SQLLEN *length, 
-           SQLSMALLINT *precision, 
-           SQLSMALLINT *scale, 
+           SQLSMALLINT *type,
+           SQLSMALLINT *sub_type,
+           SQLLEN *length,
+           SQLSMALLINT *precision,
+           SQLSMALLINT *scale,
            SQLSMALLINT *nullable )
 {
     /*
@@ -212,10 +210,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
     if ( !__validate_desc( descriptor ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -249,10 +247,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
                 scale,
                 nullable );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 descriptor -> msg );
     }
 
@@ -260,10 +258,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
     if ( descriptor -> connection -> state < STATE_C4 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -286,10 +284,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
         __check_stmt_from_desc( descriptor, STATE_S14 ) ||
         __check_stmt_from_desc( descriptor, STATE_S15 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &descriptor -> error,
@@ -301,10 +299,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
     if( __check_stmt_from_desc_ird( descriptor, STATE_S1 )) {
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY007" );
 
         __post_internal_error( &descriptor -> error,
@@ -320,10 +318,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
         if ( !CHECK_SQLGETDESCRECW( descriptor -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &descriptor -> error,
@@ -340,15 +338,15 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
         ret = SQLGETDESCRECW( descriptor -> connection,
                 descriptor -> driver_desc,
-                rec_number, 
+                rec_number,
                 s1 ? s1 : (SQLWCHAR*) name,
-                buffer_length, 
+                buffer_length,
                 string_length,
-                type, 
-                sub_type, 
-                length, 
-                precision, 
-                scale, 
+                type,
+                sub_type,
+                length,
+                precision,
+                scale,
                 nullable );
 
         if ( SQL_SUCCEEDED( ret ) && name && s1 )
@@ -359,7 +357,7 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
         {
             free( s1 );
         }
-		if ( SQL_SUCCEEDED( ret ) && string_length && name ) 
+		if ( SQL_SUCCEEDED( ret ) && string_length && name )
 		{
 			*string_length = strlen((char*)name);
 		}
@@ -368,10 +366,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
     {
         if ( !CHECK_SQLGETDESCREC( descriptor -> connection ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: IM001" );
 
             __post_internal_error( &descriptor -> error,
@@ -383,21 +381,21 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 
         ret = SQLGETDESCREC( descriptor -> connection,
                 descriptor -> driver_desc,
-                rec_number, 
+                rec_number,
                 name,
-                buffer_length, 
+                buffer_length,
                 string_length,
-                type, 
-                sub_type, 
-                length, 
-                precision, 
-                scale, 
+                type,
+                sub_type,
+                length,
+                precision,
+                scale,
                 nullable );
     }
 
     if ( log_info.log_flag )
     {
-        sprintf( descriptor -> msg, 
+        sprintf( descriptor -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tName = %s\
 \n\t\t\tType = %s\
@@ -407,7 +405,7 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
 \n\t\t\tScale = %s\
 \n\t\t\tNullable = %s",
                     __get_return_status( ret, s8 ),
-                    __sdata_as_string( s1, SQL_CHAR, 
+                    __sdata_as_string( s1, SQL_CHAR,
                         string_length, name ),
                     __sptr_as_string( s2, type ),
                     __sptr_as_string( s3, sub_type ),
@@ -416,10 +414,10 @@ SQLRETURN SQLGetDescRec( SQLHDESC descriptor_handle,
                     __sptr_as_string( s6, scale ),
                     __sptr_as_string( s7, nullable ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 descriptor -> msg );
     }
 

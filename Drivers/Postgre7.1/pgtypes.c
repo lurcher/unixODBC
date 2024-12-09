@@ -16,7 +16,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "psqlodbc.h"
@@ -47,10 +47,10 @@ Int4 getCharPrecision(StatementClass *stmt, Int4 type, int col, int handle_unkno
    so all types should work (points, etc.) */
 
 /* ALL THESE TYPES ARE NO LONGER REPORTED in SQLGetTypeInfo.  Instead, all
-   the SQL TYPES are reported and mapped to a corresponding Postgres Type 
+   the SQL TYPES are reported and mapped to a corresponding Postgres Type
 */
 /*
-Int4 pgtypes_defined[]  = { 
+Int4 pgtypes_defined[]  = {
 				PG_TYPE_CHAR,
 				PG_TYPE_CHAR2,
 				PG_TYPE_CHAR4,
@@ -183,12 +183,12 @@ Int4 pgType;
 	return pgType;
 }
 
-/*	There are two ways of calling this function:  
+/*	There are two ways of calling this function:
 	1.	When going through the supported PG types (SQLGetTypeInfo)
 	2.	When taking any type id (SQLColumns, SQLGetData)
 
 	The first type will always work because all the types defined are returned here.
-	The second type will return a default based on global parameter when it does not 
+	The second type will return a default based on global parameter when it does not
 	know.  	This allows for supporting
 	types that are unknown.  All other pg routines in here return a suitable default.
 */
@@ -199,7 +199,7 @@ Int2 pgtype_to_sqltype(StatementClass *stmt, Int4 type)
 	case PG_TYPE_CHAR2:
 	case PG_TYPE_CHAR4:
 	case PG_TYPE_CHAR8:
-	case PG_TYPE_NAME:  		return SQL_CHAR;        
+	case PG_TYPE_NAME:  		return SQL_CHAR;
 
 	case PG_TYPE_BPCHAR:		return SQL_CHAR;
 
@@ -236,7 +236,7 @@ Int2 pgtype_to_sqltype(StatementClass *stmt, Int4 type)
 	case PG_TYPE_MONEY:			return SQL_FLOAT;
 	case PG_TYPE_BOOL:			return globals.bools_as_char ? SQL_CHAR : SQL_BIT;
 
-	default:                
+	default:
 
 		/*	first, check to see if 'type' is in list.  If not, look up with query.
 			Add oid, name to list.  If it's already in list, just return.
@@ -275,7 +275,7 @@ Int2 pgtype_to_ctype(StatementClass *stmt, Int4 type)
 	case PG_TYPE_BYTEA:			return SQL_C_BINARY;
 	case PG_TYPE_LO:			return SQL_C_BINARY;
 
-	default:                    
+	default:
 
 		if (type == stmt->hdbc->lobj_type)	/* hack until permanent type is available */
 			return SQL_C_BINARY;
@@ -313,13 +313,13 @@ char *pgtype_to_name(StatementClass *stmt, Int4 type)
 
 	case PG_TYPE_LO:			return PG_TYPE_LO_NAME;
 
-	default:                    
+	default:
 		if (type == stmt->hdbc->lobj_type)	/* hack until permanent type is available */
 			return PG_TYPE_LO_NAME;
 
 		/* "unknown" can actually be used in alter table because it is a real PG type! */
 		return "unknown";	
-	}    
+	}
 }
 
 static Int2
@@ -349,8 +349,8 @@ mylog("getNumericScale: type=%d, col=%d, unknown = %d\n", type,col);
 	if ( atttypmod > -1 )
 		return (atttypmod & 0xffff);
 	else
-		return ( QR_get_display_size(result, col) ? 
-			QR_get_display_size(result, col) : 
+		return ( QR_get_display_size(result, col) ?
+			QR_get_display_size(result, col) :
 			PG_NUMERIC_MAX_SCALE);
 }
 
@@ -381,8 +381,8 @@ mylog("getNumericPrecision: type=%d, col=%d, unknown = %d\n", type,col);
 	if ( atttypmod > -1 )
 		return (atttypmod >> 16) & 0xffff;
 	else
-		return ( QR_get_display_size(result, col) >= 0 ? 
-			QR_get_display_size(result, col) : 
+		return ( QR_get_display_size(result, col) >= 0 ?
+			QR_get_display_size(result, col) :
 			PG_NUMERIC_MAX_PRECISION );
 }
 
@@ -449,7 +449,7 @@ mylog("getCharPrecision: type=%d, col=%d, unknown = %d\n", type,col,handle_unkno
 		return p;
 }
 
-/*	For PG_TYPE_VARCHAR, PG_TYPE_BPCHAR, PG_TYPE_NUMERIC, SQLColumns will 
+/*	For PG_TYPE_VARCHAR, PG_TYPE_BPCHAR, PG_TYPE_NUMERIC, SQLColumns will
 	override this length with the atttypmod length from pg_attribute .
 
 	If col >= 0, then will attempt to get the info from the result set.
@@ -477,7 +477,7 @@ Int4 pgtype_precision(StatementClass *stmt, Int4 type, int col, int handle_unkno
 
 	case PG_TYPE_NUMERIC:		return getNumericPrecision(stmt,type,col);
 
-	case PG_TYPE_FLOAT4:        
+	case PG_TYPE_FLOAT4:
 	case PG_TYPE_MONEY:			return 7;
 
 	case PG_TYPE_FLOAT8:        return 15;
@@ -530,8 +530,8 @@ Int4 pgtype_display_size(StatementClass *stmt, Int4 type, int col, int handle_un
 	}
 }
 
-/*	For PG_TYPE_VARCHAR, PG_TYPE_BPCHAR, SQLColumns will 
-	override this length with the atttypmod length from pg_attribute 
+/*	For PG_TYPE_VARCHAR, PG_TYPE_BPCHAR, SQLColumns will
+	override this length with the atttypmod length from pg_attribute
 */
 Int4 pgtype_length(StatementClass *stmt, Int4 type, int col, int handle_unknown_size_as)
 {
@@ -618,11 +618,11 @@ Int2 pgtype_auto_increment(StatementClass *stmt, Int4 type)
 {
 	switch(type) {
 
-	case PG_TYPE_INT2:         
+	case PG_TYPE_INT2:
 	case PG_TYPE_OID:
 	case PG_TYPE_XID:
-	case PG_TYPE_INT4:         
-	case PG_TYPE_FLOAT4:       
+	case PG_TYPE_INT4:
+	case PG_TYPE_FLOAT4:
 	case PG_TYPE_MONEY:
 	case PG_TYPE_BOOL:
 	case PG_TYPE_FLOAT8:
@@ -636,19 +636,19 @@ Int2 pgtype_auto_increment(StatementClass *stmt, Int4 type)
 	case PG_TYPE_TIMESTAMP:		return FALSE;
 
 	default:					return -1;
-	}    
+	}
 }
 
 Int2 pgtype_case_sensitive(StatementClass *stmt, Int4 type)
 {
     switch(type) {
-    case PG_TYPE_CHAR:          
+    case PG_TYPE_CHAR:
 
 	case PG_TYPE_CHAR2:
 	case PG_TYPE_CHAR4:
-    case PG_TYPE_CHAR8:         
+    case PG_TYPE_CHAR8:
 
-    case PG_TYPE_VARCHAR:       
+    case PG_TYPE_VARCHAR:
     case PG_TYPE_BPCHAR:
     case PG_TYPE_TEXT:
     case PG_TYPE_NAME:          return TRUE;
@@ -662,24 +662,24 @@ Int2 pgtype_money(StatementClass *stmt, Int4 type)
 	switch(type) {
 	case PG_TYPE_MONEY:			return TRUE;
 	default:					return FALSE;
-	}    
+	}
 }
 
 Int2 pgtype_searchable(StatementClass *stmt, Int4 type)
 {
 	switch(type) {
-	case PG_TYPE_CHAR:          
+	case PG_TYPE_CHAR:
 	case PG_TYPE_CHAR2:
 	case PG_TYPE_CHAR4:			
 	case PG_TYPE_CHAR8:
 
-	case PG_TYPE_VARCHAR:       
+	case PG_TYPE_VARCHAR:
 	case PG_TYPE_BPCHAR:
 	case PG_TYPE_TEXT:
 	case PG_TYPE_NAME:          return SQL_SEARCHABLE;
 
 	default:					return SQL_ALL_EXCEPT_LIKE;
-	}    
+	}
 }
 
 Int2 pgtype_unsigned(StatementClass *stmt, Int4 type)
@@ -711,7 +711,7 @@ char *pgtype_literal_prefix(StatementClass *stmt, Int4 type)
 	case PG_TYPE_INT8:
 	case PG_TYPE_NUMERIC:
 	case PG_TYPE_FLOAT4:
-	case PG_TYPE_FLOAT8:        
+	case PG_TYPE_FLOAT8:
 	case PG_TYPE_MONEY:			return NULL;
 
 	default:					return "'";
@@ -729,7 +729,7 @@ char *pgtype_literal_suffix(StatementClass *stmt, Int4 type)
 	case PG_TYPE_INT8:
 	case PG_TYPE_NUMERIC:
 	case PG_TYPE_FLOAT4:
-	case PG_TYPE_FLOAT8:        
+	case PG_TYPE_FLOAT8:
 	case PG_TYPE_MONEY:			return NULL;
 
 	default:					return "'";
@@ -753,7 +753,7 @@ Int2 sqltype_to_default_ctype(Int2 sqltype)
     /* from the table on page 623 of ODBC 2.0 Programmer's Reference */
     /* (Appendix D) */
     switch(sqltype) {
-    case SQL_CHAR: 
+    case SQL_CHAR:
     case SQL_VARCHAR:
     case SQL_LONGVARCHAR:
     case SQL_DECIMAL:

@@ -62,7 +62,7 @@ SQLRETURN CLTables( SQLHSTMT statement_handle,
            SQLCHAR *table_type,
            SQLSMALLINT name_length4 )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
     SQLRETURN ret;
 
     ret = SQLTABLES( cl_statement -> cl_connection,

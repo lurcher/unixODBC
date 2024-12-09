@@ -25,9 +25,9 @@
  *	in interfaces/odbc.  They should be identical.  This is done so ODBC
  *	can be compiled stand-alone.
  */
- 
+
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "md5.h"

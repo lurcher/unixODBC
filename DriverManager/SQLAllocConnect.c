@@ -86,7 +86,6 @@
 
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLAllocConnect.c,v $ $Revision: 1.2 $";
 
 SQLRETURN SQLAllocConnect( SQLHENV environment_handle,
            SQLHDBC *connection_handle )

@@ -58,14 +58,14 @@ SQLRETURN CLGetStmtOption( SQLHSTMT statement_handle,
            SQLUSMALLINT option,
            SQLPOINTER value )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     switch( option )
     {
       case SQL_CONCURRENCY:
         *(( SQLUINTEGER * ) value ) = cl_statement -> concurrency;
         break;
-        
+
       case SQL_CURSOR_TYPE:
         *(( SQLUINTEGER * ) value ) = cl_statement -> cursor_type;
         break;
@@ -113,7 +113,7 @@ SQLRETURN CLGetStmtOption( SQLHSTMT statement_handle,
       case SQL_ATTR_USE_BOOKMARKS:
         *(( SQLUINTEGER * ) value ) = cl_statement -> use_bookmarks;
         break;
-            
+
       default:
         return SQLGETSTMTOPTION( cl_statement -> cl_connection,
                cl_statement -> driver_stmt,

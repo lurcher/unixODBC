@@ -104,7 +104,6 @@
  * variable
  */
 
-static char const rcsid[]= "$RCSfile: __connection.c,v $ $Revision: 1.6 $";
 
 /*
  * search for the library (.so) that the DSN points to
@@ -143,7 +142,7 @@ char *__find_lib_name( char *dsn, char *lib_name, char *driver_name )
 
         __SQLGetPrivateProfileStringNL( dsn, "Driver", "",
                 driver_lib, sizeof( driver_lib ), "ODBC.INI" );
-        
+
         if ( driver_lib[ 0 ] == 0 ) {
             __set_config_mode( mode );
             __unlock_config_mode();
@@ -164,7 +163,7 @@ char *__find_lib_name( char *dsn, char *lib_name, char *driver_name )
         strcpy( driver, driver_lib );
 
 		/*
-		 * allow the use of User odbcinst files, use no lock version as its 
+		 * allow the use of User odbcinst files, use no lock version as its
          * protected by mutex
 		 */
 
@@ -205,7 +204,7 @@ static SQLSMALLINT sql_old_to_new(SQLSMALLINT type)
     case SQL_TIME:
       type=SQL_TYPE_TIME;
       break;
-      
+
     case SQL_DATE:
       type=SQL_TYPE_DATE;
       break;
@@ -216,14 +215,14 @@ static SQLSMALLINT sql_old_to_new(SQLSMALLINT type)
     }
     return type;
 }
-  
+
 static SQLSMALLINT sql_new_to_old(SQLSMALLINT type)
 {
     switch(type) {
     case SQL_TYPE_TIME:
       type=SQL_TIME;
       break;
-      
+
     case SQL_TYPE_DATE:
       type=SQL_DATE;
       break;
@@ -241,7 +240,7 @@ static SQLSMALLINT c_old_to_new(SQLSMALLINT type)
     case SQL_C_TIME:
       type=SQL_C_TYPE_TIME;
       break;
-      
+
     case SQL_C_DATE:
       type=SQL_C_TYPE_DATE;
       break;
@@ -259,7 +258,7 @@ static SQLSMALLINT c_new_to_old(SQLSMALLINT type)
     case SQL_C_TYPE_TIME:
       type=SQL_C_TIME;
       break;
-      
+
     case SQL_C_TYPE_DATE:
       type=SQL_C_DATE;
       break;
@@ -281,7 +280,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
     case MAP_SQL_DM2D:
       type=sql_new_to_old(type);
       break;
-      
+
     case MAP_SQL_D2DM:
       type=sql_old_to_new(type);
       break;
@@ -299,15 +298,15 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
     case MAP_SQL_DM2D:
       type=sql_old_to_new(type);
       break;
-      
+
     case MAP_SQL_D2DM:
       type=sql_new_to_old(type);
       break;
-      
+
     case MAP_C_DM2D:
       type=c_old_to_new(type);
       break;
-      
+
     case MAP_C_D2DM:
       type=c_new_to_old(type);
       break;
@@ -318,7 +317,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
     case MAP_SQL_D2DM:
       type=sql_old_to_new(type);
       break;
-      
+
     case MAP_C_DM2D:
     case MAP_C_D2DM:
       type=c_old_to_new(type);
@@ -330,7 +329,7 @@ SQLSMALLINT __map_type(int map, DMHDBC connection, SQLSMALLINT type)
     case MAP_SQL_D2DM:
       type=sql_new_to_old(type);
       break;
-      
+
     case MAP_C_DM2D:
     case MAP_C_D2DM:
       type=c_new_to_old(type);

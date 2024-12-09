@@ -55,7 +55,7 @@ BOOL INSTAPI SQLInstallDriverManagerW (LPWSTR      lpszPath,
 
 	ret = SQLInstallDriverManager( path, cbPathMax, pcbPathOut );
 
-	if ( ret ) 
+	if ( ret )
 	{
 		_single_string_copy_to_wide( lpszPath, path, cbPathMax );
 	}

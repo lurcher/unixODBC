@@ -62,7 +62,7 @@
 #define PG_TYPE_DATETIME   1184
 #define PG_TYPE_TIMESTAMP  1296
 #define PG_TYPE_NUMERIC    1700
-#define PG_TYPE_TIMESTAMP_NO_TMZONE 1114  
+#define PG_TYPE_TIMESTAMP_NO_TMZONE 1114
 
 /* extern Int4 pgtypes_defined[]; */
 extern Int2 sqlTypes[];

@@ -60,7 +60,7 @@ SQLRETURN CLSetParam( SQLHSTMT statement_handle,
            SQLPOINTER parameter_value,
            SQLLEN *strlen_or_ind )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     return SQLSETPARAM( cl_statement -> cl_connection,
             cl_statement -> driver_stmt,

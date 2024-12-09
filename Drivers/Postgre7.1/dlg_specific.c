@@ -3,7 +3,7 @@
  *
  * Description:     This module contains any specific code for handling
  *                  dialog boxes such as driver/datasource options.  Both the
- *                  ConfigDSN() and the SQLDriverConnect() functions use 
+ *                  ConfigDSN() and the SQLDriverConnect() functions use
  *                  functions in this module.  If you were to add a new option
  *                  to any dialog box, you would most likely only have to change
  *                  things in here rather than in 2 separate places as before.
@@ -17,7 +17,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #ifndef WIN32
@@ -68,7 +68,7 @@ SetDlgStuff(HWND hdlg, ConnInfo *ci)
 	SetDlgItemText(hdlg, IDC_PORT, ci->port);
 }
 
-void 
+void
 GetDlgStuff(HWND hdlg, ConnInfo *ci)
 {
 	GetDlgItemText(hdlg, IDC_DESC, ci->desc, sizeof(ci->desc));
@@ -128,7 +128,7 @@ int CALLBACK driver_optionsProc(HWND   hdlg,
 		/*	Driver Connection Settings */
 		SetDlgItemText(hdlg, DRV_CONNSETTINGS, globals.conn_settings);
 
-		break; 
+		break;
 
 	case WM_COMMAND:
 		switch (GET_WM_COMMAND_ID(wParam, lParam)) {
@@ -267,7 +267,7 @@ char buf[128];
 
 		/*	Datasource Connection Settings */
 		SetDlgItemText(hdlg, DS_CONNSETTINGS, ci->conn_settings);
-		break; 
+		break;
 
 
 	case WM_COMMAND:
@@ -278,7 +278,7 @@ char buf[128];
 			return TRUE;
 
 
-		case IDOK: 
+		case IDOK:
 
 			ci = (ConnInfo *)GetWindowLong(hdlg, DWL_USER);
 			mylog("IDOK: got ci = %u\n", ci);
@@ -327,7 +327,7 @@ char encoded_conn_settings[LARGE_REGISTRY_LEN];
 
 	/*	fundamental info */
 	sprintf(connect_string, "%s=%s;DATABASE=%s;SERVER=%s;PORT=%s;UID=%s;PWD=%s",
-		got_dsn ? "DSN" : "DRIVER", 
+		got_dsn ? "DSN" : "DRIVER",
 		got_dsn ? ci->dsn : ci->driver,
 		ci->database,
 		ci->server,
@@ -338,8 +338,8 @@ char encoded_conn_settings[LARGE_REGISTRY_LEN];
 	encode(ci->conn_settings, encoded_conn_settings);
 
 	/*	extra info */
-	sprintf(&connect_string[strlen(connect_string)], 
-		";READONLY=%s;PROTOCOL=%s;FAKEOIDINDEX=%s;SHOWOIDCOLUMN=%s;ROWVERSIONING=%s;SHOWSYSTEMTABLES=%s;CONNSETTINGS=%s", 
+	sprintf(&connect_string[strlen(connect_string)],
+		";READONLY=%s;PROTOCOL=%s;FAKEOIDINDEX=%s;SHOWOIDCOLUMN=%s;ROWVERSIONING=%s;SHOWSYSTEMTABLES=%s;CONNSETTINGS=%s",
 		ci->onlyread,
 		ci->protocol,
 		ci->fake_oid_index,
@@ -430,7 +430,7 @@ getDSNdefaults(ConnInfo *ci)
 }
 
 
-void 
+void
 getDSNinfo(ConnInfo *ci, char overwrite)
 {
 char *DSN = ci->dsn;
@@ -520,8 +520,8 @@ char encoded_conn_settings[LARGE_REGISTRY_LEN];
 	getGlobalDefaults(DSN, ODBC_INI, TRUE);
 
 
-	qlog("DSN info: DSN='%s',server='%s',port='%s',dbase='%s',user='%s',passwd='%s'\n", 
-		DSN, 
+	qlog("DSN info: DSN='%s',server='%s',port='%s',dbase='%s',user='%s',passwd='%s'\n",
+		DSN,
 		ci->server,
 		ci->port,
 		ci->database,
@@ -555,12 +555,12 @@ char encoded_conn_settings[LARGE_REGISTRY_LEN];
 			INI_KDESC,
 			ci->desc,
 			ODBC_INI);
-                        
+
 		SQLWritePrivateProfileString(DSN,
 			INI_DATABASE,
 			ci->database,
 			ODBC_INI);
-                        
+
 		SQLWritePrivateProfileString(DSN,
 			INI_SERVER,
 			ci->server,
@@ -647,14 +647,14 @@ char temp[256];
 	/*	Socket Buffersize is stored in driver section */
     SQLGetPrivateProfileString(section, INI_SOCKET, "",
                             temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.socket_buffersize = atoi(temp);
 	else if ( ! override)
 		globals.socket_buffersize = SOCK_BUFFER_SIZE;
 
 
 	/*	Debug is stored in the driver section */
-	SQLGetPrivateProfileString(section, INI_DEBUG, "", 
+	SQLGetPrivateProfileString(section, INI_DEBUG, "",
 							temp, sizeof(temp), filename);
 	if ( temp[0] )
 		globals.debug = atoi(temp);
@@ -663,41 +663,41 @@ char temp[256];
 
 
 	/*	CommLog is stored in the driver section */
-	SQLGetPrivateProfileString(section, INI_COMMLOG, "", 
+	SQLGetPrivateProfileString(section, INI_COMMLOG, "",
 							temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.commlog = atoi(temp);
 	else if ( ! override)
 		globals.commlog = DEFAULT_COMMLOG;
 
 
 	/*	Optimizer is stored in the driver section only */
-	SQLGetPrivateProfileString(section, INI_OPTIMIZER, "", 
+	SQLGetPrivateProfileString(section, INI_OPTIMIZER, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.disable_optimizer = atoi(temp);
 	else if ( ! override)
 		globals.disable_optimizer = DEFAULT_OPTIMIZER;
 
 	/*	KSQO is stored in the driver section only */
-	SQLGetPrivateProfileString(section, INI_KSQO, "", 
+	SQLGetPrivateProfileString(section, INI_KSQO, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.ksqo = atoi(temp);
 	else if ( ! override)
 		globals.ksqo = DEFAULT_KSQO;
 
 	/*	Recognize Unique Index is stored in the driver section only */
-	SQLGetPrivateProfileString(section, INI_UNIQUEINDEX, "", 
+	SQLGetPrivateProfileString(section, INI_UNIQUEINDEX, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.unique_index = atoi(temp);
 	else if ( ! override)
 		globals.unique_index = DEFAULT_UNIQUEINDEX;
 
 
 	/*	Unknown Sizes is stored in the driver section only */
-	SQLGetPrivateProfileString(section, INI_UNKNOWNSIZES, "", 
+	SQLGetPrivateProfileString(section, INI_UNKNOWNSIZES, "",
 				temp, sizeof(temp), filename);
 	if ( temp[0] )
 		globals.unknown_sizes = atoi(temp);
@@ -706,25 +706,25 @@ char temp[256];
 
 
 	/*	Lie about supported functions? */
-	SQLGetPrivateProfileString(section, INI_LIE, "", 
+	SQLGetPrivateProfileString(section, INI_LIE, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.lie = atoi(temp);
 	else if ( ! override)
 		globals.lie = DEFAULT_LIE;
 
 	/*	Parse statements */
-	SQLGetPrivateProfileString(section, INI_PARSE, "", 
+	SQLGetPrivateProfileString(section, INI_PARSE, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.parse = atoi(temp);
 	else if ( ! override)
 		globals.parse = DEFAULT_PARSE;
 
 	/*	SQLCancel calls SQLFreeStmt in Driver Manager */
-	SQLGetPrivateProfileString(section, INI_CANCELASFREESTMT, "", 
+	SQLGetPrivateProfileString(section, INI_CANCELASFREESTMT, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.cancel_as_freestmt = atoi(temp);
 	else if ( ! override)
 		globals.cancel_as_freestmt = DEFAULT_CANCELASFREESTMT;
@@ -732,57 +732,57 @@ char temp[256];
 
 
 	/*	UseDeclareFetch is stored in the driver section only */
-	SQLGetPrivateProfileString(section, INI_USEDECLAREFETCH, "", 
+	SQLGetPrivateProfileString(section, INI_USEDECLAREFETCH, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.use_declarefetch = atoi(temp);
 	else if ( ! override)
 		globals.use_declarefetch = DEFAULT_USEDECLAREFETCH;
 
 
 	/*	Max Varchar Size */
-	SQLGetPrivateProfileString(section, INI_MAXVARCHARSIZE, "", 
+	SQLGetPrivateProfileString(section, INI_MAXVARCHARSIZE, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.max_varchar_size = atoi(temp);
 	else if ( ! override)
 		globals.max_varchar_size = MAX_VARCHAR_SIZE;
 
 	/*	Max TextField Size */
-	SQLGetPrivateProfileString(section, INI_MAXLONGVARCHARSIZE, "", 
+	SQLGetPrivateProfileString(section, INI_MAXLONGVARCHARSIZE, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.max_longvarchar_size = atoi(temp);
 	else if ( ! override)
 		globals.max_longvarchar_size = TEXT_FIELD_SIZE;
 
 	/*	Text As LongVarchar  */
-	SQLGetPrivateProfileString(section, INI_TEXTASLONGVARCHAR, "", 
+	SQLGetPrivateProfileString(section, INI_TEXTASLONGVARCHAR, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.text_as_longvarchar = atoi(temp);
 	else if ( ! override)
 		globals.text_as_longvarchar = DEFAULT_TEXTASLONGVARCHAR;
 
 	/*	Unknowns As LongVarchar  */
-	SQLGetPrivateProfileString(section, INI_UNKNOWNSASLONGVARCHAR, "", 
+	SQLGetPrivateProfileString(section, INI_UNKNOWNSASLONGVARCHAR, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.unknowns_as_longvarchar = atoi(temp);
 	else if ( ! override)
 		globals.unknowns_as_longvarchar = DEFAULT_UNKNOWNSASLONGVARCHAR;
 
 	/*	Bools As Char */
-	SQLGetPrivateProfileString(section, INI_BOOLSASCHAR, "", 
+	SQLGetPrivateProfileString(section, INI_BOOLSASCHAR, "",
 				temp, sizeof(temp), filename);
-	if ( temp[0] ) 
+	if ( temp[0] )
 		globals.bools_as_char = atoi(temp);
 	else if ( ! override)
 		globals.bools_as_char = DEFAULT_BOOLSASCHAR;
 
 	/*	Extra Systable prefixes */
 	/*	Use @@@ to distinguish between blank extra prefixes and no key entry */
-	SQLGetPrivateProfileString(section, INI_EXTRASYSTABLEPREFIXES, "@@@", 
+	SQLGetPrivateProfileString(section, INI_EXTRASYSTABLEPREFIXES, "@@@",
 			temp, sizeof(temp), filename);
 	if ( strcmp(temp, "@@@" ))	
 		strcpy(globals.extra_systable_prefixes, temp);
@@ -796,13 +796,13 @@ char temp[256];
 	if ( ! override) {
 
 		/*	ConnSettings is stored in the driver section and per datasource for override */
-		SQLGetPrivateProfileString(section, INI_CONNSETTINGS, "", 
+		SQLGetPrivateProfileString(section, INI_CONNSETTINGS, "",
 					globals.conn_settings, sizeof(globals.conn_settings), filename);
 
 		/*	Default state for future DSN's Readonly attribute */
-		SQLGetPrivateProfileString(section, INI_READONLY, "", 
+		SQLGetPrivateProfileString(section, INI_READONLY, "",
 					temp, sizeof(temp), filename);
-		if ( temp[0] ) 
+		if ( temp[0] )
 			globals.onlyread = atoi(temp);
 		else
 			globals.onlyread = DEFAULT_READONLY;
@@ -811,11 +811,11 @@ char temp[256];
 			This isn't a real driver option YET.  This is more
 			intended for customization from the install.
 		*/
-		SQLGetPrivateProfileString(section, INI_PROTOCOL, "@@@", 
+		SQLGetPrivateProfileString(section, INI_PROTOCOL, "@@@",
 				temp, sizeof(temp), filename);
 		if ( strcmp(temp, "@@@" ))	
 			strcpy(globals.protocol, temp);
-		else 
+		else
 			strcpy(globals.protocol, DEFAULT_PROTOCOL);
 	
 	}
@@ -823,7 +823,7 @@ char temp[256];
 
 
 /*	This function writes any global parameters (that can be manipulated)
-	to the ODBCINST.INI portion of the registry 
+	to the ODBCINST.INI portion of the registry
 */
 void updateGlobals(void)
 {

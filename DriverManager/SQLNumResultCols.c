@@ -117,7 +117,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNumResultCols.c,v $ $Revision: 1.5 $";
 
 SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
            SQLSMALLINT *column_count )
@@ -133,10 +132,10 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -152,10 +151,10 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
                 statement,
                 column_count );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -173,10 +172,10 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
             statement -> state == STATE_S14 ||
             statement -> state == STATE_S15 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -191,10 +190,10 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLNUMRESULTCOLS )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -207,10 +206,10 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
 
     if ( !CHECK_SQLNUMRESULTCOLS( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -235,22 +234,22 @@ SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
     if ( log_info.log_flag )
     {
 		if ( SQL_SUCCEEDED( ret )) {
-        	sprintf( statement -> msg, 
+        	sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
 \n\t\t\tCount = %s",
                     __get_return_status( ret, s2 ),
                     __sptr_as_string( s1, column_count ));
 		}
 		else {
-        	sprintf( statement -> msg, 
+        	sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s2 ));
 		}
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

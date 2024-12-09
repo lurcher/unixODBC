@@ -67,7 +67,7 @@ SQLRETURN CLColAttribute ( SQLHSTMT statement_handle,
            SQLSMALLINT *string_length,
            SQLLEN 	*numeric_attribute )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
     /*
      * Catch any requests for bookmark info
@@ -92,7 +92,7 @@ SQLRETURN CLColAttribute ( SQLHSTMT statement_handle,
                   case SQL_DESC_UNSIGNED:
                     ival = SQL_FALSE;
                     break;
-        
+
                   case SQL_DESC_CONCISE_TYPE:
                     ival = SQL_C_SLONG;
                     break;
@@ -165,7 +165,7 @@ SQLRETURN CLColAttribute ( SQLHSTMT statement_handle,
             }
             else
             {
-                cl_statement -> cl_connection -> dh.__post_internal_error( 
+                cl_statement -> cl_connection -> dh.__post_internal_error(
                                 &cl_statement -> dm_statement -> error,
                                 ERROR_07009, NULL,
                                 cl_statement -> dm_statement -> connection -> environment -> requested_version );

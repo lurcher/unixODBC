@@ -68,9 +68,9 @@ SQLRETURN CLSetScrollOptions(
     SQLLEN             crow_keyset,
     SQLUSMALLINT       crow_rowset )
 {
-    CLHSTMT cl_statement = (CLHSTMT) statement_handle; 
+    CLHSTMT cl_statement = (CLHSTMT) statement_handle;
 
-    if ( crow_keyset != SQL_SCROLL_FORWARD_ONLY && 
+    if ( crow_keyset != SQL_SCROLL_FORWARD_ONLY &&
              crow_keyset != SQL_SCROLL_STATIC )
     {
         cl_statement -> cl_connection -> dh.__post_internal_error( &cl_statement -> dm_statement -> error,

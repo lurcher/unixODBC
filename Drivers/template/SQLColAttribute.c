@@ -28,19 +28,19 @@ SQLRETURN SQLColAttribute(	SQLHSTMT        hDrvStmt,
     /* SANITY CHECKS */
     if( !hStmt )
         return SQL_INVALID_HANDLE;
-	if ( !hStmt->hStmtExtras )
-		return SQL_INVALID_HANDLE;
+    if ( !hStmt->hStmtExtras )
+	return SQL_INVALID_HANDLE;
 
-	if ( hStmt->hStmtExtras->nRows < 1 )
-	{
-		logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR No result set." );
-		return SQL_ERROR;
-	}
-	if ( nCol < 1 || nCol > hStmt->hStmtExtras->nCols )
-	{
-		logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Invalid column" );
-		return SQL_ERROR;
-	}
+    if ( hStmt->hStmtExtras->nRows < 1 )
+    {
+	logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR No result set." );
+	return SQL_ERROR;
+    }
+    if ( nCol < 1 || nCol > hStmt->hStmtExtras->nCols )
+    {
+	logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Invalid column" );
+	return SQL_ERROR;
+    }
 
     /* OK */
     pColumnHeader = (COLUMNHDR*)(hStmt->hStmtExtras->aResults)[nCol];
@@ -52,21 +52,21 @@ SQLRETURN SQLColAttribute(	SQLHSTMT        hDrvStmt,
 		break;
 	case SQL_DESC_BASE_COLUMN_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_BASE_COLUMN_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_BASE_TABLE_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_BASE_TABLE_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_CASE_SENSITIVE:
 		nValue = pColumnHeader->bSQL_DESC_CASE_SENSITIVE;
 		break;
 	case SQL_DESC_CATALOG_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_CATALOG_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_CONCISE_TYPE:
 		nValue = pColumnHeader->nSQL_DESC_CONCISE_TYPE;
@@ -82,31 +82,31 @@ SQLRETURN SQLColAttribute(	SQLHSTMT        hDrvStmt,
 		break;
 	case SQL_DESC_LABEL:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_LABEL, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_LENGTH:
 		nValue = pColumnHeader->nSQL_DESC_LENGTH;
 		break;
 	case SQL_DESC_LITERAL_PREFIX:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_LITERAL_PREFIX, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_LITERAL_SUFFIX:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_LITERAL_SUFFIX, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_LOCAL_TYPE_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_LOCAL_TYPE_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_NULLABLE:
 		nValue = pColumnHeader->nSQL_DESC_NULLABLE;
@@ -125,24 +125,24 @@ SQLRETURN SQLColAttribute(	SQLHSTMT        hDrvStmt,
 		break;
 	case SQL_DESC_SCHEMA_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_SCHEMA_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_SEARCHABLE:
 		nValue = pColumnHeader->nSQL_DESC_SEARCHABLE;
 		break;
 	case SQL_DESC_TABLE_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_TABLE_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_TYPE:
 		nValue = pColumnHeader->nSQL_DESC_TYPE;
 		break;
 	case SQL_DESC_TYPE_NAME:
 		strncpy( pszValue, pColumnHeader->pszSQL_DESC_TYPE_NAME, nValueLengthMax );
-		if ( pnValueLength )
-            *pnValueLength = strlen( pszValue );
+                if ( pnValueLength )
+                    *pnValueLength = strlen( pszValue );
 		break;
 	case SQL_DESC_UNNAMED:
 		nValue = pColumnHeader->nSQL_DESC_UNNAMED;
@@ -153,16 +153,16 @@ SQLRETURN SQLColAttribute(	SQLHSTMT        hDrvStmt,
 	case SQL_DESC_UPDATABLE:
 		nValue = pColumnHeader->nSQL_DESC_UPDATABLE;
 		break;
-    default:
-			sprintf((char*) hStmt->szSqlMsg, "Invalid nFieldIdentifier value of %d", nFieldIdentifier );
-			logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
-            return SQL_ERROR;
+        default:
+		sprintf((char*) hStmt->szSqlMsg, "Invalid nFieldIdentifier value of %d", nFieldIdentifier );
+		logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
+                return SQL_ERROR;
     }
 
-	if ( pnValue )
-		*(int*)pnValue = nValue;
+    if ( pnValue )
+    	*(int*)pnValue = nValue;
 
-	/************************
+    /************************
      * REPLACE THIS COMMENT WITH SOMETHING USEFULL
      ************************/
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR This function not supported" );

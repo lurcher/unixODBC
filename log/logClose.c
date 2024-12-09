@@ -12,16 +12,16 @@
 #include <config.h>
 #include "log.h"
 
-/*! 
+/*!
  * \brief   Closes log.
- * 
+ *
  *          This will clear all messages and close the log. All memory used
  *          by the messages is automatically freed by calls to _logFreeMsg.
  *          All remaining mem used by the log is also freed - including the
  *          log handle itself.
  *
  * \param   hLog    A log handle init by \sa logOpen.
- * 
+ *
  * \return  int
  * \retval  LOG_SUCCESS
  *

@@ -210,7 +210,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetStmtAttr.c,v $ $Revision: 1.16 $";
 
 SQLRETURN SQLSetStmtAttrA( SQLHSTMT statement_handle,
            SQLINTEGER attribute,
@@ -238,10 +237,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -258,13 +257,13 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 \n\t\t\tStrLen = %d",
                 statement,
                 __stmt_attr_as_string( s1, attribute ),
-                value, 
+                value,
                 (int)string_length );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -284,10 +283,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         if ( statement -> state == STATE_S2 ||
                 statement -> state == STATE_S3 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY011" );
 
             __post_internal_error( &statement -> error,
@@ -301,10 +300,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 statement -> state == STATE_S6 ||
                 statement -> state == STATE_S7 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: 24000" );
 
             __post_internal_error( &statement -> error,
@@ -324,10 +323,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         {
             if ( statement -> prepared )
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY011" );
 
                 __post_internal_error( &statement -> error,
@@ -338,10 +337,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
             }
             else
             {
-                dm_log_write( __FILE__, 
-                        __LINE__, 
-                        LOG_INFO, 
-                        LOG_INFO, 
+                dm_log_write( __FILE__,
+                        __LINE__,
+                        LOG_INFO,
+                        LOG_INFO,
                         "Error: HY010" );
 
                 __post_internal_error( &statement -> error,
@@ -360,10 +359,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                 statement -> state == STATE_S11 ||
                 statement -> state == STATE_S12 )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -378,10 +377,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
           !CHECK_SQLSETSTMTATTRW( statement -> connection )) &&
         !CHECK_SQLSETSTMTOPTION( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -405,7 +404,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 		 * same as a descriptor we know is valid
 		 */
 
-		if ( desc == NULL || desc == statement -> implicit_ard ) 
+		if ( desc == NULL || desc == statement -> implicit_ard )
 		{
 			DRV_SQLHDESC drv_desc = NULL;
 
@@ -440,18 +439,18 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                     (SQLULEN) statement -> implicit_ard -> driver_desc );
             }
 
-			if ( ret != SQL_SUCCESS ) 
+			if ( ret != SQL_SUCCESS )
 			{
     			if ( log_info.log_flag )
     			{
-        			sprintf( statement -> msg, 
+        			sprintf( statement -> msg,
                 			"\n\t\tExit:[%s]",
                     			__get_return_status( ret, s1 ));
 			
-        			dm_log_write( __FILE__, 
-                			__LINE__, 
-                			LOG_INFO, 
-                			LOG_INFO, 
+        			dm_log_write( __FILE__,
+                			__LINE__,
+                			LOG_INFO,
+                			LOG_INFO,
                 			statement -> msg );
     			}
 			
@@ -466,14 +465,14 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 
     		if ( log_info.log_flag )
     		{
-        		sprintf( statement -> msg, 
+        		sprintf( statement -> msg,
                 		"\n\t\tExit:[%s]",
                     		__get_return_status( ret, s1 ));
 
-        		dm_log_write( __FILE__, 
-                		__LINE__, 
-                		LOG_INFO, 
-                		LOG_INFO, 
+        		dm_log_write( __FILE__,
+                		__LINE__,
+                		LOG_INFO,
+                		LOG_INFO,
                 		statement -> msg );
     		}
 		
@@ -484,14 +483,14 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         {
             thread_release( SQL_HANDLE_STMT, statement );
 
-            sprintf( statement -> msg, 
+            sprintf( statement -> msg,
                     "\n\t\tExit:[%s]",
                     __get_return_status( SQL_INVALID_HANDLE, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     statement -> msg );
 
             return SQL_INVALID_HANDLE;
@@ -500,10 +499,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         if ( desc -> implicit &&
                 desc != statement -> implicit_ard )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY017" );
 
             __post_internal_error( &statement -> error,
@@ -516,10 +515,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         if ( desc -> connection !=
                 statement -> connection )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
             __post_internal_error( &statement -> error,
@@ -547,7 +546,7 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 		 * same as a descriptor we know is valid
 		 */
 
-		if ( desc == NULL || desc == statement -> implicit_apd ) 
+		if ( desc == NULL || desc == statement -> implicit_apd )
 		{
 			DRV_SQLHDESC drv_desc = NULL;
 
@@ -582,18 +581,18 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
                     (SQLULEN) drv_desc );
             }
 
-			if ( ret != SQL_SUCCESS ) 
+			if ( ret != SQL_SUCCESS )
 			{
     			if ( log_info.log_flag )
     			{
-        			sprintf( statement -> msg, 
+        			sprintf( statement -> msg,
                 			"\n\t\tExit:[%s]",
                     			__get_return_status( ret, s1 ));
 			
-        			dm_log_write( __FILE__, 
-                			__LINE__, 
-                			LOG_INFO, 
-                			LOG_INFO, 
+        			dm_log_write( __FILE__,
+                			__LINE__,
+                			LOG_INFO,
+                			LOG_INFO,
                 			statement -> msg );
     			}
 			
@@ -608,14 +607,14 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 
     		if ( log_info.log_flag )
     		{
-        		sprintf( statement -> msg, 
+        		sprintf( statement -> msg,
                 		"\n\t\tExit:[%s]",
                     		__get_return_status( ret, s1 ));
 
-        		dm_log_write( __FILE__, 
-                		__LINE__, 
-                		LOG_INFO, 
-                		LOG_INFO, 
+        		dm_log_write( __FILE__,
+                		__LINE__,
+                		LOG_INFO,
+                		LOG_INFO,
                 		statement -> msg );
     		}
 		
@@ -624,14 +623,14 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 
         if ( !__validate_desc( desc ))
         {
-            sprintf( statement -> msg, 
+            sprintf( statement -> msg,
                     "\n\t\tExit:[%s]",
                     __get_return_status( SQL_INVALID_HANDLE, s1 ));
 
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     statement -> msg );
 
             thread_release( SQL_HANDLE_STMT, statement );
@@ -642,10 +641,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         if ( desc -> implicit &&
                 desc != statement -> implicit_apd )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY017" );
 
             __post_internal_error( &statement -> error,
@@ -658,10 +657,10 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         if ( desc -> connection !=
                 statement -> connection )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
             __post_internal_error( &statement -> error,
@@ -688,13 +687,13 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
         statement -> metadata_id = (SQLLEN) value;
     }
 
-    if ( attribute == SQL_ATTR_IMP_ROW_DESC || 
+    if ( attribute == SQL_ATTR_IMP_ROW_DESC ||
         attribute == SQL_ATTR_IMP_PARAM_DESC )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY017" );
 
         __post_internal_error( &statement -> error,
@@ -709,12 +708,12 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
      */
     ret = dm_check_statement_attrs( statement, attribute, value );
 
-    if ( ret != SQL_SUCCESS ) 
+    if ( ret != SQL_SUCCESS )
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY024" );
 
         __post_internal_error( &statement -> error,
@@ -887,13 +886,13 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
          * Is it in the legal range of values
          */
 
-        if ( attribute < SQL_STMT_DRIVER_MIN && 
+        if ( attribute < SQL_STMT_DRIVER_MIN &&
                 ( attribute > SQL_ROW_NUMBER || attribute < SQL_QUERY_TIMEOUT ))
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY092" );
 
             __post_internal_error( &statement -> error,
@@ -920,14 +919,14 @@ SQLRETURN SQLSetStmtAttr( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]",
                     __get_return_status( ret, s1 ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 

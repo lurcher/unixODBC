@@ -13,7 +13,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "statement.h"
@@ -869,13 +869,13 @@ QueryInfo qi;
 		/*	Above seems wrong.
 			Even in case of autocommit, started transactions
 			must be committed. (Hiroshi, 02/11/2001)
-		 */ 
+		 */
 		if ( ! self->internal && CC_is_in_autocommit(conn) && CC_is_in_trans(conn))
-		 {                   
-			res = CC_send_query(conn, "COMMIT", NULL); 
+		 {
+			res = CC_send_query(conn, "COMMIT", NULL);
 			QR_Destructor(res);
 			CC_set_no_trans(conn);
-		} 
+		}
 	
 	}
 
@@ -909,8 +909,8 @@ QueryInfo qi;
 				return SQL_ERROR;
 			}
 		}
-		/* issue "ABORT" when query aborted */ 
-		if (QR_get_aborted(self->result) && ! self->internal )                   
+		/* issue "ABORT" when query aborted */
+		if (QR_get_aborted(self->result) && ! self->internal )
 			CC_abort(conn);
 	} else {		/* Bad Error -- The error message will be in the Connection */
 

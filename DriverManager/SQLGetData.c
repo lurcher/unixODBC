@@ -182,7 +182,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetData.c,v $ $Revision: 1.15 $";
 
 SQLRETURN SQLGetData( SQLHSTMT statement_handle,
            SQLUSMALLINT column_number,
@@ -205,10 +204,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 
     if ( !__validate_stmt( statement ))
     {
-        dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+        dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: SQL_INVALID_HANDLE" );
 
         return SQL_INVALID_HANDLE;
@@ -227,16 +226,16 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 \n\t\t\tStrLen Or Ind = %p",
                 statement,
                 column_number,
-                target_type, 
+                target_type,
                 __sql_as_text( target_type ),
                 (int)buffer_length,
                 target_value,
                 (void*)strlen_or_ind );
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
@@ -245,10 +244,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
     if ( column_number == 0 &&
             statement -> bookmarks_on == SQL_UB_OFF && statement -> connection -> bookmarks_on == SQL_UB_OFF )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error_api( &statement -> error,
@@ -264,10 +263,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
      *
     if ( statement -> numcols < column_number )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 07009" );
 
         __post_internal_error( &statement -> error,
@@ -286,10 +285,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
             statement -> state == STATE_S2 ||
             statement -> state == STATE_S3 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -303,10 +302,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
             (( statement -> state == STATE_S6 || statement -> state == STATE_S7 )
             && statement -> eod ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: 24000" );
 
         __post_internal_error( &statement -> error,
@@ -320,10 +319,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
             statement -> state == STATE_S10 ||
             statement -> state == STATE_S13 )
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY010" );
 
         __post_internal_error( &statement -> error,
@@ -338,10 +337,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
     {
         if ( statement -> interupted_func != SQL_API_SQLGETDATA )
         {
-            dm_log_write( __FILE__, 
-                    __LINE__, 
-                    LOG_INFO, 
-                    LOG_INFO, 
+            dm_log_write( __FILE__,
+                    __LINE__,
+                    LOG_INFO,
+                    LOG_INFO,
                     "Error: HY010" );
 
             __post_internal_error( &statement -> error,
@@ -353,10 +352,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
     }
 
     if ( target_value == NULL ) {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY009" );
 
         __post_internal_error( &statement -> error,
@@ -367,10 +366,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
     }
 
     if ( buffer_length < 0 ) {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY090" );
 
         __post_internal_error( &statement -> error,
@@ -391,10 +390,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 
 	if ( !check_target_type( target_type, statement -> connection -> environment -> requested_version ))
 	{
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: HY003" );
 
         __post_internal_error( &statement -> error,
@@ -406,10 +405,10 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 
     if ( !CHECK_SQLGETDATA( statement -> connection ))
     {
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 "Error: IM001" );
 
         __post_internal_error( &statement -> error,
@@ -467,7 +466,7 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
                 buffer_length,
                 &ind_value );
         }
-        
+
     }
     else
     {
@@ -532,19 +531,19 @@ SQLRETURN SQLGetData( SQLHSTMT statement_handle,
 
     if ( log_info.log_flag )
     {
-        sprintf( statement -> msg, 
+        sprintf( statement -> msg,
                 "\n\t\tExit:[%s]\
                 \n\t\t\tBuffer = %s\
                 \n\t\t\tStrlen Or Ind = %s",
                     __get_return_status( ret, s3 ),
-                    __data_as_string( s1, target_type, 
+                    __data_as_string( s1, target_type,
                         strlen_or_ind, target_value ),
                     __ptr_as_string( s2, strlen_or_ind ));
 
-        dm_log_write( __FILE__, 
-                __LINE__, 
-                LOG_INFO, 
-                LOG_INFO, 
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
                 statement -> msg );
     }
 
