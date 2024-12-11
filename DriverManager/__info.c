@@ -4746,7 +4746,7 @@ void extract_diag_error_w( int htype,
 #ifdef STRICT_ODBC_ERROR
             wide_strcpy( msg, msg1 );
 #else
-            tmp = ansi_to_unicode_alloc((SQLCHAR*) ERROR_PREFIX, SQL_NTS, connection );
+            tmp = ansi_to_unicode_alloc((SQLCHAR*) ERROR_PREFIX, SQL_NTS, connection, NULL );
             wide_strcpy( msg, tmp );
             free( tmp );
             wide_strcat( msg, msg1 );
