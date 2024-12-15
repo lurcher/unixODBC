@@ -47,7 +47,7 @@ cc_binary(
     ],
     linkstatic = True,
     deps = [
-        '//DriverManager:libodbc',
+        '//:libodbc',
         '//extras:libodbcextraslc',
         # READLINE
     ],
@@ -65,7 +65,7 @@ cc_binary(
         '-ldl',
     ],
     deps = [
-        '//DriverManager:libodbc',
+        '//:libodbc',
         '//odbcinst:libodbcinst',
         '//ini:libinilc',
         # READLINE
@@ -86,6 +86,6 @@ cc_binary(
     srcs = ['slencheck.c'],
     linkstatic = True,
     deps = [
-        '//DriverManager:libodbc',
+        '//:libodbc',
     ],
 )

@@ -9,3 +9,18 @@ bazel_dep(
     name = 'bazel_skylib',
     version = '1.7.1',
 )
+
+bazel_dep(
+    name = 'bazel_module_versions',
+    version = '0.0.0',
+)
+
+archive_override(
+    module_name = 'bazel_module_versions',
+    integrity = "sha256-t0dFYSC417MvkHbDdhk8GePkp9r4nnVP0VnqGXSsHf8=",
+    urls = ['https://github.com/coding-heresy/bazel_module_versions/archive/refs/tags/0.0.0.tar.gz'],
+    strip_prefix = 'bazel_module_versions-0.0.0',
+)
+
+module_versions = use_extension('@bazel_module_versions//:extensions.bzl', 'dependent_module_versions')
+use_repo(module_versions, 'module_versions')

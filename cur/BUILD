@@ -73,7 +73,6 @@ cc_library(
         'cursorlibrary.h',
     ],
     deps = [
-        '//DriverManager:libodbc',
-        '//:headers',
+        '//:libodbc',
     ],
 )
