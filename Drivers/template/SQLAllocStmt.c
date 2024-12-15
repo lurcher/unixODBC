@@ -56,7 +56,8 @@ SQLRETURN _AllocStmt(   SQLHDBC     hDrvDbc,
     (*phStmt)->pNext		= NULL;
     (*phStmt)->pPrev		= NULL;
     (*phStmt)->pszQuery		= NULL;
-    sprintf((char*)(*phStmt)->szCursorName, "CUR_%08lX", *phStmt );
+    /* sprintf((char*)(*phStmt)->szCursorName, "CUR_%08lX", *phStmt ); */
+    sprintf((char*)(*phStmt)->szCursorName, "CUR_%08p", *phStmt );
 
     /* ADD TO DBCs STATEMENT LIST */
 

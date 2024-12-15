@@ -24,16 +24,13 @@ int iniValue( HINI hIni, char *pszValue )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
-		return INI_NO_DATA;
-	
-	if ( hIni->hCurProperty == NULL )
-		return INI_NO_DATA;
-	
+    if ( hIni->hCurObject == NULL )
+        return INI_NO_DATA;
+
+    if ( hIni->hCurProperty == NULL )
+        return INI_NO_DATA;
+
     strncpy( pszValue, hIni->hCurProperty->szValue, INI_MAX_PROPERTY_VALUE );
 
     return INI_SUCCESS;
 }
-
-
-

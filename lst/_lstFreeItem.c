@@ -10,74 +10,70 @@
  ***************************/
 int _lstFreeItem( HLSTITEM hItem )
 {
-    HLST 		hLst;
-	HLSTITEM	hItemRoot;
-	HLSTITEM	hNewCurrent = NULL;
+    HLST                hLst;
+        HLSTITEM	hItemRoot;
+        HLSTITEM	hNewCurrent = NULL;
 
     if ( !hItem )
         return LST_ERROR;
 
-	hLst = (HLST)hItem->hLst;
+    hLst = (HLST)hItem->hLst;
 
-	/*************
-	 * FREE root ITEM AS REQUIRED
-	 *************/
-	if ( hLst->hLstBase )
-	{
-		hItemRoot = (HLSTITEM)hItem->pData;
+    /*************
+     * FREE root ITEM AS REQUIRED
+     *************/
+    if ( hLst->hLstBase )
+    {
+        hItemRoot = (HLSTITEM)hItem->pData;
 
-		/*************
-		 * dec ref count in root item
-		 *************/
+        /*************
+         * dec ref count in root item
+         *************/
         hItemRoot->nRefs--;
 
-		/*************
-		 * DELETE root ITEM IF REF = 0 AND SOMEONE SAID DELETE IT
-		 *************/
-		if ( hItemRoot->nRefs < 1 && hItemRoot->bDelete )
-		{
-			_lstFreeItem( hItemRoot );
-		}
-	}
+        /*************
+         * DELETE root ITEM IF REF = 0 AND SOMEONE SAID DELETE IT
+         *************/
+        if ( hItemRoot->nRefs < 1 && hItemRoot->bDelete )
+        {
+            _lstFreeItem( hItemRoot );
+        }
+    }
 
-	/*************
-	 * WE ALWAYS FREE hItem
-	 *************/
-	if ( hItem->pData && hLst->pFree )
-		hLst->pFree( hItem->pData );
+    /*************
+     * WE ALWAYS FREE hItem
+     *************/
+    if ( hItem->pData && hLst->pFree )
+        hLst->pFree( hItem->pData );
 
-	if ( !hItem->bDelete )				/* THIS IS REALLY ONLY A FACTOR FOR ROOT ITEMS */
-		hLst->nItems--;
-	
-	if ( hItem == hLst->hFirst )
-		hLst->hFirst = hItem->pNext;	
+    if ( !hItem->bDelete )				/* THIS IS REALLY ONLY A FACTOR FOR ROOT ITEMS */
+        hLst->nItems--;
 
-	if ( hItem == hLst->hLast )
-		hLst->hLast = hItem->pPrev;	
+    if ( hItem == hLst->hFirst )
+        hLst->hFirst = hItem->pNext;
 
-	if ( hItem->pPrev )
-	{
-		hItem->pPrev->pNext = hItem->pNext;	
-		if ( hItem == hLst->hCurrent )
-			hNewCurrent = hItem->pPrev;
-	}
+    if ( hItem == hLst->hLast )
+        hLst->hLast = hItem->pPrev;
 
-	if ( hItem->pNext )
-	{
-		hItem->pNext->pPrev = hItem->pPrev;	
-		if ( !hNewCurrent && hItem == hLst->hCurrent )
-			hNewCurrent = hItem->pNext;
-	}
+    if ( hItem->pPrev )
+    {
+        hItem->pPrev->pNext = hItem->pNext;
+        if ( hItem == hLst->hCurrent )
+            hNewCurrent = hItem->pPrev;
+    }
 
-	free( hItem );
+    if ( hItem->pNext )
+    {
+        hItem->pNext->pPrev = hItem->pPrev;
+        if ( !hNewCurrent && hItem == hLst->hCurrent )
+            hNewCurrent = hItem->pNext;
+    }
 
-	hLst->hCurrent = hNewCurrent;
+    free( hItem );
 
-	_lstAdjustCurrent( hLst );	
-	
+    hLst->hCurrent = hNewCurrent;
 
-	return LST_SUCCESS;
+    _lstAdjustCurrent( hLst );
+
+    return LST_SUCCESS;
 }
-
-
-

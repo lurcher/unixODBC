@@ -42,7 +42,7 @@ int iniCommit( HINI hIni )
     if ( !hFile )
         return INI_ERROR;
 
-	_iniDump( hIni, hFile );
+    _iniDump( hIni, hFile );
 
     /* CLEANUP */
     if ( hFile != NULL )

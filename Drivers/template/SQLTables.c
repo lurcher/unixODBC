@@ -50,9 +50,11 @@ SQLRETURN SQLTables(    SQLHSTMT    hDrvStmt,
                                                 SQLSMALLINT nTableTypeLength )
 {
     HDRVSTMT hStmt	= (HDRVSTMT)hDrvStmt;
+    /*
         COLUMNHDR	*pColumnHeader;
         int			nColumn;
         long		nResultMemory;
+    */
 
         /* SANITY CHECKS */
     if( hStmt == SQL_NULL_HSTMT )

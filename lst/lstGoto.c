@@ -26,16 +26,16 @@ void *lstGoto( HLST hLst, long nIndex )
     if ( !hLst )
         return NULL;
 
-	lstFirst( hLst );
-	while ( n <= nIndex )
-	{
+    lstFirst( hLst );
+    while ( n <= nIndex )
+    {
         if ( lstEOL( hLst ) )
             break;
         if ( n == nIndex )
             return hLst->hCurrent->pData;
         n++;
-		lstNext( hLst );
-	}
+	    lstNext( hLst );
+    }
 
     return NULL;
 }

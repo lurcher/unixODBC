@@ -66,11 +66,11 @@ SQLRETURN SQLColumns(   SQLHSTMT    hDrvStmt,
 {
     HDRVSTMT	hStmt		= (HDRVSTMT)hDrvStmt;
 
-        COLUMNHDR	*pColumnHeader;
+    /*COLUMNHDR	*pColumnHeader;
         int			nColumn;
         long		nCols;
         long		nRow;
-        char		szBuffer[101];
+        char		szBuffer[101];*/
 
 
     /* SANITY CHECKS */
@@ -80,20 +80,20 @@ SQLRETURN SQLColumns(   SQLHSTMT    hDrvStmt,
     sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt );
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
 
-        if ( szTableName == NULL || szTableName[0] == '\0' )
-        {
-                logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Must supply a valid table name" );
-                return SQL_ERROR;
-        }
+    if ( szTableName == NULL || szTableName[0] == '\0' )
+    {
+        logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Must supply a valid table name" );
+        return SQL_ERROR;
+    }
 
     /**************************
          * close any existing result
      **************************/
-        if ( hStmt->hStmtExtras->aResults )
-                _FreeResults( hStmt->hStmtExtras );
+    if ( hStmt->hStmtExtras->aResults )
+        _FreeResults( hStmt->hStmtExtras );
 
-        if ( hStmt->pszQuery != NULL )
-                free( hStmt->pszQuery );
+    if ( hStmt->pszQuery != NULL )
+        free( hStmt->pszQuery );
 
     /************************
      * generate a result set listing columns

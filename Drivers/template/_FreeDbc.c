@@ -9,7 +9,7 @@
 SQLRETURN _FreeDbc( SQLHDBC hDrvDbc )
 {
 	HDRVDBC		hDbc	= (HDRVDBC)hDrvDbc;
-	HDRVDBC		hPrevDbc;
+	/* HDRVDBC		hPrevDbc; */
 	SQLRETURN	nReturn;
 
 	if ( hDbc == SQL_NULL_HDBC )

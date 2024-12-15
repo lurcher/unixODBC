@@ -24,23 +24,23 @@ int iniPropertySeekSure( HINI hIni, char *pszObject, char *pszProperty, char *ps
     /* SANITY CHECKS */
     if ( hIni == NULL )
         return INI_ERROR;
-	if ( !pszObject )
-		return INI_ERROR;
-	if ( !pszProperty )
-		return INI_ERROR;
-	if ( !pszValue )
-		return INI_ERROR;
+    if ( !pszObject )
+	return INI_ERROR;
+    if ( !pszProperty )
+	return INI_ERROR;
+    if ( !pszValue )
+	return INI_ERROR;
 
-	/* OK */
-	if ( (nReturn = iniPropertySeek( hIni, pszObject, pszProperty, "" )) == INI_NO_DATA )
-	{
-		iniObjectSeekSure( hIni, pszObject );
-		return iniPropertyInsert( hIni, pszProperty, pszValue );
-	}
-	else if ( nReturn == INI_SUCCESS )
-		return iniValue( hIni, pszValue );
+    /* OK */
+    if ( (nReturn = iniPropertySeek( hIni, pszObject, pszProperty, "" )) == INI_NO_DATA )
+    {
+	iniObjectSeekSure( hIni, pszObject );
+	return iniPropertyInsert( hIni, pszProperty, pszValue );
+    }
+    else if ( nReturn == INI_SUCCESS )
+	return iniValue( hIni, pszValue );
 
-	return nReturn;
+    return nReturn;
 }
 
 

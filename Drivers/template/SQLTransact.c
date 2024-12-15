@@ -14,34 +14,32 @@
 #include "driver.h"
 
 SQLRETURN SQLTransact(	SQLHENV hDrvEnv,
-						SQLHDBC hDrvDbc,
-						UWORD   nType)
+                                                SQLHDBC hDrvDbc,
+                                                UWORD   nType)
 {
-	HDRVENV hEnv	= (HDRVENV)hDrvEnv;
-	HDRVDBC hDbc	= (HDRVDBC)hDrvDbc;
+        /* HDRVENV hEnv	= (HDRVENV)hDrvEnv; */
+        HDRVDBC hDbc	= (HDRVDBC)hDrvDbc;
 
-	/* SANITY CHECKS */
-	if ( hDbc == SQL_NULL_HDBC )
-		return SQL_INVALID_HANDLE;
+        /* SANITY CHECKS */
+        if ( hDbc == SQL_NULL_HDBC )
+                return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hDbc->szSqlMsg, "hDbc = $%08lX", (long)hDbc );
-	logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hDbc->szSqlMsg );
+        sprintf((char*) hDbc->szSqlMsg, "hDbc = $%08lX", (long)hDbc );
+        logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hDbc->szSqlMsg );
 
-	
-	switch ( nType )
-	{
-	case SQL_COMMIT:
-		break;
-	case SQL_ROLLBACK:
-		break;
-	default:
-		sprintf((char*) hDbc->szSqlMsg, "SQL_ERROR Invalid nType=%d", nType );
-		logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hDbc->szSqlMsg );
-		return SQL_ERROR;
-	}
 
-	logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Function not supported" );
-	return SQL_ERROR;
+        switch ( nType )
+        {
+        case SQL_COMMIT:
+                break;
+        case SQL_ROLLBACK:
+                break;
+        default:
+                sprintf((char*) hDbc->szSqlMsg, "SQL_ERROR Invalid nType=%d", nType );
+                logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hDbc->szSqlMsg );
+                return SQL_ERROR;
+        }
+
+        logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR Function not supported" );
+        return SQL_ERROR;
 }
-
-

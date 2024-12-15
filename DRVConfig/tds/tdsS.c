@@ -34,12 +34,12 @@
 #include <config.h>
 #include <odbcinstext.h>
 
-static const char *aYesNo[] =
-{
-	"Yes",
-	"No",
-	NULL
-};
+/* static const char *aYesNo[] = */
+/* { */
+/* 	"Yes", */
+/* 	"No", */
+/* 	NULL */
+/* }; */
 
 int ODBCINSTGetProperties(
     HODBCINSTPROPERTY hLastProperty)
