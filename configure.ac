@@ -168,6 +168,16 @@ AC_ARG_ENABLE( gui,
     *) ;;
     esac])
 
+AC_ARG_ENABLE([cursor-ver],
+  [AS_HELP_STRING([--enable-cursor-ver], [enable versioned cursor library])],
+  [case "${enableval}" in
+    yes) define_cursor_ver=true ;;
+    no) define_cursor_ver=false ;;
+    *) AC_MSG_ERROR([bad value '${enableval}' for --enable-cursor-ver]) ;;
+    esac],
+  [define_cursor_ver=false]
+)
+
 dnl Enable building of the convenience library
 dnl and set LIBLTDL accordingly
 
@@ -604,6 +614,10 @@ fi
 
 if test "x$stricterror" = "xtrue"; then
 AC_DEFINE([STRICT_ODBC_ERROR],[],[don't include unixODBC prefix in driver error messages])
+fi
+
+if test "x$define_cursor_ver" = "xtrue"; then
+  AC_DEFINE([DEFINE_CURSOR_LIB_VER], [1], [Enable versioned cursor library])
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
