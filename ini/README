@@ -10,7 +10,7 @@
 | INI lib (libini.so)                                         |
 +-------------------------------------------------------------+
 
-This library provides some usefull functions
+This library provides some useful functions
 for processing INI files (such as odbc.ini).
 It is heavily used in unixODBC by the ODBCConfig
 and unixODBC Driver Config libs.

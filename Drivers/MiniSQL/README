@@ -18,7 +18,7 @@ To build
 Compliance
 
 This driver is a work in progress which strives to meet 3.51
-CLI compliance. This driver currently implements a usefull set
+CLI compliance. This driver currently implements a useful set
 of;
 
 1. catalog functions via SQLColumns, SQLTables, SQLDescribeCol, SQLColAttribute

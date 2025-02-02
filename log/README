@@ -10,7 +10,7 @@
 | LOG lib (liblog.so)                                         |
 +-------------------------------------------------------------+
 
-This library provides some usefull functions
+This library provides some useful functions
 for managing log/debug messages.
 
 

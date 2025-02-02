@@ -25,7 +25,7 @@ as Subject is a COLUMN.
 A useful subset of SQL is supported in the driver. Check out
 Ke Jins original README (README.orig).
 
-This driver can be quite usefull so I hope someone volunteers
+This driver can be quite useful so I hope someone volunteers
 to tackle some of the items in the TODO list.
 
 +-------------------------------------------------------------+
