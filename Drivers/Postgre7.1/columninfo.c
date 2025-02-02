@@ -62,10 +62,10 @@ Int2 new_adtsize;
 Int4 new_atttypmod = -1;
 char new_field_name[MAX_MESSAGE_LEN+1];
 SocketClass *sock;
-ConnInfo *ci;
+/* ConnInfo *ci; */
 
 	sock = CC_get_socket(conn);
-	ci = &conn->connInfo;
+	/* ci = &conn->connInfo; */
 
 	/* at first read in the number of fields that are in the query */
 	new_num_fields = (Int2) SOCK_get_int(sock, sizeof(Int2));

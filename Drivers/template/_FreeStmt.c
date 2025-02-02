@@ -9,8 +9,8 @@
 SQLRETURN _FreeStmt( SQLHSTMT hDrvStmt )
 {
     HDRVSTMT hStmt	= (HDRVSTMT)hDrvStmt;
-	HDRVSTMT	hPrevStmt;
-	SQLRETURN	nReturn;
+        /* HDRVSTMT	hPrevStmt; */
+        /* SQLRETURN	nReturn; */
 
         if ( hStmt == SQL_NULL_HDBC )
                 return SQL_ERROR;

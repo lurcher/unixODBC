@@ -21,7 +21,13 @@ SQLRETURN SQLDisconnect( SQLHDBC    hDrvDbc )
     if( NULL == hDbc )
         return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hDbc->szSqlMsg, "hDbc = $%08lX", (long)hDbc );
+    /* sprintf((char*) hDbc->szSqlMsg, "hDbc = $%08lX", (long)hDbc ); */
+#pragma GCC diagnostic push
+    // ignore warning related to attempting to apply 0 padding to
+    // pointer format
+#pragma GCC diagnostic ignored "-Wformat"
+    sprintf((char*) hDbc->szSqlMsg, "hDbc = $%08p", hDbc );
+#pragma GCC diagnostic pop
     logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, (char*)hDbc->szSqlMsg );
 
     if( hDbc->bConnected == 0 )

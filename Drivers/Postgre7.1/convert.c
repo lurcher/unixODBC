@@ -161,27 +161,27 @@ BindInfoClass *bic = &(stmt->bindings[col]);
                                 (SDWORD)bic->buflen, (SQLLEN *)bic->used);
 }
 
-static void setup_ts( SIMPLE_TIME st )
-{
-    time_t t = time( NULL );
-    struct tm *tim;
+/* static void setup_ts( SIMPLE_TIME st ) */
+/* { */
+/*     time_t t = time( NULL ); */
+/*     struct tm *tim; */
 
-#ifdef HAVE_LOCALTIME_R
-struct tm tp;
-#endif
+/* #ifdef HAVE_LOCALTIME_R */
+/* struct tm tp; */
+/* #endif */
 
-#ifdef HAVE_LOCALTIME_R
-    tim = localtime_r(&t, &tp);
-#else
-    tim = localtime(&t);
-#endif
-    st.m = tim->tm_mon + 1;
-    st.d = tim->tm_mday;
-    st.y = tim->tm_year + 1900;
-    st.hh = tim->tm_hour;
-        st.mm = tim->tm_min;
-        st.ss = tim->tm_sec;
-}
+/* #ifdef HAVE_LOCALTIME_R */
+/*     tim = localtime_r(&t, &tp); */
+/* #else */
+/*     tim = localtime(&t); */
+/* #endif */
+/*     st.m = tim->tm_mon + 1; */
+/*     st.d = tim->tm_mday; */
+/*     st.y = tim->tm_year + 1900; */
+/*     st.hh = tim->tm_hour; */
+/*         st.mm = tim->tm_min; */
+/*         st.ss = tim->tm_sec; */
+/* } */
 
 /*	This is called by SQLGetData() */
 int
@@ -766,7 +766,7 @@ SDWORD used;
 char *buffer, *buf;
 char in_quote = FALSE;
 Oid  lobj_oid;
-int lobj_fd, retval;
+int lobj_fd/* , retval */;
 
     stmt -> reexecute = 0;
         cbuf=(char *)malloc(TEXT_FIELD_SIZE+5);
@@ -1191,7 +1191,7 @@ int lobj_fd, retval;
                                         return SQL_ERROR;
                                 }
 
-                                retval = odbc_lo_write(stmt->hdbc, lobj_fd, buffer, used);
+                                /* retval = */ odbc_lo_write(stmt->hdbc, lobj_fd, buffer, used);
 
                                 odbc_lo_close(stmt->hdbc, lobj_fd);
 

@@ -57,7 +57,12 @@ SQLRETURN _AllocStmt(   SQLHDBC     hDrvDbc,
     (*phStmt)->pPrev		= NULL;
     (*phStmt)->pszQuery		= NULL;
     /* sprintf((char*)(*phStmt)->szCursorName, "CUR_%08lX", *phStmt ); */
+#pragma GCC diagnostic push
+    // ignore warning related to attempting to apply 0 padding to
+    // pointer format
+#pragma GCC diagnostic ignored "-Wformat"
     sprintf((char*)(*phStmt)->szCursorName, "CUR_%08p", *phStmt );
+#pragma GCC diagnostic pop
 
     /* ADD TO DBCs STATEMENT LIST */
 

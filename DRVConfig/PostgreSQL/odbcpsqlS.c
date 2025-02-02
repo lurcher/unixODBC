@@ -48,13 +48,6 @@ static const char *aYesNo[] =
 	NULL
 };
 
-static const char *aTrueFalse[] =
-{
-	"True",
-	"False",
-	NULL
-};
-
 int ODBCINSTGetProperties( HODBCINSTPROPERTY hLastProperty )
 {
     hLastProperty->pNext                = (HODBCINSTPROPERTY)malloc( sizeof(ODBCINSTPROPERTY) );

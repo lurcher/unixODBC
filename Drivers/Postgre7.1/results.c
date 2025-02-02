@@ -177,7 +177,7 @@ QResultClass *res;
 char *col_name = NULL;
 Int4 fieldtype = 0;
 int precision = 0;
-ConnInfo *ci;
+/* ConnInfo *ci; */
 char parse_ok;
 char buf[255];
 int len = 0;
@@ -191,7 +191,7 @@ RETCODE result;
         return SQL_INVALID_HANDLE;
         }
 
-	ci = &(stmt->hdbc->connInfo);
+        /* ci = &(stmt->hdbc->connInfo); */
 
     SC_clear_error(stmt);
 
@@ -347,7 +347,7 @@ SQLRETURN  SQLColAttributes(
 static char* const func = "SQLColAttributes";
 StatementClass *stmt = (StatementClass *) hstmt;
 Int4 field_type = 0;
-ConnInfo *ci;
+/* ConnInfo *ci; */
 int unknown_sizes;
 int cols = 0;
 char parse_ok;
@@ -362,7 +362,7 @@ int len = 0, value = 0;
                 return SQL_INVALID_HANDLE;
         }
 
-	ci = &(stmt->hdbc->connInfo);
+        /* ci = &(stmt->hdbc->connInfo); */
 
         /*	Dont check for bookmark column.  This is the responsibility
                 of the driver manager.  For certain types of arguments, the column

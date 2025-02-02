@@ -25,7 +25,13 @@ SQLRETURN SQLExtendedFetch(   SQLHSTMT        hDrvStmt,
     if( NULL == hStmt )
         return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt );
+    /* sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt ); */
+#pragma GCC diagnostic push
+    // ignore warning related to attempting to apply 0 padding to
+    // pointer format
+#pragma GCC diagnostic ignored "-Wformat"
+    sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08p", hStmt );
+#pragma GCC diagnostic pop
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
 
 

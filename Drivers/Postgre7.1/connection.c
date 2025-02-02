@@ -524,7 +524,7 @@ CC_connect(ConnectionClass *self, char password_req, char *salt_para)
         char            msgbuffer[ERROR_MSG_LENGTH];
         char            salt[5], notice[512];
         static char* const func="CC_connect";
-        char		*encoding;
+        /* char		*encoding; */
 
         mylog("%s: entering...\n", func);
 
@@ -922,7 +922,7 @@ CC_create_errormsg(ConnectionClass *self)
         }
 
         mylog("exit CC_create_errormsg\n");
-        return msg ? strdup(msg) : NULL;
+        return msg[0] ? strdup(msg) : NULL;
 }
 
 
@@ -1278,7 +1278,7 @@ char cmdbuffer[MAX_MESSAGE_LEN+1];	/* QR_set_command() dups this string so dont 
 int
 CC_send_function(ConnectionClass *self, int fnid, void *result_buf, int *actual_result_len, int result_is_int, LO_ARG *args, int nargs)
 {
-char id, c, done;
+char id, /* c, */ done;
 SocketClass *sock = self->sock;
 static char msgbuffer[MAX_MESSAGE_LEN+1];
 int i;
@@ -1375,7 +1375,7 @@ int i;
 
                         mylog("  after get result\n");
 
-                        c = SOCK_get_char(sock);	/* get the last '0' */
+                        /* c = */ SOCK_get_char(sock);	/* get the last '0' */
 
                         mylog("   after get 0\n");
 
@@ -1441,7 +1441,12 @@ static char* const func="CC_send_settings";
         stmt->internal = TRUE;	/* ensure no BEGIN/COMMIT/ABORT stuff */
 
         /*	Set the Datestyle to the format the driver expects it to be in */
+#pragma GCC diagnostic push
+        // ignore warning related to passing signed character into
+        // parameter expecting unsigned character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
         result = PG_SQLExecDirect(hstmt, "set DateStyle to 'ISO'", SQL_NTS);
+#pragma GCC diagnostic pop
         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
                 status = FALSE;
 
@@ -1449,7 +1454,12 @@ static char* const func="CC_send_settings";
 
         /*	Disable genetic optimizer based on global flag */
         if (globals.disable_optimizer) {
+#pragma GCC diagnostic push
+            // ignore warning related to passing signed character into
+            // parameter expecting unsigned character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
                 result = PG_SQLExecDirect(hstmt, "set geqo to 'OFF'", SQL_NTS);
+#pragma GCC diagnostic pop
                 if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
                         status = FALSE;
 
@@ -1459,7 +1469,12 @@ static char* const func="CC_send_settings";
 
         /*	KSQO */
         if (globals.ksqo) {
+#pragma GCC diagnostic push
+            // ignore warning related to passing signed character into
+            // parameter expecting unsigned character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
                 result = PG_SQLExecDirect(hstmt, "set ksqo to 'ON'", SQL_NTS);
+#pragma GCC diagnostic pop
                 if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
                         status = FALSE;
 
@@ -1472,7 +1487,13 @@ static char* const func="CC_send_settings";
                 cs = strdup(globals.conn_settings);
                 ptr = strtok(cs, ";");
                 while (ptr) {
+#pragma GCC diagnostic push
+                    // ignore warning related to passing signed
+                    // character into parameter expecting unsigned
+                    // character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
                         result = PG_SQLExecDirect(hstmt, ptr, SQL_NTS);
+#pragma GCC diagnostic pop
                         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
                                 status = FALSE;
 
@@ -1489,7 +1510,13 @@ static char* const func="CC_send_settings";
                 cs = strdup(ci->conn_settings);
                 ptr = strtok(cs, ";");
                 while (ptr) {
+#pragma GCC diagnostic push
+                    // ignore warning related to passing signed
+                    // character into parameter expecting unsigned
+                    // character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
                         result = PG_SQLExecDirect(hstmt, ptr, SQL_NTS);
+#pragma GCC diagnostic pop
                         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
                                 status = FALSE;
 
@@ -1515,7 +1542,7 @@ void
 CC_lookup_lo(ConnectionClass *self)
 {
 HSTMT hstmt;
-StatementClass *stmt;
+/* StatementClass *stmt; */
 RETCODE result;
 static char* const func = "CC_lookup_lo";
 
@@ -1528,9 +1555,14 @@ static char* const func = "CC_lookup_lo";
         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO)) {
                 return;
         }
-        stmt = (StatementClass *) hstmt;
+        /* stmt = (StatementClass *) hstmt; */
 
+#pragma GCC diagnostic push
+        // ignore warning related to passing signed character into
+        // parameter expecting unsigned character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
         result = PG_SQLExecDirect(hstmt, "select oid from pg_type where typname='" PG_TYPE_LO_NAME "'", SQL_NTS);
+#pragma GCC diagnostic pop
         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO)) {
                 PG_SQLFreeStmt(hstmt, SQL_DROP);
                 return;
@@ -1584,7 +1616,7 @@ void
 CC_lookup_pg_version(ConnectionClass *self)
 {
 HSTMT hstmt;
-StatementClass *stmt;
+/* StatementClass *stmt; */
 RETCODE result;
 char	szVersion[32];
 int	major, minor;
@@ -1599,10 +1631,15 @@ static char* const func = "CC_lookup_pg_version";
         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO)) {
                 return;
         }
-        stmt = (StatementClass *) hstmt;
+        /* stmt = (StatementClass *) hstmt; */
 
         /*	get the server's version if possible	*/
+#pragma GCC diagnostic push
+        // ignore warning related to passing signed character into
+        // parameter expecting unsigned character
+#pragma GCC diagnostic ignored "-Wpointer-sign"
         result = PG_SQLExecDirect(hstmt, "select version()", SQL_NTS);
+#pragma GCC diagnostic pop
         if((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO)) {
                 PG_SQLFreeStmt(hstmt, SQL_DROP);
                 return;
