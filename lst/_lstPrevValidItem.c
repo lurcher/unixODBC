@@ -10,14 +10,14 @@ HLSTITEM _lstPrevValidItem( HLST hLst, HLSTITEM hItem )
     if ( !hItem )
         return NULL;
 
-	hItem = hItem->pPrev;
-	while ( hItem )
-	{
-		if ( _lstVisible( hItem ) )
-			return hItem;
+    hItem = hItem->pPrev;
+    while ( hItem )
+    {
+        if ( _lstVisible( hItem ) )
+            return hItem;
 
-		hItem = hItem->pPrev;
-	}
+        hItem = hItem->pPrev;
+    }
 
 
     return NULL;

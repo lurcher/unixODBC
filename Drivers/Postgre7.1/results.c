@@ -1,4 +1,3 @@
-
 /* Module:          results.c
  *
  * Description:     This module contains functions related to
@@ -45,57 +44,57 @@ extern GLOBAL_VALUES globals;
 
 
 SQLRETURN   SQLRowCount(SQLHSTMT hstmt,
-	   SQLLEN *pcrow)
+           SQLLEN *pcrow)
 {
 static char* const func="SQLRowCount";
 StatementClass *stmt = (StatementClass *) hstmt;
 QResultClass *res;
 char *msg, *ptr;
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	if (stmt->manual_result) {
-		if (pcrow)
-    		*pcrow = -1;
-		return SQL_SUCCESS;
-	}
+        if (stmt->manual_result) {
+                if (pcrow)
+                *pcrow = -1;
+                return SQL_SUCCESS;
+        }
 
-	if(stmt->statement_type == STMT_TYPE_SELECT) {
-		if (stmt->status == STMT_FINISHED) {
-			res = SC_get_Result(stmt);
+        if(stmt->statement_type == STMT_TYPE_SELECT) {
+                if (stmt->status == STMT_FINISHED) {
+                        res = SC_get_Result(stmt);
 
-			if(res && pcrow) {
-				*pcrow = globals.use_declarefetch ? -1 : QR_get_num_tuples(res);
-				return SQL_SUCCESS;
-			}
-		}
-	} else {
+                        if(res && pcrow) {
+                                *pcrow = globals.use_declarefetch ? -1 : QR_get_num_tuples(res);
+                                return SQL_SUCCESS;
+                        }
+                }
+        } else {
 
-		res = SC_get_Result(stmt);
-		if (res && pcrow) {
-			msg = QR_get_command(res);
-			mylog("*** msg = '%s'\n", msg);
-			trim(msg);	/*	get rid of trailing spaces */
-			ptr = strrchr(msg, ' ');
-			if (ptr) {
-				*pcrow = atoi(ptr+1);
-				mylog("**** SQLRowCount(): THE ROWS: *pcrow = %d\n", *pcrow);
-			}
-			else {
-				*pcrow = -1;
+                res = SC_get_Result(stmt);
+                if (res && pcrow) {
+                        msg = QR_get_command(res);
+                        mylog("*** msg = '%s'\n", msg);
+                        trim(msg);	/*	get rid of trailing spaces */
+                        ptr = strrchr(msg, ' ');
+                        if (ptr) {
+                                *pcrow = atoi(ptr+1);
+                                mylog("**** SQLRowCount(): THE ROWS: *pcrow = %d\n", *pcrow);
+                        }
+                        else {
+                                *pcrow = -1;
 
-				mylog("**** SQLRowCount(): NO ROWS: *pcrow = %d\n", *pcrow);
-			}
+                                mylog("**** SQLRowCount(): NO ROWS: *pcrow = %d\n", *pcrow);
+                        }
 
-		return SQL_SUCCESS;
-		}
-	}
+                return SQL_SUCCESS;
+                }
+        }
 
-	SC_log_error(func, "Bad return value", stmt);
-	return SQL_ERROR;
+        SC_log_error(func, "Bad return value", stmt);
+        return SQL_ERROR;
 }
 
 
@@ -112,45 +111,45 @@ StatementClass *stmt = (StatementClass *) hstmt;
 QResultClass *result;
 char parse_ok;
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	SC_clear_error(stmt);
+        SC_clear_error(stmt);
 
-	parse_ok = FALSE;
-	if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
+        parse_ok = FALSE;
+        if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
 
-		if (stmt->parse_status == STMT_PARSE_NONE) {
-			mylog("SQLNumResultCols: calling parse_statement on stmt=%u\n", stmt);
-			parse_statement(stmt);
-		}
+                if (stmt->parse_status == STMT_PARSE_NONE) {
+                        mylog("SQLNumResultCols: calling parse_statement on stmt=%u\n", stmt);
+                        parse_statement(stmt);
+                }
 
-		if (stmt->parse_status != STMT_PARSE_FATAL) {
-			parse_ok = TRUE;
-			*pccol = stmt->nfld;
-			mylog("PARSE: SQLNumResultCols: *pccol = %d\n", *pccol);
-		}
-	}
+                if (stmt->parse_status != STMT_PARSE_FATAL) {
+                        parse_ok = TRUE;
+                        *pccol = stmt->nfld;
+                        mylog("PARSE: SQLNumResultCols: *pccol = %d\n", *pccol);
+                }
+        }
 
-	if ( ! parse_ok) {
+        if ( ! parse_ok) {
 
-		SC_pre_execute(stmt);
-		result = SC_get_Result(stmt);
+                SC_pre_execute(stmt);
+                result = SC_get_Result(stmt);
 
-		mylog("SQLNumResultCols: result = %u, status = %d, numcols = %d\n", result, stmt->status, result != NULL ? QR_NumResultCols(result) : -1);
-		if (( ! result) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE)) ) {
-			/* no query has been executed on this statement */
-			SC_set_error(stmt, STMT_SEQUENCE_ERROR, "No query has been executed with that handle");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                mylog("SQLNumResultCols: result = %u, status = %d, numcols = %d\n", result, stmt->status, result != NULL ? QR_NumResultCols(result) : -1);
+                if (( ! result) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE)) ) {
+                        /* no query has been executed on this statement */
+                        SC_set_error(stmt, STMT_SEQUENCE_ERROR, "No query has been executed with that handle");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
 
-		*pccol = QR_NumResultCols(result);
-	}
+                *pccol = QR_NumResultCols(result);
+        }
 
-	return SQL_SUCCESS;
+        return SQL_SUCCESS;
 }
 
 
@@ -185,150 +184,150 @@ int len = 0;
 RETCODE result;
 
 
-	mylog("%s: entering...\n", func);
+        mylog("%s: entering...\n", func);
 
     if ( ! stmt) {
-		SC_log_error(func, "", NULL);
+                SC_log_error(func, "", NULL);
         return SQL_INVALID_HANDLE;
-	}
+        }
 
 	ci = &(stmt->hdbc->connInfo);
 
     SC_clear_error(stmt);
 
-	/*	Dont check for bookmark column.  This is the responsibility
-		of the driver manager.
-	*/
+        /*	Dont check for bookmark column.  This is the responsibility
+                of the driver manager.
+        */
 
-	icol--;		/* use zero based column numbers */
-
-
-	parse_ok = FALSE;
-	if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
-
-		if (stmt->parse_status == STMT_PARSE_NONE) {
-			mylog("SQLDescribeCol: calling parse_statement on stmt=%u\n", stmt);
-			parse_statement(stmt);
-		}
+        icol--;		/* use zero based column numbers */
 
 
-		mylog("PARSE: DescribeCol: icol=%d, stmt=%u, stmt->nfld=%d, stmt->fi=%u\n", icol, stmt, stmt->nfld, stmt->fi);
+        parse_ok = FALSE;
+        if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
 
-		if (stmt->parse_status != STMT_PARSE_FATAL && stmt->fi && stmt->fi[icol]) {
-
-			if (icol >= stmt->nfld) {
-				SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
-				SC_log_error(func, "", stmt);
-				return SQL_ERROR;
-			}
-			mylog("DescribeCol: getting info for icol=%d\n", icol);
-
-			fieldtype = stmt->fi[icol]->type;
-			col_name = stmt->fi[icol]->name;
-			precision = stmt->fi[icol]->precision;
-
-			mylog("PARSE: fieldtype=%d, col_name='%s', precision=%d\n", fieldtype, col_name, precision);
-			if (fieldtype > 0)
-				parse_ok = TRUE;
-		}
-	}
+                if (stmt->parse_status == STMT_PARSE_NONE) {
+                        mylog("SQLDescribeCol: calling parse_statement on stmt=%u\n", stmt);
+                        parse_statement(stmt);
+                }
 
 
-	/*	If couldn't parse it OR the field being described was not parsed (i.e., because
-		it was a function or expression, etc, then do it the old fashioned way.
-	*/
-	if ( ! parse_ok) {
-		SC_pre_execute(stmt);
-	
-		res = SC_get_Result(stmt);
+                mylog("PARSE: DescribeCol: icol=%d, stmt=%u, stmt->nfld=%d, stmt->fi=%u\n", icol, stmt, stmt->nfld, stmt->fi);
 
-		mylog("**** SQLDescribeCol: res = %u, stmt->status = %d, !finished=%d, !premature=%d\n", res, stmt->status, stmt->status != STMT_FINISHED, stmt->status != STMT_PREMATURE);
-		if ( (NULL == res) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE))) {
-			/* no query has been executed on this statement */
-			SC_set_error(stmt, STMT_SEQUENCE_ERROR, "No query has been assigned to this statement.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                if (stmt->parse_status != STMT_PARSE_FATAL && stmt->fi && stmt->fi[icol]) {
 
-		if (icol >= QR_NumResultCols(res)) {
-			SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
-			sprintf(buf, "Col#=%d, #Cols=%d", icol, QR_NumResultCols(res));
-			SC_log_error(func, buf, stmt);
-			return SQL_ERROR;
-		}
+                        if (icol >= stmt->nfld) {
+                                SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
+                                SC_log_error(func, "", stmt);
+                                return SQL_ERROR;
+                        }
+                        mylog("DescribeCol: getting info for icol=%d\n", icol);
 
-		col_name = QR_get_fieldname(res, icol);
+                        fieldtype = stmt->fi[icol]->type;
+                        col_name = stmt->fi[icol]->name;
+                        precision = stmt->fi[icol]->precision;
+
+                        mylog("PARSE: fieldtype=%d, col_name='%s', precision=%d\n", fieldtype, col_name, precision);
+                        if (fieldtype > 0)
+                                parse_ok = TRUE;
+                }
+        }
+
+
+        /*	If couldn't parse it OR the field being described was not parsed (i.e., because
+                it was a function or expression, etc, then do it the old fashioned way.
+        */
+        if ( ! parse_ok) {
+                SC_pre_execute(stmt);
+
+                res = SC_get_Result(stmt);
+
+                mylog("**** SQLDescribeCol: res = %u, stmt->status = %d, !finished=%d, !premature=%d\n", res, stmt->status, stmt->status != STMT_FINISHED, stmt->status != STMT_PREMATURE);
+                if ( (NULL == res) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE))) {
+                        /* no query has been executed on this statement */
+                        SC_set_error(stmt, STMT_SEQUENCE_ERROR, "No query has been assigned to this statement.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
+
+                if (icol >= QR_NumResultCols(res)) {
+                        SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
+                        sprintf(buf, "Col#=%d, #Cols=%d", icol, QR_NumResultCols(res));
+                        SC_log_error(func, buf, stmt);
+                        return SQL_ERROR;
+                }
+
+                col_name = QR_get_fieldname(res, icol);
         fieldtype = QR_get_field_type(res, icol);
 
-		precision = pgtype_precision(stmt, fieldtype, icol, globals.unknown_sizes);  /* atoi(ci->unknown_sizes) */
-	}
+                precision = pgtype_precision(stmt, fieldtype, icol, globals.unknown_sizes);  /* atoi(ci->unknown_sizes) */
+        }
 
-	mylog("describeCol: col %d fieldname = '%s'\n", icol, col_name);
-	mylog("describeCol: col %d fieldtype = %d\n", icol, fieldtype);
-	mylog("describeCol: col %d precision = %d\n", icol, precision);
+        mylog("describeCol: col %d fieldname = '%s'\n", icol, col_name);
+        mylog("describeCol: col %d fieldtype = %d\n", icol, fieldtype);
+        mylog("describeCol: col %d precision = %d\n", icol, precision);
 
 
-	result = SQL_SUCCESS;
+        result = SQL_SUCCESS;
 
-	/************************/
-	/*		COLUMN NAME     */
-	/************************/
-	len = strlen(col_name);
+        /************************/
+        /*		COLUMN NAME     */
+        /************************/
+        len = strlen(col_name);
 
-	if (pcbColName)
-		*pcbColName = len;
+        if (pcbColName)
+                *pcbColName = len;
 
-	if (szColName) {
-		strncpy_null((char*)szColName, col_name, cbColNameMax);
+        if (szColName) {
+                strncpy_null((char*)szColName, col_name, cbColNameMax);
 
-		if (len >= cbColNameMax)  {
-			result = SQL_SUCCESS_WITH_INFO;
-			SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
-		}
+                if (len >= cbColNameMax)  {
+                        result = SQL_SUCCESS_WITH_INFO;
+                        SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
+                }
     }
 
 
-	/************************/
-	/*		SQL TYPE        */
-	/************************/
+        /************************/
+        /*		SQL TYPE        */
+        /************************/
     if (pfSqlType) {
         *pfSqlType = pgtype_to_sqltype(stmt, fieldtype);
 
-		mylog("describeCol: col %d *pfSqlType = %d\n", icol, *pfSqlType);
-	}
+                mylog("describeCol: col %d *pfSqlType = %d\n", icol, *pfSqlType);
+        }
 
-	/************************/
-	/*		PRECISION       */
-	/************************/
+        /************************/
+        /*		PRECISION       */
+        /************************/
     if (pcbColDef) {
 
-		if ( precision < 0)
-			precision = 0;		/* "I dont know" */
+                if ( precision < 0)
+                        precision = 0;		/* "I dont know" */
 
-		*pcbColDef = precision;
+                *pcbColDef = precision;
 
-		mylog("describeCol: col %d  *pcbColDef = %d\n", icol, *pcbColDef);
-	}
+                mylog("describeCol: col %d  *pcbColDef = %d\n", icol, *pcbColDef);
+        }
 
-	/************************/
-	/*		SCALE           */
-	/************************/
+        /************************/
+        /*		SCALE           */
+        /************************/
     if (pibScale) {
         Int2 scale;
         scale = pgtype_scale(stmt, fieldtype, icol);
         if(scale == -1) { scale = 0; }
 
         *pibScale = scale;
-		mylog("describeCol: col %d  *pibScale = %d\n", icol, *pibScale);
+                mylog("describeCol: col %d  *pibScale = %d\n", icol, *pibScale);
     }
 
-	/************************/
-	/*		NULLABILITY     */
-	/************************/
+        /************************/
+        /*		NULLABILITY     */
+        /************************/
     if (pfNullable) {
-		*pfNullable = (parse_ok) ? stmt->fi[icol]->nullable : pgtype_nullable(stmt, fieldtype);
+                *pfNullable = (parse_ok) ? stmt->fi[icol]->nullable : pgtype_nullable(stmt, fieldtype);
 
-		mylog("describeCol: col %d  *pfNullable = %d\n", icol, *pfNullable);
+                mylog("describeCol: col %d  *pfNullable = %d\n", icol, *pfNullable);
     }
 
     return result;
@@ -342,8 +341,8 @@ SQLRETURN  SQLColAttributes(
     SQLUSMALLINT       fDescType,
     SQLPOINTER         rgbDesc,
     SQLSMALLINT        cbDescMax,
-    SQLSMALLINT 	  *pcbDesc,
-    SQLLEN 		      *pfDesc)
+    SQLSMALLINT           *pcbDesc,
+    SQLLEN                    *pfDesc)
 {
 static char* const func = "SQLColAttributes";
 StatementClass *stmt = (StatementClass *) hstmt;
@@ -356,229 +355,229 @@ RETCODE result;
 char *p = NULL;
 int len = 0, value = 0;
 
-	mylog("%s: entering...\n", func);
+        mylog("%s: entering...\n", func);
 
-	if( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
 	ci = &(stmt->hdbc->connInfo);
 
-	/*	Dont check for bookmark column.  This is the responsibility
-		of the driver manager.  For certain types of arguments, the column
-		number is ignored anyway, so it may be 0.
-	*/
+        /*	Dont check for bookmark column.  This is the responsibility
+                of the driver manager.  For certain types of arguments, the column
+                number is ignored anyway, so it may be 0.
+        */
 
-	icol--;
+        icol--;
 
-	unknown_sizes = globals.unknown_sizes;          /* atoi(ci->unknown_sizes); */
-	if (unknown_sizes == UNKNOWNS_AS_DONTKNOW)		/* not appropriate for SQLColAttributes() */
-		unknown_sizes = UNKNOWNS_AS_MAX;
+        unknown_sizes = globals.unknown_sizes;          /* atoi(ci->unknown_sizes); */
+        if (unknown_sizes == UNKNOWNS_AS_DONTKNOW)		/* not appropriate for SQLColAttributes() */
+                unknown_sizes = UNKNOWNS_AS_MAX;
 
-	parse_ok = FALSE;
-	if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
+        parse_ok = FALSE;
+        if (globals.parse && stmt->statement_type == STMT_TYPE_SELECT) {
 
-		if (stmt->parse_status == STMT_PARSE_NONE) {
-			mylog("SQLColAttributes: calling parse_statement\n");
-			parse_statement(stmt);
-		}
+                if (stmt->parse_status == STMT_PARSE_NONE) {
+                        mylog("SQLColAttributes: calling parse_statement\n");
+                        parse_statement(stmt);
+                }
 
-		cols = stmt->nfld;
+                cols = stmt->nfld;
 
-		/*	Column Count is a special case.  The Column number is ignored
-			in this case.
-		*/
-		if (fDescType == SQL_COLUMN_COUNT) {
-			if (pfDesc)
-				*pfDesc = cols;
+                /*	Column Count is a special case.  The Column number is ignored
+                        in this case.
+                */
+                if (fDescType == SQL_COLUMN_COUNT) {
+                        if (pfDesc)
+                                *pfDesc = cols;
 
-			return SQL_SUCCESS;
-		}
+                        return SQL_SUCCESS;
+                }
 
-		if (stmt->parse_status != STMT_PARSE_FATAL && stmt->fi && stmt->fi[icol]) {
+                if (stmt->parse_status != STMT_PARSE_FATAL && stmt->fi && stmt->fi[icol]) {
 
-			if (icol >= cols) {
-				SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
-				SC_log_error(func, "", stmt);
-				return SQL_ERROR;
-			}
+                        if (icol >= cols) {
+                                SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
+                                SC_log_error(func, "", stmt);
+                                return SQL_ERROR;
+                        }
 
-			field_type = stmt->fi[icol]->type;
-			if (field_type > 0)
-				parse_ok = TRUE;
-		}
-	}
+                        field_type = stmt->fi[icol]->type;
+                        if (field_type > 0)
+                                parse_ok = TRUE;
+                }
+        }
 
-	if ( ! parse_ok) {
-		SC_pre_execute(stmt);
+        if ( ! parse_ok) {
+                SC_pre_execute(stmt);
 
-		mylog("**** SQLColAtt: result = %u, status = %d, numcols = %d\n", stmt->result, stmt->status, stmt->result != NULL ? QR_NumResultCols(stmt->result) : -1);
+                mylog("**** SQLColAtt: result = %u, status = %d, numcols = %d\n", stmt->result, stmt->status, stmt->result != NULL ? QR_NumResultCols(stmt->result) : -1);
 
-		if ( (NULL == stmt->result) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE)) ) {
-			SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't get column attributes: no result found.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                if ( (NULL == stmt->result) || ((stmt->status != STMT_FINISHED) && (stmt->status != STMT_PREMATURE)) ) {
+                        SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't get column attributes: no result found.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
 
-		cols = QR_NumResultCols(stmt->result);
+                cols = QR_NumResultCols(stmt->result);
 
-		/*	Column Count is a special case.  The Column number is ignored
-			in this case.
-		*/
-		if (fDescType == SQL_COLUMN_COUNT) {
-			if (pfDesc)
-				*pfDesc = cols;
+                /*	Column Count is a special case.  The Column number is ignored
+                        in this case.
+                */
+                if (fDescType == SQL_COLUMN_COUNT) {
+                        if (pfDesc)
+                                *pfDesc = cols;
 
-			return SQL_SUCCESS;
-		}
+                        return SQL_SUCCESS;
+                }
 
-		if (icol >= cols) {
-			SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                if (icol >= cols) {
+                        SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number in DescribeCol.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
 
-		field_type = QR_get_field_type(stmt->result, icol);
-	}
+                field_type = QR_get_field_type(stmt->result, icol);
+        }
 
-	mylog("colAttr: col %d field_type = %d\n", icol, field_type);
+        mylog("colAttr: col %d field_type = %d\n", icol, field_type);
 
-	switch(fDescType) {
-	case SQL_COLUMN_AUTO_INCREMENT:
-		value  = pgtype_auto_increment(stmt, field_type);
-		if (value == -1)  /*  non-numeric becomes FALSE (ODBC Doc) */
-			value = FALSE;
-				
-		break;
+        switch(fDescType) {
+        case SQL_COLUMN_AUTO_INCREMENT:
+                value  = pgtype_auto_increment(stmt, field_type);
+                if (value == -1)  /*  non-numeric becomes FALSE (ODBC Doc) */
+                        value = FALSE;
 
-	case SQL_COLUMN_CASE_SENSITIVE:
-		value = pgtype_case_sensitive(stmt, field_type);
-		break;
+                break;
 
-	/* 	This special case is handled above.
+        case SQL_COLUMN_CASE_SENSITIVE:
+                value = pgtype_case_sensitive(stmt, field_type);
+                break;
 
-	case SQL_COLUMN_COUNT:
-	*/
+        /*      This special case is handled above.
+
+        case SQL_COLUMN_COUNT:
+        */
 
     case SQL_COLUMN_DISPLAY_SIZE:
-		value = (parse_ok) ? stmt->fi[icol]->display_size : pgtype_display_size(stmt, field_type, icol, unknown_sizes);
+                value = (parse_ok) ? stmt->fi[icol]->display_size : pgtype_display_size(stmt, field_type, icol, unknown_sizes);
 
-		mylog("SQLColAttributes: col %d, display_size= %d\n", icol, value);
+                mylog("SQLColAttributes: col %d, display_size= %d\n", icol, value);
 
         break;
 
-	case SQL_COLUMN_LABEL:
-		if (parse_ok && stmt->fi[icol]->alias[0] != '\0') {
-			p = stmt->fi[icol]->alias;
+        case SQL_COLUMN_LABEL:
+                if (parse_ok && stmt->fi[icol]->alias[0] != '\0') {
+                        p = stmt->fi[icol]->alias;
 
-			mylog("SQLColAttr: COLUMN_LABEL = '%s'\n", p);
-			break;
+                        mylog("SQLColAttr: COLUMN_LABEL = '%s'\n", p);
+                        break;
 
-		}	/* otherwise same as column name -- FALL THROUGH!!! */
+                }	/* otherwise same as column name -- FALL THROUGH!!! */
 
-	case SQL_COLUMN_NAME:
+        case SQL_COLUMN_NAME:
 
-		p = (parse_ok) ? stmt->fi[icol]->name : QR_get_fieldname(stmt->result, icol);
+                p = (parse_ok) ? stmt->fi[icol]->name : QR_get_fieldname(stmt->result, icol);
 
-		mylog("SQLColAttr: COLUMN_NAME = '%s'\n", p);
-		break;
+                mylog("SQLColAttr: COLUMN_NAME = '%s'\n", p);
+                break;
 
-	case SQL_COLUMN_LENGTH:
-		value = (parse_ok) ? stmt->fi[icol]->length :  pgtype_length(stmt, field_type, icol, unknown_sizes);
+        case SQL_COLUMN_LENGTH:
+                value = (parse_ok) ? stmt->fi[icol]->length :  pgtype_length(stmt, field_type, icol, unknown_sizes);
 
-		mylog("SQLColAttributes: col %d, length = %d\n", icol, value);
+                mylog("SQLColAttributes: col %d, length = %d\n", icol, value);
         break;
 
-	case SQL_COLUMN_MONEY:
-		value = pgtype_money(stmt, field_type);
-		break;
+        case SQL_COLUMN_MONEY:
+                value = pgtype_money(stmt, field_type);
+                break;
 
-	case SQL_COLUMN_NULLABLE:
-		value = (parse_ok) ? stmt->fi[icol]->nullable : pgtype_nullable(stmt, field_type);
-		break;
+        case SQL_COLUMN_NULLABLE:
+                value = (parse_ok) ? stmt->fi[icol]->nullable : pgtype_nullable(stmt, field_type);
+                break;
 
-	case SQL_COLUMN_OWNER_NAME:
-		p = "";
-		break;
+        case SQL_COLUMN_OWNER_NAME:
+                p = "";
+                break;
 
-	case SQL_COLUMN_PRECISION:
-		value = (parse_ok) ? stmt->fi[icol]->precision : pgtype_precision(stmt, field_type, icol, unknown_sizes);
+        case SQL_COLUMN_PRECISION:
+                value = (parse_ok) ? stmt->fi[icol]->precision : pgtype_precision(stmt, field_type, icol, unknown_sizes);
 
-		mylog("SQLColAttributes: col %d, precision = %d\n", icol, value);
+                mylog("SQLColAttributes: col %d, precision = %d\n", icol, value);
         break;
 
-	case SQL_COLUMN_QUALIFIER_NAME:
-		p = "";
-		break;
+        case SQL_COLUMN_QUALIFIER_NAME:
+                p = "";
+                break;
 
-	case SQL_COLUMN_SCALE:
-		value = pgtype_scale(stmt, field_type, icol);
-		break;
+        case SQL_COLUMN_SCALE:
+                value = pgtype_scale(stmt, field_type, icol);
+                break;
 
-	case SQL_COLUMN_SEARCHABLE:
-		value = pgtype_searchable(stmt, field_type);
-		break;
+        case SQL_COLUMN_SEARCHABLE:
+                value = pgtype_searchable(stmt, field_type);
+                break;
 
     case SQL_COLUMN_TABLE_NAME:
 
-		p = (parse_ok && stmt->fi[icol]->ti) ? stmt->fi[icol]->ti->name : "";
+                p = (parse_ok && stmt->fi[icol]->ti) ? stmt->fi[icol]->ti->name : "";
 
-		mylog("SQLColAttr: TABLE_NAME = '%s'\n", p);
+                mylog("SQLColAttr: TABLE_NAME = '%s'\n", p);
         break;
 
-	case SQL_COLUMN_TYPE:
-		value = pgtype_to_sqltype(stmt, field_type);
-		break;
+        case SQL_COLUMN_TYPE:
+                value = pgtype_to_sqltype(stmt, field_type);
+                break;
 
-	case SQL_COLUMN_TYPE_NAME:
-		p = pgtype_to_name(stmt, field_type);
-		break;
+        case SQL_COLUMN_TYPE_NAME:
+                p = pgtype_to_name(stmt, field_type);
+                break;
 
-	case SQL_COLUMN_UNSIGNED:
-		value = pgtype_unsigned(stmt, field_type);
-		if(value == -1)	/* non-numeric becomes TRUE (ODBC Doc) */
-			value = TRUE;
+        case SQL_COLUMN_UNSIGNED:
+                value = pgtype_unsigned(stmt, field_type);
+                if(value == -1)	/* non-numeric becomes TRUE (ODBC Doc) */
+                        value = TRUE;
 
-		break;
+                break;
 
-	case SQL_COLUMN_UPDATABLE:
-		/*	Neither Access or Borland care about this.
+        case SQL_COLUMN_UPDATABLE:
+                /*	Neither Access or Borland care about this.
 
-		if (field_type == PG_TYPE_OID)
-			*pfDesc = SQL_ATTR_READONLY;
-		else
-		*/
+                if (field_type == PG_TYPE_OID)
+                        *pfDesc = SQL_ATTR_READONLY;
+                else
+                */
 
-		value = SQL_ATTR_WRITE;
+                value = SQL_ATTR_WRITE;
 
-		mylog("SQLColAttr: UPDATEABLE = %d\n", value);
-		break;
+                mylog("SQLColAttr: UPDATEABLE = %d\n", value);
+                break;
     }
 
-	result = SQL_SUCCESS;
+        result = SQL_SUCCESS;
 
-	if (p) {  /* char/binary data */
-		len = strlen(p);
+        if (p) {  /* char/binary data */
+                len = strlen(p);
 
-		if (rgbDesc) {
-			strncpy_null((char *)rgbDesc, p, (size_t)cbDescMax);
+                if (rgbDesc) {
+                        strncpy_null((char *)rgbDesc, p, (size_t)cbDescMax);
 
-			if (len >= cbDescMax)  {
-				result = SQL_SUCCESS_WITH_INFO;
-				SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
-			}
-		}
+                        if (len >= cbDescMax)  {
+                                result = SQL_SUCCESS_WITH_INFO;
+                                SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
+                        }
+                }
 
-		if (pcbDesc)
-			*pcbDesc = len;
-	}
-	else {	/* numeric data */
+                if (pcbDesc)
+                        *pcbDesc = len;
+        }
+        else {	/* numeric data */
 
-		if (pfDesc)
-			*pfDesc = value;
+                if (pfDesc)
+                        *pfDesc = value;
 
-	}
+        }
 
 
     return result;
@@ -606,140 +605,140 @@ char get_bookmark = FALSE;
 mylog("SQLGetData: enter, stmt=%u\n", stmt);
 
     if( ! stmt) {
-		SC_log_error(func, "", NULL);
+                SC_log_error(func, "", NULL);
         return SQL_INVALID_HANDLE;
     }
-	res = stmt->result;
+        res = stmt->result;
 
     if (STMT_EXECUTING == stmt->status) {
-	SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't get data while statement is still executing.");
-	SC_log_error(func, "", stmt);
-	return SQL_ERROR;
+        SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't get data while statement is still executing.");
+        SC_log_error(func, "", stmt);
+        return SQL_ERROR;
     }
 
     if (stmt->status != STMT_FINISHED) {
-	SC_set_error(stmt, STMT_STATUS_ERROR, "GetData can only be called after the successful execution on a SQL statement");
-	SC_log_error(func, "", stmt);
-	return SQL_ERROR;
+        SC_set_error(stmt, STMT_STATUS_ERROR, "GetData can only be called after the successful execution on a SQL statement");
+        SC_log_error(func, "", stmt);
+        return SQL_ERROR;
     }
 
     if (icol == 0) {
 
-		if (stmt->options.use_bookmarks == SQL_UB_OFF) {
-			SC_set_error(stmt, STMT_COLNUM_ERROR, "Attempt to retrieve bookmark with bookmark usage disabled");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                if (stmt->options.use_bookmarks == SQL_UB_OFF) {
+                        SC_set_error(stmt, STMT_COLNUM_ERROR, "Attempt to retrieve bookmark with bookmark usage disabled");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
 
-		/*	Make sure it is the bookmark data type */
-		if (fCType != SQL_C_BOOKMARK && fCType != SQL_C_BINARY ) {
-			SC_set_error(stmt, STMT_PROGRAM_TYPE_OUT_OF_RANGE, "Column 0 is not of type SQL_C_BOOKMARK");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
-		
-		get_bookmark = TRUE;
+                /*	Make sure it is the bookmark data type */
+                if (fCType != SQL_C_BOOKMARK && fCType != SQL_C_BINARY ) {
+                        SC_set_error(stmt, STMT_PROGRAM_TYPE_OUT_OF_RANGE, "Column 0 is not of type SQL_C_BOOKMARK");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
+
+                get_bookmark = TRUE;
 
     }
 
-	else {
+        else {
 
-		/* use zero-based column numbers */
-		icol--;
+                /* use zero-based column numbers */
+                icol--;
 
-		/* make sure the column number is valid */
-		num_cols = QR_NumResultCols(res);
-		if (icol >= num_cols) {
-			SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
-	}
+                /* make sure the column number is valid */
+                num_cols = QR_NumResultCols(res);
+                if (icol >= num_cols) {
+                        SC_set_error(stmt, STMT_INVALID_COLUMN_NUMBER_ERROR, "Invalid column number.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
+        }
 
-	if ( stmt->manual_result || ! globals.use_declarefetch) {
-		/* make sure we're positioned on a valid row */
-		num_rows = QR_get_num_tuples(res);
-		if((stmt->currTuple < 0) ||
-		   (stmt->currTuple >= num_rows)) {
-			SC_set_error(stmt, STMT_INVALID_CURSOR_STATE_ERROR, "Not positioned on a valid row for GetData.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
-		mylog("     num_rows = %d\n", num_rows);
+        if ( stmt->manual_result || ! globals.use_declarefetch) {
+                /* make sure we're positioned on a valid row */
+                num_rows = QR_get_num_tuples(res);
+                if((stmt->currTuple < 0) ||
+                   (stmt->currTuple >= num_rows)) {
+                        SC_set_error(stmt, STMT_INVALID_CURSOR_STATE_ERROR, "Not positioned on a valid row for GetData.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
+                mylog("     num_rows = %d\n", num_rows);
 
-		if ( ! get_bookmark) {
-			if ( stmt->manual_result) {
-				value = QR_get_value_manual(res, stmt->currTuple, icol);
-			}
-			else {
-				value = QR_get_value_backend_row(res, stmt->currTuple, icol);
-			}
-			mylog("     value = '%s'\n", value);
-		}
-	}
-	else { /* it's a SOCKET result (backend data) */
-		if (stmt->currTuple == -1 || ! res || ! res->tupleField) {
-			SC_set_error(stmt, STMT_INVALID_CURSOR_STATE_ERROR, "Not positioned on a valid row for GetData.");
-			SC_log_error(func, "", stmt);
-			return SQL_ERROR;
-		}
+                if ( ! get_bookmark) {
+                        if ( stmt->manual_result) {
+                                value = QR_get_value_manual(res, stmt->currTuple, icol);
+                        }
+                        else {
+                                value = QR_get_value_backend_row(res, stmt->currTuple, icol);
+                        }
+                        mylog("     value = '%s'\n", value);
+                }
+        }
+        else { /* it's a SOCKET result (backend data) */
+                if (stmt->currTuple == -1 || ! res || ! res->tupleField) {
+                        SC_set_error(stmt, STMT_INVALID_CURSOR_STATE_ERROR, "Not positioned on a valid row for GetData.");
+                        SC_log_error(func, "", stmt);
+                        return SQL_ERROR;
+                }
 
-		if ( ! get_bookmark)
-			value = QR_get_value_backend(res, icol);
+                if ( ! get_bookmark)
+                        value = QR_get_value_backend(res, icol);
 
-		mylog("  socket: value = '%s'\n", value);
-	}
+                mylog("  socket: value = '%s'\n", value);
+        }
 
-	if ( get_bookmark) {
-		*((UDWORD *) rgbValue) = SC_get_bookmark(stmt);
+        if ( get_bookmark) {
+                *((UDWORD *) rgbValue) = SC_get_bookmark(stmt);
 
-		if (pcbValue)
-			*pcbValue = 4;
+                if (pcbValue)
+                        *pcbValue = 4;
 
-		return SQL_SUCCESS;
-	}
+                return SQL_SUCCESS;
+        }
 
-	field_type = QR_get_field_type(res, icol);
+        field_type = QR_get_field_type(res, icol);
 
-	mylog("**** SQLGetData: icol = %d, fCType = %d, field_type = %d, value = '%s'\n", icol, fCType, field_type, value);
+        mylog("**** SQLGetData: icol = %d, fCType = %d, field_type = %d, value = '%s'\n", icol, fCType, field_type, value);
 
-	stmt->current_col = icol;
+        stmt->current_col = icol;
 
     result = copy_and_convert_field(stmt, field_type, value,
                                     fCType, rgbValue, cbValueMax, (SQLLEN*)pcbValue);
 
-	stmt->current_col = -1;
+        stmt->current_col = -1;
 
-	switch(result) {
-	case COPY_OK:
-		return SQL_SUCCESS;
+        switch(result) {
+        case COPY_OK:
+                return SQL_SUCCESS;
 
-	case COPY_UNSUPPORTED_TYPE:
-		SC_set_error(stmt, STMT_RESTRICTED_DATA_TYPE_ERROR, "Received an unsupported type from Postgres.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
+        case COPY_UNSUPPORTED_TYPE:
+                SC_set_error(stmt, STMT_RESTRICTED_DATA_TYPE_ERROR, "Received an unsupported type from Postgres.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
 
-	case COPY_UNSUPPORTED_CONVERSION:
-		SC_set_error(stmt, STMT_RESTRICTED_DATA_TYPE_ERROR, "Couldn't handle the necessary data type conversion.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
+        case COPY_UNSUPPORTED_CONVERSION:
+                SC_set_error(stmt, STMT_RESTRICTED_DATA_TYPE_ERROR, "Couldn't handle the necessary data type conversion.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
 
-	case COPY_RESULT_TRUNCATED:
-		SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
-		return SQL_SUCCESS_WITH_INFO;
+        case COPY_RESULT_TRUNCATED:
+                SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
+                return SQL_SUCCESS_WITH_INFO;
 
-	case COPY_GENERAL_ERROR:	/* error msg already filled in */
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
+        case COPY_GENERAL_ERROR:	/* error msg already filled in */
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
 
-	case COPY_NO_DATA_FOUND:
-		/* SC_log_error(func, "no data found", stmt); */
-		return SQL_NO_DATA_FOUND;
+        case COPY_NO_DATA_FOUND:
+                /* SC_log_error(func, "no data found", stmt); */
+                return SQL_NO_DATA_FOUND;
 
     default:
-	SC_set_error(stmt, STMT_INTERNAL_ERROR, "Unrecognized return value from copy_and_convert_field.");
-	SC_log_error(func, "", stmt);
-	return SQL_ERROR;
+        SC_set_error(stmt, STMT_INTERNAL_ERROR, "Unrecognized return value from copy_and_convert_field.");
+        SC_log_error(func, "", stmt);
+        return SQL_ERROR;
     }
 }
 
@@ -768,51 +767,51 @@ QResultClass *res;
 
 mylog("SQLFetch: stmt = %u, stmt->result= %u\n", stmt, stmt->result);
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	SC_clear_error(stmt);
+        SC_clear_error(stmt);
 
-	if ( ! (res = stmt->result)) {
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLFetch.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if ( ! (res = stmt->result)) {
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLFetch.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	/*	Not allowed to bind a bookmark column when using SQLFetch. */
-	if ( stmt->bookmark.buffer) {
-		SC_set_error(stmt, STMT_COLNUM_ERROR, "Not allowed to bind a bookmark column when using SQLFetch");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        /*	Not allowed to bind a bookmark column when using SQLFetch. */
+        if ( stmt->bookmark.buffer) {
+                SC_set_error(stmt, STMT_COLNUM_ERROR, "Not allowed to bind a bookmark column when using SQLFetch");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (stmt->status == STMT_EXECUTING) {
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't fetch while statement is still executing.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->status == STMT_EXECUTING) {
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't fetch while statement is still executing.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
 
-	if (stmt->status != STMT_FINISHED) {
-		SC_set_error(stmt, STMT_STATUS_ERROR, "Fetch can only be called after the successful execution on a SQL statement");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->status != STMT_FINISHED) {
+                SC_set_error(stmt, STMT_STATUS_ERROR, "Fetch can only be called after the successful execution on a SQL statement");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (stmt->bindings == NULL) {
-		/* just to avoid a crash if the user insists on calling this */
-		/* function even if SQL_ExecDirect has reported an Error */
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Bindings were not allocated properly.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->bindings == NULL) {
+                /* just to avoid a crash if the user insists on calling this */
+                /* function even if SQL_ExecDirect has reported an Error */
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Bindings were not allocated properly.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	QR_set_rowset_size(res, 1);
-	QR_inc_base(res, stmt->last_fetch_count);	
+        QR_set_rowset_size(res, 1);
+        QR_inc_base(res, stmt->last_fetch_count);
 
-	return SC_fetch(stmt);
+        return SC_fetch(stmt);
 }
 
 RETCODE SQL_API SQLFetch(
@@ -827,8 +826,8 @@ SQLRETURN  SQLExtendedFetch(
     SQLHSTMT           hstmt,
     SQLUSMALLINT       fFetchType,
     SQLLEN            irow,
-    SQLULEN      	  *pcrow,
-    SQLUSMALLINT 	  *rgfRowStatus)
+    SQLULEN               *pcrow,
+    SQLUSMALLINT          *rgfRowStatus)
 {
 static char* const func = "SQLExtendedFetch";
 StatementClass *stmt = (StatementClass *) hstmt;
@@ -839,249 +838,249 @@ char truncated, error;
 
 mylog("SQLExtendedFetch: stmt=%u\n", stmt);
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	if ( globals.use_declarefetch && ! stmt->manual_result) {
-		if ( fFetchType != SQL_FETCH_NEXT) {
-			SC_set_error(stmt, STMT_NOT_IMPLEMENTED_ERROR, "Unsupported fetch type for SQLExtendedFetch with UseDeclareFetch option.");
-			return SQL_ERROR;
-		}
-	}
+        if ( globals.use_declarefetch && ! stmt->manual_result) {
+                if ( fFetchType != SQL_FETCH_NEXT) {
+                        SC_set_error(stmt, STMT_NOT_IMPLEMENTED_ERROR, "Unsupported fetch type for SQLExtendedFetch with UseDeclareFetch option.");
+                        return SQL_ERROR;
+                }
+        }
 
-	SC_clear_error(stmt);
+        SC_clear_error(stmt);
 
-	if ( ! (res = stmt->result)) {
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLExtendedFetch.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if ( ! (res = stmt->result)) {
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLExtendedFetch.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	/*	If a bookmark colunmn is bound but bookmark usage is off, then error */
-	if (stmt->bookmark.buffer && stmt->options.use_bookmarks == SQL_UB_OFF) {
-		SC_set_error(stmt, STMT_COLNUM_ERROR, "Attempt to retrieve bookmark with bookmark usage disabled");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        /*	If a bookmark colunmn is bound but bookmark usage is off, then error */
+        if (stmt->bookmark.buffer && stmt->options.use_bookmarks == SQL_UB_OFF) {
+                SC_set_error(stmt, STMT_COLNUM_ERROR, "Attempt to retrieve bookmark with bookmark usage disabled");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (stmt->status == STMT_EXECUTING) {
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't fetch while statement is still executing.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->status == STMT_EXECUTING) {
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Can't fetch while statement is still executing.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (stmt->status != STMT_FINISHED) {
-		SC_set_error(stmt, STMT_STATUS_ERROR, "ExtendedFetch can only be called after the successful execution on a SQL statement");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->status != STMT_FINISHED) {
+                SC_set_error(stmt, STMT_STATUS_ERROR, "ExtendedFetch can only be called after the successful execution on a SQL statement");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (stmt->bindings == NULL) {
-		/* just to avoid a crash if the user insists on calling this */
-		/* function even if SQL_ExecDirect has reported an Error */
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Bindings were not allocated properly.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (stmt->bindings == NULL) {
+                /* just to avoid a crash if the user insists on calling this */
+                /* function even if SQL_ExecDirect has reported an Error */
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Bindings were not allocated properly.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	/*	Initialize to no rows fetched */
-	if (rgfRowStatus)
-		for (i = 0; i < stmt->options.rowset_size; i++)
-			*(rgfRowStatus + i) = SQL_ROW_NOROW;
+        /*	Initialize to no rows fetched */
+        if (rgfRowStatus)
+                for (i = 0; i < stmt->options.rowset_size; i++)
+                        *(rgfRowStatus + i) = SQL_ROW_NOROW;
 
-	if (pcrow)
-		*pcrow = 0;
+        if (pcrow)
+                *pcrow = 0;
 
-	num_tuples = QR_get_num_tuples(res);
+        num_tuples = QR_get_num_tuples(res);
 
-	/*	Save and discard the saved rowset size */
-	save_rowset_size = stmt->save_rowset_size;
-	stmt->save_rowset_size = -1;
+        /*	Save and discard the saved rowset size */
+        save_rowset_size = stmt->save_rowset_size;
+        stmt->save_rowset_size = -1;
 
-	switch (fFetchType)  {
-	case SQL_FETCH_NEXT:
+        switch (fFetchType)  {
+        case SQL_FETCH_NEXT:
 
-		/*	From the odbc spec... If positioned before the start of the RESULT SET,
-			then this should be equivalent to SQL_FETCH_FIRST.
-		*/
+                /*	From the odbc spec... If positioned before the start of the RESULT SET,
+                        then this should be equivalent to SQL_FETCH_FIRST.
+                */
 
-		if (stmt->rowset_start < 0)
-			stmt->rowset_start = 0;
+                if (stmt->rowset_start < 0)
+                        stmt->rowset_start = 0;
 
-		else {
-			
-			stmt->rowset_start += (save_rowset_size > 0 ? save_rowset_size : stmt->options.rowset_size);
-		}
+                else {
 
-		mylog("SQL_FETCH_NEXT: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
-		break;
+                        stmt->rowset_start += (save_rowset_size > 0 ? save_rowset_size : stmt->options.rowset_size);
+                }
 
-	case SQL_FETCH_PRIOR:
-		mylog("SQL_FETCH_PRIOR: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
+                mylog("SQL_FETCH_NEXT: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
+                break;
 
-
-		/*	From the odbc spec... If positioned after the end of the RESULT SET,
-			then this should be equivalent to SQL_FETCH_LAST.
-		*/
-
-		if (stmt->rowset_start >= num_tuples) {
-			stmt->rowset_start = num_tuples <= 0 ? 0 : (num_tuples - stmt->options.rowset_size);
-
-		}
-		else {
-
-			stmt->rowset_start -= stmt->options.rowset_size;
-
-		}
-
-		break;
-
-	case SQL_FETCH_FIRST:
-		mylog("SQL_FETCH_FIRST: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
-
-		stmt->rowset_start = 0;
-		break;
-
-	case SQL_FETCH_LAST:
-		mylog("SQL_FETCH_LAST: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
-
-		stmt->rowset_start = num_tuples <= 0 ? 0 : (num_tuples - stmt->options.rowset_size) ;
-		break;
-
-	case SQL_FETCH_ABSOLUTE:
-		mylog("SQL_FETCH_ABSOLUTE: num_tuples=%d, currtuple=%d, irow=%d\n", num_tuples, stmt->currTuple, irow);
-
-		/*	Position before result set, but dont fetch anything */
-		if (irow == 0) {
-			stmt->rowset_start = -1;
-			stmt->currTuple = -1;
-			return SQL_NO_DATA_FOUND;
-		}
-		/*	Position before the desired row */
-		else if (irow > 0) {
-			stmt->rowset_start = irow - 1;
-		}
-		/*	Position with respect to the end of the result set */
-		else {
-			stmt->rowset_start = num_tuples + irow;
-		}
-
-		break;
-
-	case SQL_FETCH_RELATIVE:
-		
-		/*	Refresh the current rowset -- not currently implemented, but lie anyway */
-		if (irow == 0) {
-			break;
-		}
-
-		stmt->rowset_start += irow;
-
-		
-		break;
-
-	case SQL_FETCH_BOOKMARK:
-
-		stmt->rowset_start = irow - 1;
-		break;
-
-	default:
-		SC_log_error(func, "Unsupported SQLExtendedFetch Direction", stmt);
-		return SQL_ERROR;
-
-	}
+        case SQL_FETCH_PRIOR:
+                mylog("SQL_FETCH_PRIOR: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
 
 
-	/***********************************/
-	/*	CHECK FOR PROPER CURSOR STATE  */
-	/***********************************/
-	/*	Handle Declare Fetch style specially because the end is not really the end... */
-	if ( globals.use_declarefetch && ! stmt->manual_result) {
-		if (QR_end_tuples(res)) {
-			return SQL_NO_DATA_FOUND;
-		}
-	}
-	else {
-		/*	If *new* rowset is after the result_set, return no data found */
-		if (stmt->rowset_start >= num_tuples) {
-			stmt->rowset_start = num_tuples;
-			return SQL_NO_DATA_FOUND;
-		}
-	}
+                /*	From the odbc spec... If positioned after the end of the RESULT SET,
+                        then this should be equivalent to SQL_FETCH_LAST.
+                */
 
-	/*	If *new* rowset is prior to result_set, return no data found */
-	if (stmt->rowset_start < 0) {
-		if (stmt->rowset_start + stmt->options.rowset_size <= 0) {
-			stmt->rowset_start = -1;
-			return SQL_NO_DATA_FOUND;
-		}
-		else {	/*	overlap with beginning of result set, so get first rowset */
-			stmt->rowset_start = 0;
-		}
-	}
+                if (stmt->rowset_start >= num_tuples) {
+                        stmt->rowset_start = num_tuples <= 0 ? 0 : (num_tuples - stmt->options.rowset_size);
 
-	/*	currTuple is always 1 row prior to the rowset */
-	stmt->currTuple = stmt->rowset_start - 1;
+                }
+                else {
 
-	/*	increment the base row in the tuple cache */
-	QR_set_rowset_size(res, stmt->options.rowset_size);
-	QR_inc_base(res, stmt->last_fetch_count);	
-		
-	/*	Physical Row advancement occurs for each row fetched below */
+                        stmt->rowset_start -= stmt->options.rowset_size;
 
-	mylog("SQLExtendedFetch: new currTuple = %d\n", stmt->currTuple);
+                }
 
-	truncated = error = FALSE;
-	for (i = 0; i < stmt->options.rowset_size; i++) {
+                break;
 
-		stmt->bind_row = i;		/* set the binding location */
-		result = SC_fetch(stmt);
+        case SQL_FETCH_FIRST:
+                mylog("SQL_FETCH_FIRST: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
 
-		/*	Determine Function status */
-		if (result == SQL_NO_DATA_FOUND)
-			break;
-		else if (result == SQL_SUCCESS_WITH_INFO)
-			truncated = TRUE;
-		else if (result == SQL_ERROR)
-			error = TRUE;
+                stmt->rowset_start = 0;
+                break;
 
-		/*	Determine Row Status */
-		if (rgfRowStatus) {
-			if (result == SQL_ERROR)
-				*(rgfRowStatus + i) = SQL_ROW_ERROR;
-			else
-				*(rgfRowStatus + i)= SQL_ROW_SUCCESS;
-		}
-	}
+        case SQL_FETCH_LAST:
+                mylog("SQL_FETCH_LAST: num_tuples=%d, currtuple=%d\n", num_tuples, stmt->currTuple);
 
-	/*	Save the fetch count for SQLSetPos */
-	stmt->last_fetch_count= i;
+                stmt->rowset_start = num_tuples <= 0 ? 0 : (num_tuples - stmt->options.rowset_size) ;
+                break;
 
-	/*	Reset next binding row */
-	stmt->bind_row = 0;
+        case SQL_FETCH_ABSOLUTE:
+                mylog("SQL_FETCH_ABSOLUTE: num_tuples=%d, currtuple=%d, irow=%d\n", num_tuples, stmt->currTuple, irow);
 
-	/*	Move the cursor position to the first row in the result set. */
-	stmt->currTuple = stmt->rowset_start;
+                /*	Position before result set, but dont fetch anything */
+                if (irow == 0) {
+                        stmt->rowset_start = -1;
+                        stmt->currTuple = -1;
+                        return SQL_NO_DATA_FOUND;
+                }
+                /*	Position before the desired row */
+                else if (irow > 0) {
+                        stmt->rowset_start = irow - 1;
+                }
+                /*	Position with respect to the end of the result set */
+                else {
+                        stmt->rowset_start = num_tuples + irow;
+                }
 
-	/*	For declare/fetch, need to reset cursor to beginning of rowset */
-	if (globals.use_declarefetch && ! stmt->manual_result) {
-		QR_set_position(res, 0);
-	}
+                break;
 
-	/*	Set the number of rows retrieved */
-	if (pcrow)
-		*pcrow = i;
+        case SQL_FETCH_RELATIVE:
 
-	if (i == 0)
-		return SQL_NO_DATA_FOUND;		/*	Only DeclareFetch should wind up here */
-	else if (error)
-		return SQL_ERROR;
-	else if (truncated)
-		return SQL_SUCCESS_WITH_INFO;
-	else
-		return SQL_SUCCESS;
+                /*	Refresh the current rowset -- not currently implemented, but lie anyway */
+                if (irow == 0) {
+                        break;
+                }
+
+                stmt->rowset_start += irow;
+
+
+                break;
+
+        case SQL_FETCH_BOOKMARK:
+
+                stmt->rowset_start = irow - 1;
+                break;
+
+        default:
+                SC_log_error(func, "Unsupported SQLExtendedFetch Direction", stmt);
+                return SQL_ERROR;
+
+        }
+
+
+        /***********************************/
+        /*	CHECK FOR PROPER CURSOR STATE  */
+        /***********************************/
+        /*	Handle Declare Fetch style specially because the end is not really the end... */
+        if ( globals.use_declarefetch && ! stmt->manual_result) {
+                if (QR_end_tuples(res)) {
+                        return SQL_NO_DATA_FOUND;
+                }
+        }
+        else {
+                /*	If *new* rowset is after the result_set, return no data found */
+                if (stmt->rowset_start >= num_tuples) {
+                        stmt->rowset_start = num_tuples;
+                        return SQL_NO_DATA_FOUND;
+                }
+        }
+
+        /*	If *new* rowset is prior to result_set, return no data found */
+        if (stmt->rowset_start < 0) {
+                if (stmt->rowset_start + stmt->options.rowset_size <= 0) {
+                        stmt->rowset_start = -1;
+                        return SQL_NO_DATA_FOUND;
+                }
+                else {	/*	overlap with beginning of result set, so get first rowset */
+                        stmt->rowset_start = 0;
+                }
+        }
+
+        /*	currTuple is always 1 row prior to the rowset */
+        stmt->currTuple = stmt->rowset_start - 1;
+
+        /*	increment the base row in the tuple cache */
+        QR_set_rowset_size(res, stmt->options.rowset_size);
+        QR_inc_base(res, stmt->last_fetch_count);
+
+        /*	Physical Row advancement occurs for each row fetched below */
+
+        mylog("SQLExtendedFetch: new currTuple = %d\n", stmt->currTuple);
+
+        truncated = error = FALSE;
+        for (i = 0; i < stmt->options.rowset_size; i++) {
+
+                stmt->bind_row = i;		/* set the binding location */
+                result = SC_fetch(stmt);
+
+                /*	Determine Function status */
+                if (result == SQL_NO_DATA_FOUND)
+                        break;
+                else if (result == SQL_SUCCESS_WITH_INFO)
+                        truncated = TRUE;
+                else if (result == SQL_ERROR)
+                        error = TRUE;
+
+                /*	Determine Row Status */
+                if (rgfRowStatus) {
+                        if (result == SQL_ERROR)
+                                *(rgfRowStatus + i) = SQL_ROW_ERROR;
+                        else
+                                *(rgfRowStatus + i)= SQL_ROW_SUCCESS;
+                }
+        }
+
+        /*	Save the fetch count for SQLSetPos */
+        stmt->last_fetch_count= i;
+
+        /*	Reset next binding row */
+        stmt->bind_row = 0;
+
+        /*	Move the cursor position to the first row in the result set. */
+        stmt->currTuple = stmt->rowset_start;
+
+        /*	For declare/fetch, need to reset cursor to beginning of rowset */
+        if (globals.use_declarefetch && ! stmt->manual_result) {
+                QR_set_position(res, 0);
+        }
+
+        /*	Set the number of rows retrieved */
+        if (pcrow)
+                *pcrow = i;
+
+        if (i == 0)
+                return SQL_NO_DATA_FOUND;		/*	Only DeclareFetch should wind up here */
+        else if (error)
+                return SQL_ERROR;
+        else if (truncated)
+                return SQL_SUCCESS_WITH_INFO;
+        else
+                return SQL_SUCCESS;
 
 }
 
@@ -1093,7 +1092,7 @@ mylog("SQLExtendedFetch: stmt=%u\n", stmt);
 RETCODE SQL_API SQLMoreResults(
         HSTMT   hstmt)
 {
-	return SQL_NO_DATA_FOUND;
+        return SQL_NO_DATA_FOUND;
 }
 
 /*     This positions the cursor within a rowset, that was positioned using SQLExtendedFetch. */
@@ -1110,47 +1109,47 @@ QResultClass *res;
 int num_cols, i;
 BindInfoClass *bindings = stmt->bindings;
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	if (fOption != SQL_POSITION && fOption != SQL_REFRESH) {
-		SC_set_error(stmt, STMT_NOT_IMPLEMENTED_ERROR, "Only SQL_POSITION/REFRESH is supported for SQLSetPos");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (fOption != SQL_POSITION && fOption != SQL_REFRESH) {
+                SC_set_error(stmt, STMT_NOT_IMPLEMENTED_ERROR, "Only SQL_POSITION/REFRESH is supported for SQLSetPos");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if ( ! (res = stmt->result)) {
-		SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLSetPos.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
-	num_cols = QR_NumResultCols(res);
+        if ( ! (res = stmt->result)) {
+                SC_set_error(stmt, STMT_SEQUENCE_ERROR, "Null statement result in SQLSetPos.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
+        num_cols = QR_NumResultCols(res);
 
-	if (irow == 0) {
-		SC_set_error(stmt, STMT_ROW_OUT_OF_RANGE, "Driver does not support Bulk operations.");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (irow == 0) {
+                SC_set_error(stmt, STMT_ROW_OUT_OF_RANGE, "Driver does not support Bulk operations.");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	if (irow > stmt->last_fetch_count) {
-		SC_set_error(stmt, STMT_ROW_OUT_OF_RANGE, "Row value out of range");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (irow > stmt->last_fetch_count) {
+                SC_set_error(stmt, STMT_ROW_OUT_OF_RANGE, "Row value out of range");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	irow--;
+        irow--;
 
-	/*	Reset for SQLGetData */
-	for (i = 0; i < num_cols; i++)
-		bindings[i].data_left = -1;
+        /*	Reset for SQLGetData */
+        for (i = 0; i < num_cols; i++)
+                bindings[i].data_left = -1;
 
-	QR_set_position(res, irow);
+        QR_set_position(res, irow);
 
-	stmt->currTuple = stmt->rowset_start + irow;
+        stmt->currTuple = stmt->rowset_start + irow;
 
-	return SQL_SUCCESS;
+        return SQL_SUCCESS;
 
 }
 
@@ -1164,8 +1163,8 @@ SQLRETURN  SQLSetScrollOptions(    /*      Use SQLSetStmtOptions */
 {
 static char* const func = "SQLSetScrollOptions";
 
-	SC_log_error(func, "Function not implemented", (StatementClass *) hstmt);
-	return SQL_ERROR;
+        SC_log_error(func, "Function not implemented", (StatementClass *) hstmt);
+        return SQL_ERROR;
 }
 
 
@@ -1182,21 +1181,21 @@ int len;
 
 mylog("SQLSetCursorName: hstmt=%u, szCursor=%u, cbCursorMax=%d\n", hstmt, szCursor, cbCursor);
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	len = (cbCursor == SQL_NTS) ? strlen((char*)szCursor) : cbCursor;
+        len = (cbCursor == SQL_NTS) ? strlen((char*)szCursor) : cbCursor;
 
-	if (len <= 0 || len > sizeof(stmt->cursor_name) - 1) {
-		SC_set_error(stmt, STMT_INVALID_CURSOR_NAME, "Invalid Cursor Name");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if (len <= 0 || len > sizeof(stmt->cursor_name) - 1) {
+                SC_set_error(stmt, STMT_INVALID_CURSOR_NAME, "Invalid Cursor Name");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	strncpy_null((char*)stmt->cursor_name, (char*)szCursor, len+1);
-	return SQL_SUCCESS;
+        strncpy_null((char*)stmt->cursor_name, (char*)szCursor, len+1);
+        return SQL_SUCCESS;
 }
 
 /*      Return the cursor name for a statement handle */
@@ -1214,33 +1213,31 @@ RETCODE result;
 
 mylog("SQLGetCursorName: hstmt=%u, szCursor=%u, cbCursorMax=%d, pcbCursor=%u\n", hstmt, szCursor, cbCursorMax, pcbCursor);
 
-	if ( ! stmt) {
-		SC_log_error(func, "", NULL);
-		return SQL_INVALID_HANDLE;
-	}
+        if ( ! stmt) {
+                SC_log_error(func, "", NULL);
+                return SQL_INVALID_HANDLE;
+        }
 
-	if ( stmt->cursor_name[0] == '\0') {
-		SC_set_error(stmt, STMT_NO_CURSOR_NAME, "No Cursor name available");
-		SC_log_error(func, "", stmt);
-		return SQL_ERROR;
-	}
+        if ( stmt->cursor_name[0] == '\0') {
+                SC_set_error(stmt, STMT_NO_CURSOR_NAME, "No Cursor name available");
+                SC_log_error(func, "", stmt);
+                return SQL_ERROR;
+        }
 
-	result = SQL_SUCCESS;
-	len = strlen(stmt->cursor_name);
+        result = SQL_SUCCESS;
+        len = strlen(stmt->cursor_name);
 
-	if (szCursor) {
-		strncpy_null((char*)szCursor, (char*)stmt->cursor_name, cbCursorMax);
+        if (szCursor) {
+                strncpy_null((char*)szCursor, (char*)stmt->cursor_name, cbCursorMax);
 
-		if (len >= cbCursorMax)  {
-			result = SQL_SUCCESS_WITH_INFO;
-			SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
-		}
-	}
+                if (len >= cbCursorMax)  {
+                        result = SQL_SUCCESS_WITH_INFO;
+                        SC_set_error(stmt, STMT_TRUNCATED, "The buffer was too small for the result.");
+                }
+        }
 
-	if (pcbCursor)
-		*pcbCursor = len;
+        if (pcbCursor)
+                *pcbCursor = len;
 
-	return result;
+        return result;
 }
-
-

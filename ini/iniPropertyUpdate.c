@@ -20,10 +20,10 @@ int iniPropertyUpdate( HINI hIni, char *pszProperty, char *pszValue )
     if ( hIni == NULL )
         return INI_ERROR;
 
-	if ( hIni->hCurObject == NULL )
+    if ( hIni->hCurObject == NULL )
         return INI_ERROR;
-	
-	if ( hIni->hCurProperty == NULL )
+
+    if ( hIni->hCurProperty == NULL )
         return INI_ERROR;
 
     /* Ok */
@@ -32,6 +32,3 @@ int iniPropertyUpdate( HINI hIni, char *pszProperty, char *pszValue )
 
     return INI_SUCCESS;
 }
-
-
-

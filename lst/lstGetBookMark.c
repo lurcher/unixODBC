@@ -9,8 +9,8 @@ int lstGetBookMark( HLST hLst, HLSTBOOKMARK hLstBookMark )
     if ( !hLstBookMark )
         return LST_ERROR;
 
-	hLstBookMark->hCurrent		= hLst->hCurrent;
-	hLstBookMark->hLst			= hLst;
+    hLstBookMark->hCurrent		= hLst->hCurrent;
+    hLstBookMark->hLst			= hLst;
 
     return LST_SUCCESS;
 }

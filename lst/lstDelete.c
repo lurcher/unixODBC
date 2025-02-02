@@ -21,35 +21,35 @@ int _lstDeleteFlag( HLSTITEM hItem );
  ************************/
 int lstDelete( HLST hLst )
 {
-	HLSTITEM	hItem		= NULL;
-	HLSTITEM	hItemRoot	= NULL;
+        HLSTITEM	hItem		= NULL;
+        HLSTITEM	hItemRoot	= NULL;
 
     if ( !hLst )
         return LST_ERROR;
 
-	hItem = hLst->hCurrent;
+    hItem = hLst->hCurrent;
 
-	if ( !hItem )
-		return LST_ERROR;
+    if ( !hItem )
+        return LST_ERROR;
 
-	/*********************
-	 * ARE WE A CURSOR LIST
-	 *********************/
-	if ( hLst->hLstBase )
-	{
-		hItemRoot = (HLSTITEM)hItem->pData;
-		_lstDeleteFlag( hItemRoot );
-		return _lstFreeItem( hItem );
-	}
+    /*********************
+     * ARE WE A CURSOR LIST
+     *********************/
+    if ( hLst->hLstBase )
+    {
+        hItemRoot = (HLSTITEM)hItem->pData;
+        _lstDeleteFlag( hItemRoot );
+        return _lstFreeItem( hItem );
+    }
 
-	/*********************
-	 * WE ARE root LIST. CHECK FOR REFS BEFORE CALLING FREE
-	 *********************/
-	_lstDeleteFlag( hItem );
-	if ( hItem->nRefs < 1 )
-		return _lstFreeItem( hItem );
+    /*********************
+     * WE ARE root LIST. CHECK FOR REFS BEFORE CALLING FREE
+     *********************/
+    _lstDeleteFlag( hItem );
+    if ( hItem->nRefs < 1 )
+        return _lstFreeItem( hItem );
 
-	return LST_SUCCESS;
+    return LST_SUCCESS;
 }
 
 /***************************
@@ -57,20 +57,17 @@ int lstDelete( HLST hLst )
  ***************************/
 int _lstDeleteFlag( HLSTITEM hItem )
 {
-	HLST hLst;
+        HLST hLst;
 
-	hLst =	(HLST)hItem->hLst;
+        hLst =	(HLST)hItem->hLst;
 
-	if ( !hItem->bDelete )
-		hLst->nItems--;
+        if ( !hItem->bDelete )
+                hLst->nItems--;
 
-	hItem->bDelete = true;
-	
-	if ( hLst->hCurrent == hItem )
+        hItem->bDelete = true;
+
+        if ( hLst->hCurrent == hItem )
         _lstAdjustCurrent( hLst );
 
-	return true;
+        return true;
 }
-
-
-

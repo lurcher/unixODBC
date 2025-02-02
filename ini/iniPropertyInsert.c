@@ -24,21 +24,21 @@ int iniPropertyInsert( HINI hIni, char *pszProperty, char *pszValue )
 		return INI_ERROR;
     if ( hIni->hCurObject == NULL )
         return INI_ERROR;
-	if ( pszProperty == NULL )
+    if ( pszProperty == NULL )
         return INI_ERROR;
 
-	hObject	= hIni->hCurObject;
+    hObject	= hIni->hCurObject;
 
-	/* CREATE PROPERTY STRUCT */
-	hProperty = (HINIPROPERTY)malloc( sizeof(INIPROPERTY) );
-	strncpy( hProperty->szName, pszProperty, INI_MAX_PROPERTY_NAME );
+    /* CREATE PROPERTY STRUCT */
+    hProperty = (HINIPROPERTY)malloc( sizeof(INIPROPERTY) );
+    strncpy( hProperty->szName, pszProperty, INI_MAX_PROPERTY_NAME );
     if ( pszValue ) {
 	    strncpy( hProperty->szValue, pszValue, INI_MAX_PROPERTY_VALUE );
     }
     else {
 	    strcpy( hProperty->szValue, "" );
     }
-	hProperty->pNext = NULL;
+    hProperty->pNext = NULL;
     iniAllTrim( hProperty->szName );
     iniAllTrim( hProperty->szValue );
 

@@ -20,13 +20,11 @@ int iniPropertyEOL( HINI hIni )
     if ( hIni == NULL )
         return TRUE;
 
-	if ( hIni->hCurObject == NULL )
-		return TRUE;
-	
-	if ( hIni->hCurProperty == NULL )
-		return TRUE;
+    if ( hIni->hCurObject == NULL )
+        return TRUE;
 
-	return FALSE;
+    if ( hIni->hCurProperty == NULL )
+        return TRUE;
+
+    return FALSE;
 }
-
-

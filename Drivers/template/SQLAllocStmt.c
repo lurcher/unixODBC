@@ -46,12 +46,12 @@ SQLRETURN _AllocStmt(   SQLHDBC     hDrvDbc,
     }
 
     /* initialize memory */
-        sprintf((char*) hDbc->szSqlMsg, "*phstmt = $%08lX", (long)*phStmt );
+    sprintf((char*) hDbc->szSqlMsg, "*phstmt = $%08lX", (long)*phStmt );
     logPushMsg( hDbc->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hDbc->szSqlMsg );
 
-        memset( *phStmt, 0, sizeof(DRVSTMT) );	/* SAFETY */
-    (*phStmt)->hDbc			= (SQLPOINTER)hDbc;
-    (*phStmt)->hLog			= NULL;
+    memset( *phStmt, 0, sizeof(DRVSTMT) );	/* SAFETY */
+    (*phStmt)->hDbc		= (SQLPOINTER)hDbc;
+    (*phStmt)->hLog		= NULL;
     (*phStmt)->hStmtExtras	= NULL;
     (*phStmt)->pNext		= NULL;
     (*phStmt)->pPrev		= NULL;
