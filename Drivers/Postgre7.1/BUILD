@@ -1,5 +1,35 @@
 
 cc_library(
+    name = 'headers',
+    visibility = ['//visibility:public'],
+    hdrs = [
+        'bind.h',
+        'columninfo.h',
+        'connection.h',
+        'convert.h',
+        'dlg_specific.h',
+        'environ.h',
+        'isql.h',
+        'isqlext.h',
+        'lobj.h',
+        'md5.h',
+        'misc.h',
+        'pgtypes.h',
+        'psqlodbc.h',
+        'qresult.h',
+        'resource.h',
+        'socket.h',
+        'statement.h',
+        'tuple.h',
+        'tuplelist.h',
+    ],
+    includes = ['.'],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
+)
+
+cc_library(
     name = 'libodbcpsql',
     visibility = ['//visibility:public'],
     srcs = [
@@ -26,9 +56,8 @@ cc_library(
         'tuple.c',
         'tuplelist.c',
     ],
-    linkstatic = True,
     copts = [
-        '-DUNIXODBC',
+        '-DHAVE_CONFIG_H',
     ],
     deps = [
         '//lst:liblstlc',
@@ -37,26 +66,6 @@ cc_library(
         '//odbcinst:libodbcinstlc',
         '//extras:libodbcextraslc',
         '//:headers',
-    ],
-    hdrs = [
-        'dlg_specific.h',
-        'md5.h',
-        'bind.h',
-        'lobj.h',
-        'pgtypes.h',
-        'socket.h',
-        'tuplelist.h',
-        'isql.h',
-        'resource.h',
-        'misc.h',
-        'environ.h',
-        'tuple.h',
-        'columninfo.h',
-        'connection.h',
-        'statement.h',
-        'psqlodbc.h',
-        'qresult.h',
-        'convert.h',
-        'isqlext.h',
+        ':headers',
     ],
 )

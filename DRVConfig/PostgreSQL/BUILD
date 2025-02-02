@@ -5,7 +5,9 @@ cc_library(
     srcs = [
         'odbcpsqlS.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

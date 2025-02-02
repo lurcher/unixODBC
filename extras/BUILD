@@ -6,7 +6,9 @@ cc_library(
         'strcasecmp.c',
         'snprintf.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

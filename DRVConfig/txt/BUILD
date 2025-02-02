@@ -5,7 +5,9 @@ cc_library(
     srcs = [
         'drvcfg.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

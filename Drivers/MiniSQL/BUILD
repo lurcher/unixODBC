@@ -4,7 +4,6 @@ cc_library(
     visibility = ['//visibility:public'],
     hdrs = [
         'driver.h',
-        'prototypes.h',
         'driverextras.h',
     ],
     includes = ['.'],
@@ -14,7 +13,7 @@ cc_library(
 )
 
 cc_library(
-    name = 'libtemplate',
+    name = 'libodbcmini',
     visibility = ['//visibility:public'],
     srcs = [
         'SQLAllocConnect.c',
@@ -89,6 +88,10 @@ cc_library(
         'SQLTablePrivileges.c',
         'SQLTables.c',
         'SQLTransact.c',
+        '_AllocConnect.c',
+        '_AllocEnv.c',
+        '_AllocStmt.c',
+        '_Execute.c',
         '_FreeDbc.c',
         '_FreeStmt.c',
         '_FreeDbcList.c',
@@ -100,6 +103,10 @@ cc_library(
         '_NativeTypeDesc.c',
         '_NativeTypeLength.c',
         '_NativeTypePrecision.c',
+        '_Prepare.c',
+        '_sqlFreeConnect.c',
+        '_sqlFreeEnv.c',
+        '_sqlFreeStmt.c',
     ],
     copts = [
         '-DHAVE_CONFIG_H',
@@ -108,4 +115,7 @@ cc_library(
         '//:headers',
         ':headers',
     ],
+    # TODO(bd) use bazel platform to determine if MiniSQL is available
+    # on the system
+    tags = ['manual'],
 )

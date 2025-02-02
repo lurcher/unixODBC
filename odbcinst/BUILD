@@ -43,7 +43,9 @@ cc_library(
         '_SQLWriteInstalledDrivers.c',
         '_SQLDriverConnectPrompt.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//log:libloglc',
         '//ini:libinilc',
@@ -95,7 +97,9 @@ cc_library(
         '_SQLWriteInstalledDrivers.c',
         '_SQLDriverConnectPrompt.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//log:libloglc',
         '//ini:libinilc',

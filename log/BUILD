@@ -12,7 +12,9 @@ cc_library(
         'logPopMsg.c',
         'logPushMsg.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

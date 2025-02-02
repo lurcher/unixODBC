@@ -29,7 +29,9 @@ cc_library(
         'lstSet.c',
         'lstSetFreeFunc.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

@@ -42,7 +42,9 @@ cc_library(
         '_iniDump.c',
         '_iniScanUntilObject.c',
     ],
-    linkstatic = True,
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     deps = [
         '//:headers',
     ],

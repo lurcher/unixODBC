@@ -1,55 +1,56 @@
 
-# simple test case specific to bazel
-cc_test(
-    name = 'test_cfg',
-    srcs = ['test_cfg.c'],
-    linkstatic = True,
-    deps = ['//:headers'],
-    size = 'small',
+cc_binary(
+    name = 'isql',
+    visibility = ['//visibility:public'],
+    srcs = [
+        'isql.c',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
+    linkopts = [
+        '-lltdl',
+    ],
+    deps = [
+        '//DriverManager:libodbc',
+        '//:headers',
+        ':headers',
+    ],
 )
 
-# generic test case that existed before bazel
 cc_binary(
     name = 'dltest',
     visibility = ['//visibility:public'],
-    srcs = ['dltest.c'],
+    srcs = [
+        'dltest.c',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     linkopts = [
         '-lltdl',
-        '-ldl',
     ],
     deps = [
         '//:headers',
     ],
 )
 
-# binaries
-
 cc_binary(
     name = 'odbcinst',
     visibility = ['//visibility:public'],
-    srcs = ['odbcinst.c'],
+    srcs = [
+        'odbcinst.c',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
     linkopts = [
         '-lltdl',
-        '-ldl',
     ],
     deps = [
         '//odbcinst:libodbcinst',
         '//ini:libinilc',
-    ],
-)
-
-cc_binary(
-    name = 'isql',
-    visibility = ['//visibility:public'],
-    srcs = [
-        'isql.c',
-        'isql.h',
-    ],
-    linkstatic = True,
-    deps = [
-        '//:libodbc',
-        '//extras:libodbcextraslc',
-        # READLINE
+        '//:headers',
     ],
 )
 
@@ -58,34 +59,66 @@ cc_binary(
     visibility = ['//visibility:public'],
     srcs = [
         'iusql.c',
-        'isql.h',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
     ],
     linkopts = [
         '-lltdl',
-        '-ldl',
     ],
     deps = [
-        '//:libodbc',
         '//odbcinst:libodbcinst',
+        '//DriverManager:libodbc',
         '//ini:libinilc',
-        # READLINE
+        '//extras:libodbcextraslc',
+        '//:headers',
+        ':headers',
     ],
 )
 
 cc_binary(
     name = 'odbc_config',
     visibility = ['//visibility:public'],
-    srcs = ['odbc-config.c'],
-    linkstatic = True,
-    deps = ['//:headers'],
+    srcs = [
+        'odbc-config.c',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
+    linkopts = [
+        '-lltdl',
+    ],
+    deps = [
+        '//:headers',
+    ],
 )
 
 cc_binary(
     name = 'slencheck',
     visibility = ['//visibility:public'],
-    srcs = ['slencheck.c'],
-    linkstatic = True,
+    srcs = [
+        'slencheck.c',
+    ],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
+    linkopts = [
+        '-lltdl',
+    ],
     deps = [
-        '//:libodbc',
+        '//DriverManager:libodbc',
+        '//:headers',
+    ],
+)
+
+cc_library(
+    name = 'headers',
+    visibility = ['//visibility:public'],
+    hdrs = [
+        'isql.h',
+    ],
+    includes = ['.'],
+    copts = [
+        '-DHAVE_CONFIG_H',
     ],
 )

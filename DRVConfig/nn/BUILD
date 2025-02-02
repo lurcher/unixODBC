@@ -1,9 +1,9 @@
 
 cc_library(
-    name = 'libesoobS',
+    name = 'libodbcnnS',
     visibility = ['//visibility:public'],
     srcs = [
-        'esoobS.c',
+        'drvcfg.c',
     ],
     copts = [
         '-DHAVE_CONFIG_H',

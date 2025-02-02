@@ -1,5 +1,17 @@
 
 cc_library(
+    name = 'headers',
+    visibility = ['//visibility:public'],
+    hdrs = [
+        'cursorlibrary.h',
+    ],
+    includes = ['.'],
+    copts = [
+        '-DHAVE_CONFIG_H',
+    ],
+)
+
+cc_library(
     name = 'libodbccr',
     visibility = ['//visibility:public'],
     srcs = [
@@ -69,10 +81,12 @@ cc_library(
         'SQLTables.c',
         'SQLTransact.c',
     ],
-    hdrs = [
-        'cursorlibrary.h',
+    copts = [
+        '-DHAVE_CONFIG_H',
     ],
     deps = [
-        '//:libodbc',
+        '//:headers',
+        ':headers',
+        '//DriverManager:headers',
     ],
 )
