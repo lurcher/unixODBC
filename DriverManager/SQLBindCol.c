@@ -140,7 +140,6 @@ int check_target_type( int c_type, int connection_mode)
     }
 
 	switch( c_type ) {
-        case SQL_UNKNOWN_TYPE:
 		case SQL_C_CHAR:
 		case SQL_C_LONG:
 		case SQL_C_SHORT:
@@ -187,6 +186,7 @@ int check_target_type( int c_type, int connection_mode)
         case SQL_ROW:
         case SQL_ARRAY:
         case SQL_MULTISET:
+        case SQL_VARIANT_TYPE:
 #endif /* ODBCVER >= 0x0400 */
 #if (ODBCVER >= 0x0300)
         case SQL_ARD_TYPE:
