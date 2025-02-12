@@ -16,6 +16,7 @@
     * Various mem buffers fixes. Thanks chipitsine
     * Fix race condition with threaded applications where SQLGetPrivateProfileString can fail
       due to collision with loading driver library during connection
+    * Added some ODBC 4 types to sql.h
 
 8-Aug-2023
 2.3.12

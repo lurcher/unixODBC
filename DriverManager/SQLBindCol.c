@@ -139,8 +139,8 @@ int check_target_type( int c_type, int connection_mode)
         return 1;
     }
 
-
 	switch( c_type ) {
+        case SQL_UNKNOWN_TYPE:
 		case SQL_C_CHAR:
 		case SQL_C_LONG:
 		case SQL_C_SHORT:
@@ -179,8 +179,21 @@ int check_target_type( int c_type, int connection_mode)
 		case SQL_C_UTINYINT:
 		case SQL_C_GUID:
 		case SQL_C_WCHAR:
-		case SQL_ARD_TYPE:
 		case SQL_C_DOUBLE:
+#if (ODBCVER >= 0x0400)
+        case SQL_TYPE_TIME_WITH_TIMEZONE:
+        case SQL_TYPE_TIMESTAMP_WITH_TIMEZONE:
+        case SQL_UDT:
+        case SQL_ROW:
+        case SQL_ARRAY:
+        case SQL_MULTISET:
+#endif /* ODBCVER >= 0x0400 */
+#if (ODBCVER >= 0x0300)
+        case SQL_ARD_TYPE:
+#endif
+#if (ODBCVER >= 0x0380)
+        case SQL_APD_TYPE:
+#endif
         /*
          * MS Added types
          */

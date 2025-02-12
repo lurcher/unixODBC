@@ -112,6 +112,18 @@ extern "C" {
 #define SQL_DESC_ALLOC_TYPE             1099
 #endif
 
+#if (ODBCVER >= 0x0400)
+#define SQL_DESC_CHARACTER_SET_CATALOG   1018
+#define SQL_DESC_CHARACTER_SET_SCHEMA   1019
+#define SQL_DESC_CHARACTER_SET_NAME   1020
+#define SQL_DESC_COLLATION_CATALOG       1015
+#define SQL_DESC_COLLATION_SCHEMA      1016
+#define SQL_DESC_COLLATION_NAME    1017
+#define SQL_DESC_USER_DEFINED_TYPE_CATALOG  1026
+#define SQL_DESC_USER_DEFINED_TYPE_SCHEMA  1027
+#define SQL_DESC_USER_DEFINED_TYPE_NAME  1028
+#endif /* ODBCVER >= 0x0400 */
+
 /* identifiers of fields in the diagnostics area */
 #if (ODBCVER >= 0x0300)
 #define SQL_DIAG_RETURNCODE        1
@@ -184,6 +196,19 @@ extern "C" {
 #define SQL_TYPE_TIMESTAMP 93
 #endif
 
+#if (ODBCVER >= 0x0400)
+#define SQL_TYPE_TIME_WITH_TIMEZONE    94
+#define SQL_TYPE_TIMESTAMP_WITH_TIMEZONE  95
+#endif /* ODBCVER >= 0x0400 */
+
+#if (ODBCVER >= 0x0400)
+#define SQL_VARIANT_TYPE      SQL_UNKNOWN_TYPE
+#define SQL_UDT               17
+#define SQL_ROW               19
+#define SQL_ARRAY             50
+#define SQL_MULTISET          55
+#endif /* ODBCVER >= 0x0400 */
+
 /* Statement attribute values for cursor sensitivity */
 #if (ODBCVER >= 0x0300)
 #define SQL_UNSPECIFIED     0
@@ -206,12 +231,21 @@ extern "C" {
 #define SQL_ARD_TYPE      (-99)
 #endif
 
+#if (ODBCVER >= 0x0380)
+#define SQL_APD_TYPE        (-100)
+#endif
+
 /* SQL date/time type subcodes */
 #if (ODBCVER >= 0x0300)
 #define SQL_CODE_DATE       1
 #define SQL_CODE_TIME       2
 #define SQL_CODE_TIMESTAMP  3
 #endif
+
+#if (ODBCVER >= 0x0400)
+#define SQL_CODE_TIME_WITH_TIMEZONE  4
+#define SQL_CODE_TIMESTAMP_WITH_TIMEZONE 5
+#endif /* ODBCVER >= 0x0400 */
 
 /* CLI option values */
 #if (ODBCVER >= 0x0300)
