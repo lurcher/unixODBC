@@ -3911,6 +3911,14 @@ void return_to_pool( DMHDBC connection )
                     (SQLPOINTER)(intptr_t) SQL_RESET_CONNECTION_YES,
                     0 );
         }
+        else if ( CHECK_SQLSETCONNECTATTRW( connection ))
+        {
+            SQLSETCONNECTATTRW( connection,
+                    connection -> driver_dbc,
+                    SQL_ATTR_RESET_CONNECTION,
+                    (SQLPOINTER)(intptr_t) SQL_RESET_CONNECTION_YES,
+                    0 );
+        }
     }
 
     if ( connection -> cl_handle ) 
