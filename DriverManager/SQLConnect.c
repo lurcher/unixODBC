@@ -3128,7 +3128,18 @@ void pool_unreserve( CPOOLHEAD *pooh )
                     {
                         pool_head = pooh -> next;
                     }
-                    free( pooh -> _driver_connect_string );
+                    if ( pooh -> _driver_connect_string ) {
+                        free( pooh -> _driver_connect_string );
+                    }
+                    if ( pooh -> _server ) {
+                        free( pooh -> _server );
+                    }
+                    if ( pooh -> _user ) {
+                        free( pooh -> _user );
+                    }
+                    if ( pooh -> _password ) {
+                        free( pooh -> _password );
+                    }
                     free( pooh );
                     break;
                 }
@@ -3139,20 +3150,23 @@ void pool_unreserve( CPOOLHEAD *pooh )
     }
 }
 
-static void copy_nts( SQLCHAR *dst, SQLCHAR *src, int *out_length, SQLSMALLINT length )
+static void copy_nts( char **dst, SQLCHAR *src, int *out_length, SQLSMALLINT length )
 {
     if ( src == NULL ) 
     {
-        dst[ 0 ] = '\0';
+        *dst = malloc( 1 );
+        *dst[ 0 ] = '\0';
     }
     else 
     {
         if ( length < 0 )
         {
-            strcpy( dst, src );
+            *dst = malloc( strlen( src ) + 1 );
+            strcpy( *dst, src );
         }
         else
         {
+            *dst = calloc( length + 1, 1 );
             memcpy( dst, src, length );
         }
     }
@@ -3181,19 +3195,19 @@ static int pool_match( CPOOLHEAD *pooh,
             match = 0;
         }
         if ( pooh -> server_length != name_length1 ||
-                sql_strcmp( server_name, (SQLCHAR*)pooh -> server,
+                sql_strcmp( server_name, (SQLCHAR*)pooh -> _server,
                     name_length1, pooh -> server_length ))
         {
             match = 0;
         }
         if ( pooh -> user_length != name_length2 ||
-                sql_strcmp( user_name, (SQLCHAR*)pooh -> user,
+                sql_strcmp( user_name, (SQLCHAR*)pooh -> _user,
                     name_length2, pooh -> user_length ))
         {
             match = 0;
         }
         if ( pooh -> password_length != name_length3 ||
-                sql_strcmp( authentication, (SQLCHAR*)pooh -> password,
+                sql_strcmp( authentication, (SQLCHAR*)pooh -> _password,
                     name_length3, pooh -> password_length ))
         {
             match = 0;
@@ -3359,7 +3373,18 @@ restart:;
                     {
                         pool_head = ptrh -> next;
                     }
-                    free( ptrh -> _driver_connect_string );
+                    if ( ptrh -> _driver_connect_string ) {
+                        free( ptrh -> _driver_connect_string );
+                    }
+                    if ( ptrh -> _server ) {
+                        free( ptrh -> _server );
+                    }
+                    if ( ptrh -> _user ) {
+                        free( ptrh -> _user );
+                    }
+                    if ( ptrh -> _password ) {
+                        free( ptrh -> _password );
+                    }
                     free( ptrh );
                 }
                 goto restart;
@@ -3399,7 +3424,18 @@ disconnect_and_remove:
                     {
                         pool_head = ptrh -> next;
                     }
-                    free( ptrh -> _driver_connect_string );
+                    if ( ptrh -> _driver_connect_string ) {
+                        free( ptrh -> _driver_connect_string );
+                    }
+                    if ( ptrh -> _server ) {
+                        free( ptrh -> _server );
+                    }
+                    if ( ptrh -> _user ) {
+                        free( ptrh -> _user );
+                    }
+                    if ( ptrh -> _password ) {
+                        free( ptrh -> _password );
+                    }
                     free( ptrh );
                 }
                 goto restart;
@@ -3747,19 +3783,10 @@ disconnect_and_remove:
         CPOOLHEAD *newhead = calloc( sizeof( CPOOLHEAD ), 1 );
         if ( newhead )
         {
-            copy_nts( newhead -> server, server_name, &newhead -> server_length, name_length1 );
-            copy_nts( newhead -> user, user_name, &newhead -> user_length, name_length2 );
-            copy_nts( newhead -> password, authentication, &newhead -> password_length, name_length3 );
-            if ( connect_string == NULL ) {
-                newhead -> _driver_connect_string = calloc( 1, 1 );
-            }
-            else if ( connect_string_length < 0 ) {
-                newhead -> _driver_connect_string = calloc( strlen( connect_string ) + 1, 1 );
-            }
-            else {
-                newhead -> _driver_connect_string = calloc( connect_string_length + 1, 1 );
-            }
-            copy_nts( newhead -> _driver_connect_string, connect_string, &newhead -> dsn_length, connect_string_length );
+            copy_nts( &(newhead -> _server), server_name, &newhead -> server_length, name_length1 );
+            copy_nts( &(newhead -> _user), user_name, &newhead -> user_length, name_length2 );
+            copy_nts( &(newhead -> _password), authentication, &newhead -> password_length, name_length3 );
+            copy_nts( &(newhead -> _driver_connect_string), connect_string, &newhead -> dsn_length, connect_string_length );
 
             newhead -> num_entries = 1; /* reserve an entry */
 
