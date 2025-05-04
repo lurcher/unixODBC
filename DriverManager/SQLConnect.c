@@ -4291,7 +4291,7 @@ retry:
         {
             if ( name_length1 < 0 )
             {
-                connection -> _server, strdup((char*)server_name );
+                connection -> _server = strdup((char*)server_name );
             }
             else
             {
