@@ -387,11 +387,11 @@ typedef struct connection
     int             ttl;
     char            *_driver_connect_string;
     int             dsn_length;
-    char            server[ 128 ];
+    char            *_server;
     int             server_length;
-    char            user[ 128 ];
+    char            *_user;
     int             user_length;
-    char            password[ 128 ];
+    char            *_password;
     int             password_length;
     char            cli_year[ 5 ];
     struct attr_struct  env_attribute;      /* Extended attribute set info */

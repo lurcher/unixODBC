@@ -4291,16 +4291,18 @@ retry:
         {
             if ( name_length1 < 0 )
             {
-                strcpy( connection -> server, (char*)server_name );
+                connection -> _server, strdup((char*)server_name );
             }
             else
             {
-                memcpy( connection -> server, server_name, name_length1 );
+                connection -> _server = malloc( name_length1 );
+                memcpy( connection -> _server, server_name, name_length1 );
             }
         }
         else
         {
-            strcpy( connection -> server, "" );
+            connection -> _server = malloc( 1 );
+            strcpy( connection -> _server, "" );
         }
         connection -> server_length = name_length1;
 
@@ -4308,33 +4310,37 @@ retry:
         {
             if ( name_length2 < 0 )
             {
-                strcpy( connection -> user, (char*)user_name );
+                connection -> _user = strdup((char*)user_name );
             }
             else
             {
-                memcpy( connection -> user, user_name, name_length2 );
+                connection -> _user = malloc( name_length2 );
+                memcpy( connection -> _user, user_name, name_length2 );
             }
         }
         else
         {
-            strcpy( connection -> user, "" );
+            connection -> _user = malloc( 1 );
+            strcpy( connection -> _user, "" );
         }
         connection -> user_length = name_length2;
 
         if ( authentication )
         {
-            if ( name_length3 )
+            if ( name_length3 < 0 )
             {
-                strcpy( connection -> password, (char*)authentication );
+                connection -> _password = strdup((char*)authentication );
             }
             else
             {
-                memcpy( connection -> password, authentication, name_length3 );
+                connection -> _password = malloc( name_length3 );
+                memcpy( connection -> _password, authentication, name_length3 );
             }
         }
         else
         {
-            strcpy( connection -> password, "" );
+            connection -> _password = malloc( 1 );
+            strcpy( connection -> _password, "" );
         }
         connection -> password_length = name_length3;
     }

@@ -459,16 +459,17 @@ retry:
         {
             if ( ansi_name_length1 < 0 )
             {
-                strcpy( connection -> server, ansi_server_name );
+                connection -> _server = strdup( ansi_server_name );
             }
             else
             {
-                memcpy( connection -> server, ansi_server_name, ansi_name_length1 );
+                connection -> _server = malloc( ansi_name_length1 );
+                memcpy( connection -> _server, ansi_server_name, ansi_name_length1 );
             }
         }
         else
         {
-            strcpy( connection -> server, "" );
+            connection -> _server = strdup( "" );
         }
         connection -> server_length = ansi_name_length1;
 
@@ -476,33 +477,35 @@ retry:
         {
             if ( ansi_name_length2 < 0 )
             {
-                strcpy( connection -> user, ansi_user_name );
+                connection -> _user = strdup( ansi_user_name );
             }
             else
             {
-                memcpy( connection -> user, ansi_user_name, ansi_name_length2 );
+                connection -> _user = malloc( ansi_name_length2 );
+                memcpy( connection -> _user, ansi_user_name, ansi_name_length2 );
             }
         }
         else
         {
-            strcpy( connection -> user, "" );
+            connection -> _user = strdup( "" );
         }
         connection -> user_length = ansi_name_length2;
 
         if ( ansi_authentication )
         {
-            if ( ansi_name_length3 )
+            if ( ansi_name_length3 < 0 )
             {
-                strcpy( connection -> password, ansi_authentication );
+                connection -> _password = strdup( ansi_authentication );
             }
             else
             {
-                memcpy( connection -> password, ansi_authentication, ansi_name_length3 );
+                connection -> _password = malloc( ansi_name_length3 );
+                memcpy( connection -> _password, ansi_authentication, ansi_name_length3 );
             }
         }
         else
         {
-            strcpy( connection -> password, "" );
+            connection -> _password = strdup( "" );
         }
         connection -> password_length = ansi_name_length3;
 

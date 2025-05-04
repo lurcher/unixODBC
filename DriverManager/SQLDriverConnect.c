@@ -1025,11 +1025,11 @@ retry:
     {
         connection -> dsn_length = 0;
 
-        strcpy( connection -> server, "" );
+        connection -> _server = strdup( "" );
         connection -> server_length = 0;
-        strcpy( connection -> user, "" );
+        connection -> _user = strdup( "" );
         connection -> user_length = 0;
-        strcpy( connection -> password, "" );
+        connection -> _password = strdup( "" );
         connection -> password_length = 0;
 
         if ( len_conn_str_in == SQL_NTS )

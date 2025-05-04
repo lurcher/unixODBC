@@ -905,9 +905,17 @@ void __release_dbc( DMHDBC connection )
         }
     }
 
-    if ( connection -> _driver_connect_string ) 
-    {
+    if ( connection -> _driver_connect_string ) {
         free( connection -> _driver_connect_string );
+    }
+    if ( connection -> _user ) {
+        free( connection -> _user );
+    }
+    if ( connection -> _password ) {
+        free( connection -> _password );
+    }
+    if ( connection -> _server ) {
+        free( connection -> _server );
     }
 
     /*
