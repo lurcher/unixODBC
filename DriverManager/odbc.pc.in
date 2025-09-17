@@ -17,4 +17,4 @@ URL: http://unixodbc.org
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
 Libs: -L${libdir} -lodbc
-Libs.private: @LIBLTDL@ @LIBS@
+Libs.private: @LIBLTDL@ @LIBICONV@ @LIBS@
