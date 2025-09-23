@@ -21,6 +21,7 @@
     * Add missing check and call to SQL_ATTR_RESET_CONNECTION in SQLConnect
     * Deal with arbitrary length passwords in pooled connections
     * Fix some buffer overflows in SQLError(W) and SQLGetDiagRec(W)
+    * Fix bug with setting Env Attribute via DMEnvAttr
 
 8-Aug-2023
 2.3.12

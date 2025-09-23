@@ -1004,14 +1004,14 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
             return;
         }
 
-        if ( connection -> driver_version >= SQL_OV_ODBC3 )
+        if ( connection -> driver_version >= SQL_OV_ODBC3 || CHECK_SQLSETENVATTR( connection ))
         {
             if ( CHECK_SQLSETENVATTR( connection ))
             {
                 if ( as -> is_int_type )
                 {
                     ret = SQLSETENVATTR( connection,
-                            connection -> driver_dbc,
+                            connection -> driver_env,
                             as -> attribute,
                             (SQLPOINTER)(intptr_t) as -> int_value,
                             0 );
@@ -1019,7 +1019,7 @@ static void __set_attribute( void *handle, int type, struct attr_set *as )
                 else
                 {
                     ret = SQLSETENVATTR( connection,
-                            connection -> driver_dbc,
+                            connection -> driver_env,
                             as -> attribute,
                             as -> value,
                             strlen( as -> value ));
