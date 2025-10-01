@@ -1,5 +1,7 @@
 2.3.14-pre
 
+    * Fix bug in SQLDriverConnect with pooling
+
 29-Sep-2025
 2.3.13
 
