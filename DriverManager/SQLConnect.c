@@ -3167,7 +3167,7 @@ static void copy_nts( char **dst, SQLCHAR *src, int *out_length, SQLSMALLINT len
         else
         {
             *dst = calloc( length + 1, 1 );
-            memcpy( dst, src, length );
+            memcpy( *dst, src, length );
         }
     }
     if ( out_length)
