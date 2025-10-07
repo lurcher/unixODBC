@@ -1,4 +1,5 @@
-2.3.14-pre
+7-Oct-20205
+2.3.14
 
     * Fix bug in SQLDriverConnect with pooling
 
