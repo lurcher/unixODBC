@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([unixODBC], [2.3.14], nick@unixodbc.org, [unixODBC])
+AC_INIT([unixODBC], [2.3.15pre], nick@unixodbc.org, [unixODBC])
 AM_INIT_AUTOMAKE
 
 dnl Checks for programs.
