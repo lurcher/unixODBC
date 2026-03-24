@@ -2920,6 +2920,7 @@ static void close_pooled_connection( CPOOLENT *ptr )
 {
     SQLRETURN ret;
     DMHDBC conn = &ptr -> connection;
+    SQLCHAR s1[ 100 + LOG_MESSAGE_LEN ];
 
     if ( conn -> driver_dbc == NULL ) {
         return;
@@ -2935,6 +2936,41 @@ static void close_pooled_connection( CPOOLENT *ptr )
     }
 
     ret = SQLDISCONNECT( conn, conn -> driver_dbc );
+    if ( log_info.log_flag )
+    {
+        sprintf( conn-> msg,
+                "\n\t\tExit:[%s]",
+                    __get_return_status( ret, s1 ));
+
+        dm_log_write( __FILE__,
+                __LINE__,
+                LOG_INFO,
+                LOG_INFO,
+                conn-> msg );
+    }
+    if (ret == SQL_ERROR)
+    {
+        if ( CHECK_SQLTRANSACT( conn))
+        {
+            ret = SQLTRANSACT( conn,SQL_NULL_HENV,conn->driver_dbc,SQL_ROLLBACK);
+            if ( !SQL_SUCCEEDED( ret ))
+            {
+                dm_log_write( __FILE__, __LINE__, LOG_INFO,
+                                    LOG_INFO, "Error: Failed to rollback Transaction." );
+            }
+            else
+            {
+                dm_log_write( __FILE__, __LINE__, LOG_INFO,
+                                    LOG_INFO, " Transaction rollback successful." );
+                ret = SQLDISCONNECT( conn, conn -> driver_dbc );
+                if ( log_info.log_flag )
+                {
+                    sprintf( conn-> msg, "\n\t\tExit:[%s]", __get_return_status( ret, s1 ));
+                    dm_log_write( __FILE__, __LINE__, LOG_INFO, LOG_INFO, conn-> msg );
+                }
+            }
+        }
+    }
 
     if ( SQL_SUCCEEDED( ret ))
     {
