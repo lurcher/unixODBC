@@ -84,4 +84,5 @@ iniPropertyNext
 iniToUpper
 iniValue
 inst_logPushMsg
+inst_logClose
 __clear_ini_cache

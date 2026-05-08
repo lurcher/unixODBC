@@ -370,6 +370,25 @@ int INSTAPI ODBCINSTValidateProperties( HODBCINSTPROPERTY hFirstProperty, HODBCI
 /* ONLY IMPLEMENTED IN DRIVER SETUP (not in ODBCINST) */
 int INSTAPI ODBCINSTGetProperties( HODBCINSTPROPERTY hFirstProperty );
 
+#if defined(__GNUC__) || defined(__clang__)
+#define PORTABLE_DESTRUCTOR __attribute__((destructor))
+#define REGISTER_DESTRUCTOR(func)
+
+#elif defined(_MSC_VER)
+#include <stdlib.h>
+#define PORTABLE_DESTRUCTOR
+#define REGISTER_DESTRUCTOR(func) \
+    static void register_##func(void) { atexit(func); } \
+    __pragma(section(".CRT$XCU", read)) \
+    __declspec(allocate(".CRT$XCU")) static void (*pRegister_##func)(void) = register_##func;
+
+#else
+#define PORTABLE_DESTRUCTOR
+#define REGISTER_DESTRUCTOR(func)
+#warning "Destructor attribute not supported"
+
+#endif
+
 #if defined(__cplusplus)
          }
 #endif

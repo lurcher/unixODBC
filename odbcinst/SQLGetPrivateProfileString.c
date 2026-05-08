@@ -327,6 +327,7 @@ static void save_ini_cache( int ret,
 	mutex_exit( &mutex_ini );
 }
 
+PORTABLE_DESTRUCTOR
 void __clear_ini_cache( void ) 
 {
 	mutex_entry( &mutex_ini );
@@ -335,6 +336,8 @@ void __clear_ini_cache( void )
 
 	mutex_exit( &mutex_ini );
 }
+
+REGISTER_DESTRUCTOR(__clear_ini_cache)
 
 #else
 
