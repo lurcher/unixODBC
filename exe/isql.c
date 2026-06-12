@@ -1867,17 +1867,18 @@ static int get_args(char *string, char **args, int maxarg) {
     {
         p = NULL;
 
+        if (nargs >= maxarg)
+        {
+            free(copy);
+            return maxarg;
+        }
+
         if (strcmp(arg, "\"\"") == 0)
             args[nargs++] = strdup("");
         else if (strcmp(arg, "null") == 0)
             args[nargs++] = NULL;
         else
             args[nargs++] = strdup(arg);
-        if (nargs > maxarg)
-        {
-            free(copy);
-            return maxarg;
-        }
     }
     free(copy);
     return nargs;
