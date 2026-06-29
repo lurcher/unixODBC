@@ -2906,6 +2906,20 @@ static int sql_strcmp( SQLCHAR *s1, SQLCHAR *s2, SQLSMALLINT l1, SQLSMALLINT l2 
         return 1;
     }
 
+    /*
+     * A missing user name or password is passed as a NULL pointer, but
+     * copy_nts() stores it as an empty string on the pooled side. Treat
+     * NULL as "" so the comparison matches instead of dereferencing NULL.
+     */
+    if ( s1 == NULL )
+    {
+        s1 = (SQLCHAR *) "";
+    }
+    if ( s2 == NULL )
+    {
+        s2 = (SQLCHAR *) "";
+    }
+
     if ( l1 == SQL_NTS )
     {
         return strcmp((char*) s1, (char*)s2 );
