@@ -9,6 +9,7 @@
     * Add inst_logClose to close and clear ODBCINSTLog
     * Call inst_logClose and __clear_ini_cache on shared library closure
     * Fix buffer overrun in SQLGetInfoW
+    * Fix NULL deref in connection pool credential match
 
 7-Oct-2025
 2.3.14
