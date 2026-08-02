@@ -531,6 +531,8 @@ if test "x$thread" = "xtrue"; then
   fi
 fi
 
+AX_HAVE_PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP
+
 case $host_os in
     "darwin"*)
         stats="false"

@@ -831,3 +831,29 @@ esac
 AC_LANG_POP
 
 ]) dnl end AC_DEFUN
+
+##################################################################
+# can we use in our mutex definitions
+##################################################################
+
+AC_DEFUN([AX_HAVE_PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP], [
+
+    AC_LANG_PUSH([C])
+    AC_MSG_CHECKING([is PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP defined])
+
+    AC_TRY_COMPILE(
+        [#include <pthread.h>],
+        [pthread_mutex_t mutex_config = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP],
+        [has_recursive_init=yes],
+        [has_recursive_init=no]
+    )
+    if test $has_recursive_init = yes; then
+        AC_DEFINE(HAVE_PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP, 1, [Define if you have PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP.])
+        AC_MSG_RESULT([yes])
+    else
+        AC_MSG_RESULT([no])
+    fi
+
+    AC_LANG_POP
+
+]) dnl end AC_DEFUN

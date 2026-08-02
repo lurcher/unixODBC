@@ -27,7 +27,11 @@ static int __config_mode = ODBC_BOTH_DSN;
 
 #include <pth.h>
 
-static pth_mutex_t mutex_config = PTH_MUTEX_INIT;
+/* 
+ * by making the mutex recursive, we can avoid bug https://github.com/lurcher/unixODBC/issues/238 
+ */
+
+static pth_mutex_t mutex_config = PTH_MUTEX_RECURSIVE;
 static int pth_init_called = 0;
 
 static int mutex_entry( pth_mutex_t *mutex )
@@ -48,11 +52,29 @@ static int mutex_exit( pth_mutex_t *mutex )
 #elif HAVE_LIBPTHREAD
                  
 #include <pthread.h>
+
+/* 
+ * by making the mutex recursive, we can avoid bug https://github.com/lurcher/unixODBC/issues/238 
+ */
                 
-static pthread_mutex_t mutex_config = PTHREAD_MUTEX_INITIALIZER;
+#if defined( HAVE_PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP )
+static pthread_mutex_t mutex_config = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+static int pth_init_called = 1;
+#else
+static pthread_mutex_t mutex_config;
+static int pth_init_called = 0;
+static pthread_mutexattr_t attr;
+#endif
 
 static int mutex_entry( pthread_mutex_t *mutex )
 {
+    if ( !pth_init_called )
+    {
+        pthread_mutexattr_init( &attr );
+        pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
+        pthread_mutex_init( &mutex_config, &attr );
+        pth_init_called = 1;
+    }
     return pthread_mutex_lock( mutex );
 }
 
@@ -64,6 +86,10 @@ static int mutex_exit( pthread_mutex_t *mutex )
 #elif HAVE_LIBTHREAD
 
 #include <thread.h>
+ 
+/* 
+ * this is still prone to https://github.com/lurcher/unixODBC/issues/238 
+ */
 
 static mutex_t mutex_config;
 

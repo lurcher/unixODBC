@@ -10,6 +10,7 @@
     * Call inst_logClose and __clear_ini_cache on shared library closure
     * Fix buffer overrun in SQLGetInfoW
     * Fix NULL deref in connection pool credential match
+    * Partial fix for https://github.com/lurcher/unixODBC/issues/238
 
 7-Oct-2025
 2.3.14
