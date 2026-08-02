@@ -29,6 +29,7 @@ static int __config_mode = ODBC_BOTH_DSN;
 
 /* 
  * by making the mutex recursive, we can avoid bug https://github.com/lurcher/unixODBC/issues/238 
+ * though reading the spec "Recursive locking is explicitly supported"
  */
 
 static pth_mutex_t mutex_config = PTH_MUTEX_RECURSIVE;
