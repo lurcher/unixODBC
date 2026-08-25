@@ -4706,7 +4706,7 @@ void extract_diag_error_w( int htype,
     SQLRETURN ret;
     SQLWCHAR *msg;
     SQLWCHAR *msg1;
-    SQLWCHAR sqlstate[ 6 ];
+    SQLWCHAR sqlstate[ 6 * 2 ];     /* double size to handle incorrect driver SQLWCHAR size */
     SQLINTEGER native;
     SQLINTEGER rec_number;
     SQLSMALLINT len;
@@ -4724,7 +4724,12 @@ void extract_diag_error_w( int htype,
     {
         len = 0;
 
-        msg1 = malloc(( SQL_MAX_MESSAGE_LENGTH + 1 ) * sizeof( SQLWCHAR ));
+        /* double size to handle incorrect driver SQLWCHAR size */
+        msg1 = malloc(( SQL_MAX_MESSAGE_LENGTH + 1 ) * sizeof( SQLWCHAR ) * 2 );
+
+        if ( sizeof( SQLWCHAR ) == 2 ) {
+            memset( sqlstate, 0xFF, sizeof( sqlstate ));
+        }
 
         ret = SQLGETDIAGRECW( connection,
                 head -> handle_type,
@@ -4742,6 +4747,13 @@ void extract_diag_error_w( int htype,
 #ifndef STRICT_ODBC_ERROR
             SQLWCHAR *tmp;
 #endif
+
+            if ( sizeof( SQLWCHAR ) == 2 ) {
+                if ( sqlstate[ 6 ] != 0xFFFF ) {
+                    fprintf( stderr, "Fatal Error: Mismatch detected between unixODBC and ODBC Driver SQLWCHAR size. Terminated\n" );
+                    abort();
+                }
+            }
 
             /* 
              * make sure we are truncated in the right place
@@ -4975,9 +4987,9 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
                             int return_code )
 {
     SQLRETURN ret;
-    SQLWCHAR msg[ SQL_MAX_MESSAGE_LENGTH + 32 ];
-    SQLWCHAR msg1[ SQL_MAX_MESSAGE_LENGTH + 1 ];
-    SQLWCHAR sqlstate[ 6 ];
+    SQLWCHAR msg[ ( SQL_MAX_MESSAGE_LENGTH + 32 ) * 2  ];   /* double size to handle incorrect driver SQLWCHAR size */
+    SQLWCHAR msg1[ ( SQL_MAX_MESSAGE_LENGTH + 1 ) * 2 ];    /* double size to handle incorrect driver SQLWCHAR size */
+    SQLWCHAR sqlstate[ 6 * 2 ];                             /* double size to handle incorrect driver SQLWCHAR size */
     SQLINTEGER native;
     SQLSMALLINT len;
 
@@ -5002,6 +5014,13 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
 #ifndef STRICT_ODBC_ERROR
             SQLWCHAR *tmp;
 #endif
+
+            if ( sizeof( SQLWCHAR ) == 2 ) {
+                if ( sqlstate[ 6 ] != 0xFFFF ) {
+                    fprintf( stderr, "Fatal Error: Mismatch detected between unixODBC and ODBC Driver SQLWCHAR size. Terminated\n" );
+                    abort();
+                }
+            }
 
             /*
              * add to the lists, SQLError list first

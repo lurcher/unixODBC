@@ -11,6 +11,7 @@
     * Fix buffer overrun in SQLGetInfoW
     * Fix NULL deref in connection pool credential match
     * Partial fix for https://github.com/lurcher/unixODBC/issues/238
+    * Detect, report and abort() if mismatch in DM/Driver SQLWCHAR is found
 
 7-Oct-2025
 2.3.14
