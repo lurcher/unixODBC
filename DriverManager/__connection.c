@@ -104,8 +104,6 @@
  * variable
  */
 
-static char const rcsid[]= "$RCSfile: __connection.c,v $ $Revision: 1.6 $";
-
 /*
  * search for the library (.so) that the DSN points to
  */

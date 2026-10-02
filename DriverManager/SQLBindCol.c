@@ -128,8 +128,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBindCol.c,v $ $Revision: 1.8 $";
-
 int check_target_type( int c_type, int connection_mode) 
 {
     /*

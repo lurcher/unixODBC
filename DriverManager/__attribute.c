@@ -67,8 +67,6 @@
 #include <string.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __attribute.c,v $";
-
 /*
  * these are taken directly from odbctest/attr.cpp
  * so any bugs or additions, should be added there also

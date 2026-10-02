@@ -92,8 +92,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetConnectOptionW.c,v $";
-
 SQLRETURN SQLGetConnectOptionW( SQLHDBC connection_handle,
            SQLUSMALLINT option,
            SQLPOINTER value )

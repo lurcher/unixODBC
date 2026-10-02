@@ -107,8 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDriversW.c,v $";
-
 #define BUFFERSIZE  1024
 
 SQLRETURN SQLDriversW(

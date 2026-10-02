@@ -127,8 +127,6 @@
 #include <string.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDriverConnectW.c,v $";
-
 /*
  * connection pooling stuff
  */

@@ -85,8 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLProceduresW.c,v $ $Revision: 1.9 $";
-
 SQLRETURN SQLProceduresW(
     SQLHSTMT           statement_handle,
     SQLWCHAR            *sz_catalog_name,

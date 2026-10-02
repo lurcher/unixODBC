@@ -134,8 +134,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNativeSql.c,v $ $Revision: 1.9 $";
-
 SQLRETURN SQLNativeSqlA(
     SQLHDBC            hdbc,
     SQLCHAR            *sz_sql_str_in,

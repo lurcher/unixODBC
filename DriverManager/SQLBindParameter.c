@@ -153,8 +153,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBindParameter.c,v $ $Revision: 1.12 $";
-
 SQLRETURN SQLBindParameter(
     SQLHSTMT           statement_handle,
     SQLUSMALLINT       ipar,

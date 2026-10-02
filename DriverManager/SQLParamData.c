@@ -128,8 +128,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLParamData.c,v $ $Revision: 1.7 $";
-
 SQLRETURN SQLParamData( SQLHSTMT statement_handle,
            SQLPOINTER *value )
 {

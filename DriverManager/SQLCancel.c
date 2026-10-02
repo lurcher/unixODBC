@@ -100,8 +100,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLCancel.c,v $ $Revision: 1.4 $";
-
 #define IS_01S05 0
 #define IS_NOT_01S05 1
 #define NOT_A_DIAGRECORD 2

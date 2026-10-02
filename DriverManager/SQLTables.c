@@ -133,8 +133,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTables.c,v $ $Revision: 1.7 $";
-
 SQLRETURN SQLTablesA( SQLHSTMT statement_handle,
            SQLCHAR *catalog_name,
            SQLSMALLINT name_length1,

@@ -91,8 +91,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetStmtAttrW.c,v $";
-
 SQLRETURN SQLSetStmtAttrW( SQLHSTMT statement_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,

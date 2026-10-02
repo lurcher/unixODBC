@@ -171,8 +171,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDisconnect.c,v $ $Revision: 1.9 $";
-
 extern int pooling_enabled;
 
 SQLRETURN SQLDisconnect( SQLHDBC connection_handle )

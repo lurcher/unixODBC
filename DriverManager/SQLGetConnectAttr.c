@@ -164,8 +164,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetConnectAttr.c,v $ $Revision: 1.15 $";
-
 SQLRETURN SQLGetConnectAttrA( SQLHDBC connection_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,

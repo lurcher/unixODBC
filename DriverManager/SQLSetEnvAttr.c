@@ -135,8 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetEnvAttr.c,v $ $Revision: 1.9 $";
-
 extern int pooling_enabled;
 
 SQLRETURN SQLSetEnvAttr( SQLHENV environment_handle,

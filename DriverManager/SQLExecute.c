@@ -152,8 +152,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLExecute.c,v $ $Revision: 1.9 $";
-
 SQLRETURN SQLExecute( SQLHSTMT statement_handle )
 {
     DMHSTMT statement = (DMHSTMT) statement_handle;

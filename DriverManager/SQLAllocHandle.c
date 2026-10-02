@@ -252,8 +252,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: SQLAllocHandle.c,v $ $Revision: 1.13 $";
-
 /*
  * connection pooling stuff
  */

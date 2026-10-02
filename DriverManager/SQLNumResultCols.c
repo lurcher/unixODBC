@@ -117,8 +117,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNumResultCols.c,v $ $Revision: 1.5 $";
-
 SQLRETURN SQLNumResultCols( SQLHSTMT statement_handle,
            SQLSMALLINT *column_count )
 {

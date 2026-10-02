@@ -133,8 +133,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDescribeParam.c,v $ $Revision: 1.7 $";
-
 SQLRETURN SQLDescribeParam(
     SQLHSTMT           statement_handle,
     SQLUSMALLINT       ipar,

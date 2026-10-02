@@ -183,8 +183,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagRec.c,v $ $Revision: 1.21 $";
-
 int __is_env( EHEAD * head )
 {
     int type;

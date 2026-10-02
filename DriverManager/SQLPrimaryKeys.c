@@ -135,8 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPrimaryKeys.c,v $ $Revision: 1.7 $";
-
 SQLRETURN SQLPrimaryKeysA(
     SQLHSTMT           statement_handle,
     SQLCHAR            *sz_catalog_name,

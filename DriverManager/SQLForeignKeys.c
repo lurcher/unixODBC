@@ -135,8 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLForeignKeys.c,v $ $Revision: 1.7 $";
-
 SQLRETURN SQLForeignKeysA(
     SQLHSTMT           statement_handle,
     SQLCHAR            *szpk_catalog_name,

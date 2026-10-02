@@ -118,8 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLFetchScroll.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLFetchScroll( SQLHSTMT statement_handle,
            SQLSMALLINT fetch_orientation,
            SQLLEN fetch_offset )

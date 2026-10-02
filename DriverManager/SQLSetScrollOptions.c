@@ -139,8 +139,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetScrollOptions.c,v $ $Revision: 1.9 $";
-
 SQLRETURN SQLSetScrollOptions(
     SQLHSTMT           statement_handle,
     SQLUSMALLINT       f_concurrency,

@@ -59,8 +59,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLFreeEnv.c,v $ $Revision: 1.2 $";
-
 SQLRETURN SQLFreeEnv( SQLHENV environment_handle )
 {
     return __SQLFreeHandle( SQL_HANDLE_ENV,

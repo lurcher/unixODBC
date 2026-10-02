@@ -96,8 +96,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDiagRecW.c,v $";
-
 extern int __is_env( EHEAD * head );        /* in SQLGetDiagRec.c */
 
 SQLRETURN extract_parent_handle_rec( DRV_SQLHANDLE handle,

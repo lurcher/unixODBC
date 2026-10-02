@@ -163,8 +163,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetStmtAttr.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLGetStmtAttrA( SQLHSTMT statement_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,

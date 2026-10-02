@@ -127,8 +127,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLMoreResults.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLMoreResults( SQLHSTMT statement_handle )
 {
     DMHSTMT statement = (DMHSTMT) statement_handle;

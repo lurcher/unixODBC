@@ -118,8 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLExtendedFetch.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLExtendedFetch(
     SQLHSTMT           statement_handle,
     SQLUSMALLINT       f_fetch_type,

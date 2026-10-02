@@ -122,8 +122,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLParamOptions.c,v $ $Revision: 1.6 $";
-
 /*
  * This one is strictly ODBC 2
  */

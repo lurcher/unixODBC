@@ -78,8 +78,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDataSourcesW.c,v $";
-
 #define BUFFERSIZE      1024 * 4
 
 SQLRETURN SQLDataSourcesW( SQLHENV environment_handle,

@@ -226,8 +226,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: __handles.c,v $ $Revision: 1.13 $";
-
 /*
  * these are used to enable us to check if a handle is
  * valid without the danger of a seg-vio.

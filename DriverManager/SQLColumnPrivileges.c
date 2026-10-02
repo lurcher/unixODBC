@@ -126,8 +126,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumnPrivileges.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLColumnPrivilegesA(
     SQLHSTMT            statement_handle,
     SQLCHAR             *catalog_name,

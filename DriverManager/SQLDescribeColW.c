@@ -113,8 +113,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLDescribeColW.c,v $";
-
 SQLRETURN SQLDescribeColW( SQLHSTMT statement_handle,
            SQLUSMALLINT column_number,
            SQLWCHAR *column_name,

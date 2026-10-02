@@ -89,8 +89,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTablePrivilegesW.c,v $";
-
 SQLRETURN SQLTablePrivilegesW(
     SQLHSTMT           statement_handle,
     SQLWCHAR            *sz_catalog_name,

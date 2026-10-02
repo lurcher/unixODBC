@@ -107,8 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColAttributesW.c,v $";
-
 SQLRETURN SQLColAttributesW( SQLHSTMT statement_handle,
            SQLUSMALLINT column_number,
            SQLUSMALLINT field_identifier,

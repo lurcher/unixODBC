@@ -119,8 +119,6 @@
 #include <uodbc_stats.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __stats.c,v $ $Revision: 1.4 $";
-
 #ifdef COLLECT_STATS
 #ifdef HAVE_LIBPTHREAD
 

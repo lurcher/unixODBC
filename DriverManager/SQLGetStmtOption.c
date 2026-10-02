@@ -118,8 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetStmtOption.c,v $ $Revision: 1.4 $";
-
 SQLRETURN SQLGetStmtOption( SQLHSTMT statement_handle,
            SQLUSMALLINT option,
            SQLPOINTER value )
