@@ -141,8 +141,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLEndTran.c,v $ $Revision: 1.11 $";
-
 SQLRETURN SQLEndTran( SQLSMALLINT handle_type,
         SQLHANDLE handle,
         SQLSMALLINT completion_type )

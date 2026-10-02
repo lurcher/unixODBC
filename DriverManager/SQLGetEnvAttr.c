@@ -111,8 +111,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetEnvAttr.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLGetEnvAttr( SQLHENV environment_handle,
            SQLINTEGER attribute,
            SQLPOINTER value,

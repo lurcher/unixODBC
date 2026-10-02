@@ -154,8 +154,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetDescRec.c,v $ $Revision: 1.13 $";
-
 SQLRETURN SQLGetDescRecA( SQLHDESC descriptor_handle,
            SQLSMALLINT rec_number, 
            SQLCHAR *name,

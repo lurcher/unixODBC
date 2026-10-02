@@ -107,8 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLFreeStmt.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLFreeStmt( SQLHSTMT statement_handle,
            SQLUSMALLINT option )
 {

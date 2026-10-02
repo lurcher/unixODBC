@@ -76,8 +76,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetTypeInfoW.c,v $";
-
 SQLRETURN SQLGetTypeInfoW( SQLHSTMT statement_handle,
            SQLSMALLINT data_type )
 {

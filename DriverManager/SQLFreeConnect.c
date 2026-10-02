@@ -59,8 +59,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLFreeConnect.c,v $ $Revision: 1.2 $";
-
 SQLRETURN SQLFreeConnect( SQLHDBC connection_handle )
 {
     return __SQLFreeHandle( SQL_HANDLE_DBC,

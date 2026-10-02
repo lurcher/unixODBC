@@ -170,8 +170,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColAttributes.c,v $ $Revision: 1.15 $";
-
 SQLINTEGER  map_ca_odbc2_to_3( SQLINTEGER field_identifier )
 {
     switch( field_identifier )

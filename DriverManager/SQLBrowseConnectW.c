@@ -120,8 +120,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBrowseConnectW.c,v $";
-
 #define BUFFER_LEN      4095
 
 SQLRETURN SQLBrowseConnectW(

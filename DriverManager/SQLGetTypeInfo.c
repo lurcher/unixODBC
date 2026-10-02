@@ -123,8 +123,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetTypeInfo.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLGetTypeInfoA( SQLHSTMT statement_handle,
            SQLSMALLINT data_type )
 {

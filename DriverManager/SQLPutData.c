@@ -107,8 +107,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPutData.c,v $ $Revision: 1.5 $";
-
 SQLRETURN SQLPutData( SQLHSTMT statement_handle,
            SQLPOINTER data,
            SQLLEN strlen_or_ind )

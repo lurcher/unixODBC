@@ -172,8 +172,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLExecDirect.c,v $ $Revision: 1.11 $";
-
 SQLRETURN SQLExecDirectA( SQLHSTMT statement_handle,
            SQLCHAR *statement_text,
            SQLINTEGER text_length )

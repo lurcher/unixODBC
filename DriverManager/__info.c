@@ -509,8 +509,6 @@ static t_enc lookuptable[] = {
 
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: __info.c,v $ $Revision: 1.50 $";
-
 struct log_structure log_info = { NULL, NULL, 0, 0 };
 
 SQLINTEGER ODBCSharedTraceFlag = 0;

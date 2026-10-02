@@ -182,8 +182,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetData.c,v $ $Revision: 1.15 $";
-
 SQLRETURN SQLGetData( SQLHSTMT statement_handle,
            SQLUSMALLINT column_number,
            SQLSMALLINT target_type,

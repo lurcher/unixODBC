@@ -180,8 +180,6 @@
 #include <uodbc_stats.h>
 #endif
 
-static char const rcsid[]= "$RCSfile: SQLFreeHandle.c,v $ $Revision: 1.12 $";
-
 extern int pooling_enabled;
 
 SQLRETURN __SQLFreeHandle( SQLSMALLINT handle_type,

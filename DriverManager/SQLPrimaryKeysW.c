@@ -85,8 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPrimaryKeysW.c,v $";
-
 SQLRETURN SQLPrimaryKeysW(
     SQLHSTMT           statement_handle,
     SQLWCHAR            *sz_catalog_name,

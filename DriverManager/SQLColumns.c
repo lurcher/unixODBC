@@ -144,8 +144,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLColumns.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLColumnsA( SQLHSTMT statement_handle,
            SQLCHAR *catalog_name,
            SQLSMALLINT name_length1,

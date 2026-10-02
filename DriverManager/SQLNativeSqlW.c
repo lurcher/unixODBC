@@ -88,8 +88,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLNativeSqlW.c,v $";
-
 SQLRETURN SQLNativeSqlW(
     SQLHDBC            hdbc,
     SQLWCHAR            *sz_sql_str_in,

@@ -89,8 +89,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLExecDirectW.c,v $";
-
 SQLRETURN SQLExecDirectW( SQLHSTMT statement_handle,
            SQLWCHAR *statement_text,
            SQLINTEGER text_length )

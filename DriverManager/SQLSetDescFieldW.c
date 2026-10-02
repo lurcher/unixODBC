@@ -83,8 +83,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetDescFieldW.c,v $";
-
 SQLRETURN SQLSetDescFieldW( SQLHDESC descriptor_handle,
            SQLSMALLINT rec_number, 
            SQLSMALLINT field_identifier,

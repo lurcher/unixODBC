@@ -195,8 +195,6 @@
 #endif
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetConnectOption.c,v $ $Revision: 1.12 $";
-
 SQLRETURN SQLSetConnectOptionA( SQLHDBC connection_handle,
            SQLUSMALLINT option,
            SQLULEN value )

@@ -135,8 +135,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetParam.c,v $ $Revision: 1.7 $";
-
 int check_value_type( int c_type, int connection_mode)
 {
     /*

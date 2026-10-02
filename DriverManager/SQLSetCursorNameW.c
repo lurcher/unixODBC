@@ -78,8 +78,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetCursorNameW.c,v $";
-
 SQLRETURN SQLSetCursorNameW( SQLHSTMT statement_handle,
            SQLWCHAR *cursor_name,
            SQLSMALLINT name_length )

@@ -104,8 +104,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLCloseCursor.c,v $ $Revision: 1.5 $";
-
 SQLRETURN SQLCloseCursor( SQLHSTMT statement_handle )
 {
     DMHSTMT statement = (DMHSTMT) statement_handle;

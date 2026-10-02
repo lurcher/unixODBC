@@ -104,8 +104,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLBulkOperations.c,v $ $Revision: 1.4 $";
-
 SQLRETURN SQLBulkOperations(
     SQLHSTMT        statement_handle,
     SQLSMALLINT     operation )

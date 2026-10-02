@@ -85,8 +85,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTablesW.c,v $";
-
 SQLRETURN SQLTablesW( SQLHSTMT statement_handle,
            SQLWCHAR *catalog_name,
            SQLSMALLINT name_length1,

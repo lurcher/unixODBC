@@ -118,8 +118,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLSetPos.c,v $ $Revision: 1.6 $";
-
 SQLRETURN SQLSetPos(
     SQLHSTMT           statement_handle,
     SQLSETPOSIROW      irow,

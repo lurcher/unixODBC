@@ -145,8 +145,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLTransact.c,v $ $Revision: 1.11 $";
-
 SQLRETURN SQLTransact( SQLHENV environment_handle,
            SQLHDBC connection_handle,
            SQLUSMALLINT completion_type )

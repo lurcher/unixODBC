@@ -130,8 +130,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLRowCount.c,v $ $Revision: 1.8 $";
-
 SQLRETURN SQLRowCount( SQLHSTMT statement_handle,
        SQLLEN *rowcount )
 {

@@ -77,8 +77,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLPrepareW.c,v $";
-
 SQLRETURN SQLPrepareW( SQLHSTMT statement_handle,
            SQLWCHAR *statement_text,
            SQLINTEGER text_length )

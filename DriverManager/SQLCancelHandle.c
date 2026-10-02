@@ -30,8 +30,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLCancel.c,v $ $Revision: 1.4 $";
-
 SQLRETURN SQLCancelHandle( SQLSMALLINT HandleType, SQLHANDLE Handle )
 {
     SQLRETURN ret;

@@ -594,8 +594,6 @@
 #endif
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLConnect.c,v $ $Revision: 1.66 $";
-
 #ifdef __OS2__
 #define CURSOR_LIB	"ODBCCR"
 #else

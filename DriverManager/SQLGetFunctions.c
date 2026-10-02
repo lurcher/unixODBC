@@ -111,8 +111,6 @@
 #include <config.h>
 #include "drivermanager.h"
 
-static char const rcsid[]= "$RCSfile: SQLGetFunctions.c,v $ $Revision: 1.5 $";
-
 SQLRETURN SQLGetFunctions( SQLHDBC connection_handle,
            SQLUSMALLINT function_id,
            SQLUSMALLINT *supported )
