@@ -4758,7 +4758,9 @@ void extract_diag_error_w( int htype,
              */
 
             if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
-                msg1 = realloc( msg1, ( len + 1 ) * sizeof( SQLWCHAR ));
+                SQLSMALLINT buf_len = len < 0 ? 0 : len;
+
+                msg1 = realloc( msg1, ( buf_len + 1 ) * sizeof( SQLWCHAR ));
                 ret = SQLGETDIAGRECW( connection,
                         head -> handle_type,
                         handle,
@@ -4766,9 +4768,25 @@ void extract_diag_error_w( int htype,
                         sqlstate,
                         &native,
                         msg1,
-                        len + 1,
+                        buf_len + 1,
                         &len );
+
+                if ( len < 0 || len > buf_len ) {
+                    len = buf_len;
+                }
             }
+            else if ( len < 0 ) {
+                len = 0;
+            }
+
+            /*
+             * Do not trust the driver to terminate the strings in SQLWCHAR
+             * units (it does not, e.g., when its SQLWCHAR encoding does not
+             * match ours); msg is sized from len and copied with wide_strcpy
+             */
+
+            msg1[ len ] = 0;
+            sqlstate[ 5 ] = 0;
 
             msg = malloc(( len + 32 ) * sizeof( SQLWCHAR ));
 
@@ -5034,9 +5052,11 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
              * make sure we are truncated in the right place
              */
 
-            if ( ret == SQL_SUCCESS_WITH_INFO || len >= SQL_MAX_MESSAGE_LENGTH ) {
-                msg1[ SQL_MAX_MESSAGE_LENGTH ] = 0;
+            if ( len < 0 || len > SQL_MAX_MESSAGE_LENGTH ) {
+                len = SQL_MAX_MESSAGE_LENGTH;
             }
+            msg1[ len ] = 0;
+            sqlstate[ 5 ] = 0;
 
 #ifdef STRICT_ODBC_ERROR
             wide_strcpy( msg, msg1 );
