@@ -364,7 +364,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 
                 if ( buffer_length > 0 )
                 {
-                    s1 = malloc( sizeof( SQLWCHAR ) * ( buffer_length + 1 ));
+                    s1 = calloc( buffer_length + 1, sizeof( SQLWCHAR ));
                 }
                 
                 ret = SQLGETDIAGFIELDW( __get_connection( head ),
@@ -545,7 +545,7 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 
             if ( diag_info_ptr && buffer_length > 0 )
             {
-                s1 = malloc( ( buffer_length + 1 ) * sizeof( SQLWCHAR ));
+                s1 = calloc( buffer_length + 1, sizeof( SQLWCHAR ));
             }
 
             ret = SQLGETDIAGFIELDW( __get_connection( head ),
@@ -559,6 +559,11 @@ static SQLRETURN extract_sql_error_field( EHEAD *head,
 
             if ( SQL_SUCCEEDED( ret ) && s1 && diag_info_ptr )
             {
+                /*
+                 * the driver may not terminate the string in our units
+                 */
+
+                s1[ buffer_length ] = 0;
                 unicode_to_ansi_copy( diag_info_ptr, buffer_length, s1, SQL_NTS, __get_connection( head ), NULL );
 
                 if ( string_length_ptr && *string_length_ptr > 0 ) 

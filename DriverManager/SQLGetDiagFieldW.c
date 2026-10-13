@@ -356,7 +356,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 
                 if ( buffer_length > 0 && diag_info_ptr )
                 {
-                    as1 = malloc( buffer_length + 1 );
+                    as1 = calloc( buffer_length + 1, 1 );
                 }
 
                 ret = SQLGETDIAGFIELD( __get_connection( head ),
@@ -370,6 +370,19 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 
                 if ( SQL_SUCCEEDED( ret ) && as1 && diag_info_ptr )
                 {
+                    /*
+                     * the driver may not terminate the string, and the
+                     * application buffer holds buffer_length bytes
+                     */
+
+                    if ( buffer_length >= (SQLSMALLINT) sizeof( SQLWCHAR ))
+                    {
+                        as1[ buffer_length / sizeof( SQLWCHAR ) - 1 ] = '\0';
+                    }
+                    else
+                    {
+                        as1[ 0 ] = '\0';
+                    }
                     ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ), NULL);
                 }
                 if ( SQL_SUCCEEDED( ret ) && string_length_ptr )
@@ -549,7 +562,7 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 
             if ( is_char_diag( diag_identifier ) && diag_info_ptr && buffer_length > 0 )
             {
-                as1 = malloc( buffer_length + 1 );
+                as1 = calloc( buffer_length + 1, 1 );
             }
 
             ret = SQLGETDIAGFIELD( __get_connection( head ),
@@ -569,6 +582,19 @@ static SQLRETURN extract_sql_error_field_w( EHEAD *head,
 
                 if ( diag_info_ptr && as1 )
                 {
+                    /*
+                     * the driver may not terminate the string, and the
+                     * application buffer holds buffer_length bytes
+                     */
+
+                    if ( buffer_length >= (SQLSMALLINT) sizeof( SQLWCHAR ))
+                    {
+                        as1[ buffer_length / sizeof( SQLWCHAR ) - 1 ] = '\0';
+                    }
+                    else
+                    {
+                        as1[ 0 ] = '\0';
+                    }
                     __map_error_state( (char*) as1, __get_version( head ));
                     ansi_to_unicode_copy( diag_info_ptr, (char*) as1, SQL_NTS, __get_connection( head ), NULL );
                 }
