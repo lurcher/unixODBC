@@ -13,6 +13,9 @@
     * Partial fix for https://github.com/lurcher/unixODBC/issues/238
     * Detect, report and abort() if mismatch in DM/Driver SQLWCHAR is found
     * Fix buffer overflow in isql get_args() (@xiejing-dev)
+    * Harden driver diagnostic text in pass-through and connect-time capture (jan-cipa and claude)
+    * Harden driver diagnostic text copies in __info.c (jan-cipa, igor-raits and claude)
+
 
 7-Oct-2025
 2.3.14
