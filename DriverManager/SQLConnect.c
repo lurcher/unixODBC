@@ -1667,6 +1667,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLGETDIAGREC( connection,
                             SQL_HANDLE_ENV,
                             connection -> driver_env,
@@ -1680,6 +1683,13 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -1698,6 +1708,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
             {
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLERROR( connection,
                             connection -> driver_env,
                             SQL_NULL_HDBC,
@@ -1711,6 +1724,13 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -1803,6 +1823,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
             {
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLERROR( connection,
                             connection -> driver_env,
                             SQL_NULL_HDBC,
@@ -1816,6 +1839,13 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -1836,6 +1866,9 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLGETDIAGREC( connection,
                             SQL_HANDLE_ENV,
                             connection -> driver_env,
@@ -1849,6 +1882,13 @@ int __connect_part_one( DMHDBC connection, char *driver_lib, char *driver_name, 
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -4518,6 +4558,9 @@ retry:
             {
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLERROR( connection,
                             SQL_NULL_HENV,
                             connection -> driver_dbc,
@@ -4530,6 +4573,13 @@ retry:
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -4550,6 +4600,9 @@ retry:
 
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLGETDIAGREC( connection,
                             SQL_HANDLE_DBC,
                             connection -> driver_dbc,
@@ -4563,6 +4616,13 @@ retry:
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = '\0';
+                        message_text[ sizeof( message_text ) - 1 ] = '\0';
+
                         __post_internal_error_ex( &connection -> error,
                                 sqlstate,
                                 native_error,
@@ -4637,10 +4697,10 @@ retry:
 
         if ( ret_from_connect != SQL_SUCCESS )
         {
-            SQLWCHAR sqlstate[ 6 ];
+            SQLWCHAR sqlstate[ 6 * 2 ];                             /* room for a driver with a mismatched SQLWCHAR */
             SQLINTEGER native_error;
             SQLSMALLINT ind;
-            SQLWCHAR message_text[ SQL_MAX_MESSAGE_LENGTH + 1 ];
+            SQLWCHAR message_text[ ( SQL_MAX_MESSAGE_LENGTH + 1 ) * 2 ];  /* room for a driver with a mismatched SQLWCHAR */
             SQLRETURN ret;
 
             /*
@@ -4652,6 +4712,9 @@ retry:
             {
                 do
                 {
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLERRORW( connection,
                             SQL_NULL_HENV,
                             connection -> driver_dbc,
@@ -4659,13 +4722,20 @@ retry:
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text )/sizeof(SQLWCHAR),
+                            SQL_MAX_MESSAGE_LENGTH + 1,
                             &ind );
 
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
                         SQLCHAR *as1, *as2; 
+
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = 0;
+                        message_text[ SQL_MAX_MESSAGE_LENGTH ] = 0;
 
                         __post_internal_error_ex_w( &connection -> error,
                                 sqlstate,
@@ -4695,6 +4765,9 @@ retry:
                 do
                 {
 
+                    memset( sqlstate, 0, sizeof( sqlstate ));
+                    memset( message_text, 0, sizeof( message_text ));
+
                     ret = SQLGETDIAGRECW( connection,
                             SQL_HANDLE_DBC,
                             connection -> driver_dbc,
@@ -4702,12 +4775,19 @@ retry:
                             sqlstate,
                             &native_error,
                             message_text,
-                            sizeof( message_text )/sizeof(SQLWCHAR),
+                            SQL_MAX_MESSAGE_LENGTH + 1,
                             &ind );
 
                     if ( SQL_SUCCEEDED( ret ))
                     {
                         SQLCHAR *as1, *as2; 
+
+                        /*
+                         * do not trust the driver to terminate the strings
+                         */
+
+                        sqlstate[ 5 ] = 0;
+                        message_text[ SQL_MAX_MESSAGE_LENGTH ] = 0;
 
                         __post_internal_error_ex_w( &connection -> error,
                                 sqlstate,

@@ -298,14 +298,19 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
         {
             SQLCHAR *as1 = NULL, *as2 = NULL;
 
+            /*
+             * cleared and terminated below, as the driver may not
+             * terminate them
+             */
+
             if ( sqlstate )
             {
-                as1 = malloc( 7 );
+                as1 = calloc( 7, 1 );
             }
 
             if ( message_text && buffer_length > 0 )
             {
-                as2 = malloc( buffer_length + 1 );
+                as2 = calloc( buffer_length + 1, 1 );
             }
                 
             ret = SQLGETDIAGREC( __get_connection( head ),
@@ -321,6 +326,18 @@ static SQLRETURN extract_sql_error_rec_w( EHEAD *head,
             /*
              * map 3 to 2 if required
              */
+
+            if ( SQL_SUCCEEDED( ret ))
+            {
+                if ( as1 )
+                {
+                    as1[ 5 ] = '\0';
+                }
+                if ( as2 )
+                {
+                    as2[ buffer_length - 1 ] = '\0';
+                }
+            }
 
             if ( SQL_SUCCEEDED( ret ) && sqlstate )
             {
