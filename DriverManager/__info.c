@@ -4096,8 +4096,10 @@ void __post_internal_error_ex_noprefix( EHEAD *error_header,
      * errors in the same list
      */
 
+    error_head_lock( error_header );
     insert_into_error_list( error_header, e1 );
     insert_into_diag_list( error_header, e2 );
+    error_head_unlock( error_header );
 }
 
 void __post_internal_error_ex_w( EHEAD *error_header,
@@ -4202,6 +4204,8 @@ void __post_internal_error_ex_w_noprefix( EHEAD *error_header,
     e1 -> diag_server_name[ 0 ] = 0;
     e2 -> diag_server_name[ 0 ] = 0;
 
+    error_head_lock( error_header );
+
     error_header -> return_code = SQL_ERROR;
 
     /*
@@ -4211,6 +4215,8 @@ void __post_internal_error_ex_w_noprefix( EHEAD *error_header,
 
     insert_into_error_list( error_header, e1 );
     insert_into_diag_list( error_header, e2 );
+
+    error_head_unlock( error_header );
 }
 
 /*
@@ -4220,6 +4226,7 @@ void __post_internal_error_ex_w_noprefix( EHEAD *error_header,
 void setup_error_head( EHEAD *error_header, void *handle, int type )
 {
     memset( error_header, 0, sizeof( *error_header ));
+    error_head_mutex_init( error_header );
 
     error_header -> owning_handle = handle;
     error_header -> handle_type = type;
@@ -4232,6 +4239,8 @@ void setup_error_head( EHEAD *error_header, void *handle, int type )
 void clear_error_head( EHEAD *error_header )
 {
     ERROR *cur, *prev;
+
+    error_head_lock( error_header );
 
     prev = NULL;
     cur = error_header -> sql_error_head.error_list_head;
@@ -4277,6 +4286,9 @@ void clear_error_head( EHEAD *error_header )
 
     error_header -> sql_diag_head.internal_list_head = NULL;
     error_header -> sql_diag_head.internal_list_tail = NULL;
+
+    error_head_unlock( error_header );
+    error_head_mutex_destroy( error_header );
 }
 
 /*
@@ -4349,6 +4361,8 @@ void extract_diag_error( int htype,
     SQLINTEGER rec_number;
     SQLSMALLINT len;
     
+    error_head_lock( head );
+
     head -> return_code = return_code;
     head -> header_set = 0;
     head -> diag_cursor_row_count_ret = SQL_ERROR;
@@ -4675,6 +4689,8 @@ void extract_diag_error( int htype,
         }
     }
     while( SQL_SUCCEEDED( ret ));
+
+    error_head_unlock( head );
 }
 
 void extract_sql_error( DRV_SQLHANDLE henv,
@@ -4690,6 +4706,8 @@ void extract_sql_error( DRV_SQLHANDLE henv,
     SQLCHAR sqlstate[ 6 ];
     SQLINTEGER native;
     SQLSMALLINT len;
+
+    error_head_lock( head );
 
     head -> return_code = return_code;
     head -> header_set = 0;
@@ -4792,6 +4810,8 @@ void extract_sql_error( DRV_SQLHANDLE henv,
         }
     }
     while( SQL_SUCCEEDED( ret ));
+
+    error_head_unlock( head );
 }
 
 void extract_diag_error_w( int htype,
@@ -4809,6 +4829,8 @@ void extract_diag_error_w( int htype,
     SQLINTEGER native;
     SQLINTEGER rec_number;
     SQLSMALLINT len;
+
+    error_head_lock( head );
 
     head -> return_code = return_code;
     head -> header_set = 0;
@@ -5124,6 +5146,8 @@ void extract_diag_error_w( int htype,
         }
     }
     while( SQL_SUCCEEDED( ret ));
+
+    error_head_unlock( head );
 }
 
 void extract_sql_error_w( DRV_SQLHANDLE henv,
@@ -5139,6 +5163,8 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
     SQLWCHAR sqlstate[ 6 * 2 ];                             /* double size to handle incorrect driver SQLWCHAR size */
     SQLINTEGER native;
     SQLSMALLINT len;
+
+    error_head_lock( head );
 
     head -> return_code = return_code;
 
@@ -5247,6 +5273,8 @@ void extract_sql_error_w( DRV_SQLHANDLE henv,
         }
     }
     while( SQL_SUCCEEDED( ret ));
+
+    error_head_unlock( head );
 }
 
 /*
@@ -5401,6 +5429,8 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
 
         if ( herror )
         {
+            error_head_lock( herror );
+
             /*
              * set defer flag
              */
@@ -5414,6 +5444,8 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
             {
                 extract_error_from_driver( herror, hdbc, ret_code, save_to_diag );
             }
+
+            error_head_unlock( herror );
         }
     }
 
@@ -5474,6 +5506,8 @@ void function_entry( void *handle )
         version = hdesc -> connection -> environment -> requested_version;
         break;
     }
+
+    error_head_lock( error_header );
 
     error_header->defer_extract = 0;
     error_header->ret_code_deferred = 0;
@@ -5536,6 +5570,8 @@ void function_entry( void *handle )
         error_header -> sql_error_head.error_list_tail = NULL;
         error_header -> sql_error_head.error_count = 0;
     }
+
+    error_head_unlock( error_header );
 }
 
 void __post_internal_error( EHEAD *error_handle,
@@ -5984,10 +6020,14 @@ void __post_internal_error_api( EHEAD *error_handle,
     strcpy((char*) msg, DM_ERROR_PREFIX );
     strncat((char*) msg, message, sizeof(msg) - sizeof(DM_ERROR_PREFIX) );
 
+    error_head_lock( error_handle );
+
     error_handle -> return_code = ret;
 
     __post_internal_error_ex( error_handle,
         (SQLCHAR*)sqlstate, 0, msg, class, subclass );
+
+    error_head_unlock( error_handle );
 }
 
 /*

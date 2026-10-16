@@ -382,6 +382,54 @@ static void local_cond_signal( cond_t *cond )
 #endif
 
 /*
+ * protection for the diagnostic lists in an EHEAD
+ *
+ * The handle level thread protection does not cover them: at Threading=0
+ * it takes no lock, and function_entry() clears them before thread_protect()
+ * at every level. Pth mutexes are recursive by default.
+ */
+
+void error_head_mutex_init( EHEAD *error_header )
+{
+#ifdef HAVE_LIBPTH
+    pth_mutex_init( &error_header -> mutex );
+#elif HAVE_LIBPTHREAD
+    pthread_mutexattr_t attr;
+
+    pthread_mutexattr_init( &attr );
+    pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
+    pthread_mutex_init( &error_header -> mutex, &attr );
+    pthread_mutexattr_destroy( &attr );
+#elif HAVE_LIBTHREAD
+    mutex_init( &error_header -> mutex, USYNC_THREAD | LOCK_RECURSIVE | LOCK_ERRORCHECK, NULL );
+#endif
+}
+
+void error_head_mutex_destroy( EHEAD *error_header )
+{
+#ifdef HAVE_LIBPTH
+#elif HAVE_LIBPTHREAD
+    pthread_mutex_destroy( &error_header -> mutex );
+#elif HAVE_LIBTHREAD
+    mutex_destroy( &error_header -> mutex );
+#endif
+}
+
+void error_head_lock( EHEAD *error_header )
+{
+#if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
+    local_mutex_entry( &error_header -> mutex );
+#endif
+}
+
+void error_head_unlock( EHEAD *error_header )
+{
+#if defined( HAVE_LIBPTH ) || defined( HAVE_LIBPTHREAD ) || defined( HAVE_LIBTHREAD )
+    local_mutex_exit( &error_header -> mutex );
+#endif
+}
+
+/*
  * protection for connection pooling
  */
 

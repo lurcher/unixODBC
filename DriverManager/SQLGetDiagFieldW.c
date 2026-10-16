@@ -923,6 +923,8 @@ SQLRETURN SQLGetDiagFieldW( SQLSMALLINT handle_type,
      * Do diag extraction here if defer flag is set.
      * Clean the flag after extraction.
      */
+    error_head_lock( herror );
+
     if ( connection && herror->defer_extract )
     {
         extract_error_from_driver( herror, connection, herror->ret_code_deferred, 0 );
@@ -937,6 +939,8 @@ SQLRETURN SQLGetDiagFieldW( SQLSMALLINT handle_type,
                 diag_info_ptr,
                 buffer_length,
                 string_length_ptr );
+
+    error_head_unlock( herror );
 
     if ( log_info.log_flag )
     {
