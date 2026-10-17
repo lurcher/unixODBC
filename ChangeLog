@@ -15,6 +15,7 @@
     * Fix buffer overflow in isql get_args() (@xiejing-dev)
     * Harden driver diagnostic text in pass-through and connect-time capture (jan-cipa and claude)
     * Harden driver diagnostic text copies in __info.c (jan-cipa, igor-raits and claude)
+    * Fix Use-after-free and double-free in diagnostic lists when a handle is used from two threads (David-Engel)
 
 
 7-Oct-2025
