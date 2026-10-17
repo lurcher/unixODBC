@@ -218,6 +218,17 @@ typedef struct error_head
                                            SQLGetDiagRec or SQLGetDiagField.
                                            0 by default is not deferred */
     SQLRETURN   ret_code_deferred; /* used for deferring extraction */
+    /*
+     * Protects the lists and fields above at every Threading level. Recursive
+     * because extraction can post an internal error on the same header.
+     */
+#ifdef HAVE_LIBPTH
+    pth_mutex_t     mutex;
+#elif HAVE_LIBPTHREAD
+    pthread_mutex_t mutex;
+#elif HAVE_LIBTHREAD
+    mutex_t         mutex;
+#endif
 } EHEAD;
 
 struct log_structure
@@ -731,6 +742,10 @@ int function_return_ex( int level, void * handle, int ret_code, int save_to_diag
 void function_entry( void *handle );
 void setup_error_head( EHEAD *error_header, void *handle, int handle_type );
 void clear_error_head( EHEAD *error_header );
+void error_head_mutex_init( EHEAD *error_header );
+void error_head_mutex_destroy( EHEAD *error_header );
+void error_head_lock( EHEAD *error_header );
+void error_head_unlock( EHEAD *error_header );
 SQLWCHAR *ansi_to_unicode_copy( SQLWCHAR * dest, char *src, SQLINTEGER buffer_len, DMHDBC connection, int *wlen );
 SQLWCHAR *ansi_to_unicode_alloc( SQLCHAR *str, SQLINTEGER len, DMHDBC connection, int *wlen );
 char *unicode_to_ansi_copy( char* dest, int dest_len, SQLWCHAR *src, SQLINTEGER len, DMHDBC connection, int *clen );

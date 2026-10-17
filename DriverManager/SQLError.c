@@ -434,6 +434,8 @@ SQLRETURN SQLError( SQLHENV environment_handle,
      * Clean the flag after extraction.
      * The defer flag will not be set for DMHENV in function_return_ex.
      */
+    error_head_lock( herror );
+
     if ( connection && herror->defer_extract )
     {
         extract_error_from_driver( herror, connection, herror->ret_code_deferred, 0 );
@@ -449,6 +451,8 @@ SQLRETURN SQLError( SQLHENV environment_handle,
             buffer_length,
             text_length,
             connection );
+
+    error_head_unlock( herror );
 
     if ( log_info.log_flag )
     {
