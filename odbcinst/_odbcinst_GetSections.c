@@ -31,7 +31,8 @@ int _odbcinst_GetSections(	HINI	hIni,
 	{
 		iniObject( hIni, szObjectName );
 
-        if ( strcasecmp( szObjectName, "ODBC Data Sources" ) == 0 )
+        if ( strcasecmp( szObjectName, "ODBC Data Sources" ) == 0 ||
+             strcasecmp( szObjectName, "ODBC" ) == 0 )
         {
             continue;
         }
