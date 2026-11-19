@@ -17,6 +17,7 @@
     * Harden driver diagnostic text copies in __info.c (jan-cipa, igor-raits and claude)
     * Fix Use-after-free and double-free in diagnostic lists when a handle is used from two threads (David-Engel)
     * Allow skipping 'ODBC' section in GetSections
+    * Release parsed connection string on IM012 in SQLBrowseConnect(W) https://github.com/lurcher/unixODBC/issues/246
 
 
 7-Oct-2025
