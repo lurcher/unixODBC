@@ -357,6 +357,8 @@ SQLRETURN SQLBrowseConnect(
                         ERROR_IM012, NULL,
                         connection -> environment -> requested_version );
 
+                __release_conn( &con_struct );
+
                 return function_return_nodrv( SQL_HANDLE_DBC, connection, SQL_ERROR );
             }
 
